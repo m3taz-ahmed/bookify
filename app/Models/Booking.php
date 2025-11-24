@@ -7,6 +7,7 @@ use App\Traits\BookingUtilities;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
 
@@ -41,6 +42,11 @@ class Booking extends Model
         return $this->belongsTo(User::class, 'employee_id');
     }
 
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class, 'customer_id');
+    }
+
     public static function createWithLock(array $data)
     {
         $lockKey = 'booking_' . $data['booking_date'] . '_' . $data['start_time'] . '_' . $data['employee_id'];
@@ -56,7 +62,7 @@ class Booking extends Model
         
         // Send cancellation notification
         // In a real application, you would send this to the customer's email
-        \Log::info('Booking cancelled: ' . $this->reference_code);
+        Log::info('Booking cancelled: ' . $this->reference_code);
     }
     
     public function getDurationAttribute()

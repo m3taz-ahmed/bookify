@@ -47,6 +47,17 @@ class CreateBooking extends Component
         $this->loadShiftsAndSlots();
         $this->step = 3;
     }
+    
+    public function updatedSelectedDate($value)
+    {
+        if ($value) {
+            $this->loadShiftsAndSlots();
+            // Only advance to step 3 if there are available slots
+            if (!empty($this->availableSlots)) {
+                $this->step = 3;
+            }
+        }
+    }
 
     public function loadShiftsAndSlots()
     {

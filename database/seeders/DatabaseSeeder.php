@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             ShiftsTableSeeder::class,
             RolesAndPermissionsSeeder::class,
             EmployeeServiceDurationSeeder::class,
+            CustomersTableSeeder::class,
         ]);
     }
 }
