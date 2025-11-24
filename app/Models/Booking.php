@@ -2,14 +2,17 @@
 
 namespace App\Models;
 
+use App\Notifications\BookingCancelled;
 use App\Traits\BookingUtilities;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 class Booking extends Model
 {
-    use HasFactory, BookingUtilities;
+    use HasFactory, BookingUtilities, LogsActivity;
 
     protected $guarded = [];
 
@@ -19,6 +22,14 @@ class Booking extends Model
         'end_time' => 'datetime:H:i',
         'checked_in_at' => 'datetime',
     ];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logAll()
+            ->logOnlyDirty()
+            ->setDescriptionForEvent(fn(string $eventName) => "Booking {$eventName}");
+    }
 
     public function service()
     {
@@ -37,6 +48,15 @@ class Booking extends Model
         return Cache::lock($lockKey, 10)->get(function () use ($data) {
             return static::create($data);
         });
+    }
+    
+    public function cancel()
+    {
+        $this->update(['status' => 'cancelled']);
+        
+        // Send cancellation notification
+        // In a real application, you would send this to the customer's email
+        \Log::info('Booking cancelled: ' . $this->reference_code);
     }
     
     public function getDurationAttribute()

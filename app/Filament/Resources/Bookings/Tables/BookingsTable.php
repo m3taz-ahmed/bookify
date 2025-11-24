@@ -2,9 +2,12 @@
 
 namespace App\Filament\Resources\Bookings\Tables;
 
+use App\Filament\Resources\Bookings\Pages\RescheduleBooking;
+use App\Models\Booking;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\Action;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Filters\Filter;
@@ -78,6 +81,24 @@ class BookingsTable
             ])
             ->recordActions([
                 EditAction::make(),
+                Action::make('cancel')
+                    ->label('Cancel')
+                    ->color('danger')
+                    ->icon('heroicons-outline-x-circle')
+                    ->requiresConfirmation()
+                    ->action(function (Booking $record) {
+                        $record->cancel();
+                    })
+                    ->hidden(function (Booking $record) {
+                        return $record->status === 'cancelled' || $record->status === 'completed';
+                    }),
+                Action::make('reschedule')
+                    ->label('Reschedule')
+                    ->icon('heroicons-outline-calendar')
+                    ->url(fn (Booking $record): string => RescheduleBooking::getUrl(['record' => $record->id]))
+                    ->hidden(function (Booking $record) {
+                        return $record->status === 'cancelled' || $record->status === 'completed';
+                    }),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

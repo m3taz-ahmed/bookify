@@ -4,35 +4,27 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 class Service extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
 
-    protected $fillable = [
-            'name_en',
-            'name_ar',
-            'description',
-            'duration_minutes',
-            'price',
-            'is_active',
-            'sort_order',
-        ];
+    protected $guarded = [];
 
     protected $casts = [
         'duration_minutes' => 'integer',
         'price' => 'decimal:2',
         'is_active' => 'boolean',
-        'sort_order' => 'integer',
     ];
     
-    protected static function booted()
+    public function getActivitylogOptions(): LogOptions
     {
-        static::creating(function ($service) {
-            if (is_null($service->sort_order)) {
-                $service->sort_order = 0;
-            }
-        });
+        return LogOptions::defaults()
+            ->logAll()
+            ->logOnlyDirty()
+            ->setDescriptionForEvent(fn(string $eventName) => "Service {$eventName}");
     }
     
     public function bookings()
@@ -57,10 +49,5 @@ class Service extends Model
         } else {
             return $minutes . 'm';
         }
-    }
-    
-    public function scopeOrdered($query)
-    {
-        return $query->orderBy('sort_order', 'asc');
     }
 }

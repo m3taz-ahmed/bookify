@@ -14,20 +14,19 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
-use UnitEnum;
+
 
 class BookingResource extends Resource
 {
     protected static ?string $model = Booking::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
-    
-    protected static string|UnitEnum|null $navigationGroup = 'Bookings';
 
     public static function canViewAny(): bool
     {
         /** @var \App\Models\User $user */
         $user = Auth::user();
+        
         return $user->can('view bookings');
     }
 
@@ -35,6 +34,7 @@ class BookingResource extends Resource
     {
         /** @var \App\Models\User $user */
         $user = Auth::user();
+        
         return $user->can('create bookings');
     }
 
@@ -42,6 +42,7 @@ class BookingResource extends Resource
     {
         /** @var \App\Models\User $user */
         $user = Auth::user();
+        
         return $user->can('edit bookings');
     }
 
@@ -49,6 +50,7 @@ class BookingResource extends Resource
     {
         /** @var \App\Models\User $user */
         $user = Auth::user();
+        
         return $user->can('delete bookings');
     }
 
