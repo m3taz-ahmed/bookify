@@ -1,0 +1,47 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Booking;
+use Illuminate\Http\Request;
+
+class CheckInController extends Controller
+{
+    public function checkIn($reference)
+    {
+        try {
+            $booking = Booking::where('reference_code', $reference)->first();
+            
+            if (!$booking) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Booking not found'
+                ], 404);
+            }
+            
+            if ($booking->status !== 'confirmed') {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Booking is not confirmed'
+                ], 400);
+            }
+            
+            // Update booking status and add check-in timestamp
+            $booking->update([
+                'status' => 'completed',
+                'checked_in_at' => now()
+            ]);
+            
+            return response()->json([
+                'success' => true,
+                'message' => 'Check-in successful',
+                'booking' => $booking
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred during check-in'
+            ], 500);
+        }
+    }
+}

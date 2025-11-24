@@ -21,6 +21,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role_id',
+        'is_active',
     ];
 
     /**
@@ -43,6 +45,19 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_active' => 'boolean',
         ];
+    }
+
+    // Removed the undefined role() relationship
+    
+    public function shifts()
+    {
+        return $this->hasMany(Shift::class);
+    }
+
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class, 'employee_id');
     }
 }
