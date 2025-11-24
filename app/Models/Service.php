@@ -9,13 +9,31 @@ class Service extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
+    protected $fillable = [
+            'name_en',
+            'name_ar',
+            'description',
+            'duration_minutes',
+            'price',
+            'is_active',
+            'sort_order',
+        ];
 
     protected $casts = [
         'duration_minutes' => 'integer',
         'price' => 'decimal:2',
         'is_active' => 'boolean',
+        'sort_order' => 'integer',
     ];
+    
+    protected static function booted()
+    {
+        static::creating(function ($service) {
+            if (is_null($service->sort_order)) {
+                $service->sort_order = 0;
+            }
+        });
+    }
     
     public function bookings()
     {
@@ -39,5 +57,10 @@ class Service extends Model
         } else {
             return $minutes . 'm';
         }
+    }
+    
+    public function scopeOrdered($query)
+    {
+        return $query->orderBy('sort_order', 'asc');
     }
 }

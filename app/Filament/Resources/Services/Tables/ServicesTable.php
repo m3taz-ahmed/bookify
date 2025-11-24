@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Services\Tables;
 
 use Filament\Actions\BulkActionGroup;
+use Filament\Actions\CreateAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\IconColumn;
@@ -42,6 +43,10 @@ class ServicesTable
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->label(__('Updated At')),
+                TextColumn::make('sort_order')
+                    ->numeric()
+                    ->sortable()
+                    ->label(__('Sort Order')),
             ])
             ->filters([
                 //
@@ -50,9 +55,17 @@ class ServicesTable
                 EditAction::make(),
             ])
             ->toolbarActions([
+                // CreateAction::make(),
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->emptyStateActions([
+                CreateAction::make()
+                    ->button(),
+            ])
+            ->paginated([10, 25, 50, 'all'])
+            ->defaultPaginationPageOption(25)
+            ->defaultSort('sort_order', 'asc');
     }
 }
