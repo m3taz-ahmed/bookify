@@ -2,10 +2,13 @@
 
 namespace App\Filament\Resources\Bookings\Schemas;
 
+use App\Models\Service;
+use App\Models\User;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\TimePicker;
+use Filament\Forms\Components\Radio;
 use Filament\Schemas\Schema;
 
 class BookingForm
@@ -15,34 +18,45 @@ class BookingForm
         return $schema
             ->components([
                 TextInput::make('reference_code')
-                    ->required(),
+                    ->required()
+                    ->unique(ignoreRecord: true)
+                    ->label(__('Reference Code')),
                 TextInput::make('customer_name')
-                    ->required(),
+                    ->required()
+                    ->label(__('Customer Name')),
                 TextInput::make('customer_phone')
                     ->tel()
-                    ->required(),
-                TextInput::make('service_id')
                     ->required()
-                    ->numeric(),
-                TextInput::make('employee_id')
+                    ->label(__('Customer Phone')),
+                Select::make('service_id')
+                    ->relationship('service', 'name_en')
                     ->required()
-                    ->numeric(),
+                    ->label(__('Service')),
+                Select::make('employee_id')
+                    ->relationship('employee', 'name')
+                    ->required()
+                    ->label(__('Employee')),
                 DatePicker::make('booking_date')
-                    ->required(),
+                    ->required()
+                    ->label(__('Booking Date')),
                 TimePicker::make('start_time')
-                    ->required(),
+                    ->required()
+                    ->label(__('Start Time')),
                 TimePicker::make('end_time')
-                    ->required(),
-                Select::make('status')
+                    ->required()
+                    ->label(__('End Time')),
+                Radio::make('status')
                     ->options([
-            'pending' => 'Pending',
-            'confirmed' => 'Confirmed',
-            'completed' => 'Completed',
-            'cancelled' => 'Cancelled',
-        ])
+                        'pending' => 'Pending',
+                        'confirmed' => 'Confirmed',
+                        'completed' => 'Completed',
+                        'cancelled' => 'Cancelled',
+                    ])
                     ->default('pending')
-                    ->required(),
-                TextInput::make('payment_status'),
+                    ->required()
+                    ->label(__('Status')),
+                TextInput::make('payment_status')
+                    ->label(__('Payment Status')),
             ]);
     }
 }

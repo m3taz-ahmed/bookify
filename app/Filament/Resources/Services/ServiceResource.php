@@ -8,19 +8,49 @@ use App\Filament\Resources\Services\Pages\ListServices;
 use App\Filament\Resources\Services\Schemas\ServiceForm;
 use App\Filament\Resources\Services\Tables\ServicesTable;
 use App\Models\Service;
+use App\Models\User;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
 
 class ServiceResource extends Resource
 {
     protected static ?string $model = Service::class;
 
-    protected static string|BackedEnum|null $navigationIcon = 'heroicons-outline-rectangle-stack';
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-square-3-stack-3d';
 
     protected static ?string $recordTitleAttribute = 'name_en';
+
+    public static function canViewAny(): bool
+    {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        return $user->can('view services');
+    }
+
+    public static function canCreate(): bool
+    {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        return $user->can('create services');
+    }
+
+    public static function canEdit($record): bool
+    {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        return $user->can('edit services');
+    }
+
+    public static function canDelete($record): bool
+    {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        return $user->can('delete services');
+    }
 
     public static function form(Schema $schema): Schema
     {

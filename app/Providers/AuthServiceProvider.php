@@ -1,0 +1,37 @@
+<?php
+
+namespace App\Providers;
+
+use App\Models\Booking;
+use App\Models\Service;
+use App\Models\Shift;
+use App\Models\User;
+use App\Policies\BookingPolicy;
+use App\Policies\ServicePolicy;
+use App\Policies\ShiftPolicy;
+use App\Policies\UserPolicy;
+use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Gate;
+
+class AuthServiceProvider extends ServiceProvider
+{
+    /**
+     * The model to policy mappings for the application.
+     *
+     * @var array<class-string, class-string>
+     */
+    protected $policies = [
+        Booking::class => BookingPolicy::class,
+        Service::class => ServicePolicy::class,
+        Shift::class => ShiftPolicy::class,
+        User::class => UserPolicy::class,
+    ];
+
+    /**
+     * Register any authentication / authorization services.
+     */
+    public function boot(): void
+    {
+        //
+    }
+}

@@ -3,10 +3,11 @@
 namespace App\Livewire;
 
 use App\Models\Service;
-use App\Models\Shift;
 use App\Models\Booking;
+use App\Services\BookingService;
+use App\Http\Requests\StoreBookingRequest;
 use Livewire\Component;
-use Illuminate\Support\Facades\Cache;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class CreateBooking extends Component
 {
@@ -20,6 +21,14 @@ class CreateBooking extends Component
     public $customerName;
     public $customerPhone;
     public $referenceCode;
+    public $qrCode;
+    
+    protected $bookingService;
+
+    public function boot(BookingService $bookingService)
+    {
+        $this->bookingService = $bookingService;
+    }
 
     public function mount()
     {
@@ -41,52 +50,7 @@ class CreateBooking extends Component
 
     public function loadShiftsAndSlots()
     {
-        $dayOfWeek = date('w', strtotime($this->selectedDate));
-        
-        $this->shifts = Shift::where('day_of_week', $dayOfWeek)
-            ->with('user')
-            ->get();
-            
-        // Generate available slots based on shifts and filter out existing bookings
-        $this->availableSlots = [];
-        
-        foreach ($this->shifts as $shift) {
-            $service = Service::find($this->selectedService);
-            $duration = $service->duration_minutes;
-            
-            $start = strtotime($shift->start_time);
-            $end = strtotime($shift->end_time);
-            
-            // Check existing bookings for this date and employee
-            $existingBookings = Booking::where('employee_id', $shift->user_id)
-                ->where('booking_date', $this->selectedDate)
-                ->get();
-                
-            // Generate slots
-            for ($time = $start; $time < $end; $time += ($duration * 60)) {
-                $slotTime = date('H:i', $time);
-                $slotEndTime = date('H:i', $time + ($duration * 60));
-                
-                // Check if slot is available
-                $isAvailable = true;
-                foreach ($existingBookings as $booking) {
-                    if (($slotTime >= $booking->start_time && $slotTime < $booking->end_time) ||
-                        ($slotEndTime > $booking->start_time && $slotEndTime <= $booking->end_time)) {
-                        $isAvailable = false;
-                        break;
-                    }
-                }
-                
-                if ($isAvailable) {
-                    $this->availableSlots[] = [
-                        'employee_id' => $shift->user_id,
-                        'employee_name' => $shift->user->name,
-                        'start_time' => $slotTime,
-                        'end_time' => $slotEndTime,
-                    ];
-                }
-            }
-        }
+        $this->availableSlots = $this->bookingService->generateTimeSlots($this->selectedService, $this->selectedDate);
     }
 
     public function selectSlot($employeeId, $startTime)
@@ -100,20 +64,33 @@ class CreateBooking extends Component
 
     public function saveBooking()
     {
-        $this->validate([
-            'customerName' => 'required|string|max:255',
-            'customerPhone' => 'required|string|max:20',
+        // Create a temporary request to validate the data
+        $request = new StoreBookingRequest();
+        $request->merge([
+            'customer_name' => $this->customerName,
+            'customer_phone' => $this->customerPhone,
+            'service_id' => $this->selectedService,
+            'employee_id' => $this->selectedSlot['employee_id'],
+            'booking_date' => $this->selectedDate,
+            'start_time' => $this->selectedSlot['start_time'],
+            'end_time' => collect($this->availableSlots)->firstWhere('start_time', $this->selectedSlot['start_time'])['end_time'],
         ]);
-
-        $service = Service::find($this->selectedService);
         
+        // Validate the request
+        $validator = validator($request->all(), $request->rules(), $request->messages());
+        
+        if ($validator->fails()) {
+            $this->setErrorBag($validator->errors());
+            return;
+        }
+
         // Find the selected slot
         $slot = collect($this->availableSlots)->firstWhere('start_time', $this->selectedSlot['start_time']);
         
         $this->referenceCode = strtoupper(uniqid('BKNG'));
         
         try {
-            $booking = Booking::createWithLock([
+            $booking = $this->bookingService->createBookingWithLock([
                 'reference_code' => $this->referenceCode,
                 'customer_name' => $this->customerName,
                 'customer_phone' => $this->customerPhone,
@@ -124,6 +101,10 @@ class CreateBooking extends Component
                 'end_time' => $slot['end_time'],
                 'status' => 'confirmed',
             ]);
+            
+            // Generate QR code
+            $checkInUrl = route('check-in', $this->referenceCode);
+            $this->qrCode = base64_encode(QrCode::format('png')->size(200)->generate($checkInUrl));
             
             $this->step = 5; // Show success and QR code
         } catch (\Exception $e) {

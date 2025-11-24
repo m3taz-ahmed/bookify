@@ -117,11 +117,16 @@
                     <p>Your booking reference: <strong>{{ $referenceCode }}</strong></p>
                 </div>
                 <div class="mb-4">
-                    <!-- QR Code will be generated here -->
-                    <div class="bg-gray-200 border-2 border-dashed rounded-xl w-48 h-48 mx-auto flex items-center justify-center">
-                        QR Code Placeholder
-                    </div>
+                    <!-- QR Code -->
+                    @if ($qrCode)
+                        <img src="data:image/png;base64, {{ $qrCode }}" alt="Booking QR Code" class="mx-auto">
+                    @else
+                        <div class="bg-gray-200 border-2 border-dashed rounded-xl w-48 h-48 mx-auto flex items-center justify-center">
+                            QR Code Placeholder
+                        </div>
+                    @endif
                 </div>
+                <p class="mb-4 text-sm text-gray-600">Scan this QR code at the venue for check-in</p>
                 <button wire:click="step = 1" 
                         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                     Book Another Service

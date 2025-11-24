@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Booking;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class CheckInController extends Controller
 {
@@ -17,6 +19,14 @@ class CheckInController extends Controller
                     'success' => false,
                     'message' => 'Booking not found'
                 ], 404);
+            }
+            
+            // Check if user is authorized to check in this booking
+            if (!Gate::allows('checkIn', $booking) && Auth::id() !== $booking->employee_id) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Unauthorized to check in this booking'
+                ], 403);
             }
             
             if ($booking->status !== 'confirmed') {
@@ -43,5 +53,21 @@ class CheckInController extends Controller
                 'message' => 'An error occurred during check-in'
             ], 500);
         }
+    }
+    
+    public function showCheckInPage($reference)
+    {
+        $booking = Booking::where('reference_code', $reference)->first();
+        
+        if (!$booking) {
+            abort(404);
+        }
+        
+        // Check if user is authorized to check in this booking
+        if (!Gate::allows('checkIn', $booking) && Auth::id() !== $booking->employee_id) {
+            abort(403);
+        }
+        
+        return view('check-in', compact('booking'));
     }
 }

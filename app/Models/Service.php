@@ -16,4 +16,28 @@ class Service extends Model
         'price' => 'decimal:2',
         'is_active' => 'boolean',
     ];
+    
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
+    }
+    
+    public function getFormattedPriceAttribute()
+    {
+        return '$' . number_format($this->price, 2);
+    }
+    
+    public function getDurationHoursAttribute()
+    {
+        $hours = floor($this->duration_minutes / 60);
+        $minutes = $this->duration_minutes % 60;
+        
+        if ($hours > 0 && $minutes > 0) {
+            return $hours . 'h ' . $minutes . 'm';
+        } elseif ($hours > 0) {
+            return $hours . 'h';
+        } else {
+            return $minutes . 'm';
+        }
+    }
 }

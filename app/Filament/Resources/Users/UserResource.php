@@ -13,14 +13,43 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
 
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUserGroup;
 
     protected static ?string $recordTitleAttribute = 'name';
+
+    public static function canViewAny(): bool
+    {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        return $user->can('view users');
+    }
+
+    public static function canCreate(): bool
+    {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        return $user->can('create users');
+    }
+
+    public static function canEdit($record): bool
+    {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        return $user->can('edit users');
+    }
+
+    public static function canDelete($record): bool
+    {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        return $user->can('delete users');
+    }
 
     public static function form(Schema $schema): Schema
     {
