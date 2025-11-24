@@ -32,6 +32,11 @@ class Service extends Model
         return $this->hasMany(Booking::class);
     }
     
+    public function employeeDurations()
+    {
+        return $this->hasMany(EmployeeServiceDuration::class);
+    }
+    
     public function getFormattedPriceAttribute()
     {
         return '$' . number_format($this->price, 2);

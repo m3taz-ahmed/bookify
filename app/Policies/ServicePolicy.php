@@ -1,66 +1,70 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
+use Illuminate\Foundation\Auth\User as AuthUser;
 use App\Models\Service;
-use App\Models\User;
-use Illuminate\Auth\Access\Response;
+use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ServicePolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
+    use HandlesAuthorization;
+    
+    public function viewAny(AuthUser $authUser): bool
     {
-        return $user->can('view services');
+        return $authUser->can('ViewAny:Service');
     }
 
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, Service $service): bool
+    public function view(AuthUser $authUser, Service $service): bool
     {
-        return $user->can('view services');
+        return $authUser->can('View:Service');
     }
 
-    /**
-     * Determine whether the user can create models.
-     */
-    public function create(User $user): bool
+    public function create(AuthUser $authUser): bool
     {
-        return $user->can('create services');
+        return $authUser->can('Create:Service');
     }
 
-    /**
-     * Determine whether the user can update the model.
-     */
-    public function update(User $user, Service $service): bool
+    public function update(AuthUser $authUser, Service $service): bool
     {
-        return $user->can('edit services');
+        return $authUser->can('Update:Service');
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     */
-    public function delete(User $user, Service $service): bool
+    public function delete(AuthUser $authUser, Service $service): bool
     {
-        return $user->can('delete services');
+        return $authUser->can('Delete:Service');
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Service $service): bool
+    public function restore(AuthUser $authUser, Service $service): bool
     {
-        return $user->can('delete services');
+        return $authUser->can('Restore:Service');
     }
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Service $service): bool
+    public function forceDelete(AuthUser $authUser, Service $service): bool
     {
-        return $user->can('delete services');
+        return $authUser->can('ForceDelete:Service');
     }
+
+    public function forceDeleteAny(AuthUser $authUser): bool
+    {
+        return $authUser->can('ForceDeleteAny:Service');
+    }
+
+    public function restoreAny(AuthUser $authUser): bool
+    {
+        return $authUser->can('RestoreAny:Service');
+    }
+
+    public function replicate(AuthUser $authUser, Service $service): bool
+    {
+        return $authUser->can('Replicate:Service');
+    }
+
+    public function reorder(AuthUser $authUser): bool
+    {
+        return $authUser->can('Reorder:Service');
+    }
+
 }

@@ -70,6 +70,11 @@ class User extends Authenticatable
         return $this->hasMany(Booking::class, 'employee_id');
     }
 
+    public function serviceDurations()
+    {
+        return $this->hasMany(EmployeeServiceDuration::class, 'user_id');
+    }
+
     public function isAdmin()
     {
         return $this->hasRole('admin');

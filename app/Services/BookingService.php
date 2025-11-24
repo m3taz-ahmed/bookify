@@ -32,7 +32,13 @@ class BookingService
         
         foreach ($shifts as $shift) {
             $employee = $shift->user;
-            $duration = $service->duration_minutes;
+            
+            // Check if employee has a specific duration for this service
+            $employeeDuration = $employee->serviceDurations()
+                ->where('service_id', $service->id)
+                ->first();
+            
+            $duration = $employeeDuration ? $employeeDuration->duration : $service->duration_minutes;
             
             $start = strtotime($shift->start_time);
             $end = strtotime($shift->end_time);

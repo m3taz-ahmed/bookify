@@ -1,74 +1,70 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
+use Illuminate\Foundation\Auth\User as AuthUser;
 use App\Models\Booking;
-use App\Models\User;
-use Illuminate\Auth\Access\Response;
+use Illuminate\Auth\Access\HandlesAuthorization;
 
 class BookingPolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
-    {
-        return $user->can('view bookings');
-    }
-
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, Booking $booking): bool
-    {
-        return $user->id === $booking->employee_id || $user->can('view bookings');
-    }
-
-    /**
-     * Determine whether the user can create models.
-     */
-    public function create(User $user): bool
-    {
-        return $user->can('create bookings');
-    }
-
-    /**
-     * Determine whether the user can update the model.
-     */
-    public function update(User $user, Booking $booking): bool
-    {
-        return $user->id === $booking->employee_id || $user->can('edit bookings');
-    }
-
-    /**
-     * Determine whether the user can delete the model.
-     */
-    public function delete(User $user, Booking $booking): bool
-    {
-        return $user->id === $booking->employee_id || $user->can('delete bookings');
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Booking $booking): bool
-    {
-        return $user->can('delete bookings');
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Booking $booking): bool
-    {
-        return $user->can('delete bookings');
-    }
+    use HandlesAuthorization;
     
-    /**
-     * Determine whether the user can check in a booking.
-     */
-    public function checkIn(User $user, Booking $booking): bool
+    public function viewAny(AuthUser $authUser): bool
     {
-        return $user->id === $booking->employee_id || $user->can('check-in bookings');
+        return $authUser->can('ViewAny:Booking');
     }
+
+    public function view(AuthUser $authUser, Booking $booking): bool
+    {
+        return $authUser->can('View:Booking');
+    }
+
+    public function create(AuthUser $authUser): bool
+    {
+        return $authUser->can('Create:Booking');
+    }
+
+    public function update(AuthUser $authUser, Booking $booking): bool
+    {
+        return $authUser->can('Update:Booking');
+    }
+
+    public function delete(AuthUser $authUser, Booking $booking): bool
+    {
+        return $authUser->can('Delete:Booking');
+    }
+
+    public function restore(AuthUser $authUser, Booking $booking): bool
+    {
+        return $authUser->can('Restore:Booking');
+    }
+
+    public function forceDelete(AuthUser $authUser, Booking $booking): bool
+    {
+        return $authUser->can('ForceDelete:Booking');
+    }
+
+    public function forceDeleteAny(AuthUser $authUser): bool
+    {
+        return $authUser->can('ForceDeleteAny:Booking');
+    }
+
+    public function restoreAny(AuthUser $authUser): bool
+    {
+        return $authUser->can('RestoreAny:Booking');
+    }
+
+    public function replicate(AuthUser $authUser, Booking $booking): bool
+    {
+        return $authUser->can('Replicate:Booking');
+    }
+
+    public function reorder(AuthUser $authUser): bool
+    {
+        return $authUser->can('Reorder:Booking');
+    }
+
 }

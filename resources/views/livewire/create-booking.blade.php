@@ -54,6 +54,9 @@
                              wire:click="selectSlot({{ $slot['employee_id'] }}, '{{ $slot['start_time'] }}')">
                             <div class="font-semibold">{{ $slot['employee_name'] }}</div>
                             <div>{{ $slot['start_time'] }} - {{ $slot['end_time'] }}</div>
+                            <div class="text-sm text-gray-500">
+                                Duration: {{ \Carbon\Carbon::parse($slot['start_time'])->diffInMinutes(\Carbon\Carbon::parse($slot['end_time'])) }} mins
+                            </div>
                         </div>
                     @empty
                         <div class="col-span-3 text-center py-4 text-gray-500">
