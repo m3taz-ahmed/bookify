@@ -31,28 +31,28 @@ class ServiceResource extends Resource
     {
         /** @var \App\Models\User $user */
         $user = Auth::user();
-        return $user->can('view services');
+        return $user && $user->can('view services');
     }
 
     public static function canCreate(): bool
     {
         /** @var \App\Models\User $user */
         $user = Auth::user();
-        return $user->can('create services');
+        return $user && $user->can('create services');
     }
 
     public static function canEdit($record): bool
     {
         /** @var \App\Models\User $user */
         $user = Auth::user();
-        return $user->can('edit services');
+        return $user && $user->can('edit services');
     }
 
     public static function canDelete($record): bool
     {
         /** @var \App\Models\User $user */
         $user = Auth::user();
-        return $user->can('delete services');
+        return $user && $user->can('delete services');
     }
 
     public static function form(Schema $schema): Schema
@@ -76,7 +76,7 @@ class ServiceResource extends Resource
     {
         return [
             'index' => ListServices::route('/'),
-            // 'create' => CreateService::route('/create'),
+            'create' => CreateService::route('/create'),
             'edit' => EditService::route('/{record}/edit'),
         ];
     }

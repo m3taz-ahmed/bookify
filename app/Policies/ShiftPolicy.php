@@ -1,66 +1,70 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
+use Illuminate\Foundation\Auth\User as AuthUser;
 use App\Models\Shift;
-use App\Models\User;
-use Illuminate\Auth\Access\Response;
+use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ShiftPolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
+    use HandlesAuthorization;
+    
+    public function viewAny(AuthUser $authUser): bool
     {
-        return $user->can('view shifts');
+        return $authUser->can('ViewAny:Shift');
     }
 
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, Shift $shift): bool
+    public function view(AuthUser $authUser, Shift $shift): bool
     {
-        return $user->id === $shift->user_id || $user->can('view shifts');
+        return $authUser->can('View:Shift');
     }
 
-    /**
-     * Determine whether the user can create models.
-     */
-    public function create(User $user): bool
+    public function create(AuthUser $authUser): bool
     {
-        return $user->can('create shifts');
+        return $authUser->can('Create:Shift');
     }
 
-    /**
-     * Determine whether the user can update the model.
-     */
-    public function update(User $user, Shift $shift): bool
+    public function update(AuthUser $authUser, Shift $shift): bool
     {
-        return $user->id === $shift->user_id || $user->can('edit shifts');
+        return $authUser->can('Update:Shift');
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     */
-    public function delete(User $user, Shift $shift): bool
+    public function delete(AuthUser $authUser, Shift $shift): bool
     {
-        return $user->id === $shift->user_id || $user->can('delete shifts');
+        return $authUser->can('Delete:Shift');
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Shift $shift): bool
+    public function restore(AuthUser $authUser, Shift $shift): bool
     {
-        return $user->can('delete shifts');
+        return $authUser->can('Restore:Shift');
     }
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Shift $shift): bool
+    public function forceDelete(AuthUser $authUser, Shift $shift): bool
     {
-        return $user->can('delete shifts');
+        return $authUser->can('ForceDelete:Shift');
     }
+
+    public function forceDeleteAny(AuthUser $authUser): bool
+    {
+        return $authUser->can('ForceDeleteAny:Shift');
+    }
+
+    public function restoreAny(AuthUser $authUser): bool
+    {
+        return $authUser->can('RestoreAny:Shift');
+    }
+
+    public function replicate(AuthUser $authUser, Shift $shift): bool
+    {
+        return $authUser->can('Replicate:Shift');
+    }
+
+    public function reorder(AuthUser $authUser): bool
+    {
+        return $authUser->can('Reorder:Shift');
+    }
+
 }

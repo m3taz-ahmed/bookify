@@ -36,12 +36,16 @@ class RoleResource extends Resource
     use Essentials\BelongsToTenant;
     use Essentials\HasGlobalSearch;
     use Essentials\HasLabels;
-    use Essentials\HasNavigation;
+    // Remove the HasNavigation trait to ensure visibility
     use HasShieldFormComponents;
 
     protected static ?string $recordTitleAttribute = 'name';
     
     protected static string|UnitEnum|null $navigationGroup = 'Settings';
+    
+    protected static ?int $navigationSort = 1;
+    
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-shield-check';
 
     public static function form(Schema $schema): Schema
     {
@@ -159,6 +163,37 @@ class RoleResource extends Resource
     public static function getCluster(): ?string
     {
         return Utils::getResourceCluster();
+    }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return __('filament-shield::filament-shield.nav.group');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('filament-shield::filament-shield.nav.role.label');
+    }
+
+    public static function getBreadcrumb(): string
+    {
+        return __('filament-shield::filament-shield.nav.role.breadcrumb');
+    }
+
+    public static function getNavigationIcon(): ?string
+    {
+        return static::$navigationIcon ?? parent::getNavigationIcon();
+    }
+
+    // Explicitly make the resource visible in navigation
+    public static function canViewAny(): bool
+    {
+        return true;
+    }
+
+    public static function getNavigationSort(): ?int
+    {
+        return static::$navigationSort ?? parent::getNavigationSort();
     }
 
     public static function getEssentialsPlugin(): ?FilamentShieldPlugin

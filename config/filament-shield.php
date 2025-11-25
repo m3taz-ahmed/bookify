@@ -170,6 +170,14 @@ return [
                 'update',
                 'delete',
             ],
+            // Add ServiceResource to ensure it's properly managed
+            \App\Filament\Resources\Services\ServiceResource::class => [
+                'viewAny',
+                'view',
+                'create',
+                'update',
+                'delete',
+            ],
         ],
         'exclude' => [
             //
@@ -240,9 +248,9 @@ return [
     */
 
     'discovery' => [
-        'discover_all_resources' => true,
-        'discover_all_widgets' => true,
-        'discover_all_pages' => true,
+        'discover_all_resources' => false, // Changed to false to avoid duplicates
+        'discover_all_widgets' => false,
+        'discover_all_pages' => false,
     ],
 
     /*
