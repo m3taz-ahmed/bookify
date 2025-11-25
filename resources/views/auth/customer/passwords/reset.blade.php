@@ -6,7 +6,7 @@
         <div class="px-6 py-4">
             <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Reset Password</h2>
             
-            <form method="POST" action="{{ route('customer.password.update') }}">
+            <form method="POST" action="{{ route('customer.password.update', ['locale' => $currentLocale]) }}">
                 @csrf
                 
                 <input type="hidden" name="token" value="{{ $token }}">

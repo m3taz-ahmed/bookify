@@ -27,31 +27,42 @@
                         <span class="ml-2 text-xl font-bold text-primary-600">{{ config('app.name', 'Bookify') }}</span>
                     </div>
                 </div>
+                @php
+                    $currentPath = request()->path();
+                    // Remove locale prefix (ar/ or en/) from the beginning
+                    $pathWithoutLocale = preg_replace('/^(ar|en)\//', '', $currentPath);
+                    // If the path is the root (ar or en only), pathWithoutLocale will be empty, so use '/'
+                    if (empty($pathWithoutLocale)) {
+                        $pathWithoutLocale = '';
+                    }
+                    $arUrl = '/ar' . ($pathWithoutLocale ? '/' . $pathWithoutLocale : '');
+                    $enUrl = '/en' . ($pathWithoutLocale ? '/' . $pathWithoutLocale : '');
+                @endphp
                 <div class="hidden md:ml-6 md:flex md:items-center md:space-x-4">
                     <!-- Language Switcher -->
                     <div class="flex items-center space-x-2">
-                        <a href="{{ route('lang.switch', 'ar') }}" class="px-3 py-2 text-sm rounded-md {{ $currentLocale === 'ar' ? 'bg-primary-100 text-primary-700 font-medium' : 'text-gray-600 hover:bg-gray-100' }}">
+                        <a href="{{ $arUrl }}" class="px-3 py-2 text-sm rounded-md {{ $currentLocale === 'ar' ? 'bg-primary-100 text-primary-700 font-medium' : 'text-gray-600 hover:bg-gray-100' }}">
                             {{ __('website.arabic') }}
                         </a>
-                        <a href="{{ route('lang.switch', 'en') }}" class="px-3 py-2 text-sm rounded-md {{ $currentLocale === 'en' ? 'bg-primary-100 text-primary-700 font-medium' : 'text-gray-600 hover:bg-gray-100' }}">
+                        <a href="{{ $enUrl }}" class="px-3 py-2 text-sm rounded-md {{ $currentLocale === 'en' ? 'bg-primary-100 text-primary-700 font-medium' : 'text-gray-600 hover:bg-gray-100' }}">
                             {{ __('website.english') }}
                         </a>
                     </div>
                     @auth('customer')
-                        <a href="{{ route('customer.dashboard') }}" class="text-dark-500 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">{{ __('website.dashboard') }}</a>
-                        <a href="{{ route('customer.bookings') }}" class="text-dark-500 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">{{ __('website.my_bookings') }}</a>
-                        <a href="{{ route('customer.bookings.create') }}" class="text-dark-500 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">{{ __('website.book_appointment_nav') }}</a>
-                        <a href="{{ route('customer.logout') }}" 
+                        <a href="{{ route('customer.dashboard', ['locale' => $currentLocale]) }}" class="text-dark-500 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 {{ request()->routeIs('customer.dashboard') ? 'bg-primary-100 text-primary-600' : '' }}">{{ __('website.dashboard') }}</a>
+                        <a href="{{ route('customer.bookings', ['locale' => $currentLocale]) }}" class="text-dark-500 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 {{ request()->routeIs('customer.bookings') ? 'bg-primary-100 text-primary-600' : '' }}">{{ __('website.my_bookings') }}</a>
+                        <a href="{{ route('customer.bookings.create', ['locale' => $currentLocale]) }}" class="text-dark-500 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 {{ request()->routeIs('customer.bookings.create') ? 'bg-primary-100 text-primary-600' : '' }}">{{ __('website.book_appointment_nav') }}</a>
+                        <a href="{{ route('customer.logout', ['locale' => $currentLocale]) }}" 
                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                            class="text-dark-500 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
                             {{ __('website.logout') }}
                         </a>
-                        <form id="logout-form" action="{{ route('customer.logout') }}" method="POST" class="hidden">
+                        <form id="logout-form" action="{{ route('customer.logout', ['locale' => $currentLocale]) }}" method="POST" class="hidden">
                             @csrf
                         </form>
                     @else
-                        <a href="{{ route('customer.login') }}" class="text-dark-500 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">{{ __('website.login') }}</a>
-                        <a href="{{ route('customer.register') }}" class="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200">{{ __('website.register') }}</a>
+                        <a href="{{ route('customer.login', ['locale' => $currentLocale]) }}" class="text-dark-500 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">{{ __('website.login') }}</a>
+                        <a href="{{ route('customer.register', ['locale' => $currentLocale]) }}" class="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200">{{ __('website.register') }}</a>
                     @endauth
                 </div>
                 <!-- Mobile menu button -->
@@ -70,20 +81,20 @@
         <div class="md:hidden hidden" id="mobile-menu">
             <div class="pt-2 pb-3 space-y-1">
                 @auth('customer')
-                    <a href="{{ route('customer.dashboard') }}" class="border-transparent text-dark-600 hover:bg-background-50 hover:border-background-300 hover:text-dark-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
+                    <a href="{{ route('customer.dashboard', ['locale' => $currentLocale]) }}" class="border-transparent text-dark-600 hover:bg-background-50 hover:border-background-300 hover:text-dark-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium {{ request()->routeIs('customer.dashboard') ? 'bg-primary-100 border-primary-500' : '' }}">
                         {{ __('website.dashboard') }}
                     </a>
-                    <a href="{{ route('customer.bookings') }}" class="border-transparent text-dark-600 hover:bg-background-50 hover:border-background-300 hover:text-dark-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
+                    <a href="{{ route('customer.bookings', ['locale' => $currentLocale]) }}" class="border-transparent text-dark-600 hover:bg-background-50 hover:border-background-300 hover:text-dark-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium {{ request()->routeIs('customer.bookings') ? 'bg-primary-100 border-primary-500' : '' }}">
                         {{ __('website.my_bookings') }}
                     </a>
-                    <a href="{{ route('customer.bookings.create') }}" class="border-transparent text-dark-600 hover:bg-background-50 hover:border-background-300 hover:text-dark-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
+                    <a href="{{ route('customer.bookings.create', ['locale' => $currentLocale]) }}" class="border-transparent text-dark-600 hover:bg-background-50 hover:border-background-300 hover:text-dark-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium {{ request()->routeIs('customer.bookings.create') ? 'bg-primary-100 border-primary-500' : '' }}">
                         {{ __('website.book_appointment_nav') }}
                     </a>
                 @else
-                    <a href="{{ route('customer.login') }}" class="border-transparent text-dark-600 hover:bg-background-50 hover:border-background-300 hover:text-dark-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
+                    <a href="{{ route('customer.login', ['locale' => $currentLocale]) }}" class="border-transparent text-dark-600 hover:bg-background-50 hover:border-background-300 hover:text-dark-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
                         {{ __('website.login') }}
                     </a>
-                    <a href="{{ route('customer.register') }}" class="border-transparent text-dark-600 hover:bg-background-50 hover:border-background-300 hover:text-dark-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
+                    <a href="{{ route('customer.register', ['locale' => $currentLocale]) }}" class="border-transparent text-dark-600 hover:bg-background-50 hover:border-background-300 hover:text-dark-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
                         {{ __('website.register') }}
                     </a>
                 @endauth
@@ -93,16 +104,16 @@
                     <!-- Language Switcher Mobile -->
                     <div class="px-4 py-2">
                         <div class="flex space-x-2">
-                            <a href="{{ route('lang.switch', 'ar') }}" class="px-3 py-1 text-sm rounded-md {{ $currentLocale === 'ar' ? 'bg-primary-100 text-primary-700 font-medium' : 'text-gray-600 hover:bg-gray-100' }}">
+                            <a href="{{ $arUrl }}" class="px-3 py-1 text-sm rounded-md {{ $currentLocale === 'ar' ? 'bg-primary-100 text-primary-700 font-medium' : 'text-gray-600 hover:bg-gray-100' }}">
                                 {{ __('website.arabic') }}
                             </a>
-                            <a href="{{ route('lang.switch', 'en') }}" class="px-3 py-1 text-sm rounded-md {{ $currentLocale === 'en' ? 'bg-primary-100 text-primary-700 font-medium' : 'text-gray-600 hover:bg-gray-100' }}">
+                            <a href="{{ $enUrl }}" class="px-3 py-1 text-sm rounded-md {{ $currentLocale === 'en' ? 'bg-primary-100 text-primary-700 font-medium' : 'text-gray-600 hover:bg-gray-100' }}">
                                 {{ __('website.english') }}
                             </a>
                         </div>
                     </div>
                     @auth('customer')
-                        <a href="{{ route('customer.logout') }}" 
+                        <a href="{{ route('customer.logout', ['locale' => $currentLocale]) }}" 
                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                            class="block px-4 py-2 text-base font-medium text-dark-500 hover:text-dark-800 hover:bg-background-100">
                             {{ __('website.logout') }}

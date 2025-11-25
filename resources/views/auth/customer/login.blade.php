@@ -14,7 +14,7 @@
                 <p class="mt-2 text-gray-600">{{ __('website.sign_in_to_continue') }}</p>
             </div>
             
-            <form class="mt-6 space-y-6" method="POST" action="{{ route('customer.login') }}">
+            <form class="mt-6 space-y-6" method="POST" action="{{ route('customer.login', ['locale' => $currentLocale]) }}">
                 @csrf
                 
                 <div class="space-y-4">
@@ -58,7 +58,7 @@
 
                     @if (Route::has('customer.password.request'))
                         <div class="text-sm">
-                            <a href="{{ route('customer.password.request') }}" class="font-medium text-primary-600 hover:text-primary-500 transition-colors duration-200">{{ __('website.forgot_password') }}</a>
+                            <a href="{{ route('customer.password.request', ['locale' => $currentLocale]) }}" class="font-medium text-primary-600 hover:text-primary-500 transition-colors duration-200">{{ __('website.forgot_password') }}</a>
                         </div>
                     @endif
                 </div>
@@ -72,7 +72,7 @@
             
             <div class="mt-6 text-center">
                 <p class="text-sm text-gray-600">{{ __('website.dont_have_account') }} 
-                    <a href="{{ route('customer.register') }}" class="font-medium text-primary-600 hover:text-primary-500 transition-colors duration-200">{{ __('website.register_here') }}</a>
+                    <a href="{{ route('customer.register', ['locale' => $currentLocale]) }}" class="font-medium text-primary-600 hover:text-primary-500 transition-colors duration-200">{{ __('website.register_here') }}</a>
                 </p>
             </div>
         </div>

@@ -6,8 +6,8 @@
 <body>
     <h1>Test Authentication</h1>
     <p>This is a test page to check authentication.</p>
-    <a href="{{ route('customer.dashboard') }}">Go to Customer Dashboard</a>
+    <a href="{{ route('customer.dashboard', ['locale' => $currentLocale]) }}">Go to Customer Dashboard</a>
     <br>
-    <a href="{{ route('customer.login') }}">Go to Login</a>
+    <a href="{{ route('customer.login', ['locale' => $currentLocale]) }}">Go to Login</a>
 </body>
 </html>

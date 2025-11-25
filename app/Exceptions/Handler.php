@@ -38,11 +38,14 @@ class Handler extends ExceptionHandler
      */
     protected function unauthenticated($request, AuthenticationException $exception)
     {
+        // Get the locale from the route or use the app default
+        $locale = $request->route('locale') ?? app()->getLocale();
+        
         // Check if the request is for the customer area
         if ($request->is('customer/*') || $request->routeIs('customer.*')) {
             return $request->expectsJson()
                 ? response()->json(['message' => $exception->getMessage()], 401)
-                : redirect()->guest(route('customer.login'));
+                : redirect()->guest(route('customer.login', ['locale' => $locale]));
         }
 
         // For other areas, use the default behavior

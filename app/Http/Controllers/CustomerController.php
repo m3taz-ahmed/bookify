@@ -75,7 +75,7 @@ class CustomerController extends Controller
             'status' => 'pending',
         ]);
         
-        return redirect()->route('customer.bookings')->with('success', 'Booking created successfully!');
+        return redirect()->route('customer.bookings', ['locale' => app()->getLocale()])->with('success', 'Booking created successfully!');
     }
     
     public function editBooking(Booking $booking)
@@ -143,7 +143,7 @@ class CustomerController extends Controller
             'status' => $status,
         ]);
         
-        return redirect()->route('customer.bookings')->with('success', 'Booking updated successfully!');
+        return redirect()->route('customer.bookings', ['locale' => app()->getLocale()])->with('success', 'Booking updated successfully!');
     }
     
     public function cancelBooking(Booking $booking)
@@ -156,10 +156,10 @@ class CustomerController extends Controller
         // Only allow cancellation if booking is not completed or already cancelled
         if (!in_array($booking->status, ['completed', 'cancelled'])) {
             $booking->update(['status' => 'cancelled']);
-            return redirect()->route('customer.bookings')->with('success', 'Booking cancelled successfully!');
+            return redirect()->route('customer.bookings', ['locale' => app()->getLocale()])->with('success', 'Booking cancelled successfully!');
         }
         
-        return redirect()->route('customer.bookings')->with('error', 'Cannot cancel this booking.');
+        return redirect()->route('customer.bookings', ['locale' => app()->getLocale()])->with('error', 'Cannot cancel this booking.');
     }
     
     public function profile()
@@ -198,6 +198,6 @@ class CustomerController extends Controller
         
         $customer->save();
         
-        return redirect()->route('customer.profile')->with('success', 'Profile updated successfully!');
+        return redirect()->route('customer.profile', ['locale' => app()->getLocale()])->with('success', 'Profile updated successfully!');
     }
 }

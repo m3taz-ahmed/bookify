@@ -21,7 +21,7 @@
 
         <!-- Quick Actions -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <a href="{{ route('customer.bookings.create') }}" class="bg-white rounded-2xl shadow-md p-6 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border border-accent-200">
+            <a href="{{ route('customer.bookings.create', ['locale' => $currentLocale]) }}" class="bg-white rounded-2xl shadow-md p-6 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border border-accent-200">
                 <div class="flex items-center mb-4">
                     <div class="h-12 w-12 rounded-full bg-primary-100 flex items-center justify-center mr-4">
                         <svg class="h-6 w-6 text-primary-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -39,7 +39,7 @@
                 </span>
             </a>
 
-            <a href="{{ route('customer.bookings') }}" class="bg-white rounded-2xl shadow-md p-6 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border border-accent-200">
+            <a href="{{ route('customer.bookings', ['locale' => $currentLocale]) }}" class="bg-white rounded-2xl shadow-md p-6 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border border-accent-200">
                 <div class="flex items-center mb-4">
                     <div class="h-12 w-12 rounded-full bg-accent-100 flex items-center justify-center mr-4">
                         <svg class="h-6 w-6 text-accent-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -67,7 +67,7 @@
                     <h3 class="text-xl font-bold text-gray-900">{{ __('website.profile') }}</h3>
                 </div>
                 <p class="text-gray-600 mb-4">{{ __('website.update_personal_info') }}</p>
-                <a href="{{ route('customer.profile.edit') }}" class="inline-flex items-center text-secondary-600 font-medium">
+                <a href="{{ route('customer.profile.edit', ['locale' => $currentLocale]) }}" class="inline-flex items-center text-secondary-600 font-medium">
                     {{ __('website.edit_profile') }}
                     <svg class="ml-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
@@ -80,7 +80,7 @@
         <div class="bg-white rounded-2xl shadow-md p-6 mb-8 border border-accent-200">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-2xl font-bold text-gray-900">{{ __('website.upcoming_appointments') }}</h2>
-                <a href="{{ route('customer.bookings') }}" class="text-primary-600 hover:text-primary-800 font-medium text-sm">{{ __('website.view_all') }}</a>
+                <a href="{{ route('customer.bookings', ['locale' => $currentLocale]) }}" class="text-primary-600 hover:text-primary-800 font-medium text-sm">{{ __('website.view_all') }}</a>
             </div>
             
             @php
@@ -131,7 +131,7 @@
                     <h3 class="mt-2 text-sm font-medium text-gray-900">{{ __('website.no_upcoming_appointments') }}</h3>
                     <p class="mt-1 text-sm text-gray-500">{{ __('website.get_started_by_booking') }}</p>
                     <div class="mt-6">
-                        <a href="{{ route('customer.bookings.create') }}" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                        <a href="{{ route('customer.bookings.create', ['locale' => $currentLocale]) }}" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
                             <svg class="h-4 w-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                             </svg>
@@ -158,7 +158,7 @@
                 @endforeach
             </div>
             <div class="mt-6 text-center">
-                <a href="{{ route('customer.bookings.create') }}" class="inline-flex items-center text-primary-600 hover:text-primary-800 font-medium">
+                <a href="{{ route('customer.bookings.create', ['locale' => $currentLocale]) }}" class="inline-flex items-center text-primary-600 hover:text-primary-800 font-medium">
                     {{ __('website.view_all_services') }}
                     <svg class="ml-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>

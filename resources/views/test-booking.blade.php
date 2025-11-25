@@ -11,7 +11,7 @@
             <p>Current date format: {{ date('Y-m-d') }}</p>
             <p>Tomorrow's date: {{ date('Y-m-d', strtotime('+1 day')) }}</p>
             
-            <form method="POST" action="{{ route('customer.bookings.store') }}" class="mt-6">
+            <form method="POST" action="{{ route('customer.bookings.store', ['locale' => $currentLocale]) }}" class="mt-6">
                 @csrf
                 
                 <div class="mb-4">
@@ -50,7 +50,7 @@
                 </div>
                 
                 <div class="flex items-center justify-between">
-                    <a href="{{ route('customer.bookings') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+                    <a href="{{ route('customer.bookings', ['locale' => $currentLocale]) }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
                         Cancel
                     </a>
                     <button type="submit" class="bg-primary-500 hover:bg-primary-700 text-white font-bold py-2 px-4 rounded">
