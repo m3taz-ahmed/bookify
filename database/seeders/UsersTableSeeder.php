@@ -28,7 +28,7 @@ class UsersTableSeeder extends Seeder
         ]);
         $adminUser->assignRole($adminRole);
 
-        // Create employee user
+        // Create employee users
         $employee1 = User::create([
             'name' => 'Employee One',
             'email' => 'employee1@example.com',
@@ -44,5 +44,13 @@ class UsersTableSeeder extends Seeder
             'is_active' => true,
         ]);
         $employee2->assignRole($employeeRole);
+
+        $employee3 = User::create([
+            'name' => 'Employee Three',
+            'email' => 'employee3@example.com',
+            'password' => Hash::make('password'),
+            'is_active' => true,
+        ]);
+        $employee3->assignRole($employeeRole);
     }
 }

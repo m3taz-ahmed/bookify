@@ -6,8 +6,8 @@
         <div class="px-8 py-6 border-b border-gray-200 bg-gradient-to-r from-background-50 to-accent-50">
             <div class="flex items-center justify-between">
                 <div>
-                    <h1 class="text-3xl font-bold text-gray-900">Book New Appointment</h1>
-                    <p class="text-gray-600 mt-2">Follow the steps below to schedule your appointment</p>
+                    <h1 class="text-3xl font-bold text-gray-900">{{ __('website.book_new_appointment') }}</h1>
+                    <p class="text-gray-600 mt-2">{{ __('website.follow_steps_below') }}</p>
                 </div>
                 <div class="hidden md:block">
                     <div class="flex items-center space-x-2">
@@ -26,7 +26,7 @@
     </div>
     
     <div class="mt-8 text-center text-sm text-gray-500">
-        <p>Need help? Contact our support team at support@bookify.com</p>
+        <p>{{ __('website.need_help_contact_support', ['email' => 'support@bookify.com']) }}</p>
     </div>
 </div>
 @endsection

@@ -9,64 +9,83 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
     
-    --color-primary: #9f7e69;
-    --color-secondary: #d2bba0;
-    --color-accent: #f2efc7;
-    --color-light: #f7ffe0;
-    --color-background: #ffeee2;
+    /* Updated color palette based on theme references */
+    --color-primary: #8B5A2B; /* Warm brown for primary actions */
+    --color-secondary: #D2691E; /* Chocolate brown for secondary elements */
+    --color-accent: #F4A460; /* Sandy brown for accents */
+    --color-light: #FFF8DC; /* Cornsilk for light backgrounds */
+    --color-background: #F5F5F5; /* Light gray background */
+    --color-dark: #2C2C2C; /* Dark gray for text and headers */
     
-    --color-primary-50: #fdfbf9;
-    --color-primary-100: #f8f3ee;
-    --color-primary-200: #f0e6dd;
-    --color-primary-300: #e2d2c2;
-    --color-primary-400: #cbb9a2;
-    --color-primary-500: #9f7e69;
-    --color-primary-600: #8a6a55;
-    --color-primary-700: #745744;
-    --color-primary-800: #5f4535;
-    --color-primary-900: #4d3629;
+    /* Primary color scale */
+    --color-primary-50: #fcf9f7;
+    --color-primary-100: #f7f0eb;
+    --color-primary-200: #ead8cf;
+    --color-primary-300: #d9b9a9;
+    --color-primary-400: #c89b84;
+    --color-primary-500: #8B5A2B;
+    --color-primary-600: #7a4e26;
+    --color-primary-700: #684221;
+    --color-primary-800: #56371b;
+    --color-primary-900: #442b16;
     
-    --color-secondary-50: #fdfaf7;
-    --color-secondary-100: #f9f4ee;
-    --color-secondary-200: #f2e9dd;
-    --color-secondary-300: #e7d9c2;
-    --color-secondary-400: #d8c3a3;
-    --color-secondary-500: #d2bba0;
-    --color-secondary-600: #b99f85;
-    --color-secondary-700: #9c846d;
-    --color-secondary-800: #7f6a57;
-    --color-secondary-900: #665445;
+    /* Secondary color scale */
+    --color-secondary-50: #fdf9f6;
+    --color-secondary-100: #f9f0e9;
+    --color-secondary-200: #f0dcc5;
+    --color-secondary-300: #e5c39e;
+    --color-secondary-400: #d9aa78;
+    --color-secondary-500: #D2691E;
+    --color-secondary-600: #b85c1a;
+    --color-secondary-700: #9d4f16;
+    --color-secondary-800: #824212;
+    --color-secondary-900: #67350e;
     
-    --color-accent-50: #fdfdf9;
-    --color-accent-100: #fbfbf3;
-    --color-accent-200: #f8f7e6;
-    --color-accent-300: #f0edce;
-    --color-accent-400: #e7e3b0;
-    --color-accent-500: #f2efc7;
-    --color-accent-600: #cfcba9;
-    --color-accent-700: #ada98d;
-    --color-accent-800: #8b8872;
-    --color-accent-900: #6e6c5a;
+    /* Accent color scale */
+    --color-accent-50: #fdfaf7;
+    --color-accent-100: #fcf4ed;
+    --color-accent-200: #f8e7d8;
+    --color-accent-300: #f2d5bc;
+    --color-accent-400: #ebc3a1;
+    --color-accent-500: #F4A460;
+    --color-accent-600: #d58f54;
+    --color-accent-700: #b67a48;
+    --color-accent-800: #97653c;
+    --color-accent-900: #785030;
     
-    --color-light-50: #fdfdfb;
-    --color-light-100: #fcfcf8;
-    --color-light-200: #fafaf4;
-    --color-light-300: #f5f5e7;
-    --color-light-400: #eeefd5;
-    --color-light-500: #f7ffe0;
-    --color-light-600: #d4d9bf;
-    --color-light-700: #b1b49f;
-    --color-light-800: #8f9080;
-    --color-light-900: #727367;
+    /* Light color scale */
+    --color-light-50: #fffcf9;
+    --color-light-100: #fffaf6;
+    --color-light-200: #fff3e9;
+    --color-light-300: #ffe5d0;
+    --color-light-400: #ffd7b7;
+    --color-light-500: #FFF8DC;
+    --color-light-600: #dcc5bd;
+    --color-light-700: #b9a29e;
+    --color-light-800: #96807f;
+    --color-light-900: #786766;
     
-    --color-background-50: #fffcfb;
-    --color-background-100: #fff9f7;
-    --color-background-200: #fff3f0;
-    --color-background-300: #ffe4dc;
-    --color-background-400: #ffd1c3;
-    --color-background-500: #ffeee2;
-    --color-background-600: #dbc9bf;
-    --color-background-700: #b7a69d;
-    --color-background-800: #94847e;
-    --color-background-900: #786965;
+    /* Background color scale */
+    --color-background-50: #fafafa;
+    --color-background-100: #f5f5f5;
+    --color-background-200: #eeeeee;
+    --color-background-300: #e0e0e0;
+    --color-background-400: #bdbdbd;
+    --color-background-500: #F5F5F5;
+    --color-background-600: #c9c9c9;
+    --color-background-700: #a7a7a7;
+    --color-background-800: #858585;
+    --color-background-900: #696969;
+    
+    /* Dark color scale for text and headers */
+    --color-dark-50: #f7f7f7;
+    --color-dark-100: #ebebeb;
+    --color-dark-200: #d6d6d6;
+    --color-dark-300: #b8b8b8;
+    --color-dark-400: #9a9a9a;
+    --color-dark-500: #2C2C2C;
+    --color-dark-600: #272727;
+    --color-dark-700: #212121;
+    --color-dark-800: #1c1c1c;
+    --color-dark-900: #171717;
 }

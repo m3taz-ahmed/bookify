@@ -8,12 +8,13 @@ use App\Models\Service;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Hash;
 
 class CustomerController extends Controller
 {
     public function dashboard()
     {
+        /** @var Customer $customer */
         $customer = Auth::guard('customer')->user();
         // Using direct relationship with eager loading
         $bookings = $customer->bookings()->with(['service', 'employee'])->latest()->get();
@@ -44,6 +45,7 @@ class CustomerController extends Controller
             'start_time' => 'required|date_format:H:i',
         ]);
         
+        /** @var Customer $customer */
         $customer = Auth::guard('customer')->user();
         
         // Get the service and employee to calculate duration
@@ -158,5 +160,44 @@ class CustomerController extends Controller
         }
         
         return redirect()->route('customer.bookings')->with('error', 'Cannot cancel this booking.');
+    }
+    
+    public function profile()
+    {
+        /** @var Customer $customer */
+        $customer = Auth::guard('customer')->user();
+        return view('customer.profile.show', compact('customer'));
+    }
+    
+    public function editProfile()
+    {
+        /** @var Customer $customer */
+        $customer = Auth::guard('customer')->user();
+        return view('customer.profile.edit', compact('customer'));
+    }
+    
+    public function updateProfile(Request $request)
+    {
+        /** @var Customer $customer */
+        $customer = Auth::guard('customer')->user();
+        
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:customers,email,' . $customer->id,
+            'phone' => 'required|string|max:20',
+            'password' => 'nullable|string|min:8|confirmed',
+        ]);
+        
+        $customer->name = $request->name;
+        $customer->email = $request->email;
+        $customer->phone = $request->phone;
+        
+        if ($request->filled('password')) {
+            $customer->password = Hash::make($request->password);
+        }
+        
+        $customer->save();
+        
+        return redirect()->route('customer.profile')->with('success', 'Profile updated successfully!');
     }
 }

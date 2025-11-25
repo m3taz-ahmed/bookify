@@ -3,10 +3,12 @@
 namespace App\Providers;
 
 use App\Exceptions\Handler as ExceptionHandlerImplementation;
+use App\Http\ViewComposers\LanguageComposer;
 use App\Models\Booking;
 use App\Observers\BookingObserver;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,5 +26,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Booking::observe(BookingObserver::class);
+        
+        // Register the language composer for all views
+        View::composer('*', LanguageComposer::class);
     }
 }

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookify Filament Theme Demo</title>
+    <link rel="stylesheet" href="/css/filament/filament/app.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #fafafa;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 24px;
+            background-color: white;
+            border-bottom: 1px solid #eeeeee;
+            margin-bottom: 24px;
+        }
+        
+        .sidebar {
+            width: 240px;
+            background-color: white;
+            border-right: 1px solid #eeeeee;
+            height: calc(100vh - 100px);
+            position: fixed;
+            padding: 16px;
+        }
+        
+        .main-content {
+            margin-left: 260px;
+        }
+        
+        .card {
+            background-color: white;
+            border: 1px solid #eeeeee;
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn {
+            background-color: #8B5A2B;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background-color: #7a4e26;
+        }
+        
+        .form-group {
+            margin-bottom: 16px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+        }
+        
+        /* Dark mode toggle */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        /* Dark mode styles */
+        .dark body {
+            background-color: #1a1a1a;
+            color: #f5f5f5;
+        }
+        
+        .dark .header {
+            background-color: #2d2d2d;
+            border-bottom-color: #404040;
+        }
+        
+        .dark .sidebar {
+            background-color: #2d2d2d;
+            border-right-color: #404040;
+        }
+        
+        .dark .card {
+            background-color: #2d2d2d;
+            border-color: #404040;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px -1px rgba(0, 0, 0, 0.3);
+        }
+        
+        .dark .form-input {
+            background-color: #404040;
+            border-color: #525252;
+            color: #f5f5f5;
+        }
+        
+        .toggle-btn {
+            background-color: #8B5A2B;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="theme-toggle">
+        <button class="toggle-btn" onclick="toggleTheme()">Toggle Dark Mode</button>
+    </div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>Bookify Admin Dashboard</h1>
+            <div>
+                <button class="btn">Dashboard</button>
+                <button class="btn">Settings</button>
+            </div>
+        </div>
+        
+        <div class="sidebar">
+            <h3>Navigation</h3>
+            <ul>
+                <li><a href="#">Dashboard</a></li>
+                <li><a href="#">Services</a></li>
+                <li><a href="#">Bookings</a></li>
+                <li><a href="#">Customers</a></li>
+                <li><a href="#">Employees</a></li>
+                <li><a href="#">Reports</a></li>
+                <li><a href="#">Settings</a></li>
+            </ul>
+        </div>
+        
+        <div class="main-content">
+            <div class="card">
+                <h2>Welcome to Bookify</h2>
+                <p>This is a demo of the improved Filament theme with enhanced dark mode support.</p>
+            </div>
+            
+            <div class="card">
+                <h3>Booking Form</h3>
+                <div class="form-group">
+                    <label class="form-label">Customer Name</label>
+                    <input type="text" class="form-input" placeholder="Enter customer name">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Service</label>
+                    <select class="form-input">
+                        <option>Select a service</option>
+                        <option>Haircut</option>
+                        <option>Coloring</option>
+                        <option>Styling</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Date & Time</label>
+                    <input type="datetime-local" class="form-input">
+                </div>
+                
+                <button class="btn">Create Booking</button>
+            </div>
+            
+            <div class="card">
+                <h3>Recent Bookings</h3>
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr>
+                            <th style="text-align: left; padding: 12px; border-bottom: 1px solid #eeeeee;">Customer</th>
+                            <th style="text-align: left; padding: 12px; border-bottom: 1px solid #eeeeee;">Service</th>
+                            <th style="text-align: left; padding: 12px; border-bottom: 1px solid #eeeeee;">Date & Time</th>
+                            <th style="text-align: left; padding: 12px; border-bottom: 1px solid #eeeeee;">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="padding: 12px; border-bottom: 1px solid #eeeeee;">John Doe</td>
+                            <td style="padding: 12px; border-bottom: 1px solid #eeeeee;">Haircut</td>
+                            <td style="padding: 12px; border-bottom: 1px solid #eeeeee;">Nov 25, 2025 10:00 AM</td>
+                            <td style="padding: 12px; border-bottom: 1px solid #eeeeee;"><span style="background-color: #6bc76b; color: white; padding: 4px 8px; border-radius: 4px;">Confirmed</span></td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px; border-bottom: 1px solid #eeeeee;">Jane Smith</td>
+                            <td style="padding: 12px; border-bottom: 1px solid #eeeeee;">Coloring</td>
+                            <td style="padding: 12px; border-bottom: 1px solid #eeeeee;">Nov 25, 2025 2:00 PM</td>
+                            <td style="padding: 12px; border-bottom: 1px solid #eeeeee;"><span style="background-color: #f5d349; color: black; padding: 4px 8px; border-radius: 4px;">Pending</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle('dark');
+        }
+    </script>
+</body>
+</html>

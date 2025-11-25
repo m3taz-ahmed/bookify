@@ -28,11 +28,11 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                         </svg>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900">Book Appointment</h3>
+                    <h3 class="text-xl font-bold text-gray-900">{{ __('website.book_appointment') }}</h3>
                 </div>
-                <p class="text-gray-600 mb-4">Schedule a new service with our professionals</p>
+                <p class="text-gray-600 mb-4">{{ __('website.schedule_new_service') }}</p>
                 <span class="inline-flex items-center text-primary-600 font-medium">
-                    Book now
+                    {{ __('website.book_now') }}
                     <svg class="ml-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                     </svg>
@@ -46,11 +46,11 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" />
                         </svg>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900">My Bookings</h3>
+                    <h3 class="text-xl font-bold text-gray-900">{{ __('website.my_bookings') }}</h3>
                 </div>
-                <p class="text-gray-600 mb-4">View and manage your upcoming appointments</p>
+                <p class="text-gray-600 mb-4">{{ __('website.view_manage_upcoming_appointments') }}</p>
                 <span class="inline-flex items-center text-accent-600 font-medium">
-                    View all
+                    {{ __('website.view_all') }}
                     <svg class="ml-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                     </svg>
@@ -64,23 +64,23 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                         </svg>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900">Profile</h3>
+                    <h3 class="text-xl font-bold text-gray-900">{{ __('website.profile') }}</h3>
                 </div>
-                <p class="text-gray-600 mb-4">Update your personal information and preferences</p>
-                <button class="inline-flex items-center text-secondary-600 font-medium">
-                    Edit profile
+                <p class="text-gray-600 mb-4">{{ __('website.update_personal_info') }}</p>
+                <a href="{{ route('customer.profile.edit') }}" class="inline-flex items-center text-secondary-600 font-medium">
+                    {{ __('website.edit_profile') }}
                     <svg class="ml-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                     </svg>
-                </button>
+                </a>
             </div>
         </div>
 
         <!-- Upcoming Appointments -->
         <div class="bg-white rounded-2xl shadow-md p-6 mb-8 border border-accent-200">
             <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-bold text-gray-900">Upcoming Appointments</h2>
-                <a href="{{ route('customer.bookings') }}" class="text-primary-600 hover:text-primary-800 font-medium text-sm">View all</a>
+                <h2 class="text-2xl font-bold text-gray-900">{{ __('website.upcoming_appointments') }}</h2>
+                <a href="{{ route('customer.bookings') }}" class="text-primary-600 hover:text-primary-800 font-medium text-sm">{{ __('website.view_all') }}</a>
             </div>
             
             @php
@@ -106,7 +106,7 @@
                                 <div>
                                     <h3 class="font-semibold text-gray-900">{{ $booking->service->name_en }}</h3>
                                     <p class="text-sm text-gray-600">
-                                        {{ \Carbon\Carbon::parse($booking->booking_date)->format('M j, Y') }} at {{ $booking->start_time }}
+                                        {{ \Carbon\Carbon::parse($booking->booking_date)->format('M j, Y') }} {{ __('website.at') }} {{ $booking->start_time }}
                                     </p>
                                 </div>
                             </div>
@@ -128,14 +128,14 @@
                     <svg class="mx-auto h-12 w-12 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>
-                    <h3 class="mt-2 text-sm font-medium text-gray-900">No upcoming appointments</h3>
-                    <p class="mt-1 text-sm text-gray-500">Get started by booking a new appointment.</p>
+                    <h3 class="mt-2 text-sm font-medium text-gray-900">{{ __('website.no_upcoming_appointments') }}</h3>
+                    <p class="mt-1 text-sm text-gray-500">{{ __('website.get_started_by_booking') }}</p>
                     <div class="mt-6">
                         <a href="{{ route('customer.bookings.create') }}" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
                             <svg class="h-4 w-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                             </svg>
-                            Book Appointment
+                            {{ __('website.book_appointment') }}
                         </a>
                     </div>
                 </div>
@@ -144,7 +144,7 @@
 
         <!-- Services Overview -->
         <div class="bg-white rounded-2xl shadow-md p-6 border border-accent-200">
-            <h2 class="text-2xl font-bold text-gray-900 mb-6">Popular Services</h2>
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">{{ __('website.popular_services') }}</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 @foreach(\App\Models\Service::where('is_active', true)->limit(3)->get() as $service)
                     <div class="border border-gray-200 rounded-xl p-5 hover:border-primary-300 transition-colors duration-200">
@@ -152,14 +152,14 @@
                         <p class="text-sm text-gray-600 mb-3">{{ $service->description }}</p>
                         <div class="flex justify-between items-center pt-3 border-t border-gray-100">
                             <span class="text-lg font-bold text-primary-600">${{ $service->price }}</span>
-                            <span class="text-sm text-gray-500">{{ $service->duration_minutes }} mins</span>
+                            <span class="text-sm text-gray-500">{{ $service->duration_minutes }} {{ __('website.mins') }}</span>
                         </div>
                     </div>
                 @endforeach
             </div>
             <div class="mt-6 text-center">
                 <a href="{{ route('customer.bookings.create') }}" class="inline-flex items-center text-primary-600 hover:text-primary-800 font-medium">
-                    View all services
+                    {{ __('website.view_all_services') }}
                     <svg class="ml-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                     </svg>

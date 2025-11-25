@@ -31,11 +31,11 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             ->colors([
-                'primary' => Color::hex('#9f7e69'),
-                'secondary' => Color::hex('#d2bba0'),
-                'success' => Color::hex('#f2efc7'),
-                'warning' => Color::hex('#f7ffe0'),
-                'danger' => Color::hex('#ffeee2'),
+                'primary' => Color::hex('#8B5A2B'),
+                'secondary' => Color::hex('#D2691E'),
+                'success' => Color::hex('#6bc76b'),
+                'warning' => Color::hex('#f5d349'),
+                'danger' => Color::hex('#ee5548'),
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
