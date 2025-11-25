@@ -66,8 +66,8 @@ Route::middleware(['web', 'auth:customer'])->group(function () {
     })->name('customer.bookings.test');
 });
 
-Route::get('/check-in/{reference}', [CheckInController::class, 'checkIn'])->name('check-in-api')->middleware(['web', 'auth']);
-Route::get('/check-in-page/{reference}', [CheckInController::class, 'showCheckInPage'])->name('check-in')->middleware(['web', 'auth']);
+Route::get('/check-in/{reference}', [CheckInController::class, 'checkIn'])->name('check-in-api')->middleware(['web', 'auth:customer']);
+Route::get('/check-in-page/{reference}', [CheckInController::class, 'showCheckInPage'])->name('check-in')->middleware(['web', 'auth:customer']);
 Route::get('/book', function () {
     return view('bookings.create');
 })->middleware('web');
@@ -105,3 +105,8 @@ Route::get('/debug-language', function (\Illuminate\Http\Request $request) {
         'languages' => ['ar', 'en']
     ]);
 })->name('debug.language')->middleware('web');
+
+// Test authentication route
+Route::get('/test-auth', function () {
+    return view('test-auth');
+})->name('test.auth')->middleware('web');
