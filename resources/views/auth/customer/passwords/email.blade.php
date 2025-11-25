@@ -24,14 +24,14 @@
                 </div>
                 
                 <div class="flex items-center justify-between">
-                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                    <button type="submit" class="bg-primary-500 hover:bg-primary-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                         Send Password Reset Link
                     </button>
                 </div>
             </form>
             
             <div class="mt-6 text-center">
-                <a href="{{ route('customer.login') }}" class="text-blue-500 hover:text-blue-700 font-bold">Back to Login</a>
+                <a href="{{ route('customer.login') }}" class="text-primary-500 hover:text-primary-700 font-bold">Back to Login</a>
             </div>
         </div>
     </div>

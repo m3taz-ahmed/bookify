@@ -14,18 +14,18 @@
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     @foreach ($services as $service)
-                        <div class="border border-gray-200 rounded-xl p-6 hover:border-blue-300 cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md bg-white hover:bg-blue-50 transform hover:-translate-y-1" 
+                        <div class="border border-gray-200 rounded-xl p-6 hover:border-primary-300 cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md bg-white hover:bg-primary-50 transform hover:-translate-y-1" 
                              wire:click="selectService({{ $service->id }})">
                             <div class="flex justify-between items-start mb-3">
                                 <h3 class="font-bold text-lg text-gray-900">{{ $service->name_en }}</h3>
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800">
                                     {{ $service->duration_minutes }} mins
                                 </span>
                             </div>
                             <p class="text-sm text-gray-600 mb-4">{{ $service->description }}</p>
                             <div class="flex justify-between items-center pt-4 border-t border-gray-100">
-                                <span class="text-xl font-bold text-blue-600">${{ $service->price }}</span>
-                                <span class="inline-flex items-center text-blue-600 font-medium text-sm">
+                                <span class="text-xl font-bold text-primary-600">${{ $service->price }}</span>
+                                <span class="inline-flex items-center text-primary-600 font-medium text-sm">
                                     Select
                                     <svg class="ml-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
@@ -51,7 +51,7 @@
                         <input type="date" 
                                wire:model="selectedDate" 
                                min="{{ date('Y-m-d') }}"
-                               class="w-full pl-4 pr-10 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200">
+                               class="w-full pl-4 pr-10 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200">
                         <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                             <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
@@ -59,17 +59,17 @@
                         </div>
                     </div>
                 </div>
-                <div class="bg-blue-50 rounded-lg p-4 max-w-md mx-auto mb-6">
+                <div class="bg-primary-50 rounded-lg p-4 max-w-md mx-auto mb-6">
                     <div class="flex">
-                        <svg class="h-5 w-5 text-blue-400 mr-2 mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <svg class="h-5 w-5 text-primary-400 mr-2 mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
                         </svg>
-                        <p class="text-sm text-blue-700">Available time slots will load automatically after selecting a date</p>
+                        <p class="text-sm text-primary-700">Available time slots will load automatically after selecting a date</p>
                     </div>
                 </div>
                 <div class="flex justify-center">
                     <button wire:click="step = 1" 
-                            class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200">
+                            class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-200">
                         <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                         </svg>
@@ -88,12 +88,12 @@
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     @forelse ($availableSlots as $slot)
-                        <div class="border border-gray-200 rounded-xl p-5 hover:border-blue-300 cursor-pointer transition-all duration-300 bg-white hover:bg-blue-50 transform hover:-translate-y-1" 
+                        <div class="border border-gray-200 rounded-xl p-5 hover:border-primary-300 cursor-pointer transition-all duration-300 bg-white hover:bg-primary-50 transform hover:-translate-y-1" 
                              wire:click="selectSlot({{ $slot['employee_id'] }}, '{{ $slot['start_time'] }}')">
                             <div class="flex items-center mb-3">
                                 <div class="flex-shrink-0 mr-3">
-                                    <div class="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
-                                        <svg class="h-5 w-5 text-blue-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <div class="h-10 w-10 rounded-full bg-primary-100 flex items-center justify-center">
+                                        <svg class="h-5 w-5 text-primary-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                             <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
                                         </svg>
                                     </div>
@@ -105,7 +105,7 @@
                             </div>
                             <div class="mt-3 pt-3 border-t border-gray-100 flex justify-between items-center">
                                 <span class="font-medium text-gray-900">{{ $slot['start_time'] }} - {{ $slot['end_time'] }}</span>
-                                <span class="inline-flex items-center text-blue-600 font-medium text-sm">
+                                <span class="inline-flex items-center text-primary-600 font-medium text-sm">
                                     Select
                                     <svg class="ml-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
@@ -125,7 +125,7 @@
                 </div>
                 <div class="flex justify-center mt-8">
                     <button wire:click="step = 2" 
-                            class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200">
+                            class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-200">
                         <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                         </svg>
@@ -156,7 +156,7 @@
                             <input type="text" 
                                    wire:model="customerName"
                                    id="customerName"
-                                   class="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 @error('customerName') border-red-500 @enderror"
+                                   class="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200 @error('customerName') border-red-500 @enderror"
                                    placeholder="Enter your full name">
                         </div>
                         @error('customerName') <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span> @enderror
@@ -175,7 +175,7 @@
                             <input type="text" 
                                    wire:model="customerPhone"
                                    id="customerPhone"
-                                   class="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 @error('customerPhone') border-red-500 @enderror"
+                                   class="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-200 @error('customerPhone') border-red-500 @enderror"
                                    placeholder="Enter your phone number">
                         </div>
                         @error('customerPhone') <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span> @enderror
@@ -184,7 +184,7 @@
                     <div class="flex flex-col sm:flex-row justify-center gap-4 pt-4">
                         <button wire:click="step = 3" 
                                 type="button"
-                                class="inline-flex items-center justify-center px-6 py-3 border border-gray-300 text-base font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200">
+                                class="inline-flex items-center justify-center px-6 py-3 border border-gray-300 text-base font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-200">
                             <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                             </svg>
@@ -215,14 +215,14 @@
                     <p class="text-gray-600 max-w-lg mx-auto text-lg">Your appointment has been successfully booked. A confirmation has been sent to your email.</p>
                 </div>
                 
-                <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-8 max-w-md mx-auto mb-8 border border-blue-100 shadow-sm">
+                <div class="bg-gradient-to-r from-primary-50 to-secondary-50 rounded-2xl p-8 max-w-md mx-auto mb-8 border border-primary-100 shadow-sm">
                     <div class="mb-4">
-                        <svg class="mx-auto h-12 w-12 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg class="mx-auto h-12 w-12 text-primary-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" />
                         </svg>
                     </div>
                     <p class="font-semibold text-gray-800 mb-3">Booking Reference</p>
-                    <p class="text-3xl font-bold text-blue-700 mb-5 tracking-wider">{{ $referenceCode }}</p>
+                    <p class="text-3xl font-bold text-primary-700 mb-5 tracking-wider">{{ $referenceCode }}</p>
                     <p class="text-sm text-gray-600">Please save this reference number for your records</p>
                 </div>
                 
@@ -247,14 +247,14 @@
                 
                 <div class="flex flex-col sm:flex-row justify-center gap-4">
                     <button wire:click="step = 1" 
-                            class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-gradient-to-r from-blue-600 to-indigo-700 hover:from-blue-700 hover:to-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-300 transform hover:-translate-y-0.5 shadow-lg hover:shadow-xl">
+                            class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-gradient-to-r from-primary-600 to-secondary-700 hover:from-primary-700 hover:to-secondary-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-300 transform hover:-translate-y-0.5 shadow-lg hover:shadow-xl">
                         <svg class="mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                         </svg>
                         Book Another Service
                     </button>
                     <a href="{{ route('customer.bookings') }}" 
-                       class="inline-flex items-center justify-center px-6 py-3 border border-gray-300 text-base font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 shadow-sm">
+                       class="inline-flex items-center justify-center px-6 py-3 border border-gray-300 text-base font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-200 shadow-sm">
                         <svg class="mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                         </svg>

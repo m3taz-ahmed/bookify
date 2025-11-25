@@ -4,7 +4,7 @@
 <div class="container mx-auto px-4 py-8">
     <div class="max-w-2xl mx-auto">
         <div class="bg-white rounded-lg shadow-md overflow-hidden">
-            <div class="bg-blue-600 px-6 py-4">
+            <div class="bg-primary-600 px-6 py-4">
                 <h1 class="text-2xl font-bold text-white">Booking Check-In</h1>
             </div>
             
@@ -24,7 +24,7 @@
                                 <p class="text-lg">
                                     <span class="px-2 py-1 rounded text-sm font-semibold 
                                         @if($booking->status === 'confirmed') bg-green-100 text-green-800
-                                        @elseif($booking->status === 'completed') bg-blue-100 text-blue-800
+                                        @elseif($booking->status === 'completed') bg-primary-100 text-primary-800
                                         @else bg-yellow-100 text-yellow-800 @endif">
                                         {{ ucfirst($booking->status) }}
                                     </span>
@@ -72,7 +72,7 @@
                                 @csrf
                                 <button type="button" 
                                         onclick="performCheckIn()"
-                                        class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition duration-200">
+                                        class="bg-primary-600 hover:bg-primary-700 text-white font-bold py-3 px-6 rounded-lg transition duration-200">
                                     Check In Now
                                 </button>
                             </form>

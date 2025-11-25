@@ -20,14 +20,14 @@
             </style>
         @endif
     </head>
-    <body class="font-sans antialiased bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
+    <body class="font-sans antialiased bg-gradient-to-br from-background-50 to-background-100 min-h-screen">
         <!-- Navigation -->
         <nav class="bg-white shadow-sm">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between h-16">
                     <div class="flex items-center">
                         <div class="flex-shrink-0 flex items-center">
-                            <svg class="h-8 w-8 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg class="h-8 w-8 text-primary-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
                             <span class="ml-2 text-xl font-bold text-gray-900">Bookify</span>
@@ -35,19 +35,19 @@
                     </div>
                     <div class="hidden md:ml-6 md:flex md:items-center md:space-x-4">
                         @auth('customer')
-                            <a href="{{ route('customer.dashboard') }}" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">Dashboard</a>
-                            <a href="{{ route('customer.bookings') }}" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">My Bookings</a>
+                            <a href="{{ route('customer.dashboard') }}" class="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">Dashboard</a>
+                            <a href="{{ route('customer.bookings') }}" class="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">My Bookings</a>
                             <a href="{{ route('customer.logout') }}" 
                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                               class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+                               class="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
                                 Logout
                             </a>
                             <form id="logout-form" action="{{ route('customer.logout') }}" method="POST" class="hidden">
                                 @csrf
                             </form>
                         @else
-                            <a href="{{ route('customer.login') }}" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">Login</a>
-                            <a href="{{ route('customer.register') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200">Register</a>
+                            <a href="{{ route('customer.login') }}" class="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">Login</a>
+                            <a href="{{ route('customer.register') }}" class="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200">Register</a>
                         @endauth
                     </div>
                 </div>
@@ -57,24 +57,24 @@
         <!-- Hero Section -->
         <div class="relative overflow-hidden">
             <div class="max-w-7xl mx-auto">
-                <div class="relative z-10 pb-8 bg-gradient-to-br from-gray-50 to-gray-100 sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
+                <div class="relative z-10 pb-8 bg-gradient-to-br from-background-50 to-background-100 sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
                     <main class="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
                         <div class="sm:text-center lg:text-left">
                             <h1 class="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
                                 <span class="block">Book Your</span>
-                                <span class="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Appointment Today</span>
+                                <span class="block text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-secondary-600">Appointment Today</span>
                             </h1>
                             <p class="mt-3 text-base text-gray-600 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
                                 Schedule appointments with our professional team easily and efficiently. Our booking system makes it simple to find available time slots and manage your appointments.
                             </p>
                             <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
                                 <div class="rounded-md shadow">
-                                    <a href="{{ route('customer.bookings.create') }}" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 md:py-4 md:text-lg md:px-10 transition-all duration-300 transform hover:-translate-y-0.5">
+                                    <a href="{{ route('customer.bookings.create') }}" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gradient-to-r from-primary-600 to-secondary-600 hover:from-primary-700 hover:to-secondary-700 md:py-4 md:text-lg md:px-10 transition-all duration-300 transform hover:-translate-y-0.5">
                                         Book Now
                                     </a>
                                 </div>
                                 <div class="mt-3 sm:mt-0 sm:ml-3">
-                                    <a href="#features" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 md:py-4 md:text-lg md:px-10 transition-colors duration-200">
+                                    <a href="#features" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-primary-700 bg-primary-100 hover:bg-primary-200 md:py-4 md:text-lg md:px-10 transition-colors duration-200">
                                         Learn More
                                     </a>
                                 </div>
@@ -84,14 +84,14 @@
                 </div>
             </div>
             <div class="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
-                <div class="h-56 w-full bg-gradient-to-r from-blue-500 to-indigo-600 sm:h-72 md:h-96 lg:w-full lg:h-full">
+                <div class="h-56 w-full bg-gradient-to-r from-primary-500 to-secondary-600 sm:h-72 md:h-96 lg:w-full lg:h-full">
                     <div class="flex items-center justify-center h-full">
                         <div class="text-center p-8">
                             <svg class="h-24 w-24 text-white mx-auto opacity-90" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
                             <h2 class="mt-4 text-3xl font-bold text-white">Bookify</h2>
-                            <p class="mt-2 text-lg text-blue-100">Your Booking Solution</p>
+                            <p class="mt-2 text-lg text-primary-100">Your Booking Solution</p>
                         </div>
                     </div>
                 </div>
@@ -102,7 +102,7 @@
         <div id="features" class="py-12 bg-white">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="lg:text-center">
-                    <h2 class="text-base text-blue-600 font-semibold tracking-wide uppercase">Features</h2>
+                    <h2 class="text-base text-primary-600 font-semibold tracking-wide uppercase">Features</h2>
                     <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
                         Everything you need to manage appointments
                     </p>
@@ -115,7 +115,7 @@
                     <div class="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10">
                         <div class="flex">
                             <div class="flex-shrink-0">
-                                <div class="flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white">
+                                <div class="flex items-center justify-center h-12 w-12 rounded-md bg-primary-500 text-white">
                                     <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                     </svg>
@@ -131,7 +131,7 @@
 
                         <div class="flex">
                             <div class="flex-shrink-0">
-                                <div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
+                                <div class="flex items-center justify-center h-12 w-12 rounded-md bg-secondary-500 text-white">
                                     <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
@@ -147,7 +147,7 @@
 
                         <div class="flex">
                             <div class="flex-shrink-0">
-                                <div class="flex items-center justify-center h-12 w-12 rounded-md bg-purple-500 text-white">
+                                <div class="flex items-center justify-center h-12 w-12 rounded-md bg-accent-500 text-white">
                                     <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                                     </svg>
@@ -163,7 +163,7 @@
 
                         <div class="flex">
                             <div class="flex-shrink-0">
-                                <div class="flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white">
+                                <div class="flex items-center justify-center h-12 w-12 rounded-md bg-primary-500 text-white">
                                     <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                                     </svg>
@@ -182,20 +182,20 @@
         </div>
 
         <!-- CTA Section -->
-        <div class="bg-gradient-to-r from-blue-600 to-indigo-700">
+        <div class="bg-gradient-to-r from-primary-600 to-secondary-700">
             <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between">
                 <h2 class="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
                     <span class="block">Ready to get started?</span>
-                    <span class="block text-blue-200">Book your first appointment today.</span>
+                    <span class="block text-primary-200">Book your first appointment today.</span>
                 </h2>
                 <div class="mt-8 flex lg:mt-0 lg:flex-shrink-0">
                     <div class="inline-flex rounded-md shadow">
-                        <a href="{{ route('customer.bookings.create') }}" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-blue-600 bg-white hover:bg-blue-50 transition-colors duration-200">
+                        <a href="{{ route('customer.bookings.create') }}" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-primary-600 bg-white hover:bg-primary-50 transition-colors duration-200">
                             Book Appointment
                         </a>
                     </div>
                     <div class="ml-3 inline-flex rounded-md shadow">
-                        <a href="{{ route('customer.register') }}" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-500 bg-opacity-20 hover:bg-opacity-30 transition-colors duration-200">
+                        <a href="{{ route('customer.register') }}" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary-500 bg-opacity-20 hover:bg-opacity-30 transition-colors duration-200">
                             Create Account
                         </a>
                     </div>
@@ -209,7 +209,7 @@
                 <div class="xl:grid xl:grid-cols-3 xl:gap-8">
                     <div class="space-y-8 xl:col-span-1">
                         <div class="flex items-center">
-                            <svg class="h-8 w-8 text-blue-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg class="h-8 w-8 text-primary-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
                             <span class="ml-2 text-xl font-bold text-white">Bookify</span>

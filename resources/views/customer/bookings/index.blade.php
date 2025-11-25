@@ -4,14 +4,14 @@
 <div class="container mx-auto px-4 py-8">
     <div class="max-w-6xl mx-auto">
         <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
-            <div class="px-6 py-5 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-indigo-50">
+            <div class="px-6 py-5 border-b border-gray-200 bg-gradient-to-r from-background-50 to-accent-50">
                 <div class="flex flex-col md:flex-row md:items-center md:justify-between">
                     <div>
                         <h1 class="text-2xl font-bold text-gray-900">My Bookings</h1>
                         <p class="mt-1 text-sm text-gray-600">Manage your appointments and booking history</p>
                     </div>
                     <div class="mt-4 md:mt-0">
-                        <a href="{{ route('customer.bookings.create') }}" class="inline-flex items-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-indigo-700 hover:from-blue-700 hover:to-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-300">
+                        <a href="{{ route('customer.bookings.create') }}" class="inline-flex items-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-primary-600 to-secondary-700 hover:from-primary-700 hover:to-secondary-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-300">
                             <svg class="h-4 w-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                             </svg>
@@ -28,7 +28,7 @@
                         <button class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
                             All Bookings
                         </button>
-                        <button class="border-blue-500 text-blue-600 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                        <button class="border-primary-500 text-primary-600 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
                             Upcoming
                         </button>
                         <button class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
@@ -43,11 +43,11 @@
                 <!-- Bookings List -->
                 <div class="space-y-4">
                     @forelse($bookings as $booking)
-                        <div class="border border-gray-200 rounded-xl p-5 hover:border-blue-300 transition-all duration-200 bg-white">
+                        <div class="border border-gray-200 rounded-xl p-5 hover:border-primary-300 transition-all duration-200 bg-white">
                             <div class="flex flex-col md:flex-row md:items-center md:justify-between">
                                 <div class="flex items-start">
-                                    <div class="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center mr-4 flex-shrink-0">
-                                        <svg class="h-6 w-6 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <div class="h-12 w-12 rounded-full bg-primary-100 flex items-center justify-center mr-4 flex-shrink-0">
+                                        <svg class="h-6 w-6 text-primary-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                         </svg>
                                     </div>
@@ -76,13 +76,13 @@
                                 
                                 <div class="mt-4 md:mt-0 flex items-center">
                                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
-                                        @if($booking->status === 'confirmed') bg-green-100 text-green-800
-                                        @elseif($booking->status === 'pending') bg-yellow-100 text-yellow-800
-                                        @elseif($booking->status === 'cancelled') bg-red-100 text-red-800
+                                        @if($booking->status === 'confirmed') bg-accent-100 text-accent-800
+                                        @elseif($booking->status === 'pending') bg-light-100 text-light-800
+                                        @elseif($booking->status === 'cancelled') bg-background-100 text-background-800
                                         @else bg-gray-100 text-gray-800 @endif">
                                         {{ ucfirst($booking->status) }}
                                     </span>
-                                    <button class="ml-3 text-gray-400 hover:text-gray-600">
+                                    <button class="ml-3 text-gray-400 hover:text-primary-600">
                                         <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
                                         </svg>
@@ -111,7 +111,7 @@
                             <h3 class="mt-2 text-sm font-medium text-gray-900">No bookings found</h3>
                             <p class="mt-1 text-sm text-gray-500">Get started by booking a new appointment.</p>
                             <div class="mt-6">
-                                <a href="{{ route('customer.bookings.create') }}" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                <a href="{{ route('customer.bookings.create') }}" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
                                     <svg class="h-4 w-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                                     </svg>
@@ -162,7 +162,7 @@
 
                                         @for ($i = 1; $i <= $bookings->lastPage(); $i++)
                                             @if ($i == $bookings->currentPage())
-                                                <span class="relative z-10 inline-flex items-center px-4 py-2 text-sm font-semibold text-blue-600 bg-blue-100 ring-1 ring-inset ring-blue-600">{{ $i }}</span>
+                                                <span class="relative z-10 inline-flex items-center px-4 py-2 text-sm font-semibold text-primary-600 bg-primary-100 ring-1 ring-inset ring-primary-600">{{ $i }}</span>
                                             @else
                                                 <a href="{{ $bookings->url($i) }}" class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">{{ $i }}</a>
                                             @endif
