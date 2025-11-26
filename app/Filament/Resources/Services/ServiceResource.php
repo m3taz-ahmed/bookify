@@ -68,7 +68,7 @@ class ServiceResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            \App\Filament\Resources\Services\RelationManagers\ServiceImageRelationManager::class,
         ];
     }
 

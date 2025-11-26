@@ -28,23 +28,23 @@
                     </div>
                 </div>
                 @php
-                    $currentPath = request()->path();
-                    // Remove locale prefix (ar/ or en/) from the beginning
-                    $pathWithoutLocale = preg_replace('/^(ar|en)\//', '', $currentPath);
-                    // If the path is the root (ar or en only), pathWithoutLocale will be empty, so use '/'
-                    if (empty($pathWithoutLocale)) {
-                        $pathWithoutLocale = '';
-                    }
+                    // Build locale URLs from current path
+                    $path = request()->path();
+                    // Remove locale prefix if it exists
+                    $pathWithoutLocale = preg_replace('/^(ar|en)\//', '', $path);
+                    // Remove locale prefix if it's just the locale at the start without slash
+                    $pathWithoutLocale = preg_replace('/^(ar|en)$/', '', $pathWithoutLocale);
+                    
                     $arUrl = '/ar' . ($pathWithoutLocale ? '/' . $pathWithoutLocale : '');
                     $enUrl = '/en' . ($pathWithoutLocale ? '/' . $pathWithoutLocale : '');
                 @endphp
                 <div class="hidden md:ml-6 md:flex md:items-center md:space-x-4">
                     <!-- Language Switcher -->
                     <div class="flex items-center space-x-2">
-                        <a href="{{ $arUrl }}" class="px-3 py-2 text-sm rounded-md {{ $currentLocale === 'ar' ? 'bg-primary-100 text-primary-700 font-medium' : 'text-gray-600 hover:bg-gray-100' }}">
+                        <a href="{{ $arUrl }}" class="px-3 py-2 text-sm rounded-md {{ app()->getLocale() === 'ar' ? 'bg-primary-100 text-primary-700 font-medium' : 'text-gray-600 hover:bg-gray-100' }}">
                             {{ __('website.arabic') }}
                         </a>
-                        <a href="{{ $enUrl }}" class="px-3 py-2 text-sm rounded-md {{ $currentLocale === 'en' ? 'bg-primary-100 text-primary-700 font-medium' : 'text-gray-600 hover:bg-gray-100' }}">
+                        <a href="{{ $enUrl }}" class="px-3 py-2 text-sm rounded-md {{ app()->getLocale() === 'en' ? 'bg-primary-100 text-primary-700 font-medium' : 'text-gray-600 hover:bg-gray-100' }}">
                             {{ __('website.english') }}
                         </a>
                     </div>
@@ -104,10 +104,10 @@
                     <!-- Language Switcher Mobile -->
                     <div class="px-4 py-2">
                         <div class="flex space-x-2">
-                            <a href="{{ $arUrl }}" class="px-3 py-1 text-sm rounded-md {{ $currentLocale === 'ar' ? 'bg-primary-100 text-primary-700 font-medium' : 'text-gray-600 hover:bg-gray-100' }}">
+                            <a href="{{ $arUrl }}" class="px-3 py-1 text-sm rounded-md {{ app()->getLocale() === 'ar' ? 'bg-primary-100 text-primary-700 font-medium' : 'text-gray-600 hover:bg-gray-100' }}">
                                 {{ __('website.arabic') }}
                             </a>
-                            <a href="{{ $enUrl }}" class="px-3 py-1 text-sm rounded-md {{ $currentLocale === 'en' ? 'bg-primary-100 text-primary-700 font-medium' : 'text-gray-600 hover:bg-gray-100' }}">
+                            <a href="{{ $enUrl }}" class="px-3 py-1 text-sm rounded-md {{ app()->getLocale() === 'en' ? 'bg-primary-100 text-primary-700 font-medium' : 'text-gray-600 hover:bg-gray-100' }}">
                                 {{ __('website.english') }}
                             </a>
                         </div>

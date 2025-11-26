@@ -37,6 +37,11 @@ class Service extends Model
         return $this->hasMany(EmployeeServiceDuration::class);
     }
     
+    public function images()
+    {
+        return $this->morphMany(ServiceImage::class, 'imageable', 'model_type', 'model_id');
+    }
+    
     public function getFormattedPriceAttribute()
     {
         return '$' . number_format($this->price, 2);

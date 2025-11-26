@@ -65,6 +65,7 @@ class Kernel extends HttpKernel
         'signed' => \App\Http\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        'locale' => \App\Http\Middleware\SetLocale::class, // Add our locale middleware alias
+        'locale' => \App\Http\Middleware\SetLocale::class,
+        'set.locale' => \App\Http\Middleware\SetLocale::class,
     ];
 }

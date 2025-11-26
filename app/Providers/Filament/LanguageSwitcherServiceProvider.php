@@ -6,6 +6,7 @@ use Filament\Facades\Filament;
 use Filament\Support\Facades\FilamentView;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
 class LanguageSwitcherServiceProvider extends ServiceProvider
@@ -29,15 +30,51 @@ class LanguageSwitcherServiceProvider extends ServiceProvider
                 $switchLocale = $currentLocale === 'ar' ? 'en' : 'ar';
                 $switchLabel = strtoupper($switchLocale);
                 
-                // Construct the switched URL while maintaining the current path
-                $currentPath = request()->path();
-                // Remove the locale prefix from the current path
-                $pathWithoutLocale = preg_replace('/^(ar|en)\//', '', $currentPath);
-                // Build the URL properly
-                if (empty($pathWithoutLocale)) {
-                    $switchedUrl = '/' . $switchLocale;
+                // Get the current URL
+                $currentUrl = url()->current();
+                $baseUrl = config('app.url');
+                
+                // Remove the base URL to get the path
+                $path = str_replace($baseUrl, '', $currentUrl);
+                
+                // Remove leading slash if present
+                $path = ltrim($path, '/');
+                
+                // Split the path into parts
+                $pathParts = explode('/', $path);
+                
+                // Check if we're in the admin panel (look for 'admin' in the path)
+                $adminIndex = array_search('admin', $pathParts);
+                
+                if ($adminIndex !== false) {
+                    // We're in the admin panel - Filament doesn't support locale prefixes
+                    // So we remove any locale prefix and redirect to the clean admin URL
+                    // But we still need to switch the app locale for the session
+                    app()->setLocale($switchLocale);
+                    
+                    // For Filament, we redirect to the clean admin URL without locale prefix
+                    $switchedUrl = $baseUrl . '/admin';
+                    
+                    // Add any remaining path after 'admin'
+                    $adminPathParts = array_slice($pathParts, $adminIndex + 1);
+                    if (!empty($adminPathParts)) {
+                        $switchedUrl .= '/' . implode('/', $adminPathParts);
+                    }
                 } else {
-                    $switchedUrl = '/' . $switchLocale . '/' . $pathWithoutLocale;
+                    // Not in admin panel, handle regular URLs
+                    // If the first part is a locale, replace it
+                    if (isset($pathParts[0]) && in_array($pathParts[0], ['ar', 'en'])) {
+                        $pathParts[0] = $switchLocale;
+                    } else {
+                        // If no locale in path, prepend the switch locale
+                        array_unshift($pathParts, $switchLocale);
+                    }
+                    
+                    // Reconstruct the path
+                    $switchedPath = implode('/', $pathParts);
+                    
+                    // Build the full URL
+                    $switchedUrl = $baseUrl . '/' . $switchedPath;
                 }
                 
                 return Blade::render('
