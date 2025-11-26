@@ -150,6 +150,11 @@ return [
     'cash_payment' => 'الدفع نقداً',
     'how_many_people' => 'كم عدد الأشخاص؟',
     'select_number_of_people' => 'اختر عدد الأشخاص لموعدك',
+    'view_qr_code' => 'عرض رمز QR',
+    'booking_qr_code' => 'رمز QR للحجز',
+    'booking_reference' => 'مرجع الحجز',
+    'scan_qr_code_for_check_in' => 'امسح رمز QR هذا في المكان للتسجيل السريع',
+    'close' => 'إغلاق',
     
     // ترجمات تسجيل الدخول عبر الهاتف
     'prefer_phone_login' => 'تفضل تسجيل الدخول عبر الهاتف؟',

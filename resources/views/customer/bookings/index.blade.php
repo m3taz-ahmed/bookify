@@ -4,14 +4,16 @@
 <div class="container mx-auto px-4 py-8">
     <div class="max-w-6xl mx-auto">
         <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
-            <div class="px-6 py-5 border-b border-gray-200 bg-gradient-to-r from-background-50 to-accent-50">
-                <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+            <div class="px-6 py-6 border-b border-gray-200 bg-gradient-to-r from-background-50 to-accent-50 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-primary-500 rounded-full -mt-16 -mr-16 opacity-10"></div>
+                <div class="absolute bottom-0 left-0 w-24 h-24 bg-secondary-500 rounded-full -mb-12 -ml-12 opacity-10"></div>
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between relative z-10">
                     <div>
                         <h1 class="text-2xl font-bold text-gray-900">{{ __('website.my_bookings') }}</h1>
                         <p class="mt-1 text-sm text-gray-600">{{ __('website.manage_appointments') }}</p>
                     </div>
                     <div class="mt-4 md:mt-0">
-                        <a href="{{ route('customer.bookings.create') }}" class="inline-flex items-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-primary-600 to-secondary-700 hover:from-primary-700 hover:to-secondary-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-300">
+                        <a href="{{ route('customer.bookings.create') }}" class="inline-flex items-center px-5 py-2.5 border border-transparent rounded-xl shadow-md text-base font-medium text-white bg-gradient-to-r from-primary-600 to-secondary-700 hover:from-primary-700 hover:to-secondary-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-lg"
                             <svg class="h-4 w-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                             </svg>
@@ -43,7 +45,9 @@
                 <!-- Bookings List -->
                 <div class="space-y-4">
                     @forelse($bookings as $booking)
-                        <div class="border border-gray-200 rounded-xl p-5 hover:border-primary-300 transition-all duration-200 bg-white">
+                        <div class="border border-gray-200 rounded-2xl p-6 hover:border-primary-300 transition-all duration-300 bg-white hover:bg-gradient-to-br from-white to-primary-50 shadow-sm hover:shadow-lg transform hover:-translate-y-1 relative overflow-hidden group">
+                            <div class="absolute top-0 right-0 w-24 h-24 bg-primary-500 rounded-full -mt-12 -mr-12 transition-all duration-500 group-hover:scale-150 opacity-5"></div>
+                            <div class="absolute bottom-0 left-0 w-16 h-16 bg-secondary-500 rounded-full -mb-8 -ml-8 transition-all duration-500 group-hover:scale-150 opacity-5"></div>
                             <div class="flex flex-col md:flex-row md:items-center md:justify-between">
                                 <div class="flex items-start">
                                     <div class="h-12 w-12 rounded-full bg-primary-100 flex items-center justify-center mr-4 flex-shrink-0">
@@ -114,7 +118,15 @@
                                 <div class="text-sm text-gray-500">
                                     {{ __('website.reference') }}: <span class="font-mono">{{ $booking->reference_code }}</span>
                                 </div>
-                                <div class="mt-2 sm:mt-0">
+                                <div class="mt-2 sm:mt-0 flex space-x-2">
+                                    @if($booking->qr_code)
+                                        <button onclick="showQRCode('{{ $booking->reference_code }}', '{{ $booking->qr_code }}')" class="inline-flex items-center text-sm font-medium text-primary-600 hover:text-primary-900 bg-primary-50 hover:bg-primary-100 px-3 py-1.5 rounded-full transition-all duration-200 transform hover:-translate-y-0.5 shadow-sm hover:shadow-md">
+                                            <svg class="mr-1 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H9a1 1 0 00-1 1v2a1 1 0 001 1h2a1 1 0 011 1v2a1 1 0 01-1 1H9a1 1 0 01-1-1V8a1 1 0 011-1h2a1 1 0 001-1V5a1 1 0 00-1-1H7a2 2 0 00-2 2v2a2 2 0 002 2h2zm0 0v4m0 0h.01M12 16h.01" />
+                                            </svg>
+                                            {{ __('website.view_qr_code') }}
+                                        </button>
+                                    @endif
                                     @if($booking->status === 'confirmed' || $booking->status === 'pending')
                                         <button class="text-sm font-medium text-red-600 hover:text-red-900">
                                             {{ __('website.cancel_booking') }}
@@ -213,4 +225,76 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+<script>
+function showQRCode(reference, qrCodeUrl) {
+    // Create modal container
+    const modal = document.createElement('div');
+    modal.className = 'fixed inset-0 z-50 overflow-y-auto';
+    modal.innerHTML = `
+        <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+                <div class="absolute inset-0 bg-gradient-to-br from-gray-800 to-gray-900 opacity-80" onclick="this.closest('.fixed').remove()"></div>
+            </div>
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            <div class="inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full relative">
+                <!-- Decorative elements -->
+                <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-primary-100 to-secondary-100 rounded-full opacity-20 -mt-16 -mr-16"></div>
+                <div class="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-accent-100 to-primary-100 rounded-full opacity-20 -mb-12 -ml-12"></div>
+                
+                <div class="bg-white px-6 pt-6 pb-6 sm:p-8 sm:pb-6 relative z-10">
+                    <div class="sm:flex sm:items-start">
+                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+                            <div class="flex items-center justify-center mb-6">
+                                <div class="w-12 h-12 rounded-full bg-gradient-to-r from-primary-500 to-secondary-500 flex items-center justify-center mr-3">
+                                    <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H9a1 1 0 00-1 1v2a1 1 0 001 1h2a1 1 0 011 1v2a1 1 0 01-1 1H9a1 1 0 01-1-1V8a1 1 0 011-1h2a1 1 0 001-1V5a1 1 0 00-1-1H7a2 2 0 00-2 2v2a2 2 0 002 2h2zm0 0v4m0 0h.01M12 16h.01" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-2xl font-bold text-gray-900">{{ __('website.booking_qr_code') }}</h3>
+                            </div>
+                            
+                            <div class="mt-2 flex flex-col items-center">
+                                <div class="bg-gradient-to-br from-gray-50 to-accent-50 rounded-2xl p-6 mb-6 w-full border border-gray-100 shadow-sm">
+                                    <p class="text-sm text-gray-600 mb-2">{{ __('website.booking_reference') }}</p>
+                                    <p class="text-lg font-bold text-gray-900 mb-4 font-mono">${reference}</p>
+                                    <div class="flex justify-center">
+                                        <div class="p-3 bg-white rounded-xl shadow-lg border-4 border-white inline-block transform hover:scale-105 transition-all duration-300">
+                                            <img src="${qrCodeUrl}" alt="QR Code" class="w-48 h-48 mx-auto">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-gradient-to-r from-primary-50 to-secondary-50 rounded-xl p-4 w-full border border-primary-100 mb-6">
+                                    <div class="flex">
+                                        <div class="flex-shrink-0 mr-3">
+                                            <svg class="h-5 w-5 text-primary-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-sm font-semibold text-primary-800 mb-1">{{ __('website.helpful_tip') }}</h4>
+                                            <p class="text-sm text-primary-700">{{ __('website.scan_qr_code_for_check_in') }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-6 py-4 sm:px-8 sm:flex sm:flex-row-reverse relative z-10">
+                    <button type="button" class="mt-3 w-full inline-flex justify-center rounded-xl border border-gray-300 shadow-sm px-6 py-3 bg-white text-base font-medium text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm transition-all duration-200 transform hover:-translate-y-0.5">
+                        {{ __('website.close') }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Add modal to body
+    document.body.appendChild(modal);
+}
+</script>
 @endsection

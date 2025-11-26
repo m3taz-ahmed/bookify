@@ -82,5 +82,10 @@ return [
     'cash_payment' => 'Cash Payment',
     'how_many_people' => 'How many people?',
     'select_number_of_people' => 'Select the number of people for your appointment',
+    'view_qr_code' => 'View QR Code',
+    'booking_qr_code' => 'Booking QR Code',
+    'booking_reference' => 'Booking Reference',
+    'scan_qr_code_for_check_in' => 'Scan this QR code on-site for quick check-in',
+    'close' => 'Close',
     'all_rights_reserved' => 'All rights reserved.',
 ];

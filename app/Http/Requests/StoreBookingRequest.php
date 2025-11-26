@@ -28,6 +28,7 @@ class StoreBookingRequest extends FormRequest
             'booking_date' => 'required|date|after:today',
             'start_time' => 'required|date_format:H:i',
             'end_time' => 'required|date_format:H:i|after:start_time',
+            'payment_method' => 'required|in:cash,online',
         ];
     }
 
@@ -47,6 +48,8 @@ class StoreBookingRequest extends FormRequest
             'start_time.required' => 'Please select a start time',
             'end_time.required' => 'Please select an end time',
             'end_time.after' => 'End time must be after start time',
+            'payment_method.required' => 'Please select a payment method',
+            'payment_method.in' => 'Invalid payment method selected',
         ];
     }
 }

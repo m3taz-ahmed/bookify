@@ -67,10 +67,8 @@ class CreateBooking extends Component
     {
         if ($value) {
             $this->loadAvailableSlots();
-            // Only advance to step 4 if there are available slots
-            if (!empty($this->availableSlots)) {
-                $this->step = 4;
-            }
+            // Always advance to step 4 when a date is selected
+            $this->step = 4;
         }
     }
 
@@ -89,6 +87,12 @@ class CreateBooking extends Component
 
     public function selectPaymentMethod($method)
     {
+        // Validate that the payment method is either 'cash' or 'online'
+        if (!in_array($method, ['cash', 'online'])) {
+            $this->addError('paymentMethod', 'Invalid payment method selected.');
+            return;
+        }
+        
         $this->paymentMethod = $method;
         $this->step = 6;
     }
@@ -129,7 +133,7 @@ class CreateBooking extends Component
                 'booking_date' => $this->selectedDate,
                 'start_time' => $this->selectedSlot['start_time'],
                 'end_time' => $slot['end_time'],
-                'status' => 'pending',
+                'status' => ($this->paymentMethod === 'cash') ? 'confirmed' : 'pending',
                 'number_of_people' => $this->numberOfPeople,
                 'payment_method' => $this->paymentMethod,
                 'is_paid' => ($this->paymentMethod === 'cash') ? false : null, // For online payments, we'll set this after payment confirmation
@@ -169,7 +173,7 @@ class CreateBooking extends Component
             $this->step = 7; // Show success and QR code
         } catch (\Exception $e) {
             // Handle error
-            $this->addError('booking', 'Failed to create booking. Please try again.');
+            $this->addError('booking', 'Failed to create booking. Please try again. Error: ' . $e->getMessage());
         }
     }
 
