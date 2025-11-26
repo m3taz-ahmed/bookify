@@ -31,11 +31,6 @@ class Service extends Model
         return $this->hasMany(Booking::class);
     }
     
-    public function employeeDurations()
-    {
-        return $this->hasMany(EmployeeServiceDuration::class);
-    }
-    
     public function images()
     {
         return $this->morphMany(ServiceImage::class, 'imageable', 'model_type', 'model_id');

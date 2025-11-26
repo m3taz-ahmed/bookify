@@ -60,21 +60,6 @@ class User extends Authenticatable
             ->setDescriptionForEvent(fn(string $eventName) => "User {$eventName}");
     }
 
-    public function shifts()
-    {
-        return $this->hasMany(Shift::class);
-    }
-
-    public function bookings()
-    {
-        return $this->hasMany(Booking::class, 'employee_id');
-    }
-
-    public function serviceDurations()
-    {
-        return $this->hasMany(EmployeeServiceDuration::class, 'user_id');
-    }
-
     public function isAdmin()
     {
         return $this->hasRole('admin');

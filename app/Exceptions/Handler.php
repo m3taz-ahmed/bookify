@@ -48,9 +48,17 @@ class Handler extends ExceptionHandler
                 : redirect()->guest(route('customer.login'));
         }
 
-        // For other areas, use the default behavior
-        return $request->expectsJson()
-            ? response()->json(['message' => $exception->getMessage()], 401)
-            : redirect()->guest(route('login'));
+        // For other areas (like admin), redirect to Filament login
+        if ($request->expectsJson()) {
+            return response()->json(['message' => $exception->getMessage()], 401);
+        }
+        
+        // Check if requesting admin area
+        if ($request->is('admin/*')) {
+            return redirect()->guest(route('filament.admin.auth.login'));
+        }
+        
+        // Fallback to customer login
+        return redirect()->guest(route('customer.login'));
     }
 }

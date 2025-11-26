@@ -248,9 +248,9 @@ return [
     */
 
     'discovery' => [
-        'discover_all_resources' => false, // Changed to false to avoid duplicates
-        'discover_all_widgets' => false,
-        'discover_all_pages' => false,
+        'discover_all_resources' => true, // Changed to true to discover all resources
+        'discover_all_widgets' => true,
+        'discover_all_pages' => true,
     ],
 
     /*

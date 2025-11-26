@@ -22,7 +22,7 @@ class CheckInController extends Controller
             }
             
             // Check if user is authorized to check in this booking
-            if (!Gate::allows('checkIn', $booking) && Auth::id() !== $booking->employee_id) {
+            if (!Gate::allows('checkIn', $booking)) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Unauthorized to check in this booking'
@@ -36,10 +36,9 @@ class CheckInController extends Controller
                 ], 400);
             }
             
-            // Update booking status and add check-in timestamp
+            // Update booking status
             $booking->update([
-                'status' => 'completed',
-                'checked_in_at' => now()
+                'status' => 'completed'
             ]);
             
             return response()->json([
@@ -64,7 +63,7 @@ class CheckInController extends Controller
         }
         
         // Check if user is authorized to check in this booking
-        if (!Gate::allows('checkIn', $booking) && Auth::id() !== $booking->employee_id) {
+        if (!Gate::allows('checkIn', $booking)) {
             abort(403);
         }
         

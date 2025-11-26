@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\Service;
-use App\Models\Shift;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -16,7 +16,7 @@ class BookingController extends Controller
      */
     public function index()
     {
-        $bookings = Booking::with(['service', 'employee'])->get();
+        $bookings = Booking::with(['service'])->get();
         
         return response()->json([
             'success' => true,
@@ -33,7 +33,6 @@ class BookingController extends Controller
             'customer_name' => 'required|string|max:255',
             'customer_phone' => 'required|string|max:20',
             'service_id' => 'required|exists:services,id',
-            'employee_id' => 'required|exists:users,id',
             'booking_date' => 'required|date|after:today',
             'start_time' => 'required|date_format:H:i',
             'end_time' => 'required|date_format:H:i|after:start_time',
@@ -69,7 +68,7 @@ class BookingController extends Controller
      */
     public function show(Booking $booking)
     {
-        $booking->load(['service', 'employee']);
+        $booking->load(['service']);
         
         return response()->json([
             'success' => true,
@@ -84,7 +83,6 @@ class BookingController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'status' => 'sometimes|in:pending,confirmed,completed,cancelled',
-            'checked_in_at' => 'sometimes|date',
         ]);
 
         if ($validator->fails()) {
@@ -153,50 +151,44 @@ class BookingController extends Controller
 
         $serviceId = $request->service_id;
         $date = $request->date;
-        $dayOfWeek = date('w', strtotime($date));
         
-        // Get all employees who work on this day
-        $shifts = Shift::where('day_of_week', $dayOfWeek)
-            ->with('user')
+        $service = Service::find($serviceId);
+        $duration = $service->duration_minutes;
+        
+        // Define default working hours (9 AM to 5 PM)
+        // In a real application, this might be configurable
+        $startHour = 9; // 9 AM
+        $endHour = 17;  // 5 PM
+        
+        $start = strtotime($startHour . ':00');
+        $end = strtotime($endHour . ':00');
+        
+        // Get existing bookings for this date
+        $existingBookings = Booking::where('booking_date', $date)
             ->get();
             
         $slots = [];
         
-        foreach ($shifts as $shift) {
-            $service = Service::find($serviceId);
-            $duration = $service->duration_minutes;
+        // Generate slots
+        for ($time = $start; $time < $end; $time += ($duration * 60)) {
+            $slotTime = date('H:i', $time);
+            $slotEndTime = date('H:i', $time + ($duration * 60));
             
-            $start = strtotime($shift->start_time);
-            $end = strtotime($shift->end_time);
+            // Check if slot is available
+            $isAvailable = true;
+            foreach ($existingBookings as $booking) {
+                if (($slotTime >= $booking->start_time && $slotTime < $booking->end_time) ||
+                    ($slotEndTime > $booking->start_time && $slotEndTime <= $booking->end_time)) {
+                    $isAvailable = false;
+                    break;
+                }
+            }
             
-            // Get existing bookings for this employee on this date
-            $existingBookings = Booking::where('employee_id', $shift->user_id)
-                ->where('booking_date', $date)
-                ->get();
-                
-            // Generate slots
-            for ($time = $start; $time < $end; $time += ($duration * 60)) {
-                $slotTime = date('H:i', $time);
-                $slotEndTime = date('H:i', $time + ($duration * 60));
-                
-                // Check if slot is available
-                $isAvailable = true;
-                foreach ($existingBookings as $booking) {
-                    if (($slotTime >= $booking->start_time && $slotTime < $booking->end_time) ||
-                        ($slotEndTime > $booking->start_time && $slotEndTime <= $booking->end_time)) {
-                        $isAvailable = false;
-                        break;
-                    }
-                }
-                
-                if ($isAvailable) {
-                    $slots[] = [
-                        'employee_id' => $shift->user_id,
-                        'employee_name' => $shift->user->name,
-                        'start_time' => $slotTime,
-                        'end_time' => $slotEndTime,
-                    ];
-                }
+            if ($isAvailable) {
+                $slots[] = [
+                    'start_time' => $slotTime,
+                    'end_time' => $slotEndTime,
+                ];
             }
         }
         

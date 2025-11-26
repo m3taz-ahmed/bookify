@@ -22,8 +22,6 @@
             <p><strong>Dashboard (filament::layout.dashboard):</strong> {{ __('filament::layout.dashboard') }}</p>
             <p><strong>Bookings (custom):</strong> {{ __('filament.Bookings') }}</p>
             <p><strong>Customers (custom):</strong> {{ __('filament.Customers') }}</p>
-            <p><strong>Employee Shifts (custom):</strong> {{ __('filament.Employee Shifts') }}</p>
-            <p><strong>Multiple Shifts (custom):</strong> {{ __('filament.Multiple Shifts') }}</p>
         </div>
         
         <div class="bg-white rounded-lg shadow-md p-6">

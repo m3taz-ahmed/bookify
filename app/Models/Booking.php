@@ -21,7 +21,9 @@ class Booking extends Model
         'booking_date' => 'date',
         'start_time' => 'datetime:H:i',
         'end_time' => 'datetime:H:i',
-        'checked_in_at' => 'datetime',
+        'number_of_people' => 'integer',
+        'is_paid' => 'boolean',
+        'rating' => 'integer',
     ];
 
     public function getActivitylogOptions(): LogOptions
@@ -37,11 +39,6 @@ class Booking extends Model
         return $this->belongsTo(Service::class);
     }
 
-    public function employee()
-    {
-        return $this->belongsTo(User::class, 'employee_id');
-    }
-
     public function customer()
     {
         return $this->belongsTo(Customer::class, 'customer_id');
@@ -49,9 +46,14 @@ class Booking extends Model
 
     public static function createWithLock(array $data)
     {
-        $lockKey = 'booking_' . $data['booking_date'] . '_' . $data['start_time'] . '_' . $data['employee_id'];
+        // Remove employee_id from lock key since we're removing it
+        $lockKey = 'booking_' . $data['booking_date'] . '_' . $data['start_time'];
         
         return Cache::lock($lockKey, 10)->get(function () use ($data) {
+            // Auto-generate reference code if not provided
+            if (!isset($data['reference_code'])) {
+                $data['reference_code'] = self::generateReferenceCode();
+            }
             return static::create($data);
         });
     }
@@ -79,5 +81,15 @@ class Booking extends Model
             'cancelled' => 'bg-red-100 text-red-800',
             default => 'bg-gray-100 text-gray-800',
         };
+    }
+    
+    // Generate a unique 6-character alphanumeric reference code
+    public static function generateReferenceCode(): string
+    {
+        do {
+            $code = strtoupper(substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'), 0, 6));
+        } while (self::where('reference_code', $code)->exists());
+        
+        return $code;
     }
 }

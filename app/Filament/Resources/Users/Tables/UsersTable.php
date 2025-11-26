@@ -21,13 +21,20 @@ class UsersTable
                 TextColumn::make('email')
                     ->label(__('filament.Email'))
                     ->searchable(),
-                TextColumn::make('email_verified_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->label(__('filament.Email Verified At')),
+                TextColumn::make('role_name')
+                    ->label(__('filament.Role'))
+                    ->formatStateUsing(fn (string $state): string => __(
+                        'filament.' . str($state)->ucfirst()->toString()
+                    ))
+                    ->sortable(),
                 IconColumn::make('is_active')
                     ->boolean()
                     ->label(__('filament.Is Active')),
+                TextColumn::make('email_verified_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->label(__('filament.Email Verified At')),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

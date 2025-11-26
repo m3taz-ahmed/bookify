@@ -3,9 +3,11 @@
 namespace App\Filament\Resources\Users\Schemas;
 
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
+use Spatie\Permission\Models\Role;
 
 class UserForm
 {
@@ -29,6 +31,11 @@ class UserForm
                 Toggle::make('is_active')
                     ->required()
                     ->label(__('filament.Is Active')),
+                Select::make('role')
+                    ->label(__('filament.Role'))
+                    ->options(Role::all()->pluck('name', 'name')->toArray())
+                    ->required()
+                    ->default('employee'),
             ]);
     }
 }

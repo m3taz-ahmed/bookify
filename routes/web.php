@@ -74,9 +74,5 @@ Route::get('/test-translations', function () {
     return response()->json([
         'app_locale' => app()->getLocale(),
         'session_locale' => session('locale'),
-        'employee_shifts_ar' => __('filament.Employee Shifts', [], 'ar'),
-        'employee_shifts_en' => __('filament.Employee Shifts', [], 'en'),
-        'multiple_shifts_ar' => __('filament.Multiple Shifts', [], 'ar'),
-        'multiple_shifts_en' => __('filament.Multiple Shifts', [], 'en'),
     ]);
 })->name('test.translations')->middleware('web');

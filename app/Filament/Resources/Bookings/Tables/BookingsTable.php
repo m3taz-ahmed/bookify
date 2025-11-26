@@ -22,28 +22,31 @@ class BookingsTable
                 TextColumn::make('reference_code')
                     ->searchable()
                     ->label(__('filament.Reference Code')),
-                TextColumn::make('customer_name')
-                    ->searchable()
-                    ->label(__('filament.Customer Name')),
-                TextColumn::make('customer_phone')
+                TextColumn::make('customer.phone')
                     ->searchable()
                     ->label(__('filament.Customer Phone')),
-                TextColumn::make('service.name_en')
+                TextColumn::make('service.name')
                     ->label(__('filament.Service')),
-                TextColumn::make('employee.name')
-                    ->label(__('filament.Employee')),
                 TextColumn::make('booking_date')
                     ->date()
                     ->sortable()
                     ->label(__('filament.Booking Date')),
                 TextColumn::make('start_time')
-                    ->time()
+                    ->time('g:i A')
                     ->sortable()
                     ->label(__('filament.Start Time')),
                 TextColumn::make('end_time')
-                    ->time()
+                    ->time('g:i A')
                     ->sortable()
                     ->label(__('filament.End Time')),
+                TextColumn::make('number_of_people')
+                    ->label(__('filament.Number of People')),
+                BadgeColumn::make('payment_method')
+                    ->colors([
+                        'warning' => 'cash',
+                        'primary' => 'online',
+                    ])
+                    ->label(__('filament.Payment Method')),
                 BadgeColumn::make('status')
                     ->colors([
                         'warning' => 'pending',
@@ -52,9 +55,8 @@ class BookingsTable
                         'danger' => 'cancelled',
                     ])
                     ->label(__('filament.Status')),
-                TextColumn::make('payment_status')
-                    ->searchable()
-                    ->label(__('filament.Payment Status')),
+                TextColumn::make('rating')
+                    ->label(__('filament.Rating')),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

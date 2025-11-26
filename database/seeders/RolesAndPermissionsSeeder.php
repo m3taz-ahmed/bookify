@@ -17,26 +17,58 @@ class RolesAndPermissionsSeeder extends Seeder
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
         // Create permissions if they don't exist
-        Permission::firstOrCreate(['name' => 'view services']);
-        Permission::firstOrCreate(['name' => 'create services']);
-        Permission::firstOrCreate(['name' => 'edit services']);
-        Permission::firstOrCreate(['name' => 'delete services']);
+        // Service permissions
+        Permission::firstOrCreate(['name' => 'ViewAny:Service']);
+        Permission::firstOrCreate(['name' => 'View:Service']);
+        Permission::firstOrCreate(['name' => 'Create:Service']);
+        Permission::firstOrCreate(['name' => 'Update:Service']);
+        Permission::firstOrCreate(['name' => 'Delete:Service']);
+        Permission::firstOrCreate(['name' => 'Restore:Service']);
+        Permission::firstOrCreate(['name' => 'ForceDelete:Service']);
+        Permission::firstOrCreate(['name' => 'ForceDeleteAny:Service']);
+        Permission::firstOrCreate(['name' => 'RestoreAny:Service']);
+        Permission::firstOrCreate(['name' => 'Replicate:Service']);
+        Permission::firstOrCreate(['name' => 'Reorder:Service']);
         
-        Permission::firstOrCreate(['name' => 'view bookings']);
-        Permission::firstOrCreate(['name' => 'create bookings']);
-        Permission::firstOrCreate(['name' => 'edit bookings']);
-        Permission::firstOrCreate(['name' => 'delete bookings']);
+        // Booking permissions
+        Permission::firstOrCreate(['name' => 'ViewAny:Booking']);
+        Permission::firstOrCreate(['name' => 'View:Booking']);
+        Permission::firstOrCreate(['name' => 'Create:Booking']);
+        Permission::firstOrCreate(['name' => 'Update:Booking']);
+        Permission::firstOrCreate(['name' => 'Delete:Booking']);
+        Permission::firstOrCreate(['name' => 'Restore:Booking']);
+        Permission::firstOrCreate(['name' => 'ForceDelete:Booking']);
+        Permission::firstOrCreate(['name' => 'ForceDeleteAny:Booking']);
+        Permission::firstOrCreate(['name' => 'RestoreAny:Booking']);
+        Permission::firstOrCreate(['name' => 'Replicate:Booking']);
+        Permission::firstOrCreate(['name' => 'Reorder:Booking']);
         Permission::firstOrCreate(['name' => 'check-in bookings']);
         
-        Permission::firstOrCreate(['name' => 'view users']);
-        Permission::firstOrCreate(['name' => 'create users']);
-        Permission::firstOrCreate(['name' => 'edit users']);
-        Permission::firstOrCreate(['name' => 'delete users']);
+        // Customer permissions
+        Permission::firstOrCreate(['name' => 'ViewAny:Customer']);
+        Permission::firstOrCreate(['name' => 'View:Customer']);
+        Permission::firstOrCreate(['name' => 'Create:Customer']);
+        Permission::firstOrCreate(['name' => 'Update:Customer']);
+        Permission::firstOrCreate(['name' => 'Delete:Customer']);
+        Permission::firstOrCreate(['name' => 'Restore:Customer']);
+        Permission::firstOrCreate(['name' => 'ForceDelete:Customer']);
+        Permission::firstOrCreate(['name' => 'ForceDeleteAny:Customer']);
+        Permission::firstOrCreate(['name' => 'RestoreAny:Customer']);
+        Permission::firstOrCreate(['name' => 'Replicate:Customer']);
+        Permission::firstOrCreate(['name' => 'Reorder:Customer']);
         
-        Permission::firstOrCreate(['name' => 'view shifts']);
-        Permission::firstOrCreate(['name' => 'create shifts']);
-        Permission::firstOrCreate(['name' => 'edit shifts']);
-        Permission::firstOrCreate(['name' => 'delete shifts']);
+        // User permissions
+        Permission::firstOrCreate(['name' => 'ViewAny:User']);
+        Permission::firstOrCreate(['name' => 'View:User']);
+        Permission::firstOrCreate(['name' => 'Create:User']);
+        Permission::firstOrCreate(['name' => 'Update:User']);
+        Permission::firstOrCreate(['name' => 'Delete:User']);
+        Permission::firstOrCreate(['name' => 'Restore:User']);
+        Permission::firstOrCreate(['name' => 'ForceDelete:User']);
+        Permission::firstOrCreate(['name' => 'ForceDeleteAny:User']);
+        Permission::firstOrCreate(['name' => 'RestoreAny:User']);
+        Permission::firstOrCreate(['name' => 'Replicate:User']);
+        Permission::firstOrCreate(['name' => 'Reorder:User']);
 
         // Create roles and assign permissions if they don't exist
         $adminRole = Role::firstOrCreate(['name' => 'admin']);
@@ -44,18 +76,17 @@ class RolesAndPermissionsSeeder extends Seeder
         
         $employeeRole = Role::firstOrCreate(['name' => 'employee']);
         $employeeRole->givePermissionTo([
-            'view services',
-            'view bookings',
-            'create bookings',
-            'edit bookings',
+            'ViewAny:Service',
+            'ViewAny:Booking',
+            'Create:Booking',
+            'Update:Booking',
             'check-in bookings',
-            'view shifts',
         ]);
         
         $customerRole = Role::firstOrCreate(['name' => 'customer']);
         $customerRole->givePermissionTo([
-            'view services',
-            'create bookings',
+            'ViewAny:Service',
+            'Create:Booking',
         ]);
     }
 }

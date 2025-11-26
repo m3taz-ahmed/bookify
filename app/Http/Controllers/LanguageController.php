@@ -20,12 +20,12 @@ class LanguageController extends Controller
     public function switch(Request $request, $locale)
     {
         // Log the incoming request
-        Log::info('Language switch request', [
-            'requested_locale' => $locale,
-            'current_locale' => App::getLocale(),
-            'session_locale_before' => $request->session()->get('locale'),
-            'session_active' => $request->hasSession() && $request->session()->isStarted()
-        ]);
+        // Log::info('Language switch request', [
+        //     'requested_locale' => $locale,
+        //     'current_locale' => App::getLocale(),
+        //     'session_locale_before' => $request->session()->get('locale'),
+        //     'session_active' => $request->hasSession() && $request->session()->isStarted()
+        // ]);
         
         // Validate the locale
         if (!in_array($locale, ['ar', 'en'])) {
@@ -38,7 +38,7 @@ class LanguageController extends Controller
         // Ensure session is started
         if (!$request->hasSession() || !$request->session()->isStarted()) {
             $request->session()->start();
-            Log::info('Session started for language switch');
+            // Log::info('Session started for language switch');
         }
         
         // Store the locale in session
@@ -46,10 +46,10 @@ class LanguageController extends Controller
         $request->session()->save(); // Explicitly save the session
         
         // Log the change
-        Log::info('Language switched and stored in session', [
-            'new_locale' => $locale,
-            'session_locale_after' => $request->session()->get('locale')
-        ]);
+        // Log::info('Language switched and stored in session', [
+        //     'new_locale' => $locale,
+        //     'session_locale_after' => $request->session()->get('locale')
+        // ]);
 
         // Check if this is a Filament request (contains /admin in the referrer)
         $referrer = $request->headers->get('referer');
