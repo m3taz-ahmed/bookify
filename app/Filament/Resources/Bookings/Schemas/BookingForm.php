@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Bookings\Schemas;
 
+use App\Models\Customer;
 use App\Models\Service;
 use App\Models\User;
 use Filament\Forms\Components\DatePicker;
@@ -28,7 +29,22 @@ class BookingForm
                     ->relationship('customer', 'phone')
                     ->required()
                     ->searchable()
-                    ->label(__('filament.Customer')),
+                    ->label(__('filament.Customer'))
+                    ->createOptionForm([
+                        TextInput::make('name')
+                            ->required()
+                            ->label(__('filament.Name')),
+                        TextInput::make('phone')
+                            ->required()
+                            ->unique()
+                            ->tel()
+                            ->label(__('filament.Phone')),
+                    ])
+                    ->createOptionUsing(function (array $data) {
+                        return \App\Models\Customer::create($data)->id;
+                    })
+                    ->getOptionLabelFromRecordUsing(fn (\App\Models\Customer $record) => "{$record->name} ({$record->phone})"),
+
                 Select::make('service_id')
                     ->relationship('service', 'name_en')
                     ->required()
@@ -36,6 +52,8 @@ class BookingForm
                 DatePicker::make('booking_date')
                     ->required()
                     ->label(__('filament.Booking Date')),
+                TextInput::make('payment_status')
+                    ->label(__('filament.Payment Status')),
                 TimePicker::make('start_time')
                     ->required()
                     ->seconds(false)
@@ -53,9 +71,10 @@ class BookingForm
                     ])
                     ->default('pending')
                     ->required()
-                    ->label(__('filament.Status')),
-                TextInput::make('payment_status')
-                    ->label(__('filament.Payment Status')),
+                    ->label(__('filament.Status'))
+                    ->columns(4)
+                    ->columnSpanFull(),
+                
             ]);
     }
 }

@@ -85,7 +85,7 @@ class BookingsTable
                 Action::make('cancel')
                     ->label('Cancel')
                     ->color('danger')
-                    ->icon('heroicons-outline-x-circle')
+                    ->icon('heroicon-o-x-circle')
                     ->requiresConfirmation()
                     ->action(function (Booking $record) {
                         $record->cancel();
