@@ -46,18 +46,18 @@ class CustomerAuthController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:customers',
-            'phone' => 'nullable|string|max:20',
-            'password' => 'required|string|min:8|confirmed',
+            'phone' => 'required|string|max:20|unique:customers',
         ]);
 
         $customer = Customer::create([
             'name' => $request->name,
-            'email' => $request->email,
             'phone' => $request->phone,
-            'password' => Hash::make($request->password),
+            // Email and password are optional now
+            'email' => null,
+            'password' => null,
         ]);
 
+        // For backward compatibility, we'll still log them in
         Auth::guard('customer')->login($customer);
 
         $locale = $request->route('locale') ?? app()->getLocale();

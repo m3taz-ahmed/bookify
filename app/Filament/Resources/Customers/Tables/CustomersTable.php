@@ -17,9 +17,6 @@ class CustomersTable
                 TextColumn::make('name')
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('email')
-                    ->searchable()
-                    ->sortable(),
                 TextColumn::make('phone')
                     ->searchable()
                     ->sortable(),

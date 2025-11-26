@@ -2,9 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CheckInController;
-use App\Http\Controllers\Auth\CustomerAuthController;
-use App\Http\Controllers\Auth\CustomerForgotPasswordController;
-use App\Http\Controllers\Auth\CustomerResetPasswordController;
+use App\Http\Controllers\Auth\CustomerPhoneAuthController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\Customer\DashboardController;
 use App\Http\Controllers\LanguageController;
@@ -21,19 +19,16 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => 'ar|en'], 'middlew
         return view('booking-welcome');
     })->name('booking-welcome');
 
-    // Customer Authentication Routes
-    Route::get('/customer/login', [CustomerAuthController::class, 'showLoginForm'])->name('customer.login');
-    Route::post('/customer/login', [CustomerAuthController::class, 'login'])->name('customer.login.attempt');
-    Route::get('/customer/register', [CustomerAuthController::class, 'showRegistrationForm'])->name('customer.register');
-    Route::post('/customer/register', [CustomerAuthController::class, 'register'])->name('customer.register.attempt');
-    Route::post('/customer/logout', [CustomerAuthController::class, 'logout'])->name('customer.logout');
+    // Customer Phone Authentication Routes (ONLY method now)
+    Route::get('/customer/login', [CustomerPhoneAuthController::class, 'showPhoneForm'])->name('customer.login');
+    Route::post('/customer/login', [CustomerPhoneAuthController::class, 'sendOtp'])->name('customer.login.attempt');
+    Route::post('/customer/verify-otp', [CustomerPhoneAuthController::class, 'verifyOtp'])->name('customer.verify-otp');
+    Route::post('/customer/logout', [CustomerPhoneAuthController::class, 'logout'])->name('customer.logout');
     
-    // Customer Password Reset Routes
-    Route::get('/customer/password/reset', [CustomerForgotPasswordController::class, 'showLinkRequestForm'])->name('customer.password.request');
-    Route::post('/customer/password/email', [CustomerForgotPasswordController::class, 'sendResetLinkEmail'])->name('customer.password.email');
-    Route::get('/customer/password/reset/{token}', [CustomerResetPasswordController::class, 'showResetForm'])->name('customer.password.reset');
-    Route::post('/customer/password/reset', [CustomerResetPasswordController::class, 'reset'])->name('customer.password.update');
-
+    // Customer Registration
+    Route::get('/customer/register', [CustomerPhoneAuthController::class, 'showRegistrationForm'])->name('customer.register');
+    Route::post('/customer/register', [CustomerPhoneAuthController::class, 'register'])->name('customer.register.attempt');
+    
     // Customer Dashboard and Bookings (protected by customer auth)
     Route::middleware('auth:customer')->group(function () {
         Route::get('/customer/dashboard', [DashboardController::class, 'index'])->name('customer.dashboard');
@@ -71,34 +66,3 @@ Route::get('/lang/{locale}', [LanguageController::class, 'switch'])->name('lang.
 Route::get('/language-test', function () {
     return view('language-test');
 })->name('language.test')->middleware('web');
-
-// Debug language route
-Route::get('/debug-language', function (\Illuminate\Http\Request $request) {
-    // Make sure session is started
-    if ($request->hasSession() && !$request->session()->isStarted()) {
-        $request->session()->start();
-    }
-    
-    // Log session data for debugging
-    \Illuminate\Support\Facades\Log::info('Debug language route called', [
-        'session_id' => $request->hasSession() ? $request->session()->getId() : null,
-        'session_started' => $request->hasSession() ? $request->session()->isStarted() : false,
-        'session_locale' => $request->session()->get('locale'),
-        'session_all_data' => $request->hasSession() ? $request->session()->all() : null
-    ]);
-    
-    return response()->json([
-        'locale' => app()->getLocale(),
-        'session_locale' => $request->session()->get('locale'),
-        'config_locale' => config('app.locale'),
-        'session_driver' => config('session.driver'),
-        'session_started' => $request->hasSession() ? $request->session()->isStarted() : false,
-        'session_id' => $request->hasSession() ? $request->session()->getId() : null,
-        'languages' => ['ar', 'en']
-    ]);
-})->name('debug.language')->middleware('web');
-
-// Test authentication route
-Route::get('/test-auth', function () {
-    return view('test-auth');
-})->name('test.auth')->middleware('web');
