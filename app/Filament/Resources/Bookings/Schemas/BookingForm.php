@@ -6,10 +6,12 @@ use App\Models\Customer;
 use App\Models\Service;
 use App\Models\User;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\TimePicker;
 use Filament\Forms\Components\Radio;
+use Filament\Support\HtmlString;
 use Filament\Schemas\Schema;
 
 class BookingForm
@@ -62,6 +64,20 @@ class BookingForm
                     ->required()
                     ->seconds(false)
                     ->label(__('filament.End Time')),
+                TextInput::make('number_of_people')
+                    ->numeric()
+                    ->minValue(1)
+                    ->maxValue(20)
+                    ->default(1)
+                    ->required()
+                    ->label(__('filament.Number of People')),
+                Select::make('payment_method')
+                    ->options([
+                        'cash' => 'Cash',
+                        'online' => 'Online',
+                    ])
+                    ->label(__('filament.Payment Method'))
+                    ->nullable(),
                 Radio::make('status')
                     ->options([
                         'pending' => __('filament.Pending'),
@@ -74,6 +90,10 @@ class BookingForm
                     ->label(__('filament.Status'))
                     ->columns(4)
                     ->columnSpanFull(),
+                Placeholder::make('qr_code')
+                    ->label(__('filament.QR Code'))
+                    ->content(fn ($record) => $record && $record->qr_code ? '<img src="' . $record->qr_code . '" alt="QR Code" style="max-width: 200px;">' : __('filament.No QR Code generated yet'))
+                    ->visible(fn ($record) => $record !== null),
                 
             ]);
     }

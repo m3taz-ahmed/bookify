@@ -9,6 +9,7 @@ use Filament\Actions\EditAction;
 use Filament\Actions\Action;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\BadgeColumn;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -82,6 +83,15 @@ class BookingsTable
             ])
             ->recordActions([
                 EditAction::make(),
+                Action::make('view_qr')
+                    ->label('View QR')
+                    ->icon('heroicon-o-qr-code')
+                    ->color('info')
+                    ->modalContent(fn (Booking $record) => view('bookings.qr-code', ['booking' => $record]))
+                    ->modalHeading('Booking QR Code')
+                    ->modalSubmitAction(false)
+                    ->modalCancelActionLabel('Close')
+                    ->hidden(fn (Booking $record) => empty($record->qr_code)),
                 Action::make('cancel')
                     ->label('Cancel')
                     ->color('danger')

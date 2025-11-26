@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
 
@@ -25,6 +27,70 @@ class Booking extends Model
             // Auto-generate reference code if not provided
             if (empty($booking->reference_code)) {
                 $booking->reference_code = self::generateReferenceCode();
+            }
+            
+            // Generate QR code image file with reference code
+            if (!empty($booking->reference_code)) {
+                try {
+                    // Try to generate PNG QR code
+                    $qrCode = QrCode::format('png')->size(200)->generate($booking->reference_code);
+                    
+                    // Define the file path
+                    $fileName = $booking->reference_code . '.png';
+                    $filePath = 'qr_codes/' . $fileName;
+                    
+                    // Save the QR code image to storage
+                    Storage::disk('public')->put($filePath, $qrCode);
+                    
+                    // Store the file path in the database
+                    $booking->qr_code = Storage::url($filePath);
+                } catch (\Exception $e) {
+                    // Fallback to SVG if PNG generation fails
+                    $qrCode = QrCode::format('svg')->size(200)->generate($booking->reference_code);
+                    
+                    // Define the file path
+                    $fileName = $booking->reference_code . '.svg';
+                    $filePath = 'qr_codes/' . $fileName;
+                    
+                    // Save the QR code image to storage
+                    Storage::disk('public')->put($filePath, $qrCode);
+                    
+                    // Store the file path in the database
+                    $booking->qr_code = Storage::url($filePath);
+                }
+            }
+        });
+        
+        static::updating(function ($booking) {
+            // Regenerate QR code if reference code changes
+            if ($booking->isDirty('reference_code') && !empty($booking->reference_code)) {
+                try {
+                    // Try to generate PNG QR code
+                    $qrCode = QrCode::format('png')->size(200)->generate($booking->reference_code);
+                    
+                    // Define the file path
+                    $fileName = $booking->reference_code . '.png';
+                    $filePath = 'qr_codes/' . $fileName;
+                    
+                    // Save the QR code image to storage
+                    Storage::disk('public')->put($filePath, $qrCode);
+                    
+                    // Store the file path in the database
+                    $booking->qr_code = Storage::url($filePath);
+                } catch (\Exception $e) {
+                    // Fallback to SVG if PNG generation fails
+                    $qrCode = QrCode::format('svg')->size(200)->generate($booking->reference_code);
+                    
+                    // Define the file path
+                    $fileName = $booking->reference_code . '.svg';
+                    $filePath = 'qr_codes/' . $fileName;
+                    
+                    // Save the QR code image to storage
+                    Storage::disk('public')->put($filePath, $qrCode);
+                    
+                    // Store the file path in the database
+                    $booking->qr_code = Storage::url($filePath);
+                }
             }
         });
     }
