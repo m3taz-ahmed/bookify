@@ -50,11 +50,23 @@
                             <div class="absolute bottom-0 left-0 w-16 h-16 bg-secondary-500 rounded-full -mb-8 -ml-8 transition-all duration-500 group-hover:scale-150 opacity-5"></div>
                             <div class="flex flex-col md:flex-row md:items-center md:justify-between">
                                 <div class="flex items-start">
-                                    <div class="h-12 w-12 rounded-full bg-primary-100 flex items-center justify-center mr-4 flex-shrink-0">
-                                        <svg class="h-6 w-6 text-primary-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                        </svg>
-                                    </div>
+                                    @if($booking->service->images->isNotEmpty())
+                                        <!-- Service Image Slider -->
+                                        <div class="relative w-16 h-16 rounded-xl overflow-hidden mr-4 flex-shrink-0 group cursor-pointer" onclick="openImageModal('{{ $booking->service->images->first()->image }}')">
+                                            <img src="{{ Storage::url($booking->service->images->first()->image) }}" alt="{{ $booking->service->name }}" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
+                                            @if($booking->service->images->count() > 1)
+                                                <div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                                    <span class="text-white text-xs font-bold">+{{ $booking->service->images->count() - 1 }}</span>
+                                                </div>
+                                            @endif
+                                        </div>
+                                    @else
+                                        <div class="h-16 w-16 rounded-xl bg-gradient-to-br from-primary-100 to-secondary-100 flex items-center justify-center mr-4 flex-shrink-0">
+                                            <svg class="h-8 w-8 text-primary-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                            </svg>
+                                        </div>
+                                    @endif
                                     <div>
                                         <h3 class="font-bold text-lg text-gray-900">{{ $booking->service->name }}</h3>
                                         <p class="text-gray-600 mt-1">
@@ -296,5 +308,27 @@ function showQRCode(reference, qrCodeUrl) {
     // Add modal to body
     document.body.appendChild(modal);
 }
+
+function openImageModal(imagePath) {
+    const modal = document.getElementById('imageModal');
+    const modalImage = document.getElementById('modalImage');
+    modalImage.src = imagePath;
+    modal.classList.remove('hidden');
+    document.body.classList.add('overflow-hidden');
+}
+
+function closeImageModal() {
+    const modal = document.getElementById('imageModal');
+    modal.classList.add('hidden');
+    document.body.classList.remove('overflow-hidden');
+}
+
+// Close modal when clicking outside the image
+document.getElementById('imageModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeImageModal();
+    }
+});
 </script>
+
 @endsection

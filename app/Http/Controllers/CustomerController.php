@@ -47,7 +47,7 @@ class CustomerController extends Controller
     {
         /** @var \App\Models\Customer $customer */
         $customer = auth('customer')->user();
-        $bookings = $customer->bookings()->with(['service'])->latest()->paginate(10);
+        $bookings = $customer->bookings()->with(['service.images'])->latest()->paginate(10);
         
         return view('customer.bookings.index', compact('bookings'));
     }
