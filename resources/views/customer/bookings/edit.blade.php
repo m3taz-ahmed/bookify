@@ -10,7 +10,7 @@
             </div>
             
             <div class="px-6 py-6">
-                <form method="POST" action="{{ route('customer.bookings.update', array_merge(['locale' => $currentLocale], [$booking])) }}" class="space-y-6">
+                <form method="POST" action="{{ route('customer.bookings.update', $booking) }}" class="space-y-6">
                     @csrf
                     @method('PUT')
                     
@@ -74,7 +74,7 @@
                     </div>
                     
                     <div class="flex flex-col sm:flex-row justify-end gap-3 pt-4">
-                        <a href="{{ route('customer.bookings', ['locale' => $currentLocale]) }}" class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-200">
+                        <a href="{{ route('customer.bookings') }}" class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-200">
                             <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                             </svg>

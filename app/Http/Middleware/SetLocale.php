@@ -18,8 +18,13 @@ class SetLocale
      */
     public function handle(Request $request, Closure $next)
     {
-        // Get locale from URL route parameter
-        $locale = $request->route('locale') ?? config('app.locale', 'ar');
+        // Check if locale is stored in session (like Filament does)
+        $locale = Session::get('locale');
+        
+        // If not in session, fallback to app default locale
+        if (!$locale) {
+            $locale = config('app.locale', 'ar');
+        }
         
         // Validate locale is one of the supported values
         if (!in_array($locale, ['ar', 'en'])) {
@@ -29,12 +34,8 @@ class SetLocale
         // Set the application locale
         App::setLocale($locale);
         
-        // Also store in session if it's not already there or different
-        if (Session::has('locale') && Session::get('locale') !== $locale) {
-            Session::put('locale', $locale);
-        } elseif (!Session::has('locale')) {
-            Session::put('locale', $locale);
-        }
+        // Also store in session to ensure consistency
+        Session::put('locale', $locale);
 
         return $next($request);
     }

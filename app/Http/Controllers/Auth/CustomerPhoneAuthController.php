@@ -38,8 +38,7 @@ class CustomerPhoneAuthController extends Controller
         // Automatically log them in after registration
         Auth::guard('customer')->login($customer);
 
-        $locale = $request->route('locale') ?? app()->getLocale();
-        return redirect()->route('customer.dashboard', ['locale' => $locale]);
+        return redirect()->route('customer.dashboard');
     }
 
     public function sendOtp(Request $request)
@@ -82,8 +81,7 @@ class CustomerPhoneAuthController extends Controller
         // Log the customer in
         Auth::guard('customer')->login($customer);
 
-        $locale = $request->route('locale') ?? app()->getLocale();
-        return redirect()->intended(route('customer.dashboard', ['locale' => $locale]));
+        return redirect()->intended(route('customer.dashboard'));
     }
 
     public function logout(Request $request)
@@ -93,7 +91,6 @@ class CustomerPhoneAuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        $locale = $request->route('locale') ?? app()->getLocale();
-        return redirect()->route('booking-welcome', ['locale' => $locale]);
+        return redirect()->route('booking-welcome');
     }
 }

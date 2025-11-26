@@ -14,7 +14,7 @@
                 <p class="mt-2 text-gray-600">{{ __('website.join_us_today') }}</p>
             </div>
             
-            <form class="mt-6 space-y-6" method="POST" action="{{ route('customer.register.attempt', ['locale' => $currentLocale]) }}">
+            <form class="mt-6 space-y-6" method="POST" action="{{ route('customer.register.attempt') }}">
                 @csrf
                 
                 <div class="space-y-5">
@@ -58,7 +58,7 @@
             
             <div class="mt-6 text-center">
                 <p class="text-sm text-gray-600">{{ __('website.already_have_account') }} 
-                    <a href="{{ route('customer.login', ['locale' => $currentLocale]) }}" class="font-medium text-primary-600 hover:text-primary-500 transition-colors duration-200">{{ __('website.sign_in') }}</a>
+                    <a href="{{ route('customer.login') }}" class="font-medium text-primary-600 hover:text-primary-500 transition-colors duration-200">{{ __('website.sign_in') }}</a>
                 </p>
             </div>
         </div>

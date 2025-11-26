@@ -12,7 +12,7 @@
                 </div>
             @endif
             
-            <form method="POST" action="{{ route('customer.password.email', ['locale' => $currentLocale]) }}">
+            <form method="POST" action="{{ route('customer.password.email') }}">
                 @csrf
                 
                 <div class="mb-4">
@@ -31,7 +31,7 @@
             </form>
             
             <div class="mt-6 text-center">
-                <a href="{{ route('customer.login', ['locale' => $currentLocale]) }}" class="text-primary-500 hover:text-primary-700 font-bold">Back to Login</a>
+                <a href="{{ route('customer.login') }}" class="text-primary-500 hover:text-primary-700 font-bold">Back to Login</a>
             </div>
         </div>
     </div>

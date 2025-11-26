@@ -16,7 +16,7 @@
                         </p>
                         <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
                             <div class="rounded-md shadow">
-                                <a href="{{ route('customer.bookings.create', ['locale' => $currentLocale]) }}" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gradient-to-r from-primary-600 to-secondary-600 hover:from-primary-700 hover:to-secondary-700 md:py-4 md:text-lg md:px-10 transition-all duration-300 transform hover:-translate-y-0.5">
+                                <a href="{{ route('customer.bookings.create') }}" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gradient-to-r from-primary-600 to-secondary-600 hover:from-primary-700 hover:to-secondary-700 md:py-4 md:text-lg md:px-10 transition-all duration-300 transform hover:-translate-y-0.5">
                                     {{ __('website.book_now') }}
                                 </a>
                             </div>
@@ -137,12 +137,12 @@
             </h2>
             <div class="mt-8 flex lg:mt-0 lg:flex-shrink-0">
                 <div class="inline-flex rounded-md shadow">
-                    <a href="{{ route('customer.bookings.create', ['locale' => $currentLocale]) }}" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-primary-600 bg-white hover:bg-primary-50 transition-colors duration-200">
+                    <a href="{{ route('customer.bookings.create') }}" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-primary-600 bg-white hover:bg-primary-50 transition-colors duration-200">
                         {{ __('website.book_appointment') }}
                     </a>
                 </div>
                 <div class="ml-3 inline-flex rounded-md shadow">
-                    <a href="{{ route('customer.register', ['locale' => $currentLocale]) }}" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary-500 bg-opacity-20 hover:bg-opacity-30 transition-colors duration-200">
+                    <a href="{{ route('customer.register') }}" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary-500 bg-opacity-20 hover:bg-opacity-30 transition-colors duration-200">
                         {{ __('website.create_account') }}
                     </a>
                 </div>

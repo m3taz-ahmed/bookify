@@ -32,7 +32,7 @@
                 </div>
             </div>
             
-            <form class="mt-6 space-y-6" method="POST" action="{{ route('customer.verify-otp', ['locale' => $currentLocale]) }}">
+            <form class="mt-6 space-y-6" method="POST" action="{{ route('customer.verify-otp') }}">
                 @csrf
                 
                 <input type="hidden" name="phone" value="{{ $customer->phone }}">
@@ -64,7 +64,7 @@
             <div class="mt-6 text-center">
                 <p class="text-sm text-gray-600">
                     {{ __('website.didnt_receive_code') }}
-                    <a href="{{ route('customer.login', ['locale' => $currentLocale]) }}" class="font-medium text-primary-600 hover:text-primary-500 transition-colors duration-200">{{ __('website.resend_otp') }}</a>
+                    <a href="{{ route('customer.login') }}" class="font-medium text-primary-600 hover:text-primary-500 transition-colors duration-200">{{ __('website.resend_otp') }}</a>
                 </p>
             </div>
         </div>

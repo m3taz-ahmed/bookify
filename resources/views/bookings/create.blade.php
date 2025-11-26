@@ -16,10 +16,10 @@
                 <h1 class="text-3xl font-bold text-gray-900">Bookify</h1>
                 <!-- Language Switcher -->
                 <div class="flex items-center space-x-2">
-                    <a href="@php echo route('booking-welcome', ['locale' => 'ar']); @endphp" class="px-3 py-2 text-sm rounded-md {{ $currentLocale === 'ar' ? 'bg-primary-100 text-primary-700 font-medium' : 'text-gray-600 hover:bg-gray-100' }}">
+                    <a href="@php echo route('booking-welcome'); @endphp" class="px-3 py-2 text-sm rounded-md {{ $currentLocale === 'ar' ? 'bg-primary-100 text-primary-700 font-medium' : 'text-gray-600 hover:bg-gray-100' }}">
                         {{ __('website.arabic') }}
                     </a>
-                    <a href="@php echo route('booking-welcome', ['locale' => 'en']); @endphp" class="px-3 py-2 text-sm rounded-md {{ $currentLocale === 'en' ? 'bg-primary-100 text-primary-700 font-medium' : 'text-gray-600 hover:bg-gray-100' }}">
+                    <a href="@php echo route('booking-welcome'); @endphp" class="px-3 py-2 text-sm rounded-md {{ $currentLocale === 'en' ? 'bg-primary-100 text-primary-700 font-medium' : 'text-gray-600 hover:bg-gray-100' }}">
                         {{ __('website.english') }}
                     </a>
                 </div>

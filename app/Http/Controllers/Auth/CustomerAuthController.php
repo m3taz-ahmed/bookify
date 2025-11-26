@@ -28,8 +28,7 @@ class CustomerAuthController extends Controller
         if (Auth::guard('customer')->attempt($credentials, $request->filled('remember'))) {
             $request->session()->regenerate();
             
-            $locale = $request->route('locale') ?? app()->getLocale();
-            return redirect()->intended(route('customer.dashboard', ['locale' => $locale]));
+            return redirect()->intended(route('customer.dashboard'));
         }
 
         throw ValidationException::withMessages([
@@ -60,8 +59,7 @@ class CustomerAuthController extends Controller
         // For backward compatibility, we'll still log them in
         Auth::guard('customer')->login($customer);
 
-        $locale = $request->route('locale') ?? app()->getLocale();
-        return redirect()->route('customer.dashboard', ['locale' => $locale]);
+        return redirect()->route('customer.dashboard');
     }
 
     public function logout(Request $request)
@@ -71,7 +69,6 @@ class CustomerAuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        $locale = $request->route('locale') ?? app()->getLocale();
-        return redirect()->route('booking-welcome', ['locale' => $locale]);
+        return redirect()->route('booking-welcome');
     }
 }

@@ -45,7 +45,7 @@ class Handler extends ExceptionHandler
         if ($request->is('customer/*') || $request->routeIs('customer.*')) {
             return $request->expectsJson()
                 ? response()->json(['message' => $exception->getMessage()], 401)
-                : redirect()->guest(route('customer.login', ['locale' => $locale]));
+                : redirect()->guest(route('customer.login'));
         }
 
         // For other areas, use the default behavior

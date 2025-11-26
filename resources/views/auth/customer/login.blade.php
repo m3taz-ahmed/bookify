@@ -24,13 +24,13 @@
                     <div class="ml-3">
                         <h3 class="text-sm font-medium text-blue-800">{{ __('website.prefer_phone_login') }}</h3>
                         <div class="mt-2 text-sm text-blue-700">
-                            <p><a href="{{ route('customer.phone.login', ['locale' => $currentLocale]) }}" class="font-medium underline">{{ __('website.login_with_phone') }}</a></p>
+                            <p><a href="{{ route('customer.phone.login') }}" class="font-medium underline">{{ __('website.login_with_phone') }}</a></p>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <form class="mt-6 space-y-6" method="POST" action="{{ route('customer.login', ['locale' => $currentLocale]) }}">
+            <form class="mt-6 space-y-6" method="POST" action="{{ route('customer.login') }}">
                 @csrf
                 
                 <div class="space-y-4">
@@ -74,7 +74,7 @@
 
                     @if (Route::has('customer.password.request'))
                         <div class="text-sm">
-                            <a href="{{ route('customer.password.request', ['locale' => $currentLocale]) }}" class="font-medium text-primary-600 hover:text-primary-500 transition-colors duration-200">{{ __('website.forgot_password') }}</a>
+                            <a href="{{ route('customer.password.request') }}" class="font-medium text-primary-600 hover:text-primary-500 transition-colors duration-200">{{ __('website.forgot_password') }}</a>
                         </div>
                     @endif
                 </div>
@@ -88,7 +88,7 @@
             
             <div class="mt-6 text-center">
                 <p class="text-sm text-gray-600">{{ __('website.dont_have_account') }} 
-                    <a href="{{ route('customer.register', ['locale' => $currentLocale]) }}" class="font-medium text-primary-600 hover:text-primary-500 transition-colors duration-200">{{ __('website.register_here') }}</a>
+                    <a href="{{ route('customer.register') }}" class="font-medium text-primary-600 hover:text-primary-500 transition-colors duration-200">{{ __('website.register_here') }}</a>
                 </p>
             </div>
         </div>
