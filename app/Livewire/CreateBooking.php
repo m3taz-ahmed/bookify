@@ -5,10 +5,10 @@ namespace App\Livewire;
 use App\Models\Service;
 use App\Models\Booking;
 use App\Services\BookingService;
-use App\Http\Requests\StoreBookingRequest;
 use Livewire\Component;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class CreateBooking extends Component
 {
@@ -17,10 +17,6 @@ class CreateBooking extends Component
     public $selectedService;
     public $numberOfPeople = 1;
     public $selectedDate;
-    public $availableSlots;
-    public $selectedSlot;
-    public $customerName;
-    public $customerPhone;
     public $referenceCode;
     public $qrCode;
     public $paymentMethod;
@@ -36,12 +32,6 @@ class CreateBooking extends Component
     public function mount()
     {
         $this->services = Service::where('is_active', true)->get();
-        // Set default customer info if authenticated
-        if (Auth::guard('customer')->check()) {
-            $customer = Auth::guard('customer')->user();
-            $this->customerName = $customer->name;
-            $this->customerPhone = $customer->phone;
-        }
     }
 
     public function selectService($serviceId)
@@ -59,34 +49,29 @@ class CreateBooking extends Component
     public function selectDate($date)
     {
         $this->selectedDate = $date;
-        $this->loadAvailableSlots();
+        // Skip loading slots and go directly to payment method
         $this->step = 4;
+    }
+    
+    public function handleDateSelection()
+    {
+        if ($this->selectedDate) {
+            // Skip loading slots and go directly to payment method
+            $this->step = 4;
+        }
     }
     
     public function updatedSelectedDate($value)
     {
         if ($value) {
-            $this->loadAvailableSlots();
-            // Always advance to step 4 when a date is selected
+            // Skip loading slots and go directly to payment method
             $this->step = 4;
         }
     }
 
-    public function loadAvailableSlots()
-    {
-        $this->availableSlots = $this->bookingService->generateTimeSlots($this->selectedService, $this->selectedDate);
-    }
-
-    public function selectSlot($startTime)
-    {
-        $this->selectedSlot = [
-            'start_time' => $startTime
-        ];
-        $this->step = 5;
-    }
-
     public function selectPaymentMethod($method)
     {
+        Log::info('selectPaymentMethod called', ['method' => $method]);
         // Validate that the payment method is either 'cash' or 'online'
         if (!in_array($method, ['cash', 'online'])) {
             $this->addError('paymentMethod', 'Invalid payment method selected.');
@@ -94,72 +79,50 @@ class CreateBooking extends Component
         }
         
         $this->paymentMethod = $method;
-        $this->step = 6;
+        Log::info('About to call saveBooking', ['paymentMethod' => $this->paymentMethod]);
+        // Automatically save the booking when payment method is selected
+        $this->saveBooking();
     }
 
     public function saveBooking()
     {
-        // Create a temporary request to validate the data
-        $request = new StoreBookingRequest();
-        $request->merge([
-            'customer_name' => $this->customerName,
-            'customer_phone' => $this->customerPhone,
-            'service_id' => $this->selectedService,
-            'booking_date' => $this->selectedDate,
-            'start_time' => $this->selectedSlot['start_time'],
-            'end_time' => collect($this->availableSlots)->firstWhere('start_time', $this->selectedSlot['start_time'])['end_time'],
+        Log::info('saveBooking called', [
+            'paymentMethod' => $this->paymentMethod,
+            'selectedService' => $this->selectedService,
+            'selectedDate' => $this->selectedDate,
+            'numberOfPeople' => $this->numberOfPeople
         ]);
-        
-        // Validate the request
-        $validator = validator($request->all(), $request->rules(), $request->messages());
-        
-        if ($validator->fails()) {
-            $this->setErrorBag($validator->errors());
+        // Validate that the payment method is either 'cash' or 'online'
+        if (!in_array($this->paymentMethod, ['cash', 'online'])) {
+            $this->addError('paymentMethod', 'Invalid payment method selected.');
             return;
         }
-
-        // Find the selected slot
-        $slot = collect($this->availableSlots)->firstWhere('start_time', $this->selectedSlot['start_time']);
+        
+        // Set default times (9:00 AM to 10:00 AM)
+        $startTime = '09:00';
+        $endTime = '10:00';
         
         $this->referenceCode = Booking::generateReferenceCode();
         
         try {
-            // Prepare booking data
+            // Prepare booking data - only use customer_id since customer is logged in
             $bookingData = [
                 'reference_code' => $this->referenceCode,
-                'customer_name' => $this->customerName,
-                'customer_phone' => $this->customerPhone,
+                'customer_id' => Auth::guard('customer')->id(),
                 'service_id' => $this->selectedService,
                 'booking_date' => $this->selectedDate,
-                'start_time' => $this->selectedSlot['start_time'],
-                'end_time' => $slot['end_time'],
+                'start_time' => $startTime,
+                'end_time' => $endTime,
                 'status' => ($this->paymentMethod === 'cash') ? 'confirmed' : 'pending',
                 'number_of_people' => $this->numberOfPeople,
                 'payment_method' => $this->paymentMethod,
                 'is_paid' => ($this->paymentMethod === 'cash') ? false : null, // For online payments, we'll set this after payment confirmation
             ];
             
-            // Add customer_id if authenticated
-            if (Auth::guard('customer')->check()) {
-                $bookingData['customer_id'] = Auth::guard('customer')->id();
-                // Remove customer_name and customer_phone as they're in the customer table
-                unset($bookingData['customer_name'], $bookingData['customer_phone']);
-            }
-            
             $booking = $this->bookingService->createBookingWithLock($bookingData);
             
-            // Generate QR code with booking details
-            $qrData = "Booking Reference: {$this->referenceCode}\n" .
-                     "Service: " . $booking->service->name . "\n" .
-                     "Date: " . $booking->booking_date->format('Y-m-d') . "\n" .
-                     "Time: " . $booking->start_time->format('H:i') . " - " . $booking->end_time->format('H:i') . "\n" .
-                     "People: " . $booking->number_of_people;
-            
-            // Save QR code to database
-            $booking->update(['qr_code' => $qrData]);
-            
-            // Generate QR code image
-            $this->qrCode = base64_encode(QrCode::format('png')->size(200)->generate($qrData));
+            // The QR code is already generated by the model, so we just need to get it
+            $this->qrCode = $booking->qr_code;
             
             // If payment method is cash, mark as confirmed
             if ($this->paymentMethod === 'cash') {
@@ -170,10 +133,20 @@ class CreateBooking extends Component
                 $booking->update(['order_ref' => $this->orderRef]);
             }
             
-            $this->step = 7; // Show success and QR code
+            $this->step = 5; // Show success and QR code
+            Log::info('Booking created successfully, step set to 5', [
+                'referenceCode' => $this->referenceCode,
+                'qrCodeLength' => strlen($this->qrCode),
+                'step' => $this->step
+            ]);
         } catch (\Exception $e) {
             // Handle error
+            Log::error('Booking creation failed', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
             $this->addError('booking', 'Failed to create booking. Please try again. Error: ' . $e->getMessage());
+            Log::error('Booking creation error: ' . $e->getMessage());
         }
     }
 
