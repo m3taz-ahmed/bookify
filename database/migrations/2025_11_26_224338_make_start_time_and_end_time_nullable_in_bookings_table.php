@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('bookings', function (Blueprint $table) {
-            $table->text('qr_code')->nullable()->after('reference_code');
+            $table->time('start_time')->nullable()->change();
+            $table->time('end_time')->nullable()->change();
         });
     }
 
@@ -22,7 +23,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('bookings', function (Blueprint $table) {
-            $table->dropColumn('qr_code');
+            $table->time('start_time')->nullable(false)->change();
+            $table->time('end_time')->nullable(false)->change();
         });
     }
 };

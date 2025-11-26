@@ -44,7 +44,7 @@ class BookingConfirmed extends Notification
             ->line('Service: ' . $this->booking->service->name_en)
             ->line('Date: ' . $this->booking->booking_date->format('M d, Y'))
             ->line('Time: ' . $this->booking->start_time . ' - ' . $this->booking->end_time)
-            ->line('Employee: ' . $this->booking->employee->name)
+            // Employee information removed as per requirements
             ->action('View Booking', url('/check-in-page/' . $this->booking->reference_code))
             ->line('Thank you for choosing our services!');
     }

@@ -78,5 +78,9 @@ return [
     'sign_in' => 'Sign in',
     'dont_have_account' => "Don't have an account?",
     'register_here' => 'Register here',
+    'people' => 'People',
+    'cash_payment' => 'Cash Payment',
+    'how_many_people' => 'How many people?',
+    'select_number_of_people' => 'Select the number of people for your appointment',
     'all_rights_reserved' => 'All rights reserved.',
 ];

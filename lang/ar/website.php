@@ -146,6 +146,10 @@ return [
     'booking_qr_code' => 'رمز QR للحجز',
     'scan_qr_code_for_check_in' => 'امسح رمز QR هذا في المكان للتسجيل السريع',
     'book_another_service' => 'حجز خدمة أخرى',
+    'people' => 'أشخاص',
+    'cash_payment' => 'الدفع نقداً',
+    'how_many_people' => 'كم عدد الأشخاص؟',
+    'select_number_of_people' => 'اختر عدد الأشخاص لموعدك',
     
     // ترجمات تسجيل الدخول عبر الهاتف
     'prefer_phone_login' => 'تفضل تسجيل الدخول عبر الهاتف؟',

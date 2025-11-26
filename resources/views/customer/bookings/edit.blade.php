@@ -23,13 +23,7 @@
                             </div>
                         </div>
                         
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Employee</label>
-                            <div class="border border-gray-200 rounded-lg p-4 bg-gray-50">
-                                <div class="font-medium text-gray-900">{{ $booking->employee->name }}</div>
-                                <div class="text-sm text-gray-500 mt-1">Professional</div>
-                            </div>
-                        </div>
+                        {{-- Employee section removed as per requirements --}}
                     </div>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">

@@ -11,11 +11,43 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class CustomerController extends Controller
 {
+    public function profile()
+    {
+        /** @var \App\Models\Customer $customer */
+        $customer = auth('customer')->user();
+        
+        return view('customer.profile', compact('customer'));
+    }
+    
+    public function editProfile()
+    {
+        /** @var \App\Models\Customer $customer */
+        $customer = auth('customer')->user();
+        
+        return view('customer.profile-edit', compact('customer'));
+    }
+    
+    public function updateProfile(Request $request)
+    {
+        /** @var \App\Models\Customer $customer */
+        $customer = auth('customer')->user();
+        
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
+            'email' => 'nullable|email|max:255',
+        ]);
+        
+        $customer->update($request->only(['name', 'phone', 'email']));
+        
+        return redirect()->route('customer.profile')->with('success', 'Profile updated successfully!');
+    }
+    
     public function bookings()
     {
         /** @var \App\Models\Customer $customer */
         $customer = auth('customer')->user();
-        $bookings = $customer->bookings()->with(['service'])->latest()->get();
+        $bookings = $customer->bookings()->with(['service'])->latest()->paginate(10);
         
         return view('customer.bookings.index', compact('bookings'));
     }

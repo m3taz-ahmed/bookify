@@ -4,7 +4,7 @@
 <div class="container mx-auto px-4 py-8">
     <div class="max-w-6xl mx-auto">
         <!-- Welcome Section -->
-        <div class="bg-gradient-to-r from-primary-600 to-secondary-600 rounded-2xl shadow-xl p-8 mb-8 text-white">
+        <!-- <div class="bg-gradient-to-r from-primary-600 to-secondary-600 rounded-2xl shadow-xl p-8 mb-8 text-white">
             <div class="flex flex-col md:flex-row justify-between items-center">
                 <div class="mb-6 md:mb-0">
                     <h1 class="text-3xl font-bold mb-2">Welcome back, {{ auth()->guard('customer')->user()->name }}!</h1>
@@ -17,7 +17,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <!-- Quick Actions -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">

@@ -57,11 +57,11 @@ class BookingForm
                 TextInput::make('payment_status')
                     ->label(__('filament.Payment Status')),
                 TimePicker::make('start_time')
-                    ->required()
+                    // ->required()
                     ->seconds(false)
                     ->label(__('filament.Start Time')),
                 TimePicker::make('end_time')
-                    ->required()
+                    // ->required()
                     ->seconds(false)
                     ->label(__('filament.End Time')),
                 TextInput::make('number_of_people')

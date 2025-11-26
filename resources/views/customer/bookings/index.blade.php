@@ -68,9 +68,7 @@
                                                 {{ $booking->start_time }} - {{ $booking->end_time }}
                                             </span>
                                         </p>
-                                        <p class="text-sm text-gray-500 mt-1">
-                                            {{ __('website.with') }} {{ $booking->employee->name }}
-                                        </p>
+                                        {{-- Employee information removed as per requirement --}}
                                         <p class="text-sm text-gray-500 mt-1">
                                             <span class="inline-flex items-center">
                                                 <svg class="h-4 w-4 mr-1 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
