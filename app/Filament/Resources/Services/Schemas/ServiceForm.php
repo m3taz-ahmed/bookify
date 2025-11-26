@@ -14,24 +14,30 @@ class ServiceForm
         return $schema
             ->components([
                 TextInput::make('name_en')
-                    ->required(),
-                TextInput::make('name_ar')
-                    ->required(),
-                Textarea::make('description')
-                    ->columnSpanFull(),
-                TextInput::make('duration_minutes')
                     ->required()
-                    ->numeric(),
+                    ->label(__('filament.Name (English)')),
+                TextInput::make('name_ar')
+                    ->required()
+                    ->label(__('filament.Name (Arabic)')),
+                Textarea::make('description_en')
+                    ->columnSpanFull()
+                    ->label(__('filament.Description (English)')),
+                Textarea::make('description_ar')
+                    ->columnSpanFull()
+                    ->label(__('filament.Description (Arabic)')),
                 TextInput::make('price')
                     ->required()
                     ->numeric()
-                    ->prefix('$'),
+                    ->prefix('$')
+                    ->label(__('filament.Price')),
                 Toggle::make('is_active')
-                    ->required(),
+                    ->required()
+                    ->label(__('filament.Is Active')),
                 TextInput::make('sort_order')
                     ->required()
                     ->numeric()
-                    ->default(0),
+                    ->default(0)
+                    ->label(__('filament.Sort Order')),
             ]);
     }
 }

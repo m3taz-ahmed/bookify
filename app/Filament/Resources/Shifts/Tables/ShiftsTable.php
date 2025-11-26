@@ -17,12 +17,12 @@ class ShiftsTable
         return $table
             ->columns([
                 TextColumn::make('user.name')
-                    ->label('Employee')
+                    ->label(__('filament.Employee'))
                     ->sortable()
                     ->searchable(),
                 
                 TextColumn::make('day_of_week')
-                    ->label('Day')
+                    ->label(__('filament.Day'))
                     ->formatStateUsing(fn (int $state): string => match ($state) {
                         1 => 'Monday',
                         2 => 'Tuesday',
@@ -36,12 +36,12 @@ class ShiftsTable
                     ->sortable(),
                 
                 TextColumn::make('start_time')
-                    ->label('Start Time')
+                    ->label(__('filament.Start Time'))
                     ->time()
                     ->sortable(),
                 
                 TextColumn::make('end_time')
-                    ->label('End Time')
+                    ->label(__('filament.End Time'))
                     ->time()
                     ->sortable(),
             ])
@@ -52,7 +52,7 @@ class ShiftsTable
                     ->preload(),
                 
                 SelectFilter::make('day_of_week')
-                    ->label('Day of Week')
+                    ->label(__('filament.Day of Week'))
                     ->options([
                         1 => 'Monday',
                         2 => 'Tuesday',

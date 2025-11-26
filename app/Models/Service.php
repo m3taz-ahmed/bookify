@@ -14,7 +14,6 @@ class Service extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'duration_minutes' => 'integer',
         'price' => 'decimal:2',
         'is_active' => 'boolean',
     ];
@@ -47,17 +46,17 @@ class Service extends Model
         return '$' . number_format($this->price, 2);
     }
     
-    public function getDurationHoursAttribute()
+    // Get the name based on the current locale
+    public function getNameAttribute()
     {
-        $hours = floor($this->duration_minutes / 60);
-        $minutes = $this->duration_minutes % 60;
-        
-        if ($hours > 0 && $minutes > 0) {
-            return $hours . 'h ' . $minutes . 'm';
-        } elseif ($hours > 0) {
-            return $hours . 'h';
-        } else {
-            return $minutes . 'm';
-        }
+        $locale = app()->getLocale();
+        return $locale === 'ar' ? $this->name_ar : $this->name_en;
+    }
+    
+    // Get the description based on the current locale
+    public function getDescriptionAttribute()
+    {
+        $locale = app()->getLocale();
+        return $locale === 'ar' ? $this->description_ar : $this->description_en;
     }
 }

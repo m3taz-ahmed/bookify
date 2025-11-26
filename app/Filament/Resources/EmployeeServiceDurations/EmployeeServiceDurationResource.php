@@ -23,6 +23,16 @@ class EmployeeServiceDurationResource extends Resource
     
     protected static string|UnitEnum|null $navigationGroup = 'Settings';
 
+    public static function getLabel(): string
+    {
+        return __('filament.Employee Service Durations');
+    }
+
+    public static function getPluralLabel(): string
+    {
+        return __('filament.Employee Service Durations');
+    }
+
     public static function form(Schema $schema): Schema
     {
         return EmployeeServiceDurationForm::configure($schema);

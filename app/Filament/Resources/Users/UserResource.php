@@ -26,6 +26,16 @@ class UserResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name';
 
+    public static function getLabel(): string
+    {
+        return __('filament.Users');
+    }
+
+    public static function getPluralLabel(): string
+    {
+        return __('filament.Users');
+    }
+
     public static function canViewAny(): bool
     {
         /** @var \App\Models\User $user */

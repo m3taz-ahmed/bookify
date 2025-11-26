@@ -10,7 +10,7 @@
                     <h1 class="text-3xl font-bold mb-2">Welcome back, {{ auth()->guard('customer')->user()->name }}!</h1>
                     <p class="text-light-100 max-w-2xl">Manage your appointments, view booking history, and schedule new services all in one place.</p>
                 </div>
-                <div class="bg-white bg-opacity-20 rounded-xl p-4">
+                <div class="bg-gray bg-opacity-20 rounded-xl p-4">
                     <div class="text-center">
                         <div class="text-3xl font-bold">{{ \App\Models\Booking::where('customer_id', auth()->guard('customer')->id())->count() }}</div>
                         <div class="text-sm text-light-100">Total Bookings</div>

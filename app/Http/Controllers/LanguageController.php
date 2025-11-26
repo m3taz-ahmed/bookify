@@ -51,42 +51,60 @@ class LanguageController extends Controller
             'session_locale_after' => $request->session()->get('locale')
         ]);
 
-        // Redirect to the same page with the switched locale
-        // Get the previous URL
-        $previousUrl = url()->previous();
+        // Check if this is a Filament request (contains /admin in the referrer)
+        $referrer = $request->headers->get('referer');
         
-        // Get the base URL
-        $baseUrl = config('app.url');
-        
-        // Remove the base URL to get the path
-        $path = str_replace($baseUrl, '', $previousUrl);
-        
-        // Remove leading slash if present
-        $path = ltrim($path, '/');
-        
-        // Split the path into parts
-        $pathParts = explode('/', $path);
-        
-        // If the first part is a locale, replace it
-        if (isset($pathParts[0]) && in_array($pathParts[0], ['ar', 'en'])) {
-            $pathParts[0] = $locale;
+        if ($referrer && strpos($referrer, '/admin') !== false) {
+            // For Filament requests, redirect back to the admin panel
+            // But we need to ensure we're not using locale-prefixed URLs
+            $adminBaseUrl = config('app.url') . '/admin';
+            
+            // Get the current admin path (if any)
+            $adminPath = '';
+            if (preg_match('#/admin(.*)#', $referrer, $matches)) {
+                $adminPath = $matches[1];
+            }
+            
+            $redirectUrl = $adminBaseUrl . $adminPath;
+            return redirect($redirectUrl);
         } else {
-            // If no locale in path, prepend the new locale
-            array_unshift($pathParts, $locale);
+            // For regular site requests, redirect to the same page with the switched locale
+            // Get the previous URL
+            $previousUrl = url()->previous();
+            
+            // Get the base URL
+            $baseUrl = config('app.url');
+            
+            // Remove the base URL to get the path
+            $path = str_replace($baseUrl, '', $previousUrl);
+            
+            // Remove leading slash if present
+            $path = ltrim($path, '/');
+            
+            // Split the path into parts
+            $pathParts = explode('/', $path);
+            
+            // If the first part is a locale, replace it
+            if (isset($pathParts[0]) && in_array($pathParts[0], ['ar', 'en'])) {
+                $pathParts[0] = $locale;
+            } else {
+                // If no locale in path, prepend the new locale
+                array_unshift($pathParts, $locale);
+            }
+            
+            // Reconstruct the path
+            $switchedPath = implode('/', $pathParts);
+            
+            // Build the full URL with the switched locale
+            $switchedUrl = $baseUrl . '/' . $switchedPath;
+            
+            // Ensure the URL is properly formatted
+            if (strpos($switchedUrl, 'http') !== 0) {
+                $switchedUrl = $baseUrl . '/' . ltrim($switchedUrl, '/');
+            }
+            
+            // Redirect to the same page with the switched locale
+            return redirect($switchedUrl);
         }
-        
-        // Reconstruct the path
-        $switchedPath = implode('/', $pathParts);
-        
-        // Build the full URL with the switched locale
-        $switchedUrl = $baseUrl . '/' . $switchedPath;
-        
-        // Ensure the URL is properly formatted
-        if (strpos($switchedUrl, 'http') !== 0) {
-            $switchedUrl = $baseUrl . '/' . ltrim($switchedUrl, '/');
-        }
-        
-        // Redirect to the same page with the switched locale
-        return redirect($switchedUrl);
     }
 }

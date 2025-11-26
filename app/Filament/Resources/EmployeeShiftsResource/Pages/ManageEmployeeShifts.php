@@ -19,12 +19,22 @@ class ManageEmployeeShifts extends Page
 {
     protected static string $resource = EmployeeShiftsResource::class;
 
+    public static function getLabel(): string
+    {
+        return __('filament.Employee Shifts');
+    }
+
+    public static function getPluralLabel(): string
+    {
+        return __('filament.Employee Shifts');
+    }
+
     public function getView(): string
     {
         return 'filament.resources.employee-shifts.pages.manage-employee-shifts';
     }
 
-    protected static ?string $title = 'Manage Employee Shifts';
+    // protected static ?string $title = 'Manage Employee Shifts';
 
     public ?int $userId = null;
     public array $shifts = [];
@@ -40,7 +50,7 @@ class ManageEmployeeShifts extends Page
         return $form
             ->schema([
                 Select::make('userId')
-                    ->label('Employee')
+                    ->label(__('filament.Employee'))
                     ->options(User::whereHas('roles', function ($query) {
                         $query->where('name', 'employee');
                     })->pluck('name', 'id'))

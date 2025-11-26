@@ -18,35 +18,39 @@ class ServicesTable
             ->columns([
                 TextColumn::make('name_en')
                     ->searchable()
-                    ->label(__('Name (English)')),
+                    ->label(__('filament.Name (English)')),
                 TextColumn::make('name_ar')
                     ->searchable()
-                    ->label(__('Name (Arabic)')),
-                TextColumn::make('duration_minutes')
-                    ->numeric()
-                    ->sortable()
-                    ->label(__('Duration (minutes)')),
+                    ->label(__('filament.Name (Arabic)')),
+                TextColumn::make('description_en')
+                    ->searchable()
+                    ->label(__('filament.Description (English)'))
+                    ->limit(50),
+                TextColumn::make('description_ar')
+                    ->searchable()
+                    ->label(__('filament.Description (Arabic)'))
+                    ->limit(50),
                 TextColumn::make('price')
                     ->money()
                     ->sortable()
-                    ->label(__('Price')),
+                    ->label(__('filament.Price')),
                 IconColumn::make('is_active')
                     ->boolean()
-                    ->label(__('Is Active')),
+                    ->label(__('filament.Is Active')),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true)
-                    ->label(__('Created At')),
+                    ->label(__('filament.Created At')),
                 TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true)
-                    ->label(__('Updated At')),
+                    ->label(__('filament.Updated At')),
                 TextColumn::make('sort_order')
                     ->numeric()
                     ->sortable()
-                    ->label(__('Sort Order')),
+                    ->label(__('filament.Sort Order')),
             ])
             ->filters([
                 //

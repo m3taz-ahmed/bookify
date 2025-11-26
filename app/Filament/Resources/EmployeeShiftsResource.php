@@ -17,9 +17,22 @@ class EmployeeShiftsResource extends Resource
     
     protected static string|UnitEnum|null $navigationGroup = 'Employees';
     
-    protected static ?string $navigationLabel = 'Employee Shifts';
+    public static function getNavigationLabel(): string
+    {
+        return __('filament.Employee Shifts');
+    }
     
     protected static ?int $navigationSort = 4;
+
+    public static function getLabel(): string
+    {
+        return __('filament.Employee Shifts');
+    }
+
+    public static function getPluralLabel(): string
+    {
+        return __('filament.Employee Shifts');
+    }
 
     public static function getPages(): array
     {

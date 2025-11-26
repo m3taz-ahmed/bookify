@@ -17,7 +17,20 @@ class MultipleShiftsResource extends Resource
     
     protected static string|UnitEnum|null $navigationGroup = 'Employees';
     
-    protected static ?string $navigationLabel = 'Multiple Shifts';
+    public static function getNavigationLabel(): string
+    {
+        return __('filament.Multiple Shifts');
+    }
+
+    public static function getLabel(): string
+    {
+        return __('filament.Multiple Shifts');
+    }
+
+    public static function getPluralLabel(): string
+    {
+        return __('filament.Multiple Shifts');
+    }
     
     protected static ?int $navigationSort = 5;
 

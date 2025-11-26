@@ -66,3 +66,20 @@ Route::get('/lang/{locale}', [LanguageController::class, 'switch'])->name('lang.
 Route::get('/language-test', function () {
     return view('language-test');
 })->name('language.test')->middleware('web');
+
+// Filament translation test route
+Route::get('/filament-translation-test', function () {
+    return view('filament-translation-test');
+})->name('filament.translation.test')->middleware('web');
+
+// Test route for checking translations
+Route::get('/test-translations', function () {
+    return response()->json([
+        'app_locale' => app()->getLocale(),
+        'session_locale' => session('locale'),
+        'employee_shifts_ar' => __('filament.Employee Shifts', [], 'ar'),
+        'employee_shifts_en' => __('filament.Employee Shifts', [], 'en'),
+        'multiple_shifts_ar' => __('filament.Multiple Shifts', [], 'ar'),
+        'multiple_shifts_en' => __('filament.Multiple Shifts', [], 'en'),
+    ]);
+})->name('test.translations')->middleware('web');

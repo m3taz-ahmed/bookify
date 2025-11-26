@@ -14,7 +14,7 @@ class ShiftForm
         return $schema
             ->schema([
                 Select::make('user_id')
-                    ->label('Employee')
+                    ->label(__('filament.Employee'))
                     ->relationship('user', 'name')
                     ->options(User::whereHas('roles', function ($query) {
                         $query->where('name', 'employee');
@@ -24,27 +24,27 @@ class ShiftForm
                     ->live(),
                 
                 Select::make('day_of_week')
-                    ->label('Day of Week')
+                    ->label(__('filament.Day of Week'))
                     ->options([
-                        1 => 'Monday',
-                        2 => 'Tuesday',
-                        3 => 'Wednesday',
-                        4 => 'Thursday',
-                        5 => 'Friday',
-                        6 => 'Saturday',
-                        0 => 'Sunday',
+                        1 => __('filament.Monday'),
+                        2 => __('filament.Tuesday'),
+                        3 => __('filament.Wednesday'),
+                        4 => __('filament.Thursday'),
+                        5 => __('filament.Friday'),
+                        6 => __('filament.Saturday'),
+                        0 => __('filament.Sunday'),
                     ])
                     ->required()
                     ->live(),
                 
                 TimePicker::make('start_time')
-                    ->label('Start Time')
+                    ->label(__('filament.Start Time'))
                     ->required()
                     ->seconds(false)
                     ->live(),
                 
                 TimePicker::make('end_time')
-                    ->label('End Time')
+                    ->label(__('filament.End Time'))
                     ->required()
                     ->seconds(false)
                     ->live(),

@@ -27,6 +27,16 @@ class ServiceResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name_en';
 
+    public static function getLabel(): string
+    {
+        return __('filament.Services');
+    }
+
+    public static function getPluralLabel(): string
+    {
+        return __('filament.Services');
+    }
+
     public static function canViewAny(): bool
     {
         /** @var \App\Models\User $user */

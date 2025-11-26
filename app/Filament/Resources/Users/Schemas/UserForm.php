@@ -14,19 +14,21 @@ class UserForm
         return $schema
             ->components([
                 TextInput::make('name')
-                    ->required(),
+                    ->required()
+                    ->label(__('filament.Name')),
                 TextInput::make('email')
-                    ->label('Email address')
+                    ->label(__('filament.Email'))
                     ->email()
                     ->required(),
-                DateTimePicker::make('email_verified_at'),
+                DateTimePicker::make('email_verified_at')
+                    ->label(__('filament.Email Verified At')),
                 TextInput::make('password')
                     ->password()
-                    ->required(),
-                TextInput::make('role_id')
-                    ->numeric(),
+                    ->required()
+                    ->label(__('filament.Password')),
                 Toggle::make('is_active')
-                    ->required(),
+                    ->required()
+                    ->label(__('filament.Is Active')),
             ]);
     }
 }

@@ -18,9 +18,19 @@ class CustomerResource extends Resource
 {
     protected static ?string $model = Customer::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $recordTitleAttribute = 'name';
+
+    public static function getLabel(): string
+    {
+        return __('filament.Customers');
+    }
+
+    public static function getPluralLabel(): string
+    {
+        return __('filament.Customers');
+    }
 
     public static function form(Schema $schema): Schema
     {

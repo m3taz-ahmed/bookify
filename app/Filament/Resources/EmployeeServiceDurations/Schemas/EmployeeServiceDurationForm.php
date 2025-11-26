@@ -14,14 +14,14 @@ class EmployeeServiceDurationForm
             ->components([
                 Select::make('user_id')
                     ->relationship('employee', 'name')
-                    ->label('Employee')
+                    ->label(__('filament.Employee'))
                     ->required(),
                 Select::make('service_id')
                     ->relationship('service', 'name_ar')
-                    ->label('Service')
+                    ->label(__('filament.Service'))
                     ->required(),
                 TextInput::make('duration')
-                    ->label('Duration (minutes)')
+                    ->label(__('filament.Duration (minutes)'))
                     ->numeric()
                     ->minValue(1)
                     ->required(),

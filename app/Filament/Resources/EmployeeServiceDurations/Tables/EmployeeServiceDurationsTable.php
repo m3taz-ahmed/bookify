@@ -15,15 +15,15 @@ class EmployeeServiceDurationsTable
         return $table
             ->columns([
                 TextColumn::make('employee.name')
-                    ->label('Employee')
+                    ->label(__('filament.Employee'))
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('service.name_ar')
-                    ->label('Service')
+                    ->label(__('filament.Service'))
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('duration')
-                    ->label('Duration (minutes)')
+                    ->label(__('filament.Duration (minutes)'))
                     ->sortable(),
             ])
             ->filters([

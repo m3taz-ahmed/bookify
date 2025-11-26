@@ -16,14 +16,17 @@ class CustomersTable
             ->columns([
                 TextColumn::make('name')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->label(__('filament.Name')),
                 TextColumn::make('phone')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->label(__('filament.Phone')),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->label(__('filament.Created At')),
             ])
             ->filters([
                 //

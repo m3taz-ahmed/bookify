@@ -13,12 +13,14 @@ class CustomerForm
             ->components([
                 TextInput::make('name')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->label(__('filament.Name')),
                 TextInput::make('phone')
                     ->tel()
                     ->required()
                     ->maxLength(20)
-                    ->unique(ignoreRecord: true),
+                    ->unique(ignoreRecord: true)
+                    ->label(__('filament.Phone')),
             ]);
     }
 }

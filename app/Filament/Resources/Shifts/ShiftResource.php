@@ -19,11 +19,21 @@ class ShiftResource extends Resource
 {
     protected static ?string $model = Shift::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedClock;
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-clock';
     
     protected static string|UnitEnum|null $navigationGroup = 'Employees';
 
     protected static ?int $navigationSort = 3;
+
+    public static function getLabel(): string
+    {
+        return __('filament.Shifts');
+    }
+
+    public static function getPluralLabel(): string
+    {
+        return __('filament.Shifts');
+    }
 
     public static function form(Schema $schema): Schema
     {

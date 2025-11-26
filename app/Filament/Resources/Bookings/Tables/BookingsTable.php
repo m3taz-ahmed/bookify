@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\Bookings\Tables;
 
-use App\Filament\Resources\Bookings\Pages\RescheduleBooking;
 use App\Models\Booking;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -22,29 +21,29 @@ class BookingsTable
             ->columns([
                 TextColumn::make('reference_code')
                     ->searchable()
-                    ->label(__('Reference Code')),
+                    ->label(__('filament.Reference Code')),
                 TextColumn::make('customer_name')
                     ->searchable()
-                    ->label(__('Customer Name')),
+                    ->label(__('filament.Customer Name')),
                 TextColumn::make('customer_phone')
                     ->searchable()
-                    ->label(__('Customer Phone')),
+                    ->label(__('filament.Customer Phone')),
                 TextColumn::make('service.name_en')
-                    ->label(__('Service')),
+                    ->label(__('filament.Service')),
                 TextColumn::make('employee.name')
-                    ->label(__('Employee')),
+                    ->label(__('filament.Employee')),
                 TextColumn::make('booking_date')
                     ->date()
                     ->sortable()
-                    ->label(__('Booking Date')),
+                    ->label(__('filament.Booking Date')),
                 TextColumn::make('start_time')
                     ->time()
                     ->sortable()
-                    ->label(__('Start Time')),
+                    ->label(__('filament.Start Time')),
                 TextColumn::make('end_time')
                     ->time()
                     ->sortable()
-                    ->label(__('End Time')),
+                    ->label(__('filament.End Time')),
                 BadgeColumn::make('status')
                     ->colors([
                         'warning' => 'pending',
@@ -52,29 +51,29 @@ class BookingsTable
                         'success' => 'completed',
                         'danger' => 'cancelled',
                     ])
-                    ->label(__('Status')),
+                    ->label(__('filament.Status')),
                 TextColumn::make('payment_status')
                     ->searchable()
-                    ->label(__('Payment Status')),
+                    ->label(__('filament.Payment Status')),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true)
-                    ->label(__('Created At')),
+                    ->label(__('filament.Created At')),
                 TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true)
-                    ->label(__('Updated At')),
+                    ->label(__('filament.Updated At')),
             ])
             ->filters([
                 Filter::make('today')
-                    ->label(__('Today'))
+                    ->label(__('filament.Today'))
                     ->query(function (Builder $query) {
                         return $query->whereDate('booking_date', today());
                     }),
                 Filter::make('upcoming')
-                    ->label(__('Upcoming'))
+                    ->label(__('filament.Upcoming'))
                     ->query(function (Builder $query) {
                         return $query->whereDate('booking_date', '>=', today());
                     }),
@@ -89,13 +88,6 @@ class BookingsTable
                     ->action(function (Booking $record) {
                         $record->cancel();
                     })
-                    ->hidden(function (Booking $record) {
-                        return $record->status === 'cancelled' || $record->status === 'completed';
-                    }),
-                Action::make('reschedule')
-                    ->label('Reschedule')
-                    ->icon('heroicons-outline-calendar')
-                    ->url(fn (Booking $record): string => RescheduleBooking::getUrl(['record' => $record->id]))
                     ->hidden(function (Booking $record) {
                         return $record->status === 'cancelled' || $record->status === 'completed';
                     }),

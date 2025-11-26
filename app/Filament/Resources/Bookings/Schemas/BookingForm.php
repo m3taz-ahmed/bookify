@@ -20,43 +20,43 @@ class BookingForm
                 TextInput::make('reference_code')
                     ->required()
                     ->unique(ignoreRecord: true)
-                    ->label(__('Reference Code')),
+                    ->label(__('filament.Reference Code')),
                 TextInput::make('customer_name')
                     ->required()
-                    ->label(__('Customer Name')),
+                    ->label(__('filament.Customer Name')),
                 TextInput::make('customer_phone')
                     ->tel()
                     ->required()
-                    ->label(__('Customer Phone')),
+                    ->label(__('filament.Customer Phone')),
                 Select::make('service_id')
                     ->relationship('service', 'name_en')
                     ->required()
-                    ->label(__('Service')),
+                    ->label(__('filament.Service')),
                 Select::make('employee_id')
                     ->relationship('employee', 'name')
                     ->required()
-                    ->label(__('Employee')),
+                    ->label(__('filament.Employee')),
                 DatePicker::make('booking_date')
                     ->required()
-                    ->label(__('Booking Date')),
+                    ->label(__('filament.Booking Date')),
                 TimePicker::make('start_time')
                     ->required()
-                    ->label(__('Start Time')),
+                    ->label(__('filament.Start Time')),
                 TimePicker::make('end_time')
                     ->required()
-                    ->label(__('End Time')),
+                    ->label(__('filament.End Time')),
                 Radio::make('status')
                     ->options([
-                        'pending' => 'Pending',
-                        'confirmed' => 'Confirmed',
-                        'completed' => 'Completed',
-                        'cancelled' => 'Cancelled',
+                        'pending' => __('filament.Pending'),
+                        'confirmed' => __('filament.Confirmed'),
+                        'completed' => __('filament.Completed'),
+                        'cancelled' => __('filament.Cancelled'),
                     ])
                     ->default('pending')
                     ->required()
-                    ->label(__('Status')),
+                    ->label(__('filament.Status')),
                 TextInput::make('payment_status')
-                    ->label(__('Payment Status')),
+                    ->label(__('filament.Payment Status')),
             ]);
     }
 }

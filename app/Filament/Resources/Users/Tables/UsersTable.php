@@ -16,26 +16,28 @@ class UsersTable
         return $table
             ->columns([
                 TextColumn::make('name')
-                    ->searchable(),
+                    ->searchable()
+                    ->label(__('filament.Name')),
                 TextColumn::make('email')
-                    ->label('Email address')
+                    ->label(__('filament.Email'))
                     ->searchable(),
                 TextColumn::make('email_verified_at')
                     ->dateTime()
-                    ->sortable(),
-                TextColumn::make('role_id')
-                    ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->label(__('filament.Email Verified At')),
                 IconColumn::make('is_active')
-                    ->boolean(),
+                    ->boolean()
+                    ->label(__('filament.Is Active')),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->label(__('filament.Created At')),
                 TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->label(__('filament.Updated At')),
             ])
             ->filters([
                 //
