@@ -37,25 +37,25 @@
                                     </a>
                                 </div>
                                 <div class="hidden md:ml-6 md:flex md:space-x-6">
-                                    <a href="{{ route('customer.dashboard') }}" class="border-primary-500 text-dark-500 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition-colors duration-200 {{ request()->routeIs('customer.dashboard') ? 'text-primary-600' : 'hover:text-dark-700' }}">
+                                    <a href="{{ route('customer.dashboard') }}" class="text-dark-500 hover:text-dark-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition-colors duration-200 {{ request()->routeIs('customer.dashboard') ? 'border-primary-500 text-primary-600' : 'border-transparent' }}">
                                         <svg class="h-4 w-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                                         </svg>
                                         {{ __('website.dashboard') }}
                                     </a>
-                                    <a href="{{ route('customer.bookings') }}" class="border-transparent text-dark-500 hover:border-background-300 hover:text-dark-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition-colors duration-200 {{ request()->routeIs('customer.bookings', 'customer.bookings.edit') ? 'border-primary-500 text-primary-600' : '' }}">
+                                    <a href="{{ route('customer.bookings') }}" class="text-dark-500 hover:border-background-300 hover:text-dark-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition-colors duration-200 {{ request()->routeIs('customer.bookings', 'customer.bookings.edit') ? 'border-primary-500 text-primary-600'  : 'border-transparent' }}">
                                         <svg class="h-4 w-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" />
                                         </svg>
                                         {{ __('website.my_bookings') }}
                                     </a>
-                                    <a href="{{ route('customer.bookings.create') }}" class="border-transparent text-dark-500 hover:border-background-300 hover:text-dark-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition-colors duration-200 {{ request()->routeIs('customer.bookings.create') ? 'border-primary-500 text-primary-600' : '' }}">
+                                    <a href="{{ route('customer.bookings.create') }}" class="text-dark-500 hover:border-background-300 hover:text-dark-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition-colors duration-200 {{ request()->routeIs('customer.bookings.create') ? 'border-primary-500 text-primary-600'  : 'border-transparent' }}">
                                         <svg class="h-4 w-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                                         </svg>
                                         {{ __('website.book_appointment_nav') }}
                                     </a>
-                                    <a href="{{ route('customer.profile') }}" class="border-transparent text-dark-500 hover:border-background-300 hover:text-dark-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition-colors duration-200 {{ request()->routeIs('customer.profile', 'customer.profile.edit') ? 'border-primary-500 text-primary-600' : '' }}">
+                                    <a href="{{ route('customer.profile') }}" class="text-dark-500 hover:border-background-300 hover:text-dark-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition-colors duration-200 {{ request()->routeIs('customer.profile', 'customer.profile.edit') ? 'border-primary-500 text-primary-600'  : 'border-transparent' }}">
                                         <svg class="h-4 w-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                         </svg>
@@ -109,16 +109,16 @@
                 <!-- Mobile menu -->
                 <div class="md:hidden hidden" id="mobile-menu">
                     <div class="pt-2 pb-3 space-y-1">
-                        <a href="{{ route('customer.dashboard') }}" class="bg-primary-50 border-primary-500 text-primary-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
+                        <a href="{{ route('customer.dashboard') }}" class="text-dark-600 hover:bg-background-50 hover:text-dark-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium {{ request()->routeIs('customer.dashboard') ? 'bg-primary-50 border-primary-500 text-primary-700' : 'border-transparent' }}">
                             {{ __('website.dashboard') }}
                         </a>
-                        <a href="{{ route('customer.bookings') }}" class="border-transparent text-dark-600 hover:bg-background-50 hover:border-background-300 hover:text-dark-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium {{ request()->routeIs('customer.bookings', 'customer.bookings.edit') ? 'border-primary-500 bg-primary-50 text-primary-700' : '' }}">
+                        <a href="{{ route('customer.bookings') }}" class="text-dark-600 hover:bg-background-50 hover:border-background-300 hover:text-dark-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium {{ request()->routeIs('customer.bookings', 'customer.bookings.edit') ? 'border-primary-500 bg-primary-50 text-primary-700' : '' }}">
                             {{ __('website.my_bookings') }}
                         </a>
-                        <a href="{{ route('customer.bookings.create') }}" class="border-transparent text-dark-600 hover:bg-background-50 hover:border-background-300 hover:text-dark-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium {{ request()->routeIs('customer.bookings.create') ? 'border-primary-500 bg-primary-50 text-primary-700' : '' }}">
+                        <a href="{{ route('customer.bookings.create') }}" class="text-dark-600 hover:bg-background-50 hover:border-background-300 hover:text-dark-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium {{ request()->routeIs('customer.bookings.create') ? 'border-primary-500 bg-primary-50 text-primary-700' : '' }}">
                             {{ __('website.book_appointment_nav') }}
                         </a>
-                        <a href="{{ route('customer.profile') }}" class="border-transparent text-dark-600 hover:bg-background-50 hover:border-background-300 hover:text-dark-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium {{ request()->routeIs('customer.profile', 'customer.profile.edit') ? 'border-primary-500 bg-primary-50 text-primary-700' : '' }}">
+                        <a href="{{ route('customer.profile') }}" class="text-dark-600 hover:bg-background-50 hover:border-background-300 hover:text-dark-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium {{ request()->routeIs('customer.profile', 'customer.profile.edit') ? 'border-primary-500 bg-primary-50 text-primary-700' : '' }}">
                             {{ __('website.profile') }}
                         </a>
                     </div>
