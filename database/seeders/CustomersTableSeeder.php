@@ -14,18 +14,18 @@ class CustomersTableSeeder extends Seeder
      */
     public function run(): void
     {
-        Customer::create([
-            'name' => 'John Doe',
-            'email' => 'john@example.com',
-            'phone' => '1234567890',
-            'password' => Hash::make('password'),
-        ]);
+        Customer::firstOrCreate(
+            ['phone' => '1234567890'],
+            [
+                'name' => 'John Doe',
+            ]
+        );
         
-        Customer::create([
-            'name' => 'Jane Smith',
-            'email' => 'jane@example.com',
-            'phone' => '0987654321',
-            'password' => Hash::make('password'),
-        ]);
+        Customer::firstOrCreate(
+            ['phone' => '0987654321'],
+            [
+                'name' => 'Jane Smith',
+            ]
+        );
     }
 }

@@ -40,28 +40,28 @@ class UserResource extends Resource
     {
         /** @var \App\Models\User $user */
         $user = Auth::user();
-        return $user->can('view users');
+        return $user->can('ViewAny:User');
     }
 
     public static function canCreate(): bool
     {
         /** @var \App\Models\User $user */
         $user = Auth::user();
-        return $user->can('create users');
+        return $user->can('Create:User');
     }
 
     public static function canEdit($record): bool
     {
         /** @var \App\Models\User $user */
         $user = Auth::user();
-        return $user->can('edit users');
+        return $user->can('Update:User');
     }
 
     public static function canDelete($record): bool
     {
         /** @var \App\Models\User $user */
         $user = Auth::user();
-        return $user->can('delete users');
+        return $user->can('Delete:User');
     }
 
     public static function form(Schema $schema): Schema

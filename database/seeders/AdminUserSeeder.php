@@ -14,8 +14,9 @@ class AdminUserSeeder extends Seeder
      */
     public function run(): void
     {
-        // Ensure the admin role exists
+        // Ensure the admin and super_admin roles exist
         $adminRole = Role::firstOrCreate(['name' => 'admin']);
+        $superAdminRole = Role::firstOrCreate(['name' => 'super_admin']);
         
         // Create the admin user with the specified credentials
         $adminUser = User::firstOrCreate(
@@ -27,7 +28,8 @@ class AdminUserSeeder extends Seeder
             ]
         );
         
-        // Assign the admin role to the user
+        // Assign both admin and super_admin roles to the user
         $adminUser->assignRole($adminRole);
+        $adminUser->assignRole($superAdminRole);
     }
 }

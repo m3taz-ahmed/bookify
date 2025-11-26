@@ -13,32 +13,29 @@ class ServicesTableSeeder extends Seeder
     public function run(): void
     {
         Service::create([
-            'name_en' => 'Haircut',
-            'name_ar' => 'قصة شعر',
-            'description_en' => 'Professional haircut service',
-            'description_ar' => 'خدمة قصة شعر احترافية',
-            'duration_minutes' => 30,
+            'name_en' => 'Sky Bridge Tour',
+            'name_ar' => 'جولة جسر السماء',
+            'description_en' => 'Experience the breathtaking views from the Sky Bridge',
+            'description_ar' => 'استمتع بالمناظر الخلابة من جسر السماء',
             'price' => 25.00,
             'is_active' => true,
         ]);
 
         Service::create([
-            'name_en' => 'Beard Trim',
-            'name_ar' => 'تقليم اللحية',
-            'description_en' => 'Professional beard trimming service',
-            'description_ar' => 'خدمة تقليم لحية احترافية',
-            'duration_minutes' => 20,
-            'price' => 15.00,
+            'name_en' => 'VIP Sky Bridge Tour',
+            'name_ar' => 'جولة جسر السماء الخاصة',
+            'description_en' => 'Premium VIP experience with priority access',
+            'description_ar' => 'تجربة خاصة مع أولوية الوصول',
+            'price' => 50.00,
             'is_active' => true,
         ]);
 
         Service::create([
-            'name_en' => 'Hair Coloring',
-            'name_ar' => 'صبغة شعر',
-            'description_en' => 'Professional hair coloring service',
-            'description_ar' => 'خدمة صبغة شعر احترافية',
-            'duration_minutes' => 60,
-            'price' => 60.00,
+            'name_en' => 'Sunset Sky Bridge Tour',
+            'name_ar' => 'جولة غروب الشمس على جسر السماء',
+            'description_en' => 'Enjoy the beautiful sunset views from the Sky Bridge',
+            'description_ar' => 'استمتع بمناظر غروب الشمس الجميلة من جسر السماء',
+            'price' => 35.00,
             'is_active' => true,
         ]);
     }

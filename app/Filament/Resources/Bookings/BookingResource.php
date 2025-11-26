@@ -37,7 +37,7 @@ class BookingResource extends Resource
         /** @var \App\Models\User $user */
         $user = Auth::user();
         
-        return $user->can('view bookings');
+        return $user->can('ViewAny:Booking');
     }
 
     public static function canCreate(): bool
@@ -45,7 +45,7 @@ class BookingResource extends Resource
         /** @var \App\Models\User $user */
         $user = Auth::user();
         
-        return $user->can('create bookings');
+        return $user->can('Create:Booking');
     }
 
     public static function canEdit($record): bool
@@ -53,7 +53,7 @@ class BookingResource extends Resource
         /** @var \App\Models\User $user */
         $user = Auth::user();
         
-        return $user->can('edit bookings');
+        return $user->can('Update:Booking');
     }
 
     public static function canDelete($record): bool
@@ -61,7 +61,7 @@ class BookingResource extends Resource
         /** @var \App\Models\User $user */
         $user = Auth::user();
         
-        return $user->can('delete bookings');
+        return $user->can('Delete:Booking');
     }
 
     public static function form(Schema $schema): Schema

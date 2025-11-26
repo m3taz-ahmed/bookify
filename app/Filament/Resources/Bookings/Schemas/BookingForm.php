@@ -32,10 +32,6 @@ class BookingForm
                     ->relationship('service', 'name_en')
                     ->required()
                     ->label(__('filament.Service')),
-                Select::make('employee_id')
-                    ->relationship('employee', 'name')
-                    ->required()
-                    ->label(__('filament.Employee')),
                 DatePicker::make('booking_date')
                     ->required()
                     ->label(__('filament.Booking Date')),

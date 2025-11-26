@@ -69,10 +69,27 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::firstOrCreate(['name' => 'RestoreAny:User']);
         Permission::firstOrCreate(['name' => 'Replicate:User']);
         Permission::firstOrCreate(['name' => 'Reorder:User']);
+        
+        // Role permissions
+        Permission::firstOrCreate(['name' => 'ViewAny:Role']);
+        Permission::firstOrCreate(['name' => 'View:Role']);
+        Permission::firstOrCreate(['name' => 'Create:Role']);
+        Permission::firstOrCreate(['name' => 'Update:Role']);
+        Permission::firstOrCreate(['name' => 'Delete:Role']);
+        Permission::firstOrCreate(['name' => 'Restore:Role']);
+        Permission::firstOrCreate(['name' => 'ForceDelete:Role']);
+        Permission::firstOrCreate(['name' => 'ForceDeleteAny:Role']);
+        Permission::firstOrCreate(['name' => 'RestoreAny:Role']);
+        Permission::firstOrCreate(['name' => 'Replicate:Role']);
+        Permission::firstOrCreate(['name' => 'Reorder:Role']);
 
         // Create roles and assign permissions if they don't exist
         $adminRole = Role::firstOrCreate(['name' => 'admin']);
         $adminRole->givePermissionTo(Permission::all());
+        
+        // Create super_admin role and give all permissions
+        $superAdminRole = Role::firstOrCreate(['name' => 'super_admin']);
+        $superAdminRole->givePermissionTo(Permission::all());
         
         $employeeRole = Role::firstOrCreate(['name' => 'employee']);
         $employeeRole->givePermissionTo([
