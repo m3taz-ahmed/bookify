@@ -105,4 +105,7 @@ return [
     'Upcoming' => 'القادمة',
     'Email Verified At' => 'تاريخ تحقق البريد الإلكتروني',
     'Role ID' => 'معرف الدور',
+    'Number of People' => 'عدد الأشخاص',
+    'Payment Method' => 'طريقة الدفع',
+    'Rating' => 'التقييم',
 ];

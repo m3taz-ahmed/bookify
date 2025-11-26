@@ -24,7 +24,7 @@ class BookingsTable
                     ->label(__('filament.Reference Code')),
                 TextColumn::make('customer.phone')
                     ->searchable()
-                    ->label(__('filament.Customer Phone')),
+                    ->label(__('filament.Customer')),
                 TextColumn::make('service.name')
                     ->label(__('filament.Service')),
                 TextColumn::make('booking_date')
@@ -55,8 +55,8 @@ class BookingsTable
                         'danger' => 'cancelled',
                     ])
                     ->label(__('filament.Status')),
-                TextColumn::make('rating')
-                    ->label(__('filament.Rating')),
+                // TextColumn::make('rating')
+                //     ->label(__('filament.Rating')),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

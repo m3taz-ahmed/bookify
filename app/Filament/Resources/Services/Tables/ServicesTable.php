@@ -22,14 +22,14 @@ class ServicesTable
                 TextColumn::make('name_ar')
                     ->searchable()
                     ->label(__('filament.Name (Arabic)')),
-                TextColumn::make('description_en')
-                    ->searchable()
-                    ->label(__('filament.Description (English)'))
-                    ->limit(50),
-                TextColumn::make('description_ar')
-                    ->searchable()
-                    ->label(__('filament.Description (Arabic)'))
-                    ->limit(50),
+                // TextColumn::make('description_en')
+                //     ->searchable()
+                //     ->label(__('filament.Description (English)'))
+                //     ->limit(50),
+                // TextColumn::make('description_ar')
+                //     ->searchable()
+                //     ->label(__('filament.Description (Arabic)'))
+                //     ->limit(50),
                 TextColumn::make('price')
                     ->money()
                     ->sortable()

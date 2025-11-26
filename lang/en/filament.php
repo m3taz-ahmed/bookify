@@ -105,4 +105,7 @@ return [
     'Upcoming' => 'Upcoming',
     'Email Verified At' => 'Email Verified At',
     'Role ID' => 'Role ID',
+    'Number of People' => 'Number of People',
+    'Payment Method' => 'Payment Method',
+    'Rating' => 'Rating',
 ];

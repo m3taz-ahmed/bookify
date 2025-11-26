@@ -20,14 +20,15 @@ class BookingForm
                 TextInput::make('reference_code')
                     ->required()
                     ->unique(ignoreRecord: true)
-                    ->label(__('filament.Reference Code')),
-                TextInput::make('customer_name')
+                    ->label(__('filament.Reference Code'))
+                    ->disabled()
+                    ->dehydrated(false)
+                    ->visible(fn ($context) => $context === 'edit'),
+                Select::make('customer_id')
+                    ->relationship('customer', 'phone')
                     ->required()
-                    ->label(__('filament.Customer Name')),
-                TextInput::make('customer_phone')
-                    ->tel()
-                    ->required()
-                    ->label(__('filament.Customer Phone')),
+                    ->searchable()
+                    ->label(__('filament.Customer')),
                 Select::make('service_id')
                     ->relationship('service', 'name_en')
                     ->required()
@@ -37,9 +38,11 @@ class BookingForm
                     ->label(__('filament.Booking Date')),
                 TimePicker::make('start_time')
                     ->required()
+                    ->seconds(false)
                     ->label(__('filament.Start Time')),
                 TimePicker::make('end_time')
                     ->required()
+                    ->seconds(false)
                     ->label(__('filament.End Time')),
                 Radio::make('status')
                     ->options([

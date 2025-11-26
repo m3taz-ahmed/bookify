@@ -1,0 +1,80 @@
+app\Filament\Resources\Bookings\BookingResource.php:        return __('filament.Bookings');
+app\Filament\Resources\Bookings\BookingResource.php:        return __('filament.Bookings');
+app\Filament\Resources\Bookings\Schemas\BookingForm.php:                    ->label(__('filament.Reference Code'))
+app\Filament\Resources\Bookings\Schemas\BookingForm.php:                    ->label(__('filament.Customer')),
+app\Filament\Resources\Bookings\Schemas\BookingForm.php:                    ->label(__('filament.Service')),
+app\Filament\Resources\Bookings\Schemas\BookingForm.php:                    ->label(__('filament.Booking Date')),
+app\Filament\Resources\Bookings\Schemas\BookingForm.php:                    ->label(__('filament.Start Time')),
+app\Filament\Resources\Bookings\Schemas\BookingForm.php:                    ->label(__('filament.End Time')),
+app\Filament\Resources\Bookings\Schemas\BookingForm.php:                        'pending' => __('filament.Pending'),
+app\Filament\Resources\Bookings\Schemas\BookingForm.php:                        'confirmed' => __('filament.Confirmed'),
+app\Filament\Resources\Bookings\Schemas\BookingForm.php:                        'completed' => __('filament.Completed'),
+app\Filament\Resources\Bookings\Schemas\BookingForm.php:                        'cancelled' => __('filament.Cancelled'),
+app\Filament\Resources\Bookings\Schemas\BookingForm.php:                    ->label(__('filament.Status')),
+app\Filament\Resources\Bookings\Schemas\BookingForm.php:                    ->label(__('filament.Payment Status')),
+app\Filament\Resources\Bookings\Tables\BookingsTable.php:                    ->label(__('filament.Reference Code')),
+app\Filament\Resources\Bookings\Tables\BookingsTable.php:                    ->label(__('filament.Customer')),
+app\Filament\Resources\Bookings\Tables\BookingsTable.php:                    ->label(__('filament.Service')),
+app\Filament\Resources\Bookings\Tables\BookingsTable.php:                    ->label(__('filament.Booking Date')),
+app\Filament\Resources\Bookings\Tables\BookingsTable.php:                    ->label(__('filament.Start Time')),
+app\Filament\Resources\Bookings\Tables\BookingsTable.php:                    ->label(__('filament.End Time')),
+app\Filament\Resources\Bookings\Tables\BookingsTable.php:                    ->label(__('filament.Number of People')),
+app\Filament\Resources\Bookings\Tables\BookingsTable.php:                    ->label(__('filament.Payment Method')),
+app\Filament\Resources\Bookings\Tables\BookingsTable.php:                    ->label(__('filament.Status')),
+app\Filament\Resources\Bookings\Tables\BookingsTable.php:                    ->label(__('filament.Rating')),
+app\Filament\Resources\Bookings\Tables\BookingsTable.php:                    ->label(__('filament.Created At')),
+app\Filament\Resources\Bookings\Tables\BookingsTable.php:                    ->label(__('filament.Updated At')),
+app\Filament\Resources\Bookings\Tables\BookingsTable.php:                    ->label(__('filament.Today'))
+app\Filament\Resources\Bookings\Tables\BookingsTable.php:                    ->label(__('filament.Upcoming'))
+app\Filament\Resources\Customers\CustomerResource.php:        return __('filament.Customers');
+app\Filament\Resources\Customers\CustomerResource.php:        return __('filament.Customers');
+app\Filament\Resources\Customers\Schemas\CustomerForm.php:                    ->label(__('filament.Name')),
+app\Filament\Resources\Customers\Schemas\CustomerForm.php:                    ->label(__('filament.Phone')),
+app\Filament\Resources\Customers\Tables\CustomersTable.php:                    ->label(__('filament.Name')),
+app\Filament\Resources\Customers\Tables\CustomersTable.php:                    ->label(__('filament.Phone')),
+app\Filament\Resources\Customers\Tables\CustomersTable.php:                    ->label(__('filament.Created At')),
+app\Filament\Resources\Roles\RoleResource.php:                                    ->label(__('filament-shield::filament-shield.field.name'))
+app\Filament\Resources\Roles\RoleResource.php:                                    ->label(__('filament-shield::filament-shield.field.guard_name'))
+app\Filament\Resources\Roles\RoleResource.php:                                    ->label(__('filament-shield::filament-shield.field.team'))
+app\Filament\Resources\Roles\RoleResource.php:                                    ->placeholder(__('filament-shield::filament-shield.field.team.placeholder'))
+app\Filament\Resources\Roles\RoleResource.php:                    ->label(__('filament-shield::filament-shield.column.name'))
+app\Filament\Resources\Roles\RoleResource.php:                    ->label(__('filament-shield::filament-shield.column.guard_name')),
+app\Filament\Resources\Roles\RoleResource.php:                    ->label(__('filament-shield::filament-shield.column.team'))
+app\Filament\Resources\Roles\RoleResource.php:                    ->label(__('filament-shield::filament-shield.column.permissions'))
+app\Filament\Resources\Roles\RoleResource.php:                    ->label(__('filament-shield::filament-shield.column.updated_at'))
+app\Filament\Resources\Roles\RoleResource.php:        return __('filament-shield::filament-shield.nav.group');
+app\Filament\Resources\Roles\RoleResource.php:        return __('filament-shield::filament-shield.nav.role.label');
+app\Filament\Resources\Roles\RoleResource.php:        return __('filament-shield::filament-shield.nav.role.breadcrumb');
+app\Filament\Resources\Services\Schemas\ServiceForm.php:                    ->label(__('filament.Name (English)')),
+app\Filament\Resources\Services\Schemas\ServiceForm.php:                    ->label(__('filament.Name (Arabic)')),
+app\Filament\Resources\Services\Schemas\ServiceForm.php:                    ->label(__('filament.Description (English)')),
+app\Filament\Resources\Services\Schemas\ServiceForm.php:                    ->label(__('filament.Description (Arabic)')),
+app\Filament\Resources\Services\Schemas\ServiceForm.php:                    ->label(__('filament.Price')),
+app\Filament\Resources\Services\Schemas\ServiceForm.php:                    ->label(__('filament.Is Active')),
+app\Filament\Resources\Services\Schemas\ServiceForm.php:                    ->label(__('filament.Sort Order')),
+app\Filament\Resources\Services\ServiceResource.php:        return __('filament.Services');
+app\Filament\Resources\Services\ServiceResource.php:        return __('filament.Services');
+app\Filament\Resources\Services\Tables\ServicesTable.php:                    ->label(__('filament.Name (English)')),
+app\Filament\Resources\Services\Tables\ServicesTable.php:                    ->label(__('filament.Name (Arabic)')),
+app\Filament\Resources\Services\Tables\ServicesTable.php:                //     ->label(__('filament.Description (English)'))
+app\Filament\Resources\Services\Tables\ServicesTable.php:                //     ->label(__('filament.Description (Arabic)'))
+app\Filament\Resources\Services\Tables\ServicesTable.php:                    ->label(__('filament.Price')),
+app\Filament\Resources\Services\Tables\ServicesTable.php:                    ->label(__('filament.Is Active')),
+app\Filament\Resources\Services\Tables\ServicesTable.php:                    ->label(__('filament.Created At')),
+app\Filament\Resources\Services\Tables\ServicesTable.php:                    ->label(__('filament.Updated At')),
+app\Filament\Resources\Services\Tables\ServicesTable.php:                    ->label(__('filament.Sort Order')),
+app\Filament\Resources\Users\Schemas\UserForm.php:                    ->label(__('filament.Name')),
+app\Filament\Resources\Users\Schemas\UserForm.php:                    ->label(__('filament.Email'))
+app\Filament\Resources\Users\Schemas\UserForm.php:                    ->label(__('filament.Email Verified At')),
+app\Filament\Resources\Users\Schemas\UserForm.php:                    ->label(__('filament.Password')),
+app\Filament\Resources\Users\Schemas\UserForm.php:                    ->label(__('filament.Is Active')),
+app\Filament\Resources\Users\Schemas\UserForm.php:                    ->label(__('filament.Role'))
+app\Filament\Resources\Users\Tables\UsersTable.php:                    ->label(__('filament.Name')),
+app\Filament\Resources\Users\Tables\UsersTable.php:                    ->label(__('filament.Email'))
+app\Filament\Resources\Users\Tables\UsersTable.php:                    ->label(__('filament.Role'))
+app\Filament\Resources\Users\Tables\UsersTable.php:                    ->label(__('filament.Is Active')),
+app\Filament\Resources\Users\Tables\UsersTable.php:                    ->label(__('filament.Email Verified At')),
+app\Filament\Resources\Users\Tables\UsersTable.php:                    ->label(__('filament.Created At')),
+app\Filament\Resources\Users\Tables\UsersTable.php:                    ->label(__('filament.Updated At')),
+app\Filament\Resources\Users\UserResource.php:        return __('filament.Users');
+app\Filament\Resources\Users\UserResource.php:        return __('filament.Users');

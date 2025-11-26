@@ -16,6 +16,18 @@ class Booking extends Model
     use HasFactory, BookingUtilities, LogsActivity;
 
     protected $guarded = [];
+    
+    protected static function boot()
+    {
+        parent::boot();
+        
+        static::creating(function ($booking) {
+            // Auto-generate reference code if not provided
+            if (empty($booking->reference_code)) {
+                $booking->reference_code = self::generateReferenceCode();
+            }
+        });
+    }
 
     protected $casts = [
         'booking_date' => 'date',
