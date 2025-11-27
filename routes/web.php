@@ -76,3 +76,14 @@ Route::get('/test-translations', function () {
         'session_locale' => session('locale'),
     ]);
 })->name('test.translations')->middleware('web');
+
+// Static pages routes
+Route::get('/{slug}', function ($slug) {
+    $page = \App\Models\Page::where('slug', $slug)->active()->first();
+    
+    if (!$page) {
+        abort(404);
+    }
+    
+    return view('pages.show', compact('page'));
+})->where('slug', '^(?!admin|customer|api|filament|lang|check-in|book|welcome|test).*')->name('pages.show');

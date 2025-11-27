@@ -39,6 +39,8 @@
                             {{ $switchLocale === 'ar' ? __('website.arabic') : __('website.english') }}
                         </a>
                     </div>
+                    <a href="{{ route('pages.show', 'about-us') }}" class="text-dark-500 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">{{ __('website.about') }}</a>
+                    <a href="{{ route('pages.show', 'contact-us') }}" class="text-dark-500 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">{{ __('website.contact_us') }}</a>
                     @auth('customer')
                         <a href="{{ route('customer.dashboard') }}" class="text-dark-500 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 {{ request()->routeIs('customer.dashboard') ? 'bg-primary-100 text-primary-600' : '' }}">{{ __('website.dashboard') }}</a>
                         <a href="{{ route('customer.bookings') }}" class="text-dark-500 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 {{ request()->routeIs('customer.bookings') ? 'bg-primary-100 text-primary-600' : '' }}">{{ __('website.my_bookings') }}</a>
@@ -71,6 +73,12 @@
         <!-- Mobile menu -->
         <div class="md:hidden hidden" id="mobile-menu">
             <div class="pt-2 pb-3 space-y-1">
+                <a href="{{ route('pages.show', 'about-us') }}" class="border-transparent text-dark-600 hover:bg-background-50 hover:border-background-300 hover:text-dark-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
+                    {{ __('website.about') }}
+                </a>
+                <a href="{{ route('pages.show', 'contact-us') }}" class="border-transparent text-dark-600 hover:bg-background-50 hover:border-background-300 hover:text-dark-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
+                    {{ __('website.contact_us') }}
+                </a>
                 @auth('customer')
                     <a href="{{ route('customer.dashboard') }}" class="border-transparent text-dark-600 hover:bg-background-50 hover:border-background-300 hover:text-dark-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium {{ request()->routeIs('customer.dashboard') ? 'bg-primary-100 border-primary-500' : '' }}">
                         {{ __('website.dashboard') }}
@@ -176,13 +184,13 @@
                             </h3>
                             <ul class="mt-4 space-y-4">
                                 <li>
-                                    <a href="#" class="text-base text-dark-400 hover:text-primary-300">
+                                    <a href="{{ route('pages.show', 'about-us') }}" class="text-base text-dark-400 hover:text-primary-300">
                                         {{ __('website.about') }}
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#" class="text-base text-dark-400 hover:text-primary-300">
-                                        {{ __('website.blog') }}
+                                    <a href="{{ route('pages.show', 'contact-us') }}" class="text-base text-dark-400 hover:text-primary-300">
+                                        {{ __('website.contact_us') }}
                                     </a>
                                 </li>
                             </ul>
@@ -193,13 +201,18 @@
                             </h3>
                             <ul class="mt-4 space-y-4">
                                 <li>
-                                    <a href="#" class="text-base text-dark-400 hover:text-primary-300">
+                                    <a href="{{ route('pages.show', 'privacy-policy') }}" class="text-base text-dark-400 hover:text-primary-300">
                                         {{ __('website.privacy') }}
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#" class="text-base text-dark-400 hover:text-primary-300">
+                                    <a href="{{ route('pages.show', 'terms-and-conditions') }}" class="text-base text-dark-400 hover:text-primary-300">
                                         {{ __('website.terms') }}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('pages.show', 'faq') }}" class="text-base text-dark-400 hover:text-primary-300">
+                                        {{ __('website.faq') }}
                                     </a>
                                 </li>
                             </ul>

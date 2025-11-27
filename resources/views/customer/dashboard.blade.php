@@ -145,14 +145,60 @@
         <!-- Services Overview -->
         <div class="bg-white rounded-2xl shadow-md p-6 border border-accent-200">
             <h2 class="text-2xl font-bold text-gray-900 mb-6">{{ __('website.popular_services') }}</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                @foreach(\App\Models\Service::where('is_active', true)->limit(3)->get() as $service)
-                    <div class="border border-gray-200 rounded-xl p-5 hover:border-primary-300 transition-colors duration-200">
-                        <h3 class="font-bold text-lg text-gray-900 mb-2">{{ $service->name_en }}</h3>
-                        <p class="text-sm text-gray-600 mb-3">{{ $service->description }}</p>
-                        <div class="flex justify-between items-center pt-3 border-t border-gray-100">
-                            <span class="text-lg font-bold text-primary-600">${{ $service->price }}</span>
-                            <span class="text-sm text-gray-500">{{ $service->duration_minutes }} {{ __('website.mins') }}</span>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                @foreach(\App\Models\Service::where('is_active', true)->with('images')->limit(3)->get() as $service)
+                    <div class="border border-gray-200 rounded-xl overflow-hidden hover:border-primary-300 transition-all duration-300 hover:shadow-lg">
+                        <!-- Image Gallery Slider -->
+                        <div class="relative h-48 overflow-hidden">
+                            @if($service->images->isNotEmpty())
+                                <div class="image-slider-container relative w-full h-full" data-service-id="{{ $service->id }}">
+                                    @foreach($service->images as $index => $image)
+                                        <div class="image-slide absolute inset-0 transition-opacity duration-500 {{ $index === 0 ? 'opacity-100' : 'opacity-0' }}">
+                                            <img src="{{ Storage::url($image->image) }}" alt="{{ $service->name }}" class="w-full h-full object-cover">
+                                        </div>
+                                    @endforeach
+                                    
+                                    @if($service->images->count() > 1)
+                                        <!-- Navigation Dots -->
+                                        <div class="absolute bottom-3 left-0 right-0 flex justify-center space-x-2" data-dot-container="{{ $service->id }}">
+                                            @foreach($service->images as $index => $image)
+                                                <button class="w-2 h-2 rounded-full {{ $index === 0 ? 'bg-white' : 'bg-white bg-opacity-50' }}" 
+                                                        data-dot="{{ $service->id }}" data-index="{{ $index }}">
+                                                </button>
+                                            @endforeach
+                                        </div>
+                                        
+                                        <!-- Navigation Arrows -->
+                                        <button class="absolute left-3 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-30 text-white rounded-full p-1 hover:bg-opacity-50 transition-all duration-200" 
+                                                data-prev="{{ $service->id }}">
+                                            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                                            </svg>
+                                        </button>
+                                        <button class="absolute right-3 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-30 text-white rounded-full p-1 hover:bg-opacity-50 transition-all duration-200" 
+                                                data-next="{{ $service->id }}">
+                                            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                            </svg>
+                                        </button>
+                                    @endif
+                                </div>
+                            @else
+                                <div class="bg-gradient-to-br from-primary-100 to-secondary-100 w-full h-full flex items-center justify-center">
+                                    <svg class="h-12 w-12 text-primary-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                    </svg>
+                                </div>
+                            @endif
+                        </div>
+                        
+                        <div class="p-5">
+                            <h3 class="font-bold text-lg text-gray-900 mb-2">{{ $service->name_en }}</h3>
+                            <p class="text-sm text-gray-600 mb-3 line-clamp-2">{{ $service->description }}</p>
+                            <div class="flex justify-between items-center pt-3 border-t border-gray-100">
+                                <span class="text-lg font-bold text-primary-600">${{ $service->price }}</span>
+                                <span class="text-sm text-gray-500">{{ $service->duration_minutes }} {{ __('website.mins') }}</span>
+                            </div>
                         </div>
                     </div>
                 @endforeach
@@ -168,4 +214,101 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+<script>
+// Image slider functionality
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize sliders for each service
+    const serviceElements = document.querySelectorAll('[data-service-id]');
+    
+    serviceElements.forEach(serviceElement => {
+        const serviceId = serviceElement.getAttribute('data-service-id');
+        const slides = serviceElement.querySelectorAll('.image-slide');
+        const dots = serviceElement.querySelectorAll('[data-dot]');
+        const prevButton = serviceElement.querySelector('[data-prev]');
+        const nextButton = serviceElement.querySelector('[data-next]');
+        
+        if (slides.length > 1) {
+            let currentSlide = 0;
+            
+            // Set up dot click events
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    // Hide all slides
+                    slides.forEach(slide => slide.classList.add('opacity-0'));
+                    
+                    // Show the selected slide
+                    slides[index].classList.remove('opacity-0');
+                    
+                    // Update current slide
+                    currentSlide = index;
+                    
+                    // Update dot indicators
+                    updateDotIndicators(dots, currentSlide);
+                });
+            });
+            
+            // Set up prev button click event
+            if (prevButton) {
+                prevButton.addEventListener('click', () => {
+                    currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                    
+                    // Hide all slides
+                    slides.forEach(slide => slide.classList.add('opacity-0'));
+                    
+                    // Show the current slide
+                    slides[currentSlide].classList.remove('opacity-0');
+                    
+                    // Update dot indicators
+                    updateDotIndicators(dots, currentSlide);
+                });
+            }
+            
+            // Set up next button click event
+            if (nextButton) {
+                nextButton.addEventListener('click', () => {
+                    currentSlide = (currentSlide + 1) % slides.length;
+                    
+                    // Hide all slides
+                    slides.forEach(slide => slide.classList.add('opacity-0'));
+                    
+                    // Show the current slide
+                    slides[currentSlide].classList.remove('opacity-0');
+                    
+                    // Update dot indicators
+                    updateDotIndicators(dots, currentSlide);
+                });
+            }
+            
+            // Auto-advance slides
+            setInterval(() => {
+                currentSlide = (currentSlide + 1) % slides.length;
+                
+                // Hide all slides
+                slides.forEach(slide => slide.classList.add('opacity-0'));
+                
+                // Show the current slide
+                slides[currentSlide].classList.remove('opacity-0');
+                
+                // Update dot indicators
+                updateDotIndicators(dots, currentSlide);
+            }, 5000);
+        }
+    });
+    
+    function updateDotIndicators(dots, currentIndex) {
+        dots.forEach((dot, index) => {
+            if (index === currentIndex) {
+                dot.classList.remove('bg-white', 'bg-opacity-50');
+                dot.classList.add('bg-white');
+            } else {
+                dot.classList.remove('bg-white');
+                dot.classList.add('bg-white', 'bg-opacity-50');
+            }
+        });
+    }
+});
+</script>
 @endsection

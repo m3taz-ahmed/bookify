@@ -52,10 +52,10 @@
                                 <div class="flex items-start">
                                     @if($booking->service->images->isNotEmpty())
                                         <!-- Service Image Slider -->
-                                        <div class="relative w-16 h-16 rounded-xl overflow-hidden mr-4 flex-shrink-0 group cursor-pointer" onclick="openImageModal('{{ $booking->service->images->first()->image }}')">
-                                            <img src="{{ Storage::url($booking->service->images->first()->image) }}" alt="{{ $booking->service->name }}" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
+                                        <div class="relative w-16 h-16 rounded-xl overflow-hidden mr-4 flex-shrink-0 cursor-pointer" onclick="openImageModal('{{ Storage::url($booking->service->images->first()->image) }}')">
+                                            <img src="{{ Storage::url($booking->service->images->first()->image) }}" alt="{{ $booking->service->name }}" class="w-full h-full object-cover transition-transform duration-300 hover:scale-110">
                                             @if($booking->service->images->count() > 1)
-                                                <div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                                <div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
                                                     <span class="text-white text-xs font-bold">+{{ $booking->service->images->count() - 1 }}</span>
                                                 </div>
                                             @endif
@@ -239,6 +239,18 @@
 </div>
 @endsection
 
+<!-- Image Modal -->
+<div id="imageModal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-75 flex items-center justify-center p-4">
+    <div class="relative max-w-4xl w-full max-h-full">
+        <button onclick="closeImageModal()" class="absolute top-4 right-4 text-white bg-black bg-opacity-50 rounded-full p-2 hover:bg-opacity-75 transition-all duration-200 z-10">
+            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+        <img id="modalImage" src="" alt="Service Image" class="max-w-full max-h-full object-contain rounded-xl shadow-2xl">
+    </div>
+</div>
+
 @section('scripts')
 <script>
 function showQRCode(reference, qrCodeUrl) {
@@ -324,9 +336,14 @@ function closeImageModal() {
 }
 
 // Close modal when clicking outside the image
-document.getElementById('imageModal').addEventListener('click', function(e) {
-    if (e.target === this) {
-        closeImageModal();
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('imageModal');
+    if (modal) {
+        modal.addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeImageModal();
+            }
+        });
     }
 });
 </script>

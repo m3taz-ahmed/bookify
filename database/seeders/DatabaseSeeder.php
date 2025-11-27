@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Database\Seeders\PageSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,6 +18,7 @@ class DatabaseSeeder extends Seeder
             UsersTableSeeder::class,
             ServicesTableSeeder::class,
             CustomersTableSeeder::class,
+            PageSeeder::class,
         ]);
     }
 }
