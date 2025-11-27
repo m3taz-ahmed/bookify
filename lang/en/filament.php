@@ -108,4 +108,6 @@ return [
     'Number of People' => 'Number of People',
     'Payment Method' => 'Payment Method',
     'Rating' => 'Rating',
+    'Calendar' => 'Calendar',
+    'booking_list' => 'Booking List',
 ];

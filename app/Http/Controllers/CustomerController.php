@@ -43,11 +43,40 @@ class CustomerController extends Controller
         return redirect()->route('customer.profile')->with('success', 'Profile updated successfully!');
     }
     
-    public function bookings()
+    public function bookings(Request $request)
     {
         /** @var \App\Models\Customer $customer */
         $customer = auth('customer')->user();
-        $bookings = $customer->bookings()->with(['service.images'])->latest()->paginate(10);
+        
+        $query = $customer->bookings()->with(['service.images']);
+        
+        // Filter by status if provided
+        $status = $request->get('status', 'upcoming'); // Default to upcoming
+        if ($status) {
+            if ($status === 'upcoming') {
+                $query->where('status', 'confirmed')
+                      ->where('booking_date', '>=', now()->toDateString());
+            } elseif ($status === 'pending') {
+                $query->where('status', 'pending');
+            } elseif ($status === 'past') {
+                $query->where(function($q) {
+                    $q->where('status', 'completed')
+                      ->orWhere('booking_date', '<', now()->toDateString());
+                });
+            } elseif ($status === 'cancelled') {
+                $query->where('status', 'cancelled');
+            }
+            // For 'all', we don't apply any filter
+        }
+        
+        // Get items per page from request, default to 10
+        $perPage = $request->get('per_page', 10);
+        
+        // Order by booking date and start time (ascending for nearest first)
+        $bookings = $query->orderBy('booking_date', 'asc')
+                          ->orderBy('start_time', 'asc')
+                          ->paginate($perPage)
+                          ->appends(['status' => $status, 'per_page' => $perPage]);
         
         return view('customer.bookings.index', compact('bookings'));
     }
