@@ -8,7 +8,7 @@
     <div class="absolute bottom-0 left-0 w-1/3 h-1/2 bg-gradient-to-r from-secondary-500 to-accent-600 rounded-tr-full opacity-10"></div>
   </div>
   
-  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-24">
+  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-32">
     <div class="flex flex-col lg:flex-row items-center">
       <!-- Left Content -->
       <div class="lg:w-1/2 mb-16 lg:mb-0 lg:pr-12">
@@ -136,9 +136,9 @@
 </div>
 
 <!-- Features Section with Icons -->
-<div class="py-20 bg-white">
+<div class="py-24 bg-white">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center max-w-3xl mx-auto mb-16">
+    <div class="text-center max-w-3xl mx-auto mb-20">
       <h2 class="text-base font-semibold text-primary-600 tracking-wide uppercase">{{ __('website.why_choose_us') }}</h2>
       <h3 class="mt-2 text-3xl font-extrabold text-dark-900 sm:text-4xl">
         {{ __('website.everything_you_need') }}
@@ -148,9 +148,9 @@
       </p>
     </div>
     
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
       <!-- Feature 1 -->
-      <div class="group">
+      <div class="group text-center">
         <div class="flex justify-center">
           <div class="flex items-center justify-center h-16 w-16 rounded-xl bg-primary-100 text-primary-600 group-hover:bg-primary-600 group-hover:text-white transition-all duration-300">
             <svg class="h-8 w-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -158,16 +158,16 @@
             </svg>
           </div>
         </div>
-        <div class="mt-5 text-center">
+        <div class="mt-6">
           <h4 class="text-lg font-bold text-dark-900">{{ __('website.fast_booking') }}</h4>
-          <p class="mt-2 text-base text-dark-500">
+          <p class="mt-3 text-base text-dark-500">
             {{ __('website.book_instantly') }}
           </p>
         </div>
       </div>
       
       <!-- Feature 2 -->
-      <div class="group">
+      <div class="group text-center">
         <div class="flex justify-center">
           <div class="flex items-center justify-center h-16 w-16 rounded-xl bg-secondary-100 text-secondary-600 group-hover:bg-secondary-600 group-hover:text-white transition-all duration-300">
             <svg class="h-8 w-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -175,33 +175,33 @@
             </svg>
           </div>
         </div>
-        <div class="mt-5 text-center">
+        <div class="mt-6">
           <h4 class="text-lg font-bold text-dark-900">{{ __('website.secure_payments') }}</h4>
-          <p class="mt-2 text-base text-dark-500">
+          <p class="mt-3 text-base text-dark-500">
             {{ __('website.safe_transaction') }}
           </p>
         </div>
       </div>
       
       <!-- Feature 3 -->
-      <div class="group">
+      <div class="group text-center">
         <div class="flex justify-center">
           <div class="flex items-center justify-center h-16 w-16 rounded-xl bg-accent-100 text-accent-600 group-hover:bg-accent-600 group-hover:text-white transition-all duration-300">
             <svg class="h-8 w-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2H6a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
             </svg>
           </div>
         </div>
-        <div class="mt-5 text-center">
+        <div class="mt-6">
           <h4 class="text-lg font-bold text-dark-900">{{ __('website.reminders') }}</h4>
-          <p class="mt-2 text-base text-dark-500">
+          <p class="mt-3 text-base text-dark-500">
             {{ __('website.never_miss_appointment') }}
           </p>
         </div>
       </div>
       
       <!-- Feature 4 -->
-      <div class="group">
+      <div class="group text-center">
         <div class="flex justify-center">
           <div class="flex items-center justify-center h-16 w-16 rounded-xl bg-primary-100 text-primary-600 group-hover:bg-primary-600 group-hover:text-white transition-all duration-300">
             <svg class="h-8 w-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -209,9 +209,9 @@
             </svg>
           </div>
         </div>
-        <div class="mt-5 text-center">
+        <div class="mt-6">
           <h4 class="text-lg font-bold text-dark-900">{{ __('website.expert_professionals') }}</h4>
-          <p class="mt-2 text-base text-dark-500">
+          <p class="mt-3 text-base text-dark-500">
             {{ __('website.quality_service') }}
           </p>
         </div>
@@ -221,40 +221,40 @@
 </div>
 
 <!-- Stats Section -->
-<div class="bg-gradient-to-r from-primary-600 to-secondary-700 py-16">
+<div class="bg-gradient-to-r from-primary-600 to-secondary-700 py-20">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-      <div>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-12 text-center">
+      <div class="p-6">
         <div class="text-4xl font-extrabold text-white">10K+</div>
-        <div class="mt-2 text-lg font-medium text-primary-200">{{ __('website.happy_customers') }}</div>
+        <div class="mt-3 text-lg font-medium text-primary-200">{{ __('website.happy_customers') }}</div>
       </div>
-      <div>
+      <div class="p-6">
         <div class="text-4xl font-extrabold text-white">500+</div>
-        <div class="mt-2 text-lg font-medium text-primary-200">{{ __('website.services_offered') }}</div>
+        <div class="mt-3 text-lg font-medium text-primary-200">{{ __('website.services_offered') }}</div>
       </div>
-      <div>
+      <div class="p-6">
         <div class="text-4xl font-extrabold text-white">99%</div>
-        <div class="mt-2 text-lg font-medium text-primary-200">{{ __('website.customer_satisfaction') }}</div>
+        <div class="mt-3 text-lg font-medium text-primary-200">{{ __('website.customer_satisfaction') }}</div>
       </div>
-      <div>
+      <div class="p-6">
         <div class="text-4xl font-extrabold text-white">24/7</div>
-        <div class="mt-2 text-lg font-medium text-primary-200">{{ __('website.support_available') }}</div>
+        <div class="mt-3 text-lg font-medium text-primary-200">{{ __('website.support_available') }}</div>
       </div>
     </div>
   </div>
 </div>
 
 <!-- Testimonials Section -->
-<div class="py-20 bg-background-50">
+<div class="py-24 bg-background-50">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center max-w-3xl mx-auto mb-16">
+    <div class="text-center max-w-3xl mx-auto mb-20">
       <h2 class="text-base font-semibold text-primary-600 tracking-wide uppercase">{{ __('website.testimonials') }}</h2>
       <h3 class="mt-2 text-3xl font-extrabold text-dark-900 sm:text-4xl">
         {{ __('website.what_our_customers_say') }}
       </h3>
     </div>
     
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
       <!-- Testimonial 1 -->
       <div class="bg-white rounded-2xl shadow-lg p-8 transition-all duration-300 hover:shadow-xl">
         <div class="flex items-center">
@@ -364,29 +364,29 @@
 </div>
 
 <!-- CTA Section -->
-<div class="bg-white py-20">
+<div class="bg-white py-24">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="bg-gradient-to-r from-primary-600 to-secondary-700 rounded-3xl shadow-2xl overflow-hidden">
-      <div class="px-6 py-16 sm:px-16 sm:py-20 lg:py-24 lg:px-24">
+      <div class="px-8 py-20 sm:px-16 sm:py-24 lg:py-28 lg:px-24">
         <div class="lg:flex lg:items-center lg:justify-between">
           <div class="lg:w-0 lg:flex-1">
             <h2 class="text-3xl font-extrabold text-white sm:text-4xl">
               {{ __('website.ready_to_get_started') }}
             </h2>
-            <p class="mt-3 max-w-3xl text-lg text-primary-100">
+            <p class="mt-4 max-w-3xl text-lg text-primary-100">
               {{ __('website.join_our_community') }}
             </p>
           </div>
-          <div class="mt-8 flex lg:mt-0 lg:flex-shrink-0">
+          <div class="mt-10 flex flex-col sm:flex-row lg:mt-0 lg:flex-shrink-0">
             <div class="inline-flex rounded-lg shadow">
               <a href="{{ route('customer.bookings.create') }}" 
-                 class="inline-flex items-center justify-center px-6 py-4 border border-transparent text-base font-bold rounded-lg text-primary-600 bg-white hover:bg-primary-50 transition-all duration-300 transform hover:-translate-y-0.5">
+                 class="inline-flex items-center justify-center px-8 py-4 border border-transparent text-base font-bold rounded-lg text-primary-600 bg-white hover:bg-primary-50 transition-all duration-300 transform hover:-translate-y-0.5">
                 {{ __('website.book_now') }}
               </a>
             </div>
-            <div class="ml-3 inline-flex rounded-lg shadow">
+            <div class="mt-3 sm:mt-0 sm:ml-3 inline-flex rounded-lg shadow">
               <a href="{{ route('customer.login') }}" 
-                 class="inline-flex items-center justify-center px-6 py-4 border border-transparent text-base font-bold rounded-lg text-white bg-primary-500 bg-opacity-20 hover:bg-opacity-30 transition-all duration-300">
+                 class="inline-flex items-center justify-center px-8 py-4 border border-transparent text-base font-bold rounded-lg text-white bg-primary-500 bg-opacity-20 hover:bg-opacity-30 transition-all duration-300">
                 {{ __('website.sign_in') }}
               </a>
             </div>

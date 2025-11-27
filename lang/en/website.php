@@ -48,6 +48,7 @@ return [
     'legal' => 'Legal',
     'privacy' => 'Privacy',
     'terms' => 'Terms',
+    'faq' => 'FAQ',
     'all_rights_reserved' => 'All rights reserved.',
     'dashboard' => 'Dashboard',
     'my_bookings' => 'My Bookings',
@@ -186,4 +187,13 @@ return [
     'reminder_notifications' => 'Automatic reminder notifications',
     'next_available_slot' => 'Next available slot',
     'joined_us_last_month' => 'joined us last month',
+    // New keys for language test page
+    'language_test_page' => 'Language Test Page',
+    'current_language' => 'Current Language',
+    'session_language' => 'Session Language',
+    'switch_to_english' => 'Switch to English',
+    'switch_to_arabic' => 'Switch to Arabic',
+    'test_translations' => 'Test Translations',
+    'ready_to_get_started' => 'Ready to get started?',
+    'join_our_community' => 'Join our community today and start booking your services with ease',
 ];

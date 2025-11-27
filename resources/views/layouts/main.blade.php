@@ -35,9 +35,12 @@
                 <div class="hidden md:ml-6 md:flex md:items-center md:space-x-4">
                     <!-- Language Switcher -->
                     <div class="flex items-center space-x-2">
-                        <a href="{{ route('lang.switch', ['locale' => $switchLocale]) }}" class="px-3 py-2 text-sm rounded-md {{ app()->getLocale() === $switchLocale ? 'bg-primary-100 text-primary-700 font-medium' : 'text-gray-600 hover:bg-gray-100' }}" onclick="console.log('Language switcher clicked'); return true;">
+                        <a href="{{ route('lang.switch', ['locale' => $switchLocale]) }}" class="px-3 py-2 text-sm rounded-md {{ app()->getLocale() === $switchLocale ? 'bg-primary-100 text-primary-700 font-medium' : 'text-gray-600 hover:bg-gray-100' }}" onclick="event.preventDefault(); document.getElementById('language-switch-form-{{ $switchLocale }}').submit();">
                             {{ $switchLocale === 'ar' ? __('website.arabic') : __('website.english') }}
                         </a>
+                        <form id="language-switch-form-{{ $switchLocale }}" action="{{ route('lang.switch', ['locale' => $switchLocale]) }}" method="GET" class="hidden">
+                            @csrf
+                        </form>
                     </div>
                     <a href="{{ route('pages.show', 'about-us') }}" class="text-dark-500 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">{{ __('website.about') }}</a>
                     <a href="{{ route('pages.show', 'contact-us') }}" class="text-dark-500 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">{{ __('website.contact_us') }}</a>
@@ -103,9 +106,12 @@
                     <!-- Language Switcher Mobile -->
                     <div class="px-4 py-2">
                         <div class="flex space-x-2">
-                            <a href="{{ route('lang.switch', ['locale' => $switchLocale]) }}" class="px-3 py-1 text-sm rounded-md {{ app()->getLocale() === $switchLocale ? 'bg-primary-100 text-primary-700 font-medium' : 'text-gray-600 hover:bg-gray-100' }}" onclick="console.log('Mobile language switcher clicked'); return true;">
+                            <a href="{{ route('lang.switch', ['locale' => $switchLocale]) }}" class="px-3 py-1 text-sm rounded-md {{ app()->getLocale() === $switchLocale ? 'bg-primary-100 text-primary-700 font-medium' : 'text-gray-600 hover:bg-gray-100' }}" onclick="event.preventDefault(); document.getElementById('language-switch-form-mobile-{{ $switchLocale }}').submit();">
                                 {{ $switchLocale === 'ar' ? __('website.arabic') : __('website.english') }}
                             </a>
+                            <form id="language-switch-form-mobile-{{ $switchLocale }}" action="{{ route('lang.switch', ['locale' => $switchLocale]) }}" method="GET" class="hidden">
+                                @csrf
+                            </form>
                         </div>
                     </div>
                     @auth('customer')
@@ -144,23 +150,6 @@
                     <div class="md:grid md:grid-cols-2 md:gap-8">
                         <div>
                             <h3 class="text-sm font-semibold text-dark-300 tracking-wider uppercase">
-                                {{ __('website.solutions') }}
-                            </h3>
-                            <ul class="mt-4 space-y-4">
-                                <li>
-                                    <a href="#" class="text-base text-dark-400 hover:text-primary-300">
-                                        {{ __('website.for_businesses') }}
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="text-base text-dark-400 hover:text-primary-300">
-                                        {{ __('website.for_individuals') }}
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="mt-12 md:mt-0">
-                            <h3 class="text-sm font-semibold text-dark-300 tracking-wider uppercase">
                                 {{ __('website.support') }}
                             </h3>
                             <ul class="mt-4 space-y-4">
@@ -176,9 +165,7 @@
                                 </li>
                             </ul>
                         </div>
-                    </div>
-                    <div class="md:grid md:grid-cols-2 md:gap-8">
-                        <div>
+                        <div class="mt-12 md:mt-0">
                             <h3 class="text-sm font-semibold text-dark-300 tracking-wider uppercase">
                                 {{ __('website.company') }}
                             </h3>
@@ -195,7 +182,9 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="mt-12 md:mt-0">
+                    </div>
+                    <div class="md:grid md:grid-cols-2 md:gap-8">
+                        <div>
                             <h3 class="text-sm font-semibold text-dark-300 tracking-wider uppercase">
                                 {{ __('website.legal') }}
                             </h3>

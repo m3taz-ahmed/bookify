@@ -175,6 +175,7 @@ return [
     'legal' => 'قانوني',
     'privacy' => 'الخصوصية',
     'terms' => 'الشروط',
+    'faq' => 'أسئلة متكررة',
     'all_rights_reserved' => 'جميع الحقوق محفوظة',
     'create_account' => 'إنشاء حساب',
     'join_us_today' => 'انضم إلينا اليوم',
@@ -228,4 +229,13 @@ return [
     'reminder_notifications' => 'إشعارات تذكير تلقائية',
     'next_available_slot' => 'الوقت المتاح التالي',
     'joined_us_last_month' => 'انضموا إلينا الشهر الماضي',
+    // New keys for language test page
+    'language_test_page' => 'صفحة اختبار اللغة',
+    'current_language' => 'اللغة الحالية',
+    'session_language' => 'لغة الجلسة',
+    'switch_to_english' => 'التبديل إلى الإنجليزية',
+    'switch_to_arabic' => 'التبديل إلى العربية',
+    'test_translations' => 'اختبار الترجمات',
+    'ready_to_get_started' => 'هل أنت مستعد للبدء؟',
+    'join_our_community' => 'انضم إلى مجتمعنا اليوم وابدأ في حجز خدماتك بسهولة',
 ];
