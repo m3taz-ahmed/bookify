@@ -238,4 +238,9 @@ return [
     'test_translations' => 'اختبار الترجمات',
     'ready_to_get_started' => 'هل أنت مستعد للبدء؟',
     'join_our_community' => 'انضم إلى مجتمعنا اليوم وابدأ في حجز خدماتك بسهولة',
+    'booked_on' => 'تم حجزه في',
+    'booking_for_service' => 'حجز للموقع',
+    'manage_your_appointments' => 'أدر مواعيدك',
+    'our_services' => 'خدماتنا',
+    'services' => 'الخدمات',
 ];

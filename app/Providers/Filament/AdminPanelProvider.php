@@ -6,6 +6,8 @@ use App\Filament\Widgets\BookingStatsWidget;
 use App\Http\Middleware\SetFilamentLocale;
 use Filament\Http\Middleware\Authenticate;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
+use Filament\Support\Assets\Css;
+use Filament\Support\Facades\FilamentAsset;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -73,5 +75,10 @@ class AdminPanelProvider extends PanelProvider
     public function boot()
     {
         // Remove the locale setting from boot since we're using middleware
+        
+        // Register custom CSS for calendar
+        FilamentAsset::register([
+            Css::make('filament-custom', resource_path('css/filament-custom.css')),
+        ]);
     }
 }

@@ -196,4 +196,9 @@ return [
     'test_translations' => 'Test Translations',
     'ready_to_get_started' => 'Ready to get started?',
     'join_our_community' => 'Join our community today and start booking your services with ease',
+    'booked_on' => 'Booked On',
+    'booking_for_service' => 'Booking For Service',
+    'manage_your_appointments' => 'Manage Your Appointments',
+    'our_services' => 'Our Services',
+    'services' => 'Services',
 ];

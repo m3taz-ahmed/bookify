@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Bookings\Pages;
 
 use App\Filament\Resources\Bookings\BookingResource;
 use Filament\Actions\CreateAction;
+use Filament\Actions\Action;
 use Filament\Resources\Pages\ListRecords;
 
 class ListBookings extends ListRecords
@@ -14,6 +15,17 @@ class ListBookings extends ListRecords
     {
         return [
             CreateAction::make(),
+            Action::make('calendar')
+                ->label(__('filament.Calendar'))
+                ->url(BookingResource::getUrl('calendar'))
+                ->icon('heroicon-o-calendar'),
+        ];
+    }
+
+    protected function getHeaderWidgets(): array
+    {
+        return [
+           
         ];
     }
 }

@@ -108,4 +108,6 @@ return [
     'Number of People' => 'عدد الأشخاص',
     'Payment Method' => 'طريقة الدفع',
     'Rating' => 'التقييم',
+    'booking_list' => ' قائمة الحجوزات',
+    'Calendar' => 'العرض التقويمي',
 ];

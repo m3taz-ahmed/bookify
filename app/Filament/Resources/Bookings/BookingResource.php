@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Bookings;
 
+use App\Filament\Resources\Bookings\Pages\CalendarBookings;
 use App\Filament\Resources\Bookings\Pages\CreateBooking;
 use App\Filament\Resources\Bookings\Pages\EditBooking;
 use App\Filament\Resources\Bookings\Pages\ListBookings;
@@ -9,6 +10,8 @@ use App\Filament\Resources\Bookings\Schemas\BookingForm;
 use App\Filament\Resources\Bookings\Tables\BookingsTable;
 use App\Models\Booking;
 use BackedEnum;
+use Filament\Navigation\NavigationItem;
+
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -87,6 +90,24 @@ class BookingResource extends Resource
             'index' => ListBookings::route('/'),
             // 'create' => CreateBooking::route('/create'),
             'edit' => EditBooking::route('/{record}/edit'),
+            'calendar' => CalendarBookings::route('/calendar'),
+        ];
+    }
+
+    public static function getNavigationItems(): array
+    {
+        return [
+            NavigationItem::make()
+                ->label(__('filament.booking_list'))
+                ->icon('heroicon-o-book-open')
+                ->group(__('filament.Bookings'))
+                ->url(static::getUrl()),
+
+            NavigationItem::make()
+                ->label(__('filament.Calendar'))
+                ->icon('heroicon-o-calendar')
+                ->group(__('filament.Bookings'))
+                ->url(static::getUrl('calendar')),
         ];
     }
 }
