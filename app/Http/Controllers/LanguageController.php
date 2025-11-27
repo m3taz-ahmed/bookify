@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Auth;
 
 class LanguageController extends Controller
 {
@@ -70,7 +71,28 @@ class LanguageController extends Controller
         } else {
             // For regular site requests, redirect back to the same page
             // We no longer use locale prefixes in URLs
-            return redirect(url()->previous());
+            
+            // Get the previous URL
+            $previousUrl = url()->previous();
+            
+            // If previous URL is null or empty, redirect to home
+            if (empty($previousUrl)) {
+                return redirect()->route('home');
+            }
+            
+            // Check if the user came from a customer authenticated page
+            if ($referrer && (strpos($referrer, '/customer/') !== false)) {
+                // If the user is authenticated as a customer, allow the redirect
+                if (Auth::guard('customer')->check()) {
+                    return redirect($previousUrl);
+                } else {
+                    // If not authenticated, redirect to the login page
+                    return redirect()->route('customer.login');
+                }
+            }
+            
+            // For all other cases, redirect back to the previous page
+            return redirect($previousUrl);
         }
     }
 }

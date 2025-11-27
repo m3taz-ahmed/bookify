@@ -9,6 +9,7 @@ return [
 
     'column.name' => 'العنوان',
     'column.guard_name' => 'اسم الحارس',
+    'column.team' => 'الفريق',
     'column.roles' => 'الأدوار',
     'column.permissions' => 'الصلاحيات',
     'column.updated_at' => 'تاريخ التحديث',
@@ -22,6 +23,8 @@ return [
     'field.name' => 'العنوان',
     'field.guard_name' => 'اسم الحارس',
     'field.permissions' => 'الصلاحيات',
+    'field.team' => 'الفريق',
+    'field.team.placeholder' => 'اختر فريقًا ...',
     'field.select_all.name' => 'تحديد الكل',
     'field.select_all.message' => 'تفعيل كافة الصلاحيات لهذا الدور',
 
@@ -34,6 +37,7 @@ return [
     'nav.group' => 'إدارة الوصول',
     'nav.role.label' => 'الأدوار',
     'nav.role.icon' => 'heroicon-o-shield-check',
+    'nav.role.breadcrumb' => 'دور',
     'resource.label.role' => 'دور',
     'resource.label.roles' => 'الأدوار',
 
@@ -72,8 +76,8 @@ return [
         'delete_any' => 'حذف الكل',
         'force_delete' => 'إجبار الحذف',
         'force_delete_any' => ' إجبار حذف أي',
-        'reorder' => 'إعادة ترتيب',
         'restore' => 'استرجاع',
+        'reorder' => 'إعادة ترتيب',
         'restore_any' => 'استرجاع الكل',
         'replicate' => 'استنساخ',
     ],

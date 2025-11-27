@@ -2,22 +2,22 @@
 
 @section('content')
 <div class="container mx-auto px-4 py-8">
-    <div class="max-w-6xl mx-auto">
+    <div class="max-w-7xl mx-auto">
         <!-- Welcome Section -->
-        <!-- <div class="bg-gradient-to-r from-primary-600 to-secondary-600 rounded-2xl shadow-xl p-8 mb-8 text-white">
+        <div class="bg-gradient-to-r from-primary-600 to-secondary-600 rounded-2xl shadow-xl p-8 mb-8 text-white">
             <div class="flex flex-col md:flex-row justify-between items-center">
                 <div class="mb-6 md:mb-0">
-                    <h1 class="text-3xl font-bold mb-2">Welcome back, {{ auth()->guard('customer')->user()->name }}!</h1>
-                    <p class="text-light-100 max-w-2xl">Manage your appointments, view booking history, and schedule new services all in one place.</p>
+                    <h1 class="text-3xl font-bold mb-2">{{ __('website.welcome_back') }}, {{ auth()->guard('customer')->user()->name }}!</h1>
+                    <p class="text-light-100 max-w-2xl">{{ __('website.manage_your_appointments') }}</p>
                 </div>
-                <div class="bg-gray bg-opacity-20 rounded-xl p-4">
+                <div class="bg-white bg-opacity-20 rounded-xl p-4">
                     <div class="text-center">
                         <div class="text-3xl font-bold">{{ \App\Models\Booking::where('customer_id', auth()->guard('customer')->id())->count() }}</div>
-                        <div class="text-sm text-light-100">Total Bookings</div>
+                        <div class="text-sm text-light-100">{{ __('website.total_bookings') }}</div>
                     </div>
                 </div>
             </div>
-        </div> -->
+        </div>
 
         <!-- Quick Actions -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
@@ -76,140 +76,157 @@
             </div>
         </div>
 
-        <!-- Upcoming Appointments -->
-        <div class="bg-white rounded-2xl shadow-md p-6 mb-8 border border-accent-200">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-bold text-gray-900">{{ __('website.upcoming_appointments') }}</h2>
-                <a href="{{ route('customer.bookings') }}" class="text-primary-600 hover:text-primary-800 font-medium text-sm">{{ __('website.view_all') }}</a>
-            </div>
-            
-            @php
-                $upcomingBookings = \App\Models\Booking::where('customer_id', auth()->guard('customer')->id())
-                    ->where('booking_date', '>=', date('Y-m-d'))
-                    ->where('status', '!=', 'cancelled')
-                    ->orderBy('booking_date')
-                    ->orderBy('start_time')
-                    ->limit(3)
-                    ->get();
-            @endphp
-            
-            @if($upcomingBookings->count() > 0)
-                <div class="space-y-4">
-                    @foreach($upcomingBookings as $booking)
-                        <div class="flex items-center justify-between p-4 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors duration-200">
-                            <div class="flex items-center">
-                                <div class="h-12 w-12 rounded-full bg-primary-100 flex items-center justify-center mr-4">
-                                    <svg class="h-6 w-6 text-primary-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                    </svg>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Upcoming Appointments -->
+            <div class="bg-white rounded-2xl shadow-md p-6 border border-accent-200">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-900">{{ __('website.upcoming_appointments') }}</h2>
+                    <a href="{{ route('customer.bookings') }}" class="text-primary-600 hover:text-primary-800 font-medium text-sm">{{ __('website.view_all') }}</a>
+                </div>
+                
+                @php
+                    $upcomingBookings = \App\Models\Booking::where('customer_id', auth()->guard('customer')->id())
+                        ->where('booking_date', '>=', date('Y-m-d'))
+                        ->where('status', '!=', 'cancelled')
+                        ->orderBy('booking_date')
+                        ->orderBy('start_time')
+                        ->limit(5)
+                        ->get();
+                @endphp
+                
+                @if($upcomingBookings->count() > 0)
+                    <div class="space-y-4">
+                        @foreach($upcomingBookings as $booking)
+                            <div class="flex items-center justify-between p-4 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors duration-200">
+                                <div class="flex items-center">
+                                    <div class="h-12 w-12 rounded-full bg-primary-100 flex items-center justify-center mr-4">
+                                        <svg class="h-6 w-6 text-primary-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-semibold text-gray-900">{{ $booking->service->name_en }}</h3>
+                                        <p class="text-sm text-gray-600">
+                                            {{ \Carbon\Carbon::parse($booking->booking_date)->format('M j, Y') }} {{ __('website.at') }} {{ $booking->start_time }}
+                                        </p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h3 class="font-semibold text-gray-900">{{ $booking->service->name_en }}</h3>
-                                    <p class="text-sm text-gray-600">
-                                        {{ \Carbon\Carbon::parse($booking->booking_date)->format('M j, Y') }} {{ __('website.at') }} {{ $booking->start_time }}
-                                    </p>
+                                <div class="flex items-center">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800 mr-3">
+                                        {{ $booking->status }}
+                                    </span>
+                                    <button class="text-gray-400 hover:text-primary-600">
+                                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+                                        </svg>
+                                    </button>
                                 </div>
                             </div>
-                            <div class="flex items-center">
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800 mr-3">
-                                    {{ $booking->status }}
-                                </span>
-                                <button class="text-gray-400 hover:text-primary-600">
-                                    <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
-                                    </svg>
-                                </button>
+                        @endforeach
+                    </div>
+                @else
+                    <div class="text-center py-12">
+                        <svg class="mx-auto h-12 w-12 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        <h3 class="mt-2 text-sm font-medium text-gray-900">{{ __('website.no_upcoming_appointments') }}</h3>
+                        <p class="mt-1 text-sm text-gray-500">{{ __('website.get_started_by_booking') }}</p>
+                        <div class="mt-6">
+                            <a href="{{ route('customer.bookings.create') }}" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                                <svg class="h-4 w-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                </svg>
+                                {{ __('website.book_appointment') }}
+                            </a>
+                        </div>
+                    </div>
+                @endif
+            </div>
+
+            <!-- Services Overview -->
+            <div class="bg-white rounded-2xl shadow-md p-6 border border-accent-200">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-900">{{ __('website.popular_services') }}</h2>
+                    <a href="{{ route('customer.bookings.create') }}" class="text-primary-600 hover:text-primary-800 font-medium text-sm">{{ __('website.view_all') }}</a>
+                </div>
+                <div class="grid grid-cols-1 gap-6">
+                    @foreach(\App\Models\Service::where('is_active', true)->with('images')->limit(3)->get() as $service)
+                        <div class="border border-gray-200 rounded-xl overflow-hidden hover:border-primary-300 transition-all duration-300 hover:shadow-lg flex">
+                            <!-- Image -->
+                            <div class="relative w-24 h-24 flex-shrink-0">
+                                @if($service->images->isNotEmpty())
+                                    <img src="{{ Storage::url($service->images->first()->image) }}" alt="{{ $service->name }}" class="w-full h-full object-cover">
+                                @else
+                                    <div class="bg-gradient-to-br from-primary-100 to-secondary-100 w-full h-full flex items-center justify-center">
+                                        <svg class="h-6 w-6 text-primary-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                        </svg>
+                                    </div>
+                                @endif
+                            </div>
+                            
+                            <div class="p-4 flex-1">
+                                <h3 class="font-bold text-lg text-gray-900 mb-1">{{ $service->name_en }}</h3>
+                                <p class="text-sm text-gray-600 mb-2 line-clamp-1">{{ $service->description }}</p>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-lg font-bold text-primary-600">${{ $service->price }}</span>
+                                </div>
                             </div>
                         </div>
                     @endforeach
                 </div>
-            @else
-                <div class="text-center py-12">
-                    <svg class="mx-auto h-12 w-12 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                    <h3 class="mt-2 text-sm font-medium text-gray-900">{{ __('website.no_upcoming_appointments') }}</h3>
-                    <p class="mt-1 text-sm text-gray-500">{{ __('website.get_started_by_booking') }}</p>
-                    <div class="mt-6">
-                        <a href="{{ route('customer.bookings.create') }}" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
-                            <svg class="h-4 w-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                            </svg>
-                            {{ __('website.book_appointment') }}
-                        </a>
-                    </div>
+                <div class="mt-6 text-center">
+                    <a href="{{ route('customer.bookings.create') }}" class="inline-flex items-center text-primary-600 hover:text-primary-800 font-medium">
+                        {{ __('website.view_all_services') }}
+                        <svg class="ml-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
                 </div>
-            @endif
+            </div>
         </div>
 
-        <!-- Services Overview -->
-        <div class="bg-white rounded-2xl shadow-md p-6 border border-accent-200">
-            <h2 class="text-2xl font-bold text-gray-900 mb-6">{{ __('website.popular_services') }}</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                @foreach(\App\Models\Service::where('is_active', true)->with('images')->limit(3)->get() as $service)
-                    <div class="border border-gray-200 rounded-xl overflow-hidden hover:border-primary-300 transition-all duration-300 hover:shadow-lg">
-                        <!-- Image Gallery Slider -->
-                        <div class="relative h-48 overflow-hidden">
-                            @if($service->images->isNotEmpty())
-                                <div class="image-slider-container relative w-full h-full" data-service-id="{{ $service->id }}">
-                                    @foreach($service->images as $index => $image)
-                                        <div class="image-slide absolute inset-0 transition-opacity duration-500 {{ $index === 0 ? 'opacity-100' : 'opacity-0' }}">
-                                            <img src="{{ Storage::url($image->image) }}" alt="{{ $service->name }}" class="w-full h-full object-cover">
-                                        </div>
-                                    @endforeach
-                                    
-                                    @if($service->images->count() > 1)
-                                        <!-- Navigation Dots -->
-                                        <div class="absolute bottom-3 left-0 right-0 flex justify-center space-x-2" data-dot-container="{{ $service->id }}">
-                                            @foreach($service->images as $index => $image)
-                                                <button class="w-2 h-2 rounded-full {{ $index === 0 ? 'bg-white' : 'bg-white bg-opacity-50' }}" 
-                                                        data-dot="{{ $service->id }}" data-index="{{ $index }}">
-                                                </button>
-                                            @endforeach
-                                        </div>
-                                        
-                                        <!-- Navigation Arrows -->
-                                        <button class="absolute left-3 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-30 text-white rounded-full p-1 hover:bg-opacity-50 transition-all duration-200" 
-                                                data-prev="{{ $service->id }}">
-                                            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                                            </svg>
-                                        </button>
-                                        <button class="absolute right-3 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-30 text-white rounded-full p-1 hover:bg-opacity-50 transition-all duration-200" 
-                                                data-next="{{ $service->id }}">
-                                            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                                            </svg>
-                                        </button>
-                                    @endif
-                                </div>
-                            @else
-                                <div class="bg-gradient-to-br from-primary-100 to-secondary-100 w-full h-full flex items-center justify-center">
-                                    <svg class="h-12 w-12 text-primary-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                    </svg>
-                                </div>
-                            @endif
-                        </div>
-                        
-                        <div class="p-5">
-                            <h3 class="font-bold text-lg text-gray-900 mb-2">{{ $service->name_en }}</h3>
-                            <p class="text-sm text-gray-600 mb-3 line-clamp-2">{{ $service->description }}</p>
-                            <div class="flex justify-between items-center pt-3 border-t border-gray-100">
-                                <span class="text-lg font-bold text-primary-600">${{ $service->price }}</span>
-                                <span class="text-sm text-gray-500">{{ $service->duration_minutes }} {{ __('website.mins') }}</span>
+        <!-- Recent Activity -->
+        <div class="bg-white rounded-2xl shadow-md p-6 mt-8 border border-accent-200">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">{{ __('website.recent_activity') }}</h2>
+            <div class="space-y-4">
+                @php
+                    $recentBookings = \App\Models\Booking::where('customer_id', auth()->guard('customer')->id())
+                        ->orderBy('created_at', 'desc')
+                        ->limit(5)
+                        ->get();
+                @endphp
+                
+                @if($recentBookings->count() > 0)
+                    @foreach($recentBookings as $booking)
+                        <div class="flex items-start p-4 border border-gray-200 rounded-xl">
+                            <div class="flex-shrink-0 h-10 w-10 rounded-full bg-accent-100 flex items-center justify-center mr-4">
+                                <svg class="h-5 w-5 text-accent-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                </svg>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-medium text-gray-900">
+                                    {{ __('website.booking_for_service', ['service' => $booking->service->name_en]) }}
+                                </p>
+                                <p class="text-sm text-gray-500">
+                                    {{ __('website.booked_on', ['date' => \Carbon\Carbon::parse($booking->created_at)->format('M j, Y')]) }}
+                                </p>
+                            </div>
+                            <div class="inline-flex items-center text-sm font-medium text-gray-500">
+                                {{ ucfirst($booking->status) }}
                             </div>
                         </div>
+                    @endforeach
+                @else
+                    <div class="text-center py-8">
+                        <svg class="mx-auto h-12 w-12 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <h3 class="mt-2 text-sm font-medium text-gray-900">{{ __('website.no_recent_activity') }}</h3>
+                        <p class="mt-1 text-sm text-gray-500">{{ __('website.your_recent_bookings_will_appear_here') }}</p>
                     </div>
-                @endforeach
-            </div>
-            <div class="mt-6 text-center">
-                <a href="{{ route('customer.bookings.create') }}" class="inline-flex items-center text-primary-600 hover:text-primary-800 font-medium">
-                    {{ __('website.view_all_services') }}
-                    <svg class="ml-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
-                </a>
+                @endif
             </div>
         </div>
     </div>

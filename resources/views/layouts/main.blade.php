@@ -35,7 +35,7 @@
                 <div class="hidden md:ml-6 md:flex md:items-center md:space-x-4">
                     <!-- Language Switcher -->
                     <div class="flex items-center space-x-2">
-                        <a href="{{ route('lang.switch', ['locale' => $switchLocale]) }}" class="px-3 py-2 text-sm rounded-md {{ app()->getLocale() === $switchLocale ? 'bg-primary-100 text-primary-700 font-medium' : 'text-gray-600 hover:bg-gray-100' }}">
+                        <a href="{{ route('lang.switch', ['locale' => $switchLocale]) }}" class="px-3 py-2 text-sm rounded-md {{ app()->getLocale() === $switchLocale ? 'bg-primary-100 text-primary-700 font-medium' : 'text-gray-600 hover:bg-gray-100' }}" onclick="console.log('Language switcher clicked'); return true;">
                             {{ $switchLocale === 'ar' ? __('website.arabic') : __('website.english') }}
                         </a>
                     </div>
@@ -103,7 +103,7 @@
                     <!-- Language Switcher Mobile -->
                     <div class="px-4 py-2">
                         <div class="flex space-x-2">
-                            <a href="{{ route('lang.switch', ['locale' => $switchLocale]) }}" class="px-3 py-1 text-sm rounded-md {{ app()->getLocale() === $switchLocale ? 'bg-primary-100 text-primary-700 font-medium' : 'text-gray-600 hover:bg-gray-100' }}">
+                            <a href="{{ route('lang.switch', ['locale' => $switchLocale]) }}" class="px-3 py-1 text-sm rounded-md {{ app()->getLocale() === $switchLocale ? 'bg-primary-100 text-primary-700 font-medium' : 'text-gray-600 hover:bg-gray-100' }}" onclick="console.log('Mobile language switcher clicked'); return true;">
                                 {{ $switchLocale === 'ar' ? __('website.arabic') : __('website.english') }}
                             </a>
                         </div>

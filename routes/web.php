@@ -10,25 +10,25 @@ use App\Http\Controllers\LanguageController;
 // Root redirect to booking welcome page
 Route::get('/', function () {
     return redirect()->route('booking-welcome');
-})->name('home');
+})->name('home')->middleware('web');
 
 // Home page
 Route::get('/welcome', function () {
     return view('booking-welcome');
-})->name('booking-welcome');
+})->name('booking-welcome')->middleware('web');
 
 // Customer Phone Authentication Routes (ONLY method now)
-Route::get('/customer/login', [CustomerPhoneAuthController::class, 'showPhoneForm'])->name('customer.login');
-Route::post('/customer/login', [CustomerPhoneAuthController::class, 'sendOtp'])->name('customer.login.attempt');
-Route::post('/customer/verify-otp', [CustomerPhoneAuthController::class, 'verifyOtp'])->name('customer.verify-otp');
-Route::post('/customer/logout', [CustomerPhoneAuthController::class, 'logout'])->name('customer.logout');
+Route::get('/customer/login', [CustomerPhoneAuthController::class, 'showPhoneForm'])->name('customer.login')->middleware('web');
+Route::post('/customer/login', [CustomerPhoneAuthController::class, 'sendOtp'])->name('customer.login.attempt')->middleware('web');
+Route::post('/customer/verify-otp', [CustomerPhoneAuthController::class, 'verifyOtp'])->name('customer.verify-otp')->middleware('web');
+Route::post('/customer/logout', [CustomerPhoneAuthController::class, 'logout'])->name('customer.logout')->middleware('web');
 
 // Customer Registration
-Route::get('/customer/register', [CustomerPhoneAuthController::class, 'showRegistrationForm'])->name('customer.register');
-Route::post('/customer/register', [CustomerPhoneAuthController::class, 'register'])->name('customer.register.attempt');
+Route::get('/customer/register', [CustomerPhoneAuthController::class, 'showRegistrationForm'])->name('customer.register')->middleware('web');
+Route::post('/customer/register', [CustomerPhoneAuthController::class, 'register'])->name('customer.register.attempt')->middleware('web');
 
 // Customer Dashboard and Bookings (protected by customer auth)
-Route::middleware('auth:customer')->group(function () {
+Route::middleware(['auth:customer', 'web'])->group(function () {
     Route::get('/customer/dashboard', [DashboardController::class, 'index'])->name('customer.dashboard');
     Route::get('/customer/profile', [CustomerController::class, 'profile'])->name('customer.profile');
     Route::get('/customer/profile/edit', [CustomerController::class, 'editProfile'])->name('customer.profile.edit');
@@ -50,11 +50,11 @@ Route::middleware('auth:customer')->group(function () {
     })->name('customer.bookings.test');
 });
 
-Route::get('/check-in/{reference}', [CheckInController::class, 'checkIn'])->name('check-in-api')->middleware('auth:customer');
-Route::get('/check-in-page/{reference}', [CheckInController::class, 'showCheckInPage'])->name('check-in')->middleware('auth:customer');
+Route::get('/check-in/{reference}', [CheckInController::class, 'checkIn'])->name('check-in-api')->middleware(['auth:customer', 'web']);
+Route::get('/check-in-page/{reference}', [CheckInController::class, 'showCheckInPage'])->name('check-in')->middleware(['auth:customer', 'web']);
 Route::get('/book', function () {
     return view('bookings.create');
-});
+})->middleware('web');
 
 // Language switcher route
 Route::get('/lang/{locale}', [LanguageController::class, 'switch'])->name('lang.switch')->middleware('web');
@@ -86,4 +86,4 @@ Route::get('/{slug}', function ($slug) {
     }
     
     return view('pages.show', compact('page'));
-})->where('slug', '^(?!admin|customer|api|filament|lang|check-in|book|welcome|test).*')->name('pages.show');
+})->where('slug', '^(?!admin|customer|api|filament|lang|check-in|book|welcome|test).*')->name('pages.show')->middleware('web');

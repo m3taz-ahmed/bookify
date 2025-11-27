@@ -37,6 +37,7 @@ return [
     'nav.group' => 'Filament Shield',
     'nav.role.label' => 'Roles',
     'nav.role.icon' => 'heroicon-o-shield-check',
+    'nav.role.breadcrumb' => 'Role',
     'resource.label.role' => 'Role',
     'resource.label.roles' => 'Roles',
 
