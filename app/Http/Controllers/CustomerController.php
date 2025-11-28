@@ -101,6 +101,19 @@ class CustomerController extends Controller
         /** @var \App\Models\Customer $customer */
         $customer = auth('customer')->user();
         
+        // Validate working day and capacity
+        $bookingDate = \Carbon\Carbon::parse($request->booking_date);
+        
+        // Check if it's a working day
+        if (!\App\Models\SiteSetting::isWorkingDay($bookingDate)) {
+            return redirect()->back()->withInput()->withErrors(['booking_date' => 'Cannot book on a non-working day.']);
+        }
+        
+        // Check capacity
+        if (\App\Services\CapacityService::wouldExceedCapacity($bookingDate, $request->number_of_people)) {
+            return redirect()->back()->withInput()->withErrors(['number_of_people' => 'Adding this booking would exceed the daily capacity limit.']);
+        }
+        
         // Get the service to calculate duration
         $service = Service::findOrFail($request->service_id);
         
@@ -177,6 +190,23 @@ class CustomerController extends Controller
             'number_of_people' => 'required|integer|min:1|max:10',
             'payment_method' => 'required|in:cash,online',
         ]);
+        
+        // Validate working day and capacity
+        $bookingDate = \Carbon\Carbon::parse($request->booking_date);
+        
+        // Check if it's a working day
+        if (!\App\Models\SiteSetting::isWorkingDay($bookingDate)) {
+            return redirect()->back()->withInput()->withErrors(['booking_date' => 'Cannot book on a non-working day.']);
+        }
+        
+        // Check capacity (consider existing booking)
+        $existingPeople = $booking->number_of_people;
+        $newPeople = $request->number_of_people;
+        $difference = $newPeople - $existingPeople;
+        
+        if ($difference > 0 && \App\Services\CapacityService::wouldExceedCapacity($bookingDate, $difference)) {
+            return redirect()->back()->withInput()->withErrors(['number_of_people' => 'Adding this booking would exceed the daily capacity limit.']);
+        }
         
         // If booking is confirmed, change status back to pending
         $status = $booking->status;

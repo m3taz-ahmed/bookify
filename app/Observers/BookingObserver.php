@@ -19,7 +19,7 @@ class BookingObserver
         if ($booking->status === 'confirmed') {
             // In a real application, you would send this to the customer's email
             // For now, we'll just log it
-            Log::info('Booking confirmed: ' . $booking->reference_code);
+            // Log::info('Booking confirmed: ' . $booking->reference_code);
         }
     }
 
@@ -36,13 +36,13 @@ class BookingObserver
             // Send notification when booking is confirmed
             if ($oldStatus !== 'confirmed' && $newStatus === 'confirmed') {
                 // In a real application, you would send this to the customer's email
-                Log::info('Booking confirmed: ' . $booking->reference_code);
+                // Log::info('Booking confirmed: ' . $booking->reference_code);
             }
             
             // Send notification when booking is cancelled
             if ($oldStatus !== 'cancelled' && $newStatus === 'cancelled') {
                 // In a real application, you would send this to the customer's email
-                Log::info('Booking cancelled: ' . $booking->reference_code);
+                // Log::info('Booking cancelled: ' . $booking->reference_code);
             }
         }
     }

@@ -4,9 +4,12 @@ namespace App\Services;
 
 use App\Models\Booking;
 use App\Models\Service;
-use App\Models\User;
+use App\Models\SiteSetting;
+use App\Services\CapacityService;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
+use InvalidArgumentException;
 
 class BookingService
 {
@@ -26,23 +29,29 @@ class BookingService
             
             // Validate duration to prevent infinite loop
             if ($duration <= 0 || $duration > 1440) { // 1440 minutes = 24 hours
-                Log::warning('Invalid duration for service: ' . $serviceId . ', duration: ' . $duration);
+                // Log::warning('Invalid duration for service: ' . $serviceId . ', duration: ' . $duration);
                 return [];
             }
             
             $slots = [];
             
-            // For now, we'll generate slots for the entire day
-            // In a real application, this might be configurable
-            $startHour = 9; // 9 AM
-            $endHour = 17;  // 5 PM
+            // Get working hours for the date
+            $bookingDate = Carbon::parse($date);
+            $startTime = SiteSetting::getStartTime($bookingDate);
+            $endTime = SiteSetting::getEndTime($bookingDate);
             
-            $start = strtotime($startHour . ':00');
-            $end = strtotime($endHour . ':00');
+            // Check if it's a working day
+            if (!$startTime || !$endTime) {
+                // Log::info('Cannot generate slots for non-working day: ' . $date);
+                return [];
+            }
+            
+            $start = strtotime($startTime);
+            $end = strtotime($endTime);
             
             // Validate time range
             if ($start >= $end) {
-                Log::warning('Invalid time range for service: ' . $serviceId . ', start: ' . $start . ', end: ' . $end);
+                // Log::warning('Invalid time range for service: ' . $serviceId . ', start: ' . $start . ', end: ' . $end);
                 return [];
             }
             
@@ -56,7 +65,7 @@ class BookingService
                 
                 // Validate time
                 if ($time === false) {
-                    Log::warning('Invalid time value: ' . $time);
+                    // Log::warning('Invalid time value: ' . $time);
                     break;
                 }
                 
@@ -65,14 +74,14 @@ class BookingService
                 
                 // Validate end time
                 if ($slotEndTime === false) {
-                    Log::warning('Invalid end time value: ' . $slotEndTime);
+                    // Log::warning('Invalid end time value: ' . $slotEndTime);
                     continue;
                 }
                 
                 // Skip if slot end time exceeds business hours
                 $endTimeObj = strtotime($slotEndTime);
                 if ($endTimeObj === false || $endTimeObj > $end) {
-                    Log::warning('Slot end time exceeds business hours: ' . $slotEndTime);
+                    // Log::warning('Slot end time exceeds business hours: ' . $slotEndTime);
                     continue;
                 }
                 
@@ -83,24 +92,58 @@ class BookingService
                 ];
             }
             
-            Log::info('Generated ' . count($slots) . ' time slots for service: ' . $serviceId . ' on date: ' . $date);
+            // Log::info('Generated ' . count($slots) . ' time slots for service: ' . $serviceId . ' on date: ' . $date);
             
             return $slots;
         } catch (\Exception $e) {
             // Log error and return empty array
-            Log::error('Error generating time slots: ' . $e->getMessage());
+            // Log::error('Error generating time slots: ' . $e->getMessage());
             return [];
         }
     }
     
     /**
-     * Create a booking with atomic locking
+     * Create a booking with atomic locking and capacity validation
      *
      * @param array $data
      * @return Booking
+     * @throws InvalidArgumentException
      */
     public function createBookingWithLock(array $data)
     {
+        // Validate working day
+        $bookingDate = Carbon::parse($data['booking_date']);
+        if (!SiteSetting::isWorkingDay($bookingDate)) {
+            throw new InvalidArgumentException('Cannot book on a non-working day.');
+        }
+        
+        // Validate working hours
+        $startTime = SiteSetting::getStartTime($bookingDate);
+        $endTime = SiteSetting::getEndTime($bookingDate);
+        
+        if (!$startTime || !$endTime) {
+            throw new InvalidArgumentException('Cannot book on a non-working day.');
+        }
+        
+        $bookingStartTime = $data['start_time'];
+        $bookingEndTime = $data['end_time'];
+        
+        // Validate that booking times are within working hours
+        if ($bookingStartTime < $startTime || $bookingEndTime > $endTime) {
+            throw new InvalidArgumentException('Booking times must be within working hours (' . $startTime . ' - ' . $endTime . ').');
+        }
+        
+        // Validate that end time is after start time
+        if ($bookingEndTime <= $bookingStartTime) {
+            throw new InvalidArgumentException('End time must be after start time.');
+        }
+        
+        // Validate capacity
+        $numberOfPeople = $data['number_of_people'] ?? 1;
+        if (CapacityService::wouldExceedCapacity($bookingDate, $numberOfPeople)) {
+            throw new InvalidArgumentException('Adding this booking would exceed the daily capacity limit.');
+        }
+        
         $lockKey = 'booking_' . $data['booking_date'] . '_' . $data['start_time'];
         
         return Cache::lock($lockKey, 10)->get(function () use ($data) {

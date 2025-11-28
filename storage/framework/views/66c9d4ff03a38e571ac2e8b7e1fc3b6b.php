@@ -262,5 +262,6 @@
             }
         });
     </script>
+    <?php echo $__env->yieldPushContent('scripts'); ?>
 </body>
 </html><?php /**PATH D:\server\web\bookify\resources\views/layouts/main.blade.php ENDPATH**/ ?>

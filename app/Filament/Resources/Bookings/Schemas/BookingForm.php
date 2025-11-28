@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\Bookings\Schemas;
 
+use App\Filament\Resources\Bookings\Components\WorkingDaysDatePicker;
+use App\Filament\Resources\Bookings\Components\WorkingHoursTimePicker;
 use App\Models\Customer;
 use App\Models\Service;
 use App\Models\User;
@@ -51,19 +53,33 @@ class BookingForm
                     ->relationship('service', 'name_en')
                     ->required()
                     ->label(__('filament.Service')),
-                DatePicker::make('booking_date')
+                WorkingDaysDatePicker::make('booking_date')
                     ->required()
-                    ->label(__('filament.Booking Date')),
+                    ->label(__('filament.Booking Date'))
+                    ->live()
+                    ->afterStateUpdated(function ($state, callable $set) {
+                        // Reset time fields when date changes
+                        $set('start_time', null);
+                        $set('end_time', null);
+                    }),
                 TextInput::make('payment_status')
                     ->label(__('filament.Payment Status')),
-                TimePicker::make('start_time')
+                WorkingHoursTimePicker::make('start_time')
                     // ->required()
-                    ->seconds(false)
-                    ->label(__('filament.Start Time')),
-                TimePicker::make('end_time')
+                    ->label(__('filament.Start Time'))
+                    ->dateField('booking_date')
+                    ->disabled(fn (callable $get) => !$get('booking_date'))
+                    ->live()
+                    ->afterStateUpdated(function ($state, callable $set) {
+                        // Reset end time when start time changes
+                        $set('end_time', null);
+                    }),
+                WorkingHoursTimePicker::make('end_time')
                     // ->required()
-                    ->seconds(false)
-                    ->label(__('filament.End Time')),
+                    ->label(__('filament.End Time'))
+                    ->dateField('booking_date')
+                    ->startTimeField('start_time')
+                    ->disabled(fn (callable $get) => !$get('start_time')),
                 TextInput::make('number_of_people')
                     ->numeric()
                     ->minValue(1)
@@ -77,7 +93,7 @@ class BookingForm
                         'online' => 'Online',
                     ])
                     ->label(__('filament.Payment Method'))
-                    ->nullable(),
+                    ->required(),
                 Radio::make('status')
                     ->options([
                         'pending' => __('filament.Pending'),

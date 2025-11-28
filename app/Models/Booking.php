@@ -142,7 +142,7 @@ class Booking extends Model
         
         // Send cancellation notification
         // In a real application, you would send this to the customer's email
-        Log::info('Booking cancelled: ' . $this->reference_code);
+        // Log::info('Booking cancelled: ' . $this->reference_code);
     }
     
     public function getDurationAttribute()

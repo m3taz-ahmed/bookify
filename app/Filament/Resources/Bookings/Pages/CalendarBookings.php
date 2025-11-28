@@ -3,6 +3,8 @@
 namespace App\Filament\Resources\Bookings\Pages;
 
 use App\Filament\Resources\Bookings\BookingResource;
+use App\Models\SiteSetting;
+use App\Services\CapacityService;
 use BackedEnum;
 use Filament\Resources\Pages\Page;
 use Filament\Actions\CreateAction;
@@ -14,8 +16,6 @@ class CalendarBookings extends Page
 {
     protected static string $resource = BookingResource::class;
 
-    protected static ?string $title = 'Bookings Calendar';
-
     protected static bool $shouldRegisterNavigation = true;
 
     public function getView(): string
@@ -26,6 +26,21 @@ class CalendarBookings extends Page
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-calendar';
 
     protected static ?int $navigationSort = 2;
+
+    public static function getLabel(): string
+    {
+        return __('filament.Calendar');
+    }
+
+    public static function getPluralLabel(): string
+    {
+        return __('filament.Calendar');
+    }
+    
+    public function getTitle(): string
+    {
+        return __('filament.Calendar');
+    }
 
     public static function canViewAny(): bool
     {
@@ -69,18 +84,20 @@ class CalendarBookings extends Page
         $startDate = Carbon::createFromDate($currentYear, $currentMonth, 1);
         $endDate = $startDate->copy()->endOfMonth();
         
-        // Get all bookings for the current month with related data
+        // Get all bookings for the current month with related data, excluding cancelled bookings
         $bookings = Booking::with(['customer', 'service'])
             ->whereBetween('booking_date', [$startDate, $endDate])
+            ->where('status', '!=', 'cancelled')
             ->orderBy('booking_date')
             ->orderBy('start_time')
             ->get();
             
         // Create an array of weeks with days
         $weeks = [];
-        $currentDate = $startDate->copy()->startOfWeek();
+        // Always start the week on Saturday, regardless of locale
+        $currentDate = $startDate->copy()->startOfWeek(6); // 6 = Saturday in Carbon
         
-        while ($currentDate <= $endDate->copy()->endOfWeek()) {
+        while ($currentDate <= $endDate->copy()->endOfWeek(6)) {
             $week = [];
             for ($i = 0; $i < 7; $i++) {
                 $date = $currentDate->copy();
@@ -88,10 +105,22 @@ class CalendarBookings extends Page
                     return $booking->booking_date->isSameDay($date);
                 });
                 
+                // Get capacity information
+                $totalPeople = CapacityService::getTotalPeopleForDate($date);
+                $maxCapacity = SiteSetting::getMaxCapacity();
+                $capacityPercentage = CapacityService::getCapacityPercentage($date);
+                $capacityColor = CapacityService::getCapacityStatusColor($date);
+                $isWorkingDay = SiteSetting::isWorkingDay($date);
+                
                 $week[] = [
                     'date' => $date,
                     'isCurrentMonth' => $date->month == $currentMonth,
                     'bookings' => $dayBookings,
+                    'totalPeople' => $totalPeople,
+                    'maxCapacity' => $maxCapacity,
+                    'capacityPercentage' => $capacityPercentage,
+                    'capacityColor' => $capacityColor,
+                    'isWorkingDay' => $isWorkingDay,
                 ];
                 
                 $currentDate->addDay();
@@ -120,7 +149,7 @@ class CalendarBookings extends Page
     protected function getHeaderActions(): array
     {
         return [
-            CreateAction::make(),
+            // CreateAction::make(),
         ];
     }
 }

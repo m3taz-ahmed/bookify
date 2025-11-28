@@ -4,7 +4,10 @@ namespace App\Livewire;
 
 use App\Models\Service;
 use App\Models\Booking;
+use App\Models\SiteSetting;
 use App\Services\BookingService;
+use App\Services\CapacityService;
+use Carbon\Carbon;
 use Livewire\Component;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Facades\Auth;
@@ -56,6 +59,21 @@ class CreateBooking extends Component
     public function handleDateSelection()
     {
         if ($this->selectedDate) {
+            // Validate working day and capacity
+            $bookingDate = Carbon::parse($this->selectedDate);
+            
+            // Check if it's a working day
+            if (!SiteSetting::isWorkingDay($bookingDate)) {
+                $this->addError('selectedDate', 'Cannot book on a non-working day.');
+                return;
+            }
+            
+            // Check capacity
+            if (CapacityService::wouldExceedCapacity($bookingDate, $this->numberOfPeople)) {
+                $this->addError('selectedDate', 'Adding this booking would exceed the daily capacity limit.');
+                return;
+            }
+            
             // Skip loading slots and go directly to payment method
             $this->step = 4;
         }
@@ -64,6 +82,21 @@ class CreateBooking extends Component
     public function updatedSelectedDate($value)
     {
         if ($value) {
+            // Validate working day and capacity
+            $bookingDate = Carbon::parse($value);
+            
+            // Check if it's a working day
+            if (!SiteSetting::isWorkingDay($bookingDate)) {
+                $this->addError('selectedDate', 'Cannot book on a non-working day.');
+                return;
+            }
+            
+            // Check capacity
+            if (CapacityService::wouldExceedCapacity($bookingDate, $this->numberOfPeople)) {
+                $this->addError('selectedDate', 'Adding this booking would exceed the daily capacity limit.');
+                return;
+            }
+            
             // Skip loading slots and go directly to payment method
             $this->step = 4;
         }
@@ -71,7 +104,7 @@ class CreateBooking extends Component
 
     public function selectPaymentMethod($method)
     {
-        Log::info('selectPaymentMethod called', ['method' => $method]);
+        // Log::info('selectPaymentMethod called', ['method' => $method]);
         // Validate that the payment method is either 'cash' or 'online'
         if (!in_array($method, ['cash', 'online'])) {
             $this->addError('paymentMethod', 'Invalid payment method selected.');
@@ -79,19 +112,19 @@ class CreateBooking extends Component
         }
         
         $this->paymentMethod = $method;
-        Log::info('About to call saveBooking', ['paymentMethod' => $this->paymentMethod]);
+        // Log::info('About to call saveBooking', ['paymentMethod' => $this->paymentMethod]);
         // Automatically save the booking when payment method is selected
         $this->saveBooking();
     }
 
     public function saveBooking()
     {
-        Log::info('saveBooking called', [
-            'paymentMethod' => $this->paymentMethod,
-            'selectedService' => $this->selectedService,
-            'selectedDate' => $this->selectedDate,
-            'numberOfPeople' => $this->numberOfPeople
-        ]);
+        // Log::info('saveBooking called', [
+        //     'paymentMethod' => $this->paymentMethod,
+        //     'selectedService' => $this->selectedService,
+        //     'selectedDate' => $this->selectedDate,
+        //     'numberOfPeople' => $this->numberOfPeople
+        // ]);
         // Validate that the payment method is either 'cash' or 'online'
         if (!in_array($this->paymentMethod, ['cash', 'online'])) {
             $this->addError('paymentMethod', 'Invalid payment method selected.');
@@ -134,19 +167,19 @@ class CreateBooking extends Component
             }
             
             $this->step = 5; // Show success and QR code
-            Log::info('Booking created successfully, step set to 5', [
-                'referenceCode' => $this->referenceCode,
-                'qrCodeLength' => strlen($this->qrCode),
-                'step' => $this->step
-            ]);
+            // Log::info('Booking created successfully, step set to 5', [
+            //     'referenceCode' => $this->referenceCode,
+            //     'qrCodeLength' => strlen($this->qrCode),
+            //     'step' => $this->step
+            // ]);
         } catch (\Exception $e) {
             // Handle error
-            Log::error('Booking creation failed', [
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
-            ]);
+            // Log::error('Booking creation failed', [
+            //     'error' => $e->getMessage(),
+            //     'trace' => $e->getTraceAsString()
+            // ]);
             $this->addError('booking', 'Failed to create booking. Please try again. Error: ' . $e->getMessage());
-            Log::error('Booking creation error: ' . $e->getMessage());
+            // Log::error('Booking creation error: ' . $e->getMessage());
         }
     }
 

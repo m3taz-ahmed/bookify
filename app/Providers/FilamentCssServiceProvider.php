@@ -21,7 +21,7 @@ class FilamentCssServiceProvider extends ServiceProvider
     public function boot(): void
     {
         FilamentAsset::register([
-            \Filament\Support\Assets\Css::make('custom-filament-css', __DIR__ . '/../../resources/css/filament-custom.css'),
+            // \Filament\Support\Assets\Css::make('custom-filament-css', __DIR__ . '/../../resources/css/filament-custom.css'),
         ]);
     }
 }
