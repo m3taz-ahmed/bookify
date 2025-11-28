@@ -18,7 +18,7 @@
                 <!-- Progress line -->
                 <div class="absolute top-4 left-0 right-0 h-1.5 bg-gray-200 -z-10 rounded-full overflow-hidden">
                     <div class="h-full bg-gradient-to-r from-primary-500 to-secondary-500 transition-all duration-700 ease-in-out rounded-full" 
-                         style="width: <?php echo ($step - 1) * 16.66; ?>%"></div>
+                         style="width: <?php echo ($step - 1) * 25; ?>%"></div>
                 </div>
                 
                 <!-- Steps -->
@@ -108,7 +108,7 @@
                 </div>
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 max-w-2xl mx-auto mb-8">
                     @for ($i = 1; $i <= 10; $i++)
-                        <div class="border border-gray-200 rounded-2xl p-5 hover:border-primary-300 cursor-pointer transition-all duration-300 bg-white hover:bg-gradient-to-br from-white to-primary-50 text-center transform hover:-translate-y-2 shadow-sm hover:shadow-lg flex flex-col items-center justify-center group"
+                        <div class="border border-gray-200 rounded-2xl p-5 hover:border-primary-300 cursor-pointer transition-all duration-300 bg-white hover:bg-gradient-to-br from-white to-primary-50 text-center transform hover:-translate-y-2 shadow-sm hover:shadow-lg flex flex-col items-center justify-center group {{ $numberOfPeople == $i ? 'ring-2 ring-primary-500 ring-offset-2' : '' }}"
                              wire:click="selectNumberOfPeople({{ $i }})">
                             <div class="w-16 h-16 rounded-full bg-gradient-to-br from-primary-100 to-secondary-100 flex items-center justify-center mb-3 transition-all duration-300 group-hover:from-primary-200 group-hover:to-secondary-200 group-hover:scale-110 shadow-md">
                                 <span class="text-2xl font-bold text-primary-600">{{ $i }}</span>
@@ -118,7 +118,7 @@
                     @endfor
                 </div>
                 <div class="flex justify-center">
-                    <button wire:click="step = 1" 
+                    <button wire:click="goToPreviousStep()" 
                             class="inline-flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-xl text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
                         <svg class="mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
@@ -129,14 +129,16 @@
             </div>
         @endif
         
-        <!-- Step 3: Select Date -->
+        <!-- Step 3: Select Date and Time -->
         @if ($step === 3)
             <div class="transition-all duration-300 fade-in">
                 <div class="mb-8 text-center relative">
                     <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 w-24 h-24 bg-gradient-to-br from-accent-100 to-primary-100 rounded-full opacity-30 blur-xl"></div>
-                    <h2 class="text-3xl font-bold text-gray-900 mb-3 relative z-10">{{ __('website.select_date') }}</h2>
-                    <p class="text-gray-600 max-w-xl mx-auto text-lg">{{ __('website.choose_appointment_date') }}</p>
+                    <h2 class="text-3xl font-bold text-gray-900 mb-3 relative z-10">{{ __('website.select_date_time') }}</h2>
+                    <p class="text-gray-600 max-w-xl mx-auto text-lg">{{ __('website.choose_appointment_date_time') }}</p>
                 </div>
+                
+                <!-- Date Selection -->
                 <div class="max-w-md mx-auto mb-8">
                     <div class="bg-gradient-to-br from-white to-primary-50 rounded-2xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
                         <label class="block text-gray-700 text-sm font-medium mb-3">{{ __('website.appointment_date') }}</label>
@@ -156,10 +158,95 @@
                         </div>
                     </div>
                 </div>
+                
+                <!-- Selected Date Summary -->
+                @if($selectedDate)
+                <div class="max-w-md mx-auto mb-6">
+                    <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 flex items-center">
+                        <svg class="h-5 w-5 text-blue-500 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                        </svg>
+                        <div>
+                            <span class="text-sm font-medium text-blue-800">{{ __('website.selected_date') }}:</span>
+                            <span class="font-semibold text-blue-900 ml-1">{{ \Carbon\Carbon::parse($selectedDate)->format('l, F j, Y') }}</span>
+                        </div>
+                    </div>
+                </div>
+                @endif
+                
+                <!-- Time Selection -->
+                @if($selectedDate)
+                    @php
+                        // Check if the selected date is a working day
+                        $isWorkingDay = false;
+                        try {
+                            $bookingDate = \Carbon\Carbon::parse($selectedDate);
+                            $isWorkingDay = \App\Models\SiteSetting::isWorkingDay($bookingDate);
+                        } catch (\Exception $e) {
+                            $isWorkingDay = false;
+                        }
+                    @endphp
+                    
+                    @if($isWorkingDay && count($availableTimeSlots) > 0)
+                        <div class="max-w-md mx-auto mb-8">
+                            <div class="bg-gradient-to-br from-white to-primary-50 rounded-2xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
+                                <label class="block text-gray-700 text-sm font-medium mb-3">{{ __('website.Time') }} (الوقت)</label>
+                                <div class="grid grid-cols-3 sm:grid-cols-4 gap-3">
+                                    @foreach($availableTimeSlots as $time)
+                                        <button type="button"
+                                                wire:click="selectTime('{{ $time }}')"
+                                                class="py-3 px-4 text-center rounded-xl border transition-all duration-300 {{ $selectedTime === $time ? 'bg-primary-500 text-white border-primary-500 shadow-md transform scale-105' : 'bg-white border-gray-300 text-gray-700 hover:bg-primary-50 hover:border-primary-300' }}">
+                                            {{ $time }}
+                                        </button>
+                                    @endforeach
+                                </div>
+                                @error('selectedTime')
+                                    <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+                        
+                        <!-- Selected Time Summary -->
+                        @if($selectedTime)
+                        <div class="max-w-md mx-auto mb-6">
+                            <div class="bg-green-50 border border-green-200 rounded-xl p-4 flex items-center">
+                                <svg class="h-5 w-5 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                </svg>
+                                <div>
+                                    <span class="text-sm font-medium text-green-800">{{ __('website.selected_time') }}:</span>
+                                    <span class="font-semibold text-green-900 ml-1">{{ $selectedTime }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
+                    @elseif($isWorkingDay)
+                        <div class="max-w-md mx-auto mb-8">
+                            <div class="bg-yellow-50 border border-yellow-200 rounded-2xl p-6 text-center">
+                                <svg class="h-12 w-12 text-yellow-500 mx-auto mb-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                </svg>
+                                <h3 class="text-lg font-medium text-yellow-800 mb-2">{{ __('website.no_available_slots') }}</h3>
+                                <p class="text-yellow-700">{{ __('website.please_select_another_date') }}</p>
+                            </div>
+                        </div>
+                    @else
+                        <div class="max-w-md mx-auto mb-8">
+                            <div class="bg-red-50 border border-red-200 rounded-2xl p-6 text-center">
+                                <svg class="h-12 w-12 text-red-500 mx-auto mb-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                </svg>
+                                <h3 class="text-lg font-medium text-red-800 mb-2">{{ __('website.non_working_day') }}</h3>
+                                <p class="text-red-700">{{ __('website.cannot_book_on_non_working_day') }}</p>
+                            </div>
+                        </div>
+                    @endif
+                @endif
+                
                 <div class="flex justify-center mb-4">
                     <button wire:click="handleDateSelection()" 
                             class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-gradient-to-r from-primary-600 to-secondary-700 hover:from-primary-700 hover:to-secondary-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
-                            @if(!$selectedDate) disabled @endif>
+                            @if(!$selectedDate || !$selectedTime) disabled @endif>
                         {{ __('website.continue_to_payment') }}
                         <svg class="ml-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
@@ -168,7 +255,7 @@
                 </div>
                 
                 <div class="flex justify-center">
-                    <button wire:click="step = 2" 
+                    <button wire:click="goToPreviousStep()" 
                             class="inline-flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-xl text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
                         <svg class="mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
@@ -187,6 +274,35 @@
                     <h2 class="text-3xl font-bold text-gray-900 mb-3 relative z-10">{{ __('website.select_payment_method') }}</h2>
                     <p class="text-gray-600 text-lg">{{ __('website.choose_how_to_pay') }}</p>
                 </div>
+                
+                <!-- Selected Service Summary -->
+                @if($selectedService)
+                <div class="max-w-md mx-auto mb-6">
+                    <div class="bg-blue-50 border border-blue-200 rounded-xl p-4">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <span class="text-sm font-medium text-blue-800">{{ __('website.selected_service') }}:</span>
+                                <span class="font-semibold text-blue-900 ml-1">{{ $services->firstWhere('id', $selectedService)?->name }}</span>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-sm font-medium text-blue-800">{{ __('website.people') }}:</span>
+                                <span class="font-semibold text-blue-900 ml-1">{{ $numberOfPeople }}</span>
+                            </div>
+                        </div>
+                        <div class="mt-2 flex justify-between items-center">
+                            <div>
+                                <span class="text-sm font-medium text-blue-800">{{ __('website.date') }}:</span>
+                                <span class="font-semibold text-blue-900 ml-1">{{ \Carbon\Carbon::parse($selectedDate)->format('M j, Y') }}</span>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-sm font-medium text-blue-800">{{ __('website.time') }}:</span>
+                                <span class="font-semibold text-blue-900 ml-1">{{ $selectedTime }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endif
+                
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                     <div class="border border-gray-200 rounded-2xl p-6 hover:border-primary-300 cursor-pointer transition-all duration-300 bg-white hover:bg-gradient-to-br from-white to-primary-50 transform hover:-translate-y-2 shadow-sm hover:shadow-lg" 
                          wire:click="selectPaymentMethod('cash')">
@@ -229,8 +345,22 @@
                     </div>
                 </div>
                 
+                <!-- Display booking errors -->
+                @error('booking')
+                    <div class="max-w-md mx-auto mb-6">
+                        <div class="bg-red-50 border border-red-200 rounded-xl p-4 flex items-center">
+                            <svg class="h-5 w-5 text-red-500 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                            </svg>
+                            <div>
+                                <span class="text-sm font-medium text-red-800">{{ $message }}</span>
+                            </div>
+                        </div>
+                    </div>
+                @enderror
+                
                 <div class="flex justify-center">
-                    <button wire:click="step = 3" 
+                    <button wire:click="goToPreviousStep()" 
                             class="inline-flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-xl text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
                         <svg class="mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
@@ -274,7 +404,7 @@
                     <a href="{{ route('customer.bookings') }}" 
                        class="inline-flex items-center justify-center px-6 py-3 border border-gray-300 text-base font-medium rounded-xl text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
                         <svg class="mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
                         </svg>
                         {{ __('website.view_my_bookings') }}
                     </a>
@@ -300,4 +430,14 @@
             to { opacity: 1; transform: translateY(0); }
         }
     </style>
+    
+    <script>
+        document.addEventListener('livewire:load', function () {
+            // Listen for the custom date-selected event
+            window.addEventListener('date-selected', function (event) {
+                // Update the Livewire property
+                Livewire.emit('setSelectedDate', event.detail.date);
+            });
+        });
+    </script>
 </div>

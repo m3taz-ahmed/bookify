@@ -110,4 +110,5 @@ return [
     'Rating' => 'Rating',
     'Calendar' => 'Calendar',
     'booking_list' => 'Booking List',
+    'site_settings' => 'Site Settings',
 ];

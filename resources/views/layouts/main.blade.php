@@ -21,10 +21,12 @@
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
                     <div class="flex-shrink-0 flex items-center">
-                        <svg class="h-8 w-8 text-primary-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                        <span class="ml-2 text-xl font-bold text-primary-600">{{ config('app.name', 'Bookify') }}</span>
+                        <a href="{{ route('booking-welcome') }}" class="flex items-center">
+                            <svg class="h-8 w-8 text-primary-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <span class="ml-2 text-xl font-bold text-primary-600">{{ config('app.name', 'Bookify') }}</span>
+                        </a>
                     </div>
                 </div>
                 @php
@@ -137,10 +139,12 @@
             <div class="xl:grid xl:grid-cols-3 xl:gap-8">
                 <div class="space-y-8 xl:col-span-1">
                     <div class="flex items-center">
-                        <svg class="h-8 w-8 text-primary-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                        <span class="ml-2 text-xl font-bold text-primary-300">{{ config('app.name', 'Bookify') }}</span>
+                        <a href="{{ route('booking-welcome') }}" class="flex items-center">
+                            <svg class="h-8 w-8 text-primary-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <span class="ml-2 text-xl font-bold text-primary-300">{{ config('app.name', 'Bookify') }}</span>
+                        </a>
                     </div>
                     <p class="text-dark-300 text-base">
                         {{ __('website.our_platform') }}

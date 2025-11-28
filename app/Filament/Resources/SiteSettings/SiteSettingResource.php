@@ -28,12 +28,12 @@ class SiteSettingResource extends Resource
 
     public static function getLabel(): string
     {
-        return 'Site Setting';
+        return __('filament.site_settings');
     }
 
     public static function getPluralLabel(): string
     {
-        return 'Site Settings';
+        return __('filament.site_settings');
     }
 
     public static function form(Schema $schema): Schema

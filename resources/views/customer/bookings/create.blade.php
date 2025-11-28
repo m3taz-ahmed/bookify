@@ -9,14 +9,14 @@
                     <h1 class="text-3xl font-bold text-gray-900">{{ __('website.book_new_appointment') }}</h1>
                     <p class="text-gray-600 mt-2">{{ __('website.follow_steps_below') }}</p>
                 </div>
-                <div class="hidden md:block">
+                <!-- <div class="hidden md:block">
                     <div class="flex items-center space-x-2">
                         <div class="w-10 h-10 rounded-full bg-primary-500 flex items-center justify-center text-white font-bold">1</div>
                         <div class="w-10 h-10 rounded-full bg-primary-500 flex items-center justify-center text-white font-bold">2</div>
                         <div class="w-10 h-10 rounded-full bg-primary-500 flex items-center justify-center text-white font-bold">3</div>
                         <div class="w-10 h-10 rounded-full bg-primary-500 flex items-center justify-center text-white font-bold">4</div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
         
