@@ -1,125 +1,135 @@
 <?php $__env->startSection('content'); ?>
 
-<div class="bg-gradient-to-br from-background-50 to-background-100 py-24">
-  <div class="max-w-7xl mx-auto px-4 lg:px-8 flex flex-col lg:flex-row items-center gap-16">
+<!-- Sky Bridge Background Section -->
+<div class="relative">
+  <!-- Background image with overlay -->
+  <div class="absolute inset-0 z-0">
+    <div class="bg-[url('https://images.pexels.com/photos/2097794/pexels-photo-2097794.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')] bg-cover bg-center bg-no-repeat w-full h-full brightness-75"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-background-50/90 to-background-100/90"></div>
+  </div>
 
-    <div class="lg:w-1/2">
-      <div class="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800 mb-6">
-        <span class="h-2 w-2 rounded-full bg-primary-600 mr-2"></span>
-        <?php echo e(__('website.welcome')); ?>
+  <!-- Existing content with higher z-index -->
+  <div class="relative z-10 bg-gradient-to-br from-background-50/80 to-background-100/80 py-24 backdrop-blur-sm">
+    <div class="max-w-7xl mx-auto px-4 lg:px-8 flex flex-col lg:flex-row items-center gap-16">
 
-      </div>
+      <div class="lg:w-1/2">
+        <div class="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800 mb-6">
+          <span class="h-2 w-2 rounded-full bg-primary-600 mr-2"></span>
+          <?php echo e(__('website.welcome')); ?>
 
-      <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-dark-900 mb-6">
-        <?php echo e(__('website.tagline')); ?>
-
-      </h1>
-
-      <p class="text-lg md:text-xl text-dark-600 mb-10">
-        <?php echo e(__('website.our_platform')); ?>
-
-      </p>
-
-      <div class="flex flex-col sm:flex-row gap-4">
-        <a href="<?php echo e(route('customer.bookings.create')); ?>"
-           class="px-8 py-4 bg-primary-600 text-white font-bold rounded-xl shadow-lg hover:bg-primary-700 transition">
-          <?php echo e(__('website.book_appointment')); ?>
-
-        </a>
-        <a href="<?php echo e(route('customer.register')); ?>"
-           class="px-8 py-4 bg-white text-primary-600 font-bold rounded-xl border border-primary-200 shadow hover:shadow-md transition">
-          <?php echo e(__('website.create_account')); ?>
-
-        </a>
-      </div>
-
-      <div class="mt-10 flex items-center">
-        <div class="flex -space-x-2">
-          <div class="h-10 w-10 rounded-full bg-primary-200 ring-2 ring-white"></div>
-          <div class="h-10 w-10 rounded-full bg-secondary-200 ring-2 ring-white"></div>
-          <div class="h-10 w-10 rounded-full bg-accent-200 ring-2 ring-white"></div>
         </div>
-        <div class="ml-4">
-          <p class="text-sm font-medium text-dark-700">
-            <span class="text-primary-600 font-bold">10,000+</span> <?php echo e(__('website.happy_customers')); ?>
 
-          </p>
-          <p class="text-xs text-dark-500"><?php echo e(__('website.joined_us_last_month')); ?></p>
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-dark-900 mb-6">
+          <?php echo e(__('website.tagline')); ?>
+
+        </h1>
+
+        <p class="text-lg md:text-xl text-dark-600 mb-10">
+          <?php echo e(__('website.our_platform')); ?>
+
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="<?php echo e(route('customer.bookings.create')); ?>"
+             class="px-8 py-4 bg-primary-600 text-white font-bold rounded-xl shadow-lg hover:bg-primary-700 transition">
+            <?php echo e(__('website.book_appointment')); ?>
+
+          </a>
+          <a href="<?php echo e(route('customer.register')); ?>"
+             class="px-8 py-4 bg-white text-primary-600 font-bold rounded-xl border border-primary-200 shadow hover:shadow-md transition">
+            <?php echo e(__('website.create_account')); ?>
+
+          </a>
+        </div>
+
+        <div class="mt-10 flex items-center">
+          <div class="flex -space-x-2">
+            <div class="h-10 w-10 rounded-full bg-primary-200 ring-2 ring-white"></div>
+            <div class="h-10 w-10 rounded-full bg-secondary-200 ring-2 ring-white"></div>
+            <div class="h-10 w-10 rounded-full bg-accent-200 ring-2 ring-white"></div>
+          </div>
+          <div class="ml-4">
+            <p class="text-sm font-medium text-dark-700">
+              <span class="text-primary-600 font-bold">10,000+</span> <?php echo e(__('website.happy_customers')); ?>
+
+            </p>
+            <p class="text-xs text-dark-500"><?php echo e(__('website.joined_us_last_month')); ?></p>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="lg:w-1/2 flex justify-center">
-      <div class="w-full max-w-md bg-white rounded-2xl shadow-xl border border-background-200 overflow-hidden">
-        <div class="p-6">
-          <div class="flex items-center justify-between mb-6">
-            <h3 class="text-xl font-bold text-dark-900"><?php echo e(config('app.name', 'Bookify')); ?></h3>
-            <div class="px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800 flex items-center">
-              <svg class="h-4 w-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-              </svg>
-              <?php echo e(__('website.available')); ?>
-
-            </div>
-          </div>
-
-          <div class="space-y-4">
-            <div class="flex items-start gap-3">
-              <div class="h-6 w-6 rounded-full bg-primary-100 text-primary-600 flex items-center justify-center">
-                <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+      <div class="lg:w-1/2 flex justify-center">
+        <div class="w-full max-w-md bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl border border-background-200 overflow-hidden">
+          <div class="p-6">
+            <div class="flex items-center justify-between mb-6">
+              <h3 class="text-xl font-bold text-dark-900"><?php echo e(config('app.name', 'Bookify')); ?></h3>
+              <div class="px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800 flex items-center">
+                <svg class="h-4 w-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                 </svg>
-              </div>
-              <p class="text-dark-700"><?php echo e(__('website.quick_and_easy_booking')); ?></p>
-            </div>
-            <div class="flex items-start gap-3">
-              <div class="h-6 w-6 rounded-full bg-primary-100 text-primary-600 flex items-center justify-center">
-                <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                </svg>
-              </div>
-              <p class="text-dark-700"><?php echo e(__('website.real_time_availability')); ?></p>
-            </div>
-            <div class="flex items-start gap-3">
-              <div class="h-6 w-6 rounded-full bg-primary-100 text-primary-600 flex items-center justify-center">
-                <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                </svg>
-              </div>
-              <p class="text-dark-700"><?php echo e(__('website.reminder_notifications')); ?></p>
-            </div>
-          </div>
+                <?php echo e(__('website.available')); ?>
 
-          <div class="mt-8 pt-6 border-t border-background-200">
-            <div class="flex items-center justify-between">
-              <div>
-                <p class="text-sm font-medium text-dark-900"><?php echo e(__('website.next_available_slot')); ?></p>
-                <?php
-                  // Find the next available time slot
-                  $nextAvailable = \App\Services\NextAvailableSlotService::getNextAvailableSlot();
-                ?>
-                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($nextAvailable): ?>
-                  <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($nextAvailable['is_available_now']): ?>
-                    <p class="text-sm text-dark-500"><?php echo e(__('website.available_now')); ?></p>
+              </div>
+            </div>
+
+            <div class="space-y-4">
+              <div class="flex items-start gap-3">
+                <div class="h-6 w-6 rounded-full bg-primary-100 text-primary-600 flex items-center justify-center">
+                  <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                  </svg>
+                </div>
+                <p class="text-dark-700"><?php echo e(__('website.quick_and_easy_booking')); ?></p>
+              </div>
+              <div class="flex items-start gap-3">
+                <div class="h-6 w-6 rounded-full bg-primary-100 text-primary-600 flex items-center justify-center">
+                  <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                  </svg>
+                </div>
+                <p class="text-dark-700"><?php echo e(__('website.real_time_availability')); ?></p>
+              </div>
+              <div class="flex items-start gap-3">
+                <div class="h-6 w-6 rounded-full bg-primary-100 text-primary-600 flex items-center justify-center">
+                  <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                  </svg>
+                </div>
+                <p class="text-dark-700"><?php echo e(__('website.reminder_notifications')); ?></p>
+              </div>
+            </div>
+
+            <div class="mt-8 pt-6 border-t border-background-200">
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-sm font-medium text-dark-900"><?php echo e(__('website.next_available_slot')); ?></p>
+                  <?php
+                    // Find the next available time slot
+                    $nextAvailable = \App\Services\NextAvailableSlotService::getNextAvailableSlot();
+                  ?>
+                  <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($nextAvailable): ?>
+                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($nextAvailable['is_available_now']): ?>
+                      <p class="text-sm text-dark-500"><?php echo e(__('website.available_now')); ?></p>
+                    <?php else: ?>
+                      <p class="text-sm text-dark-500"><?php echo e(__('website.today_at')); ?> <?php echo e($nextAvailable['time']); ?></p>
+                    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                   <?php else: ?>
-                    <p class="text-sm text-dark-500"><?php echo e(__('website.today_at')); ?> <?php echo e($nextAvailable['time']); ?></p>
+                    <p class="text-sm text-dark-500"><?php echo e(__('website.no_available_slots_today')); ?></p>
                   <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
-                <?php else: ?>
-                  <p class="text-sm text-dark-500"><?php echo e(__('website.no_available_slots_today')); ?></p>
-                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                </div>
+                <a href="<?php echo e(route('customer.bookings.create')); ?>"
+                   class="px-4 py-2 text-sm font-medium rounded-lg text-white bg-primary-600 hover:bg-primary-700 transition">
+                  <?php echo e(__('website.book_now')); ?>
+
+                </a>
               </div>
-              <a href="<?php echo e(route('customer.bookings.create')); ?>"
-                 class="px-4 py-2 text-sm font-medium rounded-lg text-white bg-primary-600 hover:bg-primary-700 transition">
-                <?php echo e(__('website.book_now')); ?>
-
-              </a>
             </div>
-          </div>
 
+          </div>
         </div>
       </div>
-    </div>
 
+    </div>
   </div>
 </div>
 
