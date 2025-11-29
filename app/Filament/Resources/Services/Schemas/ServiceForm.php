@@ -28,7 +28,7 @@ class ServiceForm
                 TextInput::make('price')
                     ->required()
                     ->numeric()
-                    ->prefix('$')
+                    ->prefix('SAR')
                     ->label(__('filament.Price')),
                 Toggle::make('is_active')
                     ->required()

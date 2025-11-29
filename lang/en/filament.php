@@ -109,6 +109,7 @@ return [
     'Payment Method' => 'Payment Method',
     'Rating' => 'Rating',
     'Calendar' => 'Calendar',
+    'Week Calendar' => 'Week Calendar',
     'booking_list' => 'Booking List',
     'site_settings' => 'Site Settings',
 ];

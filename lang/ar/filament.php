@@ -110,5 +110,6 @@ return [
     'Rating' => 'التقييم',
     'booking_list' => ' قائمة الحجوزات',
     'Calendar' => 'العرض التقويمي',
+    'Week Calendar' => 'عرض الأسبوع',
     'site_settings' => 'إعدادات الموقع',
 ];

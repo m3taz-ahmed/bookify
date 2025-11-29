@@ -38,7 +38,7 @@ class Service extends Model
     
     public function getFormattedPriceAttribute()
     {
-        return '$' . number_format($this->price, 2);
+        return 'SAR ' . number_format($this->price, 2);
     }
     
     // Get the name based on the current locale

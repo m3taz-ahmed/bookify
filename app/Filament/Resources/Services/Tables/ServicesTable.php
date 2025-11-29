@@ -31,7 +31,7 @@ class ServicesTable
                 //     ->label(__('filament.Description (Arabic)'))
                 //     ->limit(50),
                 TextColumn::make('price')
-                    ->money()
+                    ->formatStateUsing(fn ($state) => 'SAR ' . number_format($state, 2))
                     ->sortable()
                     ->label(__('filament.Price')),
                 IconColumn::make('is_active')

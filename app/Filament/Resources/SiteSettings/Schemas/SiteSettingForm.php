@@ -20,17 +20,26 @@ class SiteSettingForm
                     ->required()
                     ->disabledOn('edit')
                     ->helperText('Unique identifier for this setting.'),
-                
-                // Capacity setting
+
                 TextInput::make('setting_value')
                     ->label('Maximum Capacity')
                     ->numeric()
                     ->minValue(1)
-                    ->default(200)
                     ->required()
                     ->helperText('Maximum number of people allowed per day')
-                    ->visible(fn ($get) => $get('setting_key') === 'max_capacity'),
-                
+                    ->visible(fn ($get) => $get('setting_key') === 'max_capacity')
+                    ->dehydrateStateUsing(fn ($state) => (int) $state)
+                    ->formatStateUsing(function ($state) {
+                        // Handle the case where the value might be an array due to model casting
+                        if (is_array($state)) {
+                            // Extract the actual integer value from the array
+                            return (int) ($state[0] ?? 200);
+                        }
+                        
+                        // If it's already a scalar value, convert to int
+                        return $state;
+                    }),
+
                 // Working hours setting with improved UI
                 WorkingHoursField::make('setting_value')
                     ->label('Working Hours')

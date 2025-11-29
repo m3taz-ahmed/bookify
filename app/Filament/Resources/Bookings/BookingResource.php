@@ -6,6 +6,7 @@ use App\Filament\Resources\Bookings\Pages\CalendarBookings;
 use App\Filament\Resources\Bookings\Pages\CreateBooking;
 use App\Filament\Resources\Bookings\Pages\EditBooking;
 use App\Filament\Resources\Bookings\Pages\ListBookings;
+use App\Filament\Resources\Bookings\Pages\WeekCalendarBookings;
 use App\Filament\Resources\Bookings\Schemas\BookingForm;
 use App\Filament\Resources\Bookings\Tables\BookingsTable;
 use App\Models\Booking;
@@ -91,6 +92,7 @@ class BookingResource extends Resource
             // 'create' => CreateBooking::route('/create'),
             'edit' => EditBooking::route('/{record}/edit'),
             'calendar' => CalendarBookings::route('/calendar'),
+            'week-calendar' => WeekCalendarBookings::route('/week-calendar'),
         ];
     }
 
@@ -108,6 +110,12 @@ class BookingResource extends Resource
                 ->icon('heroicon-o-calendar')
                 ->group(__('filament.Bookings'))
                 ->url(static::getUrl('calendar')),
+
+            NavigationItem::make()
+                ->label(__('filament.Week Calendar'))
+                ->icon('heroicon-o-calendar-days')
+                ->group(__('filament.Bookings'))
+                ->url(static::getUrl('week-calendar')),
         ];
     }
 }

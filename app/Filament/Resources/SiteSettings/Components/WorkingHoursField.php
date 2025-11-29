@@ -13,7 +13,13 @@ class WorkingHoursField extends Field
     {
         parent::setUp();
         
-        $this->afterStateHydrated(function (WorkingHoursField $component, $state) {
+        $this->afterStateHydrated(function (WorkingHoursField $component, $state, callable $get) {
+            // Only run this logic if the setting_key is working_hours
+            // We use $get to retrieve the value of the sibling field 'setting_key'
+            if ($get('setting_key') !== 'working_hours') {
+                return;
+            }
+
             // Debug: Log the incoming state
             // Log::info('WorkingHoursField hydrated with state:', ['state' => $state, 'type' => gettype($state)]);
             
