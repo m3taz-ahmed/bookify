@@ -17,7 +17,7 @@ class DateAvailabilityService
      */
     public static function getDateStatus($dateString, $numberOfPeople = 1)
     {
-        $date = Carbon::parse($dateString);
+        $date = Carbon::parse($dateString)->timezone('Asia/Riyadh');
         
         // Check if it's a working day
         if (!SiteSetting::isWorkingDay($date)) {
@@ -42,8 +42,8 @@ class DateAvailabilityService
      */
     public static function getDateRangeStatus($startDate, $endDate, $numberOfPeople = 1)
     {
-        $start = Carbon::parse($startDate);
-        $end = Carbon::parse($endDate);
+        $start = Carbon::parse($startDate)->timezone('Asia/Riyadh');
+        $end = Carbon::parse($endDate)->timezone('Asia/Riyadh');
         $statuses = [];
         
         $current = $start->copy();

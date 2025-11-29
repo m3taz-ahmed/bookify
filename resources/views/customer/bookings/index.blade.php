@@ -90,14 +90,14 @@
                                                 <svg class="h-4 w-4 mr-1 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                                 </svg>
-                                                {{ \Carbon\Carbon::parse($booking->booking_date)->format('M j, Y') }}
+                                                {{ \Carbon\Carbon::parse($booking->booking_date)->timezone('Asia/Riyadh')->format('M j, Y') }}
                                             </span>
                                             <span class="mx-2">•</span>
                                             <span class="inline-flex items-center">
                                                 <svg class="h-4 w-4 mr-1 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                                 </svg>
-                                                {{ \Carbon\Carbon::parse($booking->start_time)->format('g:i A') }} - {{ \Carbon\Carbon::parse($booking->end_time)->format('g:i A') }}
+                                                {{ \Carbon\Carbon::parse($booking->start_time)->timezone('Asia/Riyadh')->format('g:i A') }} - {{ \Carbon\Carbon::parse($booking->end_time)->timezone('Asia/Riyadh')->format('g:i A') }}
                                             </span>
                                         </p>
                                         {{-- Employee information removed as per requirement --}}

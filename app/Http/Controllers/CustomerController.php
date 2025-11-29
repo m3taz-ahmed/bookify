@@ -102,7 +102,7 @@ class CustomerController extends Controller
         $customer = auth('customer')->user();
         
         // Validate working day and capacity
-        $bookingDate = \Carbon\Carbon::parse($request->booking_date);
+        $bookingDate = \Carbon\Carbon::parse($request->booking_date)->timezone('Asia/Riyadh');
         
         // Check if it's a working day
         if (!\App\Models\SiteSetting::isWorkingDay($bookingDate)) {
@@ -121,7 +121,7 @@ class CustomerController extends Controller
         $duration = $service->duration_minutes;
         
         // Calculate end time
-        $startTime = \Carbon\Carbon::createFromTimeString($request->start_time);
+        $startTime = \Carbon\Carbon::createFromTimeString($request->start_time)->timezone('Asia/Riyadh');
         $endTime = $startTime->copy()->addMinutes($duration);
         
         // Generate reference code
@@ -192,7 +192,7 @@ class CustomerController extends Controller
         ]);
         
         // Validate working day and capacity
-        $bookingDate = \Carbon\Carbon::parse($request->booking_date);
+        $bookingDate = \Carbon\Carbon::parse($request->booking_date)->timezone('Asia/Riyadh');
         
         // Check if it's a working day
         if (!\App\Models\SiteSetting::isWorkingDay($bookingDate)) {
@@ -221,7 +221,7 @@ class CustomerController extends Controller
         $duration = $service->duration_minutes;
         
         // Calculate end time
-        $startTime = \Carbon\Carbon::createFromTimeString($request->start_time);
+        $startTime = \Carbon\Carbon::createFromTimeString($request->start_time)->timezone('Asia/Riyadh');
         $endTime = $startTime->copy()->addMinutes($duration);
         
         // Update the booking

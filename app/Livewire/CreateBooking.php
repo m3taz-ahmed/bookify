@@ -6,50 +6,63 @@ use App\Models\Booking;
 use App\Models\Customer;
 use App\Models\Service;
 use App\Models\SiteSetting;
-use App\Services\BookingService;
+use App\Notifications\BookingConfirmed;
 use App\Services\CapacityService;
-use App\Services\DateAvailabilityService;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class CreateBooking extends Component
 {
     public $step = 1;
-    public $services;
+    public $selectedServiceId;
     public $selectedService;
-    public $numberOfPeople = 1;
     public $selectedDate;
     public $selectedTime;
-    public $referenceCode;
-    public $qrCode;
+    public $selectedDateWorkingHours = [];
+    public $availableTimeSlots = [];
+    public $fullName;
+    public $phoneNumber;
+    public $numberOfPeople = 1;
     public $paymentMethod;
     public $orderRef;
-    public $availableTimeSlots = [];
-    
-    protected $bookingService;
+    public $booking;
+    public $qrCode;
+    public $referenceCode;
 
-    public function boot(BookingService $bookingService)
-    {
-        $this->bookingService = $bookingService;
-    }
+    protected $rules = [
+        'selectedServiceId' => 'required|exists:services,id',
+        'selectedDate' => 'required|date',
+        'selectedTime' => 'required',
+        'numberOfPeople' => 'required|integer|min:1|max:10',
+        'paymentMethod' => 'required|in:cash,online',
+    ];
 
     public function mount()
     {
-        $this->services = Service::where('is_active', true)->get();
+        // Set default date to today in Saudi Arabia timezone
+        $this->selectedDate = Carbon::today()->timezone('Asia/Riyadh')->format('Y-m-d');
     }
-
+    
     public function selectService($serviceId)
     {
+        $this->selectedServiceId = $serviceId;
         $this->selectedService = $serviceId;
-        $this->step = 2;
+        $this->goToNextStep();
+    }
+    
+    public function selectNumberOfPeople($numberOfPeople)
+    {
+        $this->numberOfPeople = $numberOfPeople;
+        $this->goToNextStep();
     }
 
-    public function selectNumberOfPeople($number)
+    public function updatedSelectedServiceId($value)
     {
-        $this->numberOfPeople = $number;
-        $this->step = 3;
+        // Reset date and time when service changes
+        $this->selectedDate = null;
+        $this->selectedTime = null;
+        $this->availableTimeSlots = [];
     }
 
     public function updatedSelectedDate($value)
@@ -57,13 +70,19 @@ class CreateBooking extends Component
         // Clear any previous date errors
         $this->resetValidation('selectedDate');
         
+        // Reset working hours
+        $this->selectedDateWorkingHours = [];
+        
         if ($value) {
             // Reset selected time when date changes
             $this->selectedTime = null;
             
             try {
                 // Validate working day and capacity
-                $bookingDate = Carbon::parse($value);
+                $bookingDate = Carbon::parse($value)->timezone('Asia/Riyadh');
+                
+                // Get working hours for the selected day
+                $this->selectedDateWorkingHours = SiteSetting::getTimeSlots($bookingDate);
                 
                 // Check if it's a working day
                 if (!SiteSetting::isWorkingDay($bookingDate)) {
@@ -103,35 +122,27 @@ class CreateBooking extends Component
     {
         try {
             // Get working hours for the selected day
-            $dayOfWeek = strtolower($date->format('l'));
-            $workingHours = SiteSetting::getWorkingHours($dayOfWeek);
+            $timeSlots = SiteSetting::getTimeSlots($date);
             
-            if (!$workingHours) {
+            if (empty($timeSlots)) {
                 $this->availableTimeSlots = [];
                 return;
             }
             
             // Generate time slots (only 00 and 30 minutes)
-            $timeSlots = [];
+            $allSlots = [];
             
-            // Handle both old format (single time slot) and new format (multiple time slots)
-            if (isset($workingHours['start']) && isset($workingHours['end'])) {
-                // Old format - single time slot
-                $slots = $this->generateTimeSlots($workingHours['start'], $workingHours['end']);
-                $timeSlots = array_merge($timeSlots, $slots);
-            } elseif (is_array($workingHours)) {
-                // New format - multiple time slots (shifts)
-                foreach ($workingHours as $slot) {
-                    if (isset($slot['start']) && isset($slot['end'])) {
-                        $slots = $this->generateTimeSlots($slot['start'], $slot['end']);
-                        $timeSlots = array_merge($timeSlots, $slots);
-                    }
+            // Handle multiple time slots (shifts)
+            foreach ($timeSlots as $slot) {
+                if (isset($slot['start']) && isset($slot['end'])) {
+                    $slots = $this->generateTimeSlots($slot['start'], $slot['end']);
+                    $allSlots = array_merge($allSlots, $slots);
                 }
             }
             
             // Filter out time slots that are already booked
             $filteredSlots = [];
-            foreach ($timeSlots as $time) {
+            foreach ($allSlots as $time) {
                 if (!$this->isTimeSlotBooked($date, $time)) {
                     $filteredSlots[] = $time;
                 }
@@ -152,7 +163,7 @@ class CreateBooking extends Component
     private function isTimeSlotBooked($date, $time)
     {
         // Check if there are any bookings for this date and time
-        $startTime = Carbon::createFromTimeString($time);
+        $startTime = Carbon::createFromTimeString($time)->timezone('Asia/Riyadh');
         $endTime = $startTime->copy()->addMinutes(30); // Assuming 30-min slots
         
         $existingBookings = Booking::where('booking_date', $date->format('Y-m-d'))
@@ -173,8 +184,8 @@ class CreateBooking extends Component
     private function generateTimeSlots($startTime, $endTime)
     {
         $slots = [];
-        $start = Carbon::createFromTimeString($startTime);
-        $end = Carbon::createFromTimeString($endTime);
+        $start = Carbon::createFromTimeString($startTime)->timezone('Asia/Riyadh');
+        $end = Carbon::createFromTimeString($endTime)->timezone('Asia/Riyadh');
         
         // Generate slots at 30-minute intervals
         while ($start->lt($end)) {
@@ -204,7 +215,7 @@ class CreateBooking extends Component
         if ($this->selectedDate && $this->selectedTime) {
             // Validate working day and capacity
             try {
-                $bookingDate = Carbon::parse($this->selectedDate);
+                $bookingDate = Carbon::parse($this->selectedDate)->timezone('Asia/Riyadh');
                 
                 // Check if it's a working day
                 if (!SiteSetting::isWorkingDay($bookingDate)) {
@@ -253,67 +264,66 @@ class CreateBooking extends Component
         }
         
         $this->paymentMethod = $method;
-        // Automatically save the booking when payment method is selected
-        $this->saveBooking();
+        
+        // Create the booking
+        $this->createBooking();
     }
 
-    public function saveBooking()
+    private function createBooking()
     {
-        // Validate that the payment method is either 'cash' or 'online'
-        if (!in_array($this->paymentMethod, ['cash', 'online'])) {
-            $this->addError('paymentMethod', 'Invalid payment method selected.');
-            return;
-        }
-        
-        // Validate required fields
-        if (!$this->selectedService || !$this->selectedDate || !$this->selectedTime || !$this->numberOfPeople) {
-            $this->addError('booking', 'Missing required booking information.');
-            return;
-        }
-        
-        // Check if customer is authenticated
-        if (!Auth::guard('customer')->check()) {
-            $this->addError('booking', 'You must be logged in to create a booking.');
-            return;
-        }
+        // Validate all inputs
+        $this->validate();
         
         try {
-            // Get the service to calculate duration
-            $service = Service::findOrFail($this->selectedService);
-            $duration = $service->duration_minutes ?? 60; // Default to 60 minutes if not set
+            // For demo purposes, we'll use placeholder values for name and phone
+            // In a real implementation, these would be collected from the user
+            // or retrieved from authenticated user data
+            $customerName = 'Customer';
+            $customerPhone = '0000000000';
             
-            // Calculate end time
-            $startTime = Carbon::createFromTimeString($this->selectedTime);
-            $endTime = $startTime->copy()->addMinutes($duration);
+            // Create or find customer
+            $customer = Customer::firstOrCreate(
+                ['phone' => $customerPhone],
+                ['name' => $customerName]
+            );
             
-            $this->referenceCode = Booking::generateReferenceCode();
+            // Get the service
+            $service = Service::find($this->selectedServiceId);
             
-            // Prepare booking data - only use customer_id since customer is logged in
-            $bookingData = [
-                'reference_code' => $this->referenceCode,
-                'customer_id' => Auth::guard('customer')->id(),
-                'service_id' => $this->selectedService,
-                'booking_date' => $this->selectedDate,
-                'start_time' => $this->selectedTime,
+            // Parse date and time with Saudi Arabia timezone
+            $bookingDate = Carbon::parse($this->selectedDate)->timezone('Asia/Riyadh');
+            $startTime = Carbon::createFromTimeString($this->selectedTime)->timezone('Asia/Riyadh');
+            $endTime = $startTime->copy()->addMinutes(30); // Assuming 30-min slots
+
+            // Generate reference code
+            $referenceCode = Booking::generateReferenceCode();
+            
+            // Create the booking
+            $this->booking = Booking::create([
+                'customer_id' => $customer->id,
+                'service_id' => $this->selectedServiceId,
+                'booking_date' => $bookingDate->format('Y-m-d'),
+                'start_time' => $startTime->format('H:i:s'),
                 'end_time' => $endTime->format('H:i:s'),
-                'status' => ($this->paymentMethod === 'cash') ? 'confirmed' : 'pending',
                 'number_of_people' => $this->numberOfPeople,
+                'status' => 'confirmed',
                 'payment_method' => $this->paymentMethod,
-                'is_paid' => ($this->paymentMethod === 'cash') ? false : null, // For online payments, we'll set this after payment confirmation
-            ];
+                'reference_code' => $referenceCode,
+            ]);
             
-            $booking = $this->bookingService->createBookingWithLock($bookingData);
+            // Set the reference code
+            $this->referenceCode = $this->booking->reference_code;
             
-            // The QR code is already generated by the model, so we just need to get it
-            $this->qrCode = $booking->qr_code;
+            // Set the QR code
+            $this->qrCode = $this->booking->qr_code;
             
-            // If payment method is cash, mark as confirmed
-            if ($this->paymentMethod === 'cash') {
-                $booking->update(['status' => 'confirmed']);
-            } else {
+            // Send confirmation notification
+            $customer->notify(new BookingConfirmed($this->booking));
+            
+            if ($this->paymentMethod === 'online') {
                 // For online payment, generate order reference
                 $this->orderRef = 'ORD-' . strtoupper(uniqid());
-                $booking->update(['order_ref' => $this->orderRef]);
+                $this->booking->update(['order_ref' => $this->orderRef]);
             }
             
             $this->step = 5; // Show success and QR code
@@ -328,9 +338,9 @@ class CreateBooking extends Component
         // Get date availability for the next 30 days
         $dateAvailability = [];
         if ($this->step === 3) {
-            $startDate = Carbon::today();
-            $endDate = Carbon::today()->addDays(30);
-            $dateAvailability = DateAvailabilityService::getDateRangeStatus(
+            $startDate = Carbon::today()->timezone('Asia/Riyadh');
+            $endDate = Carbon::today()->timezone('Asia/Riyadh')->addDays(30);
+            $dateAvailability = \App\Services\DateAvailabilityService::getDateRangeStatus(
                 $startDate->format('Y-m-d'), 
                 $endDate->format('Y-m-d'),
                 $this->numberOfPeople
@@ -338,6 +348,7 @@ class CreateBooking extends Component
         }
         
         return view('livewire.create-booking', [
+            'services' => Service::where('is_active', true)->get(),
             'dateAvailability' => $dateAvailability
         ]);
     }

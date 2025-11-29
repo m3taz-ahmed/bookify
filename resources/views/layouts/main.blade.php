@@ -49,6 +49,7 @@
                     @auth('customer')
                         <a href="{{ route('customer.dashboard') }}" class="text-dark-500 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 {{ request()->routeIs('customer.dashboard') ? 'bg-primary-100 text-primary-600' : '' }}">{{ __('website.dashboard') }}</a>
                         <a href="{{ route('customer.bookings') }}" class="text-dark-500 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 {{ request()->routeIs('customer.bookings') ? 'bg-primary-100 text-primary-600' : '' }}">{{ __('website.my_bookings') }}</a>
+                        <a href="{{ route('customer.profile') }}" class="text-dark-500 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 {{ request()->routeIs('customer.profile') ? 'bg-primary-100 text-primary-600' : '' }}">{{ __('website.profile') }}</a>
                         <a href="{{ route('customer.bookings.create') }}" class="text-dark-500 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 {{ request()->routeIs('customer.bookings.create') ? 'bg-primary-100 text-primary-600' : '' }}">{{ __('website.book_appointment_nav') }}</a>
                         <a href="{{ route('customer.logout') }}" 
                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
@@ -90,6 +91,9 @@
                     </a>
                     <a href="{{ route('customer.bookings') }}" class="border-transparent text-dark-600 hover:bg-background-50 hover:border-background-300 hover:text-dark-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium {{ request()->routeIs('customer.bookings') ? 'bg-primary-100 border-primary-500' : '' }}">
                         {{ __('website.my_bookings') }}
+                    </a>
+                    <a href="{{ route('customer.profile') }}" class="border-transparent text-dark-600 hover:bg-background-50 hover:border-background-300 hover:text-dark-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium {{ request()->routeIs('customer.profile') ? 'bg-primary-100 border-primary-500' : '' }}">
+                        {{ __('website.profile') }}
                     </a>
                     <a href="{{ route('customer.bookings.create') }}" class="border-transparent text-dark-600 hover:bg-background-50 hover:border-background-300 hover:text-dark-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium {{ request()->routeIs('customer.bookings.create') ? 'bg-primary-100 border-primary-500' : '' }}">
                         {{ __('website.book_appointment_nav') }}

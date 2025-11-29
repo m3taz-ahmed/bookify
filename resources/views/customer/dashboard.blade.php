@@ -107,7 +107,7 @@
                                     <div>
                                         <h3 class="font-semibold text-gray-900">{{ $booking->service->name }}</h3>
                                         <p class="text-sm text-gray-600">
-                                            {{ \Carbon\Carbon::parse($booking->booking_date)->format('M j, Y') }} {{ __('website.at') }} {{ $booking->start_time }}
+                                            {{ \Carbon\Carbon::parse($booking->booking_date)->timezone('Asia/Riyadh')->format('M j, Y') }} {{ __('website.at') }} {{ $booking->start_time }}
                                         </p>
                                     </div>
                                 </div>

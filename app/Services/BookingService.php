@@ -36,7 +36,7 @@ class BookingService
             $slots = [];
             
             // Get working hours for the date
-            $bookingDate = Carbon::parse($date);
+            $bookingDate = Carbon::parse($date)->timezone('Asia/Riyadh');
             $startTime = SiteSetting::getStartTime($bookingDate);
             $endTime = SiteSetting::getEndTime($bookingDate);
             
@@ -112,7 +112,7 @@ class BookingService
     public function createBookingWithLock(array $data)
     {
         // Validate working day
-        $bookingDate = Carbon::parse($data['booking_date']);
+        $bookingDate = Carbon::parse($data['booking_date'])->timezone('Asia/Riyadh');
         if (!SiteSetting::isWorkingDay($bookingDate)) {
             throw new InvalidArgumentException('Cannot book on a non-working day.');
         }

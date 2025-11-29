@@ -319,7 +319,7 @@ style="margin-bottom: 1rem;">
     }
     .whf-closed-text, .whf-not-configured-text {
         font-size: 0.875rem;
-        font-style: italic;
+        /* font-style: italic; */
         color: #6b7280;
     }
 </style>

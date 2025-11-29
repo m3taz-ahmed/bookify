@@ -43,19 +43,7 @@
                                     @enderror
                                 </div>
 
-                                <div class="col-span-6">
-                                    <label for="password" class="block text-sm font-medium text-gray-700">{{ __('website.password') }}</label>
-                                    <input type="password" name="password" id="password" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('password') border-red-500 @enderror">
-                                    <p class="mt-1 text-sm text-gray-500">{{ __('website.leave_blank_to_keep') }}</p>
-                                    @error('password')
-                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                    @enderror
-                                </div>
 
-                                <div class="col-span-6">
-                                    <label for="password_confirmation" class="block text-sm font-medium text-gray-700">{{ __('website.confirm_password') }}</label>
-                                    <input type="password" name="password_confirmation" id="password_confirmation" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                                </div>
                             </div>
                         </div>
                         <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">

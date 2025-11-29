@@ -196,6 +196,9 @@ return [
     'real_time_availability' => 'Real-time availability updates',
     'reminder_notifications' => 'Automatic reminder notifications',
     'next_available_slot' => 'Next available slot',
+    'available_now' => 'Available now',
+    'today_at' => 'Today at',
+    'no_available_slots_today' => 'No available slots today',
     'joined_us_last_month' => 'joined us last month',
     // New keys for language test page
     'language_test_page' => 'Language Test Page',
@@ -232,4 +235,5 @@ return [
     'time' => 'Time',
     'non_working_day' => 'Non-Working Day',
     'cannot_book_on_non_working_day' => 'Cannot book on a non-working day. Please select another date.',
+    'working_hours' => 'Working Hours',
 ];

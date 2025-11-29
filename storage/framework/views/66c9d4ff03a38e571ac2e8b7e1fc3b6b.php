@@ -21,10 +21,12 @@
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
                     <div class="flex-shrink-0 flex items-center">
-                        <svg class="h-8 w-8 text-primary-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                        <span class="ml-2 text-xl font-bold text-primary-600"><?php echo e(config('app.name', 'Bookify')); ?></span>
+                        <a href="<?php echo e(route('booking-welcome')); ?>" class="flex items-center">
+                            <svg class="h-8 w-8 text-primary-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <span class="ml-2 text-xl font-bold text-primary-600"><?php echo e(config('app.name', 'Bookify')); ?></span>
+                        </a>
                     </div>
                 </div>
                 <?php
@@ -48,6 +50,7 @@
                     <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(auth()->guard('customer')->check()): ?>
                         <a href="<?php echo e(route('customer.dashboard')); ?>" class="text-dark-500 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 <?php echo e(request()->routeIs('customer.dashboard') ? 'bg-primary-100 text-primary-600' : ''); ?>"><?php echo e(__('website.dashboard')); ?></a>
                         <a href="<?php echo e(route('customer.bookings')); ?>" class="text-dark-500 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 <?php echo e(request()->routeIs('customer.bookings') ? 'bg-primary-100 text-primary-600' : ''); ?>"><?php echo e(__('website.my_bookings')); ?></a>
+                        <a href="<?php echo e(route('customer.profile')); ?>" class="text-dark-500 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 <?php echo e(request()->routeIs('customer.profile') ? 'bg-primary-100 text-primary-600' : ''); ?>"><?php echo e(__('website.profile')); ?></a>
                         <a href="<?php echo e(route('customer.bookings.create')); ?>" class="text-dark-500 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 <?php echo e(request()->routeIs('customer.bookings.create') ? 'bg-primary-100 text-primary-600' : ''); ?>"><?php echo e(__('website.book_appointment_nav')); ?></a>
                         <a href="<?php echo e(route('customer.logout')); ?>" 
                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
@@ -93,6 +96,10 @@
                     </a>
                     <a href="<?php echo e(route('customer.bookings')); ?>" class="border-transparent text-dark-600 hover:bg-background-50 hover:border-background-300 hover:text-dark-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium <?php echo e(request()->routeIs('customer.bookings') ? 'bg-primary-100 border-primary-500' : ''); ?>">
                         <?php echo e(__('website.my_bookings')); ?>
+
+                    </a>
+                    <a href="<?php echo e(route('customer.profile')); ?>" class="border-transparent text-dark-600 hover:bg-background-50 hover:border-background-300 hover:text-dark-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium <?php echo e(request()->routeIs('customer.profile') ? 'bg-primary-100 border-primary-500' : ''); ?>">
+                        <?php echo e(__('website.profile')); ?>
 
                     </a>
                     <a href="<?php echo e(route('customer.bookings.create')); ?>" class="border-transparent text-dark-600 hover:bg-background-50 hover:border-background-300 hover:text-dark-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium <?php echo e(request()->routeIs('customer.bookings.create') ? 'bg-primary-100 border-primary-500' : ''); ?>">
@@ -148,10 +155,12 @@
             <div class="xl:grid xl:grid-cols-3 xl:gap-8">
                 <div class="space-y-8 xl:col-span-1">
                     <div class="flex items-center">
-                        <svg class="h-8 w-8 text-primary-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                        <span class="ml-2 text-xl font-bold text-primary-300"><?php echo e(config('app.name', 'Bookify')); ?></span>
+                        <a href="<?php echo e(route('booking-welcome')); ?>" class="flex items-center">
+                            <svg class="h-8 w-8 text-primary-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <span class="ml-2 text-xl font-bold text-primary-300"><?php echo e(config('app.name', 'Bookify')); ?></span>
+                        </a>
                     </div>
                     <p class="text-dark-300 text-base">
                         <?php echo e(__('website.our_platform')); ?>

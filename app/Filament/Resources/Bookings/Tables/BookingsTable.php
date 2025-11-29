@@ -36,10 +36,10 @@ class BookingsTable
                     ->time('g:i A')
                     ->sortable()
                     ->label(__('filament.Start Time')),
-                TextColumn::make('end_time')
-                    ->time('g:i A')
-                    ->sortable()
-                    ->label(__('filament.End Time')),
+                // TextColumn::make('end_time')
+                //     ->time('g:i A')
+                //     ->sortable()
+                //     ->label(__('filament.End Time')),
                 TextColumn::make('number_of_people')
                     ->label(__('filament.Number of People')),
                 BadgeColumn::make('payment_method')

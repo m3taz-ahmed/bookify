@@ -89,7 +89,19 @@
             <div class="flex items-center justify-between">
               <div>
                 <p class="text-sm font-medium text-dark-900">{{ __('website.next_available_slot') }}</p>
-                <p class="text-sm text-dark-500">Today at 2:30 PM</p>
+                @php
+                  // Find the next available time slot
+                  $nextAvailable = \App\Services\NextAvailableSlotService::getNextAvailableSlot();
+                @endphp
+                @if($nextAvailable)
+                  @if($nextAvailable['is_available_now'])
+                    <p class="text-sm text-dark-500">{{ __('website.available_now') }}</p>
+                  @else
+                    <p class="text-sm text-dark-500">{{ __('website.today_at') }} {{ $nextAvailable['time'] }}</p>
+                  @endif
+                @else
+                  <p class="text-sm text-dark-500">{{ __('website.no_available_slots_today') }}</p>
+                @endif
               </div>
               <a href="{{ route('customer.bookings.create') }}"
                  class="px-4 py-2 text-sm font-medium rounded-lg text-white bg-primary-600 hover:bg-primary-700 transition">
@@ -143,7 +155,7 @@
           <div class="p-8 flex flex-col flex-grow">
             <div class="text-center mb-6 flex-grow">
               <h4 class="text-2xl font-bold text-dark-900 mb-3">{{ $service->name }}</h4>
-              <p class="text-dark-600 italic">
+              <p class="text-dark-600">
                 {{ $service->description }}
               </p>
             </div>

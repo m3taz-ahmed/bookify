@@ -168,7 +168,28 @@
                         </svg>
                         <div>
                             <span class="text-sm font-medium text-blue-800">{{ __('website.selected_date') }}:</span>
-                            <span class="font-semibold text-blue-900 ml-1">{{ \Carbon\Carbon::parse($selectedDate)->format('l, F j, Y') }}</span>
+                            <span class="font-semibold text-blue-900 ml-1">{{ \Carbon\Carbon::parse($selectedDate)->timezone('Asia/Riyadh')->format('l, F j, Y') }}</span>
+                        </div>
+                    </div>
+                </div>
+                @endif
+                
+                <!-- Working Hours Display -->
+                @if(count($selectedDateWorkingHours) > 0)
+                <div class="max-w-md mx-auto mb-6">
+                    <div class="bg-indigo-50 border border-indigo-200 rounded-xl p-4">
+                        <div class="flex items-center mb-2">
+                            <svg class="h-5 w-5 text-indigo-500 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
+                            </svg>
+                            <span class="text-sm font-medium text-indigo-800">{{ __('website.working_hours') }}:</span>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            @foreach($selectedDateWorkingHours as $slot)
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+                                    {{ $slot['start'] }} - {{ $slot['end'] }}
+                                </span>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -180,7 +201,7 @@
                         // Check if the selected date is a working day
                         $isWorkingDay = false;
                         try {
-                            $bookingDate = \Carbon\Carbon::parse($selectedDate);
+                            $bookingDate = \Carbon\Carbon::parse($selectedDate)->timezone('Asia/Riyadh');
                             $isWorkingDay = \App\Models\SiteSetting::isWorkingDay($bookingDate);
                         } catch (\Exception $e) {
                             $isWorkingDay = false;
@@ -292,7 +313,7 @@
                         <div class="mt-2 flex justify-between items-center">
                             <div>
                                 <span class="text-sm font-medium text-blue-800">{{ __('website.date') }}:</span>
-                                <span class="font-semibold text-blue-900 ml-1">{{ \Carbon\Carbon::parse($selectedDate)->format('M j, Y') }}</span>
+                                <span class="font-semibold text-blue-900 ml-1">{{ \Carbon\Carbon::parse($selectedDate)->timezone('Asia/Riyadh')->format('M j, Y') }}</span>
                             </div>
                             <div class="text-right">
                                 <span class="text-sm font-medium text-blue-800">{{ __('website.time') }}:</span>

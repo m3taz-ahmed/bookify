@@ -19,7 +19,7 @@ class SiteSettingForm
                 TextInput::make('setting_key')
                     ->required()
                     ->disabledOn('edit')
-                    ->helperText('Unique identifier for this setting. Use "max_capacity" for capacity or "working_hours" for working hours'),
+                    ->helperText('Unique identifier for this setting.'),
                 
                 // Capacity setting
                 TextInput::make('setting_value')

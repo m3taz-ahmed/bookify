@@ -53,7 +53,7 @@ class WorkingHoursTimePicker extends Select
             }
             
             try {
-                $date = Carbon::parse($dateValue);
+                $date = Carbon::parse($dateValue)->timezone('Asia/Riyadh');
                 
                 // Check if it's a working day
                 if (!SiteSetting::isWorkingDay($date)) {

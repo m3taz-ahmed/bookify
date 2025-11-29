@@ -28,7 +28,7 @@ class CleanupOldBookings extends Command
     public function handle()
     {
         $days = $this->option('days');
-        $cutoffDate = Carbon::now()->subDays($days);
+        $cutoffDate = Carbon::now()->timezone('Asia/Riyadh')->subDays($days);
         
         $deletedCount = Booking::where('created_at', '<', $cutoffDate)
             ->where('status', 'cancelled')

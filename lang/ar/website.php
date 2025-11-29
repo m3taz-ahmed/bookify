@@ -233,6 +233,9 @@ return [
     'real_time_availability' => 'تحديثات التوفر في الوقت الفعلي',
     'reminder_notifications' => 'إشعارات تذكير تلقائية',
     'next_available_slot' => 'الوقت المتاح التالي',
+    'available_now' => 'متاح الآن',
+    'today_at' => 'اليوم في',
+    'no_available_slots_today' => 'لا توجد فترات زمنية متاحة اليوم',
     'joined_us_last_month' => 'انضموا إلينا الشهر الماضي',
     // New keys for language test page
     'language_test_page' => 'صفحة اختبار اللغة',
@@ -273,4 +276,5 @@ return [
     'time' => 'الوقت',
     'non_working_day' => 'يوم غير عمل',
     'cannot_book_on_non_working_day' => 'لا يمكن الحجز في يوم غير عمل. يرجى اختيار تاريخ آخر.',
+    'working_hours' => 'ساعات العمل',
 ];

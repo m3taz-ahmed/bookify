@@ -76,12 +76,13 @@ class CalendarBookings extends Page
 
     public function getViewData(): array
     {
-        // Get the current month and year
-        $currentMonth = (int) request()->query('month', now()->month);
-        $currentYear = (int) request()->query('year', now()->year);
+
+        // Get the current month and year from the request, or use the current date
+        $currentMonth = (int) request()->query('month', Carbon::now()->timezone('Asia/Riyadh')->month);
+        $currentYear = (int) request()->query('year', Carbon::now()->timezone('Asia/Riyadh')->year);
         
         // Create a Carbon instance for the first day of the month
-        $startDate = Carbon::createFromDate($currentYear, $currentMonth, 1);
+        $startDate = Carbon::createFromDate($currentYear, $currentMonth, 1)->timezone('Asia/Riyadh');
         $endDate = $startDate->copy()->endOfMonth();
         
         // Get all bookings for the current month with related data, excluding cancelled bookings

@@ -19,8 +19,8 @@ class WorkingDaysDatePicker extends DatePicker
             $disabledDates = [];
             
             // Get the next 30 days to check
-            $startDate = Carbon::today();
-            $endDate = Carbon::today()->addDays(30);
+            $startDate = Carbon::today()->timezone('Asia/Riyadh');
+            $endDate = Carbon::today()->timezone('Asia/Riyadh')->addDays(30);
             
             $currentDate = $startDate->copy();
             while ($currentDate->lte($endDate)) {

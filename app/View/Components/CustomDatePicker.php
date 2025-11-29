@@ -16,8 +16,8 @@ class CustomDatePicker extends Component
     public function __construct($selectedDate = null, $minDate = null, $maxDate = null)
     {
         $this->selectedDate = $selectedDate;
-        $this->minDate = $minDate ?? date('Y-m-d');
-        $this->maxDate = $maxDate ?? date('Y-m-d', strtotime('+3 months'));
+        $this->minDate = $minDate ?? Carbon::today()->timezone('Asia/Riyadh')->format('Y-m-d');
+        $this->maxDate = $maxDate ?? Carbon::today()->timezone('Asia/Riyadh')->addMonths(3)->format('Y-m-d');
     }
 
     public function render()
@@ -27,7 +27,7 @@ class CustomDatePicker extends Component
     
     public function getDateStatus($date)
     {
-        $carbonDate = Carbon::parse($date);
+        $carbonDate = Carbon::parse($date)->timezone('Asia/Riyadh');
         
         // Check if it's a working day
         if (!SiteSetting::isWorkingDay($carbonDate)) {

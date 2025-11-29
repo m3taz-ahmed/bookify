@@ -94,7 +94,19 @@
             <div class="flex items-center justify-between">
               <div>
                 <p class="text-sm font-medium text-dark-900"><?php echo e(__('website.next_available_slot')); ?></p>
-                <p class="text-sm text-dark-500">Today at 2:30 PM</p>
+                <?php
+                  // Find the next available time slot
+                  $nextAvailable = \App\Services\NextAvailableSlotService::getNextAvailableSlot();
+                ?>
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($nextAvailable): ?>
+                  <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($nextAvailable['is_available_now']): ?>
+                    <p class="text-sm text-dark-500"><?php echo e(__('website.available_now')); ?></p>
+                  <?php else: ?>
+                    <p class="text-sm text-dark-500"><?php echo e(__('website.today_at')); ?> <?php echo e($nextAvailable['time']); ?></p>
+                  <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                <?php else: ?>
+                  <p class="text-sm text-dark-500"><?php echo e(__('website.no_available_slots_today')); ?></p>
+                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
               </div>
               <a href="<?php echo e(route('customer.bookings.create')); ?>"
                  class="px-4 py-2 text-sm font-medium rounded-lg text-white bg-primary-600 hover:bg-primary-700 transition">
@@ -150,7 +162,7 @@
           <div class="p-8 flex flex-col flex-grow">
             <div class="text-center mb-6 flex-grow">
               <h4 class="text-2xl font-bold text-dark-900 mb-3"><?php echo e($service->name); ?></h4>
-              <p class="text-dark-600 italic">
+              <p class="text-dark-600">
                 <?php echo e($service->description); ?>
 
               </p>
@@ -220,5 +232,4 @@ document.addEventListener('DOMContentLoaded', function() {
 <?php $__env->stopPush(); ?>
 
 <?php $__env->stopSection(); ?>
-
 <?php echo $__env->make('layouts.main', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\server\web\bookify\resources\views/booking-welcome.blade.php ENDPATH**/ ?>
