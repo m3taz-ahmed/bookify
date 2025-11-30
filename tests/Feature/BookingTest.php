@@ -78,7 +78,6 @@ class BookingTest extends TestCase
             'service_id' => $service->id,
             'booking_date' => now()->addDay(),
             'start_time' => '10:00:00',
-            'end_time' => '10:30:00',
             'reference_code' => 'ABC123',
             'status' => 'confirmed',
             'number_of_people' => 1,

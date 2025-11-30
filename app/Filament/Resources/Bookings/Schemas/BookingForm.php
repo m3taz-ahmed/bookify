@@ -58,9 +58,8 @@ class BookingForm
                     ->label(__('filament.Booking Date'))
                     ->live()
                     ->afterStateUpdated(function ($state, callable $set) {
-                        // Reset time fields when date changes
+                        // Reset time field when date changes
                         $set('start_time', null);
-                        $set('end_time', null);
                     }),
                 TextInput::make('payment_status')
                     ->label(__('filament.Payment Status')),
@@ -68,18 +67,7 @@ class BookingForm
                     // ->required()
                     ->label(__('filament.Start Time'))
                     ->dateField('booking_date')
-                    ->disabled(fn (callable $get) => !$get('booking_date'))
-                    ->live()
-                    ->afterStateUpdated(function ($state, callable $set) {
-                        // Reset end time when start time changes
-                        $set('end_time', null);
-                    }),
-                WorkingHoursTimePicker::make('end_time')
-                    // ->required()
-                    ->label(__('filament.End Time'))
-                    ->dateField('booking_date')
-                    ->startTimeField('start_time')
-                    ->disabled(fn (callable $get) => !$get('start_time')),
+                    ->disabled(fn (callable $get) => !$get('booking_date')),
                 TextInput::make('number_of_people')
                     ->numeric()
                     ->minValue(1)

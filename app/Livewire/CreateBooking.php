@@ -179,18 +179,14 @@ class CreateBooking extends Component
                 $sTime = $startTime->format('H:i:s');
                 $eTime = $endTime->format('H:i:s');
                 
-                $query->whereBetween('start_time', [$sTime, $eTime])
-                    ->orWhereBetween('end_time', [$sTime, $eTime])
-                    ->orWhere(function ($q) use ($sTime, $eTime) {
-                        $q->where('start_time', '<=', $sTime)
-                            ->where('end_time', '>=', $eTime);
-                    });
+                $query->where('start_time', '>=', $sTime)
+                    ->where('start_time', '<', $eTime);
             });
             
         $count = $query->count();
         
         if ($count > 0) {
-            $conflicts = $query->get(['id', 'start_time', 'end_time', 'status']);
+            $conflicts = $query->get(['id', 'start_time', 'status']);
             \Log::info('Slot Booked Conflict', [
                 'slot' => $time,
                 'conflicts' => $conflicts->toArray()
@@ -319,7 +315,6 @@ class CreateBooking extends Component
             $bookingDate = Carbon::parse($this->selectedDate)->timezone('Asia/Riyadh');
             // Use createFromFormat to avoid timezone shifting issues
             $startTime = Carbon::createFromFormat('H:i', $this->selectedTime, 'Asia/Riyadh');
-            $endTime = $startTime->copy()->addMinutes(30); // Assuming 30-min slots
 
             // Generate reference code
             $referenceCode = Booking::generateReferenceCode();
@@ -330,7 +325,6 @@ class CreateBooking extends Component
                 'service_id' => $this->selectedServiceId,
                 'booking_date' => $bookingDate->format('Y-m-d'),
                 'start_time' => $startTime->format('H:i:s'),
-                'end_time' => $endTime->format('H:i:s'),
                 'number_of_people' => $this->numberOfPeople,
                 'status' => 'confirmed',
                 'payment_method' => $this->paymentMethod,

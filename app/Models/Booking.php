@@ -98,7 +98,6 @@ class Booking extends Model
     protected $casts = [
         'booking_date' => 'date',
         'start_time' => 'datetime:H:i',
-        'end_time' => 'datetime:H:i',
         'number_of_people' => 'integer',
         'is_paid' => 'boolean',
         'rating' => 'integer',
@@ -143,11 +142,6 @@ class Booking extends Model
         // Send cancellation notification
         // In a real application, you would send this to the customer's email
         // Log::info('Booking cancelled: ' . $this->reference_code);
-    }
-    
-    public function getDurationAttribute()
-    {
-        return $this->end_time->diffInMinutes($this->start_time);
     }
     
     public function getStatusBadgeClassAttribute()

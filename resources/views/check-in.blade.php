@@ -42,21 +42,6 @@
                             </div>
                             
                             <div>
-                                <label class="block text-sm font-medium text-gray-500">Date</label>
-                                <p class="text-lg">{{ $booking->booking_date->format('M j, Y') }}</p>
-                            </div>
-                            
-                            <div>
-                                <label class="block text-sm font-medium text-gray-500">Time</label>
-                                <p class="text-lg">{{ $booking->start_time }} - {{ $booking->end_time }}</p>
-                            </div>
-                            
-                            <div>
-                                <label class="block text-sm font-medium text-gray-500">Customer Name</label>
-                                <p class="text-lg">{{ $booking->customer_name }}</p>
-                            </div>
-                            
-                            <div>
                                 <label class="block text-sm font-medium text-gray-500">Phone</label>
                                 <p class="text-lg">{{ $booking->customer_phone }}</p>
                             </div>
