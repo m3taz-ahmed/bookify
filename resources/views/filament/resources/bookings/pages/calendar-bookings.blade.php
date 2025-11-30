@@ -73,7 +73,7 @@
                                         <div class="booking-count text-center text-sm font-bold">
                                             {{ count($day['bookings']) }} Booked
                                         </div>
-                                        <div class="people-count text-center text-[10px] text-gray-500">
+                                        <div class="people-count text-gray-500">
                                             {{ $day['totalPeople'] }}/{{ $day['maxCapacity'] }} People
                                         </div>
                                         <div class="capacity-bar w-full h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full mt-1.5 overflow-hidden">
@@ -85,7 +85,7 @@
                                                 @else
                                                     bg-green-500
                                                 @endif" 
-                                                style="width: {{ min($day['capacityPercentage'], 100) }}%">
+                                                style="width: {{ min($day['capacityPercentage'], 100) }}%">&nbsp
                                             </div>
                                         </div>
                                     </div>
