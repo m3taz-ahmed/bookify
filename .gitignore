@@ -24,7 +24,6 @@ Homestead.yaml
 Thumbs.db
 /storage/framework/views/*
 /storage/framework/cache/*
-/storage/framework/views/
-/public/storage/framework/views/
-/storage/framework/views/e68af09c837e7c5e42691f1ee2278a9b.php
-/public/storage/framework/views/e68af09c837e7c5e42691f1ee2278a9b.php
+/storage/framework/views
+/public/storage/framework/views
+storage/framework/views
