@@ -69,10 +69,11 @@ class BookingConfirmed extends Notification
     {
         $serviceName = $this->booking->service->name_ar ?? $this->booking->service->name_en;
         $date = $this->booking->booking_date->format('Y-m-d');
-        $time = $this->booking->start_time;
+        // Format time to show only H:i (e.g. 14:30)
+        $time = $this->booking->start_time->format('H:i');
         $refCode = $this->booking->reference_code;
         
-        return "مرحباً {$this->booking->customer_name}، تم تأكيد حجزك\n"
+        return "مرحباً ، تم تأكيد حجزك\n"
             . "الخدمة: {$serviceName}\n"
             . "التاريخ: {$date}\n"
             . "الوقت: {$time}\n"

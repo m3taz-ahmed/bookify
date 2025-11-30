@@ -1,3 +1,24 @@
+@extends('layouts.app')
+
+@section('content')
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-background-50 to-background-100 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-8">
+        <div class="bg-white rounded-2xl shadow-xl p-8 transition-all duration-300 hover:shadow-2xl border-t-4 border-primary">
+            <div class="text-center mb-8">
+                <div class="mx-auto h-16 w-16 rounded-full bg-gradient-to-r from-primary-500 to-secondary-600 flex items-center justify-center mb-4 shadow-lg">
+                    <svg class="h-8 w-8 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-bold text-gray-900">{{ __('website.verify_otp') }}</h2>
+                <p class="mt-2 text-gray-600">{{ __('website.enter_otp_sent_to_your_phone') }}</p>
+                <p class="mt-1 text-sm text-primary-600 font-medium">{{ $customer->phone }}</p>
+            </div>
+            
+            <form class="mt-6 space-y-6" method="POST" action="{{ route('customer.verify-otp') }}">
+                @csrf
+                
+                <input type="hidden" name="phone" value="{{ $customer->phone }}">
                 
                 <div class="space-y-4">
                     <div>

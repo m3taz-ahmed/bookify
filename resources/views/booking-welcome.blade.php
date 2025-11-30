@@ -170,7 +170,10 @@
               </p>
             </div>
             <div class="mt-auto">
-              <p class="text-center text-primary-600 font-bold text-2xl mb-6">SAR {{ $service->price }}</p>
+              <p class="text-center text-primary-600 font-bold text-2xl mb-6 flex items-center justify-center gap-2">
+                <x-sar-icon class="w-6 h-6" />
+                {{ $service->price }}
+              </p>
               <div class="text-center">
                 <a href="{{ route('customer.bookings.create') }}" class="inline-block bg-primary-500 hover:bg-primary-700 text-white font-bold py-3 px-6 rounded-lg transition">
                     {{ __('website.book_now') }}

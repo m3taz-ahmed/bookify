@@ -19,7 +19,10 @@
                             <label class="block text-sm font-medium text-gray-700 mb-2">Service</label>
                             <div class="border border-gray-200 rounded-lg p-4 bg-gray-50">
                                 <div class="font-medium text-gray-900">{{ $booking->service->name_en }}</div>
-                                <div class="text-sm text-gray-500 mt-1">SAR {{ $booking->service->price }} • {{ $booking->service->duration_minutes }} minutes</div>
+                                <div class="text-sm text-gray-500 mt-1 flex items-center gap-1">
+                                    <x-sar-icon class="w-4 h-4" />
+                                    {{ $booking->service->price }} • {{ $booking->service->duration_minutes }} minutes
+                                </div>
                             </div>
                         </div>
                         

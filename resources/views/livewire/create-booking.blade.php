@@ -83,7 +83,10 @@
                                 </div>
                                 <p class="text-sm text-gray-600 mb-5 line-clamp-2 flex-grow">{{ $service->description }}</p>
                                 <div class="flex justify-between items-center pt-4 border-t border-gray-100 mt-auto">
-                                    <span class="text-2xl font-bold text-primary-600">SAR {{ $service->price }}</span>
+                                    <span class="text-2xl font-bold text-primary-600 flex items-center gap-1">
+                                        <x-sar-icon class="w-6 h-6" />
+                                        {{ $service->price }}
+                                    </span>
                                     <span class="inline-flex items-center text-white font-medium text-sm bg-gradient-to-r from-primary-500 to-secondary-600 hover:from-primary-600 hover:to-secondary-700 px-4 py-2 rounded-full transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
                                         {{ __('website.select') }}
                                         <svg class="ml-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

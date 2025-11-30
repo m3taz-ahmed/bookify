@@ -22,6 +22,8 @@
                 <input type="hidden" name="is_new_customer" value="1">
                 
                 <div class="space-y-4">
+                    @if(!isset($hasName) || !$hasName)
+                    {{-- Show name field only if coming from login (name not provided yet) --}}
                     <div>
                         <label for="name" class="block text-sm font-medium text-gray-700 mb-2">{{ __('website.full_name') }}</label>
                         <div class="relative">
@@ -30,12 +32,16 @@
                                     <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
                                 </svg>
                             </div>
-                            <input id="name" name="name" type="text" required class="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 @error('name') border-red-500 @enderror transition duration-200" placeholder="{{ __('website.full_name_placeholder') }}" value="{{ old('name') }}" autocomplete="name">
+                            <input id="name" name="name" type="text" required class="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 @error('name') border-red-500 @enderror transition duration-200" placeholder="{{ __('website.full_name_placeholder') }}" value="{{ old('name', $tempCustomer->name) }}" autocomplete="name">
                         </div>
                         @error('name')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
                     </div>
+                    @else
+                    {{-- Hide name field if coming from registration (name already provided) --}}
+                    <input type="hidden" name="name" value="{{ $tempCustomer->name }}">
+                    @endif
                     
                     <div>
                         <label for="otp" class="block text-sm font-medium text-gray-700 mb-2">{{ __('website.otp_code') }}</label>

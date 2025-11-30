@@ -78,7 +78,8 @@ class MsegatService
     public function sendOtpCode(string $phoneNumber, string $otpCode): array
     {
         try {
-            $message = "Your OTP Code is: $otpCode";
+            // Changed to Arabic to match the successful booking confirmation format
+            $message = "مرحباً بك في Bookify. رمز التحقق الخاص بك هو: $otpCode";
             
             $payload = [
                 'userName' => $this->username,

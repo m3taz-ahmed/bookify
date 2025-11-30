@@ -143,9 +143,11 @@ class CreateBooking extends Component
             // Filter out time slots that are already booked
             $filteredSlots = [];
             foreach ($allSlots as $time) {
-                if (!$this->isTimeSlotBooked($date, $time)) {
+                // We allow multiple bookings per slot, so we don't check isTimeSlotBooked anymore
+                // unless we want to implement a per-slot capacity later.
+                // if (!$this->isTimeSlotBooked($date, $time)) {
                     $filteredSlots[] = $time;
-                }
+                // }
             }
             
             // Sort the time slots to ensure they're in chronological order
@@ -163,29 +165,55 @@ class CreateBooking extends Component
     private function isTimeSlotBooked($date, $time)
     {
         // Check if there are any bookings for this date and time
-        $startTime = Carbon::createFromTimeString($time)->timezone('Asia/Riyadh');
+        // Parse time as Riyadh time directly
+        $startTime = Carbon::createFromFormat('H:i', $time, 'Asia/Riyadh');
+        // Set the date part to match the booking date
+        $startTime->setDate($date->year, $date->month, $date->day);
+        
         $endTime = $startTime->copy()->addMinutes(30); // Assuming 30-min slots
         
-        $existingBookings = Booking::where('booking_date', $date->format('Y-m-d'))
+        $query = Booking::where('booking_date', $date->format('Y-m-d'))
             ->where('status', '!=', 'cancelled')
             ->where(function ($query) use ($startTime, $endTime) {
-                $query->whereBetween('start_time', [$startTime->format('H:i:s'), $endTime->format('H:i:s')])
-                    ->orWhereBetween('end_time', [$startTime->format('H:i:s'), $endTime->format('H:i:s')])
-                    ->orWhere(function ($q) use ($startTime, $endTime) {
-                        $q->where('start_time', '<=', $startTime->format('H:i:s'))
-                            ->where('end_time', '>=', $endTime->format('H:i:s'));
+                // We compare times as strings to avoid timezone confusion in DB query
+                $sTime = $startTime->format('H:i:s');
+                $eTime = $endTime->format('H:i:s');
+                
+                $query->whereBetween('start_time', [$sTime, $eTime])
+                    ->orWhereBetween('end_time', [$sTime, $eTime])
+                    ->orWhere(function ($q) use ($sTime, $eTime) {
+                        $q->where('start_time', '<=', $sTime)
+                            ->where('end_time', '>=', $eTime);
                     });
-            })
-            ->count();
+            });
             
-        return $existingBookings > 0;
+        $count = $query->count();
+        
+        if ($count > 0) {
+            $conflicts = $query->get(['id', 'start_time', 'end_time', 'status']);
+            \Log::info('Slot Booked Conflict', [
+                'slot' => $time,
+                'conflicts' => $conflicts->toArray()
+            ]);
+        }
+            
+        return $count > 0;
     }
     
     private function generateTimeSlots($startTime, $endTime)
     {
+        \Log::info('Generating Time Slots', ['start_in' => $startTime, 'end_in' => $endTime]);
+        
         $slots = [];
-        $start = Carbon::createFromTimeString($startTime)->timezone('Asia/Riyadh');
-        $end = Carbon::createFromTimeString($endTime)->timezone('Asia/Riyadh');
+        // Parse the time strings explicitly as Riyadh time to avoid UTC conversion shift
+        $start = Carbon::createFromFormat('H:i', $startTime, 'Asia/Riyadh');
+        $end = Carbon::createFromFormat('H:i', $endTime, 'Asia/Riyadh');
+        
+        \Log::info('Parsed Times', [
+            'start_obj' => $start->toIso8601String(),
+            'end_obj' => $end->toIso8601String(),
+            'start_fmt' => $start->format('H:i')
+        ]);
         
         // Generate slots at 30-minute intervals
         while ($start->lt($end)) {
@@ -196,6 +224,8 @@ class CreateBooking extends Component
             }
             $start->addMinutes(30);
         }
+        
+        \Log::info('Generated Slots', ['slots' => $slots]);
         
         return $slots;
     }
@@ -275,24 +305,20 @@ class CreateBooking extends Component
         $this->validate();
         
         try {
-            // For demo purposes, we'll use placeholder values for name and phone
-            // In a real implementation, these would be collected from the user
-            // or retrieved from authenticated user data
-            $customerName = 'Customer';
-            $customerPhone = '0000000000';
+            // Get the authenticated customer
+            $customer = auth('customer')->user();
             
-            // Create or find customer
-            $customer = Customer::firstOrCreate(
-                ['phone' => $customerPhone],
-                ['name' => $customerName]
-            );
+            if (!$customer) {
+                throw new \Exception('You must be logged in to create a booking.');
+            }
             
             // Get the service
             $service = Service::find($this->selectedServiceId);
             
             // Parse date and time with Saudi Arabia timezone
             $bookingDate = Carbon::parse($this->selectedDate)->timezone('Asia/Riyadh');
-            $startTime = Carbon::createFromTimeString($this->selectedTime)->timezone('Asia/Riyadh');
+            // Use createFromFormat to avoid timezone shifting issues
+            $startTime = Carbon::createFromFormat('H:i', $this->selectedTime, 'Asia/Riyadh');
             $endTime = $startTime->copy()->addMinutes(30); // Assuming 30-min slots
 
             // Generate reference code

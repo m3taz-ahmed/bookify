@@ -167,7 +167,10 @@
                             <div class="flex-1">
                                 <h3 class="font-bold text-lg text-gray-900">{{ $service->name }}</h3>
                                 <p class="text-sm text-gray-600 line-clamp-1">{{ $service->description }}</p>
-                                <span class="text-lg font-bold text-primary-600">SAR {{ $service->price }}</span>
+                                <span class="text-lg font-bold text-primary-600 flex items-center gap-1">
+                                    <x-sar-icon class="w-5 h-5" />
+                                    {{ $service->price }}
+                                </span>
                             </div>
                         </div>
                     @endforeach

@@ -30,18 +30,33 @@ class CustomerPhoneAuthController extends Controller
             'phone' => 'required|string|max:20|unique:customers',
         ]);
 
-        $customer = Customer::create([
-            'name' => $request->name,
-            'phone' => $request->phone,
-            // Email and password are not needed
-            'email' => null,
-            'password' => null,
-        ]);
+        // Generate and send OTP for new customer registration
+        $msegatService = app(\App\Services\MsegatService::class);
+        
+        // Generate OTP
+        $otp = $msegatService->generateOtpCode();
+        Log::info('Generated OTP for registration', ['phone' => $request->phone, 'otp' => $otp]);
+        
+        // Store OTP and name in Cache for 5 minutes
+        Cache::put('otp_' . $request->phone, Hash::make($otp), now()->addMinutes(5));
+        Cache::put('name_' . $request->phone, $request->name, now()->addMinutes(5));
+        
+        // Send OTP via Msegat SMS
+        $result = $msegatService->sendOtpCode($request->phone, $otp);
+        
+        if (!$result['success']) {
+            Log::warning('Failed to send OTP for registration', [
+                'phone' => $request->phone,
+                'error' => $result['message']
+            ]);
+        }
 
-        // Automatically log them in after registration
-        Auth::guard('customer')->login($customer);
-
-        return redirect()->route('customer.dashboard');
+        // Show verification page with name pre-filled and hidden
+        $tempCustomer = new \stdClass();
+        $tempCustomer->phone = $request->phone;
+        $tempCustomer->name = $request->name;
+        $hasName = true; // Name is already provided from registration form
+        return view('auth.customer.verify-otp-new', compact('tempCustomer', 'hasName'));
     }
 
     public function sendOtp(Request $request)
@@ -58,7 +73,7 @@ class CustomerPhoneAuthController extends Controller
         $msegatService = app(\App\Services\MsegatService::class);
         
         if (!$customer) {
-            // New Customer Flow
+            // New Customer Flow (from login page - need to ask for name)
             Log::info('New Customer Flow detected');
             
             // Generate OTP
@@ -83,7 +98,8 @@ class CustomerPhoneAuthController extends Controller
             $tempCustomer = new \stdClass();
             $tempCustomer->phone = $request->phone;
             $tempCustomer->name = ''; 
-            return view('auth.customer.verify-otp-new', compact('tempCustomer'));
+            $hasName = false; // Name is NOT provided, need to ask for it
+            return view('auth.customer.verify-otp-new', compact('tempCustomer', 'hasName'));
         }
         
         // Existing Customer Flow
@@ -109,12 +125,12 @@ class CustomerPhoneAuthController extends Controller
     {
         Log::info('OTP Verification Request', $request->all());
 
-        // Check if this is for a new customer (no 'customer_id' in request)
+        // Check if this is for a new customer
         if ($request->has('is_new_customer')) {
             // Validate for new customer
             $request->validate([
                 'phone' => 'required|string',
-                'name' => 'required|string|max:255',
+                'name' => 'sometimes|required|string|max:255',
                 'otp' => 'required|string|size:6',
             ]);
 
@@ -129,16 +145,26 @@ class CustomerPhoneAuthController extends Controller
                 ]);
             }
 
+            // Get name from request or cache
+            $name = $request->name ?? Cache::get('name_' . $request->phone);
+            
+            if (!$name) {
+                throw ValidationException::withMessages([
+                    'name' => ['Name is required.'],
+                ]);
+            }
+
             // Create new customer
             $customer = Customer::create([
-                'name' => $request->name,
+                'name' => $name,
                 'phone' => $request->phone,
                 'email' => null,
                 'password' => null,
             ]);
             
-            // Clear the OTP from cache
+            // Clear the OTP and name from cache
             Cache::forget('otp_' . $request->phone);
+            Cache::forget('name_' . $request->phone);
 
             // Log the customer in
             Auth::guard('customer')->login($customer);
