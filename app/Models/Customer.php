@@ -39,9 +39,10 @@ class Customer extends Authenticatable
      */
     public function generateOtp(): string
     {
-        $otp = '123456'; // Default OTP as requested
+        // Generate a random 6-digit OTP
+        $otp = str_pad((string) random_int(100000, 999999), 6, '0', STR_PAD_LEFT);
         $this->otp_code = Hash::make($otp);
-        $this->otp_expires_at = now()->addSeconds(60); // 60 seconds expiration
+        $this->otp_expires_at = now()->addMinutes(5); // 5 minutes expiration
         $this->save();
         
         return $otp;

@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Models\Booking;
+use App\Notifications\Channels\MsegatSmsChannel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -29,7 +30,19 @@ class BookingCancelled extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['mail'];
+        $channels = ['database'];
+        
+        // Add SMS channel if customer has phone number
+        if ($notifiable->phone) {
+            $channels[] = MsegatSmsChannel::class;
+        }
+        
+        // Add mail channel if customer has email
+        if ($notifiable->email) {
+            $channels[] = 'mail';
+        }
+        
+        return $channels;
     }
 
     /**
@@ -47,6 +60,23 @@ class BookingCancelled extends Notification
             ->line('If you have any questions, please contact us.')
             ->action('Book Another Service', url('/book'))
             ->line('We hope to serve you again soon!');
+    }
+
+    /**
+     * Get the SMS representation of the notification.
+     */
+    public function toMsegatSms(object $notifiable): string
+    {
+        $serviceName = $this->booking->service->name_ar ?? $this->booking->service->name_en;
+        $date = $this->booking->booking_date->format('Y-m-d');
+        $time = $this->booking->start_time;
+        $refCode = $this->booking->reference_code;
+        
+        return "مرحباً {$this->booking->customer_name}، تم إلغاء حجزك\n"
+            . "الخدمة: {$serviceName}\n"
+            . "التاريخ: {$date}\n"
+            . "الوقت: {$time}\n"
+            . "رمز الحجز: {$refCode}";
     }
 
     /**
