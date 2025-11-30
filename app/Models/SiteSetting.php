@@ -67,7 +67,15 @@ class SiteSetting extends Model
      */
     public static function getMaxCapacity()
     {
-        return (int) self::get('max_capacity', 200);
+        // Force retrieve from database to bypass cache
+        $setting = self::where('setting_key', 'max_capacity')->first();
+        
+        if ($setting) {
+            // Use raw attribute to avoid potential casting issues
+            return (int) $setting->getAttributes()['setting_value'];
+        }
+        
+        return 500;
     }
 
     /**

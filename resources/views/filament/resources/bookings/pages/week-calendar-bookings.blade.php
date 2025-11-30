@@ -1,108 +1,4 @@
 <x-filament-panels::page>
-    <!-- Force load custom CSS -->
-    @pushOnce('styles')
-        <link rel="stylesheet" href="{{ asset('css/app/filament-custom.css') }}">
-        <style>
-            [x-cloak] { display: none !important; }
-            .custom-modal-overlay {
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background-color: rgba(107, 114, 128, 0.75);
-                z-index: 50;
-                backdrop-filter: blur(4px);
-            }
-            .custom-modal-container {
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                z-index: 51;
-                overflow-y: auto;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                padding: 1rem;
-            }
-            .custom-modal-content {
-                background-color: white;
-                border-radius: 0.75rem;
-                box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-                width: 100%;
-                max-width: 28rem;
-                overflow: hidden;
-                transform: scale(1);
-                transition: all 0.3s ease-out;
-            }
-            .dark .custom-modal-content {
-                background-color: #1f2937;
-                border: 1px solid #374151;
-            }
-            .custom-modal-header {
-                background: linear-gradient(to right, #8B5A2B, #D2691E);
-                padding: 1rem 1.5rem;
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-            }
-            .custom-modal-title {
-                color: white;
-                font-size: 1.125rem;
-                font-weight: 700;
-                display: flex;
-                align-items: center;
-                gap: 0.5rem;
-            }
-            .custom-modal-body {
-                padding: 1.5rem;
-            }
-            .custom-info-row {
-                display: flex;
-                align-items: center;
-                padding: 0.75rem;
-                background-color: #f9fafb;
-                border-radius: 0.5rem;
-                margin-bottom: 1rem;
-            }
-            .dark .custom-info-row {
-                background-color: rgba(55, 65, 81, 0.5);
-            }
-            .custom-icon-circle {
-                width: 2.5rem;
-                height: 2.5rem;
-                border-radius: 9999px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                flex-shrink: 0;
-            }
-            .custom-footer {
-                background-color: #f9fafb;
-                padding: 0.75rem 1.5rem;
-                display: flex;
-                flex-direction: row-reverse;
-            }
-            .dark .custom-footer {
-                background-color: rgba(55, 65, 81, 0.3);
-            }
-            .custom-close-btn {
-                background-color: #8B5A2B;
-                color: white;
-                padding: 0.5rem 1rem;
-                border-radius: 0.5rem;
-                font-weight: 500;
-                border: none;
-                cursor: pointer;
-                transition: background-color 0.2s;
-            }
-            .custom-close-btn:hover {
-                background-color: #684221;
-            }
-        </style>
-    @endPushOnce
 
     <div x-data="{
         showModal: false,
@@ -116,24 +12,24 @@
             this.showModal = true;
         }
     }">
-        <div class="force-flex-row items-center justify-between">
-            <div class="flex-shrink-0 w-20 bg-red-300 text-center">
-                <button id="next-btn" class="calendar-nav-btn px-4 py-2 flex items-center gap-2">
-                    <span>Next</span>
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
-                </button>
-            </div>
-            <div class="month-middle flex-1 bg-green-300 text-center">
-                {{ $currentWeekStart->isoFormat('MMM D') }} - {{ $currentWeekEnd->isoFormat('MMM D, YYYY') }}
-            </div>
-            <div class="flex-shrink-0 w-20 bg-blue-300 text-center">
-                <button id="prev-btn" class="calendar-nav-btn px-4 py-2 flex items-center gap-2">
+        <div class="calendar-nav-container">
+            <div>
+                <button id="prev-btn" class="calendar-nav-btn">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
                     </svg>
                     <span>Prev</span>
+                </button>
+            </div>
+            <div class="calendar-nav-title">
+                {{ $currentWeekStart->isoFormat('MMM D') }} - {{ $currentWeekEnd->isoFormat('MMM D, YYYY') }}
+            </div>
+            <div>
+                <button id="next-btn" class="calendar-nav-btn">
+                    <span>Next</span>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
                 </button>
             </div>
         </div>
@@ -158,25 +54,25 @@
                     }
                 @endphp
                 @for($i = 0; $i < 7; $i++)
-                    <div class="calendar-day-header text-center font-medium text-gray-500 py-2 bg-gray-50 dark:bg-gray-700 dark:text-gray-300 border-r border-b border-gray-200 dark:border-gray-700 text-xs">
+                    <div class="calendar-header-cell">
                         <div>{{ $rotatedDayNames[$i] }}</div>
-                        <div class="text-base font-bold mt-1">{{ $headerDates[$i]->day }}</div>
+                        <div class="text-base font-bold mt-1 text-gray-900 dark:text-white">{{ $headerDates[$i]->day }}</div>
                     </div>
                 @endfor
 
                 <!-- Calendar Days -->
                 @foreach($days as $day)
                     <div class="calendar-day-cell min-h-40 border-r border-b border-gray-200 dark:border-gray-700 p-1 relative flex flex-col
-                        {{ $day['date']->isToday() ? 'bg-blue-50 dark:bg-blue-900/20 ring-2 ring-primary-500 ring-inset' : 'bg-white dark:bg-gray-800' }}
+                        {{ $day['date']->isToday() ? 'calendar-day-today ring-1 ring-inset ring-[#8B5A2B]' : 'bg-white dark:bg-gray-800' }}
                         {{-- Apply closed day styling --}}
                         {{ !$day['isWorkingDay'] ? 'closed-day' : '' }}
                         {{-- Apply capacity colors only for working days --}}
-                        {{ $day['isWorkingDay'] && $day['capacityColor'] == 'red' ? 'bg-red-100 dark:bg-red-900/30' : '' }}
-                        {{ $day['isWorkingDay'] && $day['capacityColor'] == 'yellow' ? 'bg-yellow-100 dark:bg-yellow-900/30' : '' }}
-                        {{ $day['isWorkingDay'] && $day['capacityColor'] == 'green' ? 'bg-green-100 dark:bg-green-900/30' : '' }}">
+                        {{ $day['isWorkingDay'] && $day['capacityColor'] == 'red' ? 'bg-red-50 dark:bg-red-900/10' : '' }}
+                        {{ $day['isWorkingDay'] && $day['capacityColor'] == 'yellow' ? 'bg-yellow-50 dark:bg-yellow-900/10' : '' }}
+                        {{ $day['isWorkingDay'] && $day['capacityColor'] == 'green' ? 'bg-green-50 dark:bg-green-900/10' : '' }}">
                         <!-- Day number in circle in upper right corner -->
                         <div class="absolute top-2 right-2 flex justify-end">
-                            <div class="calendar-day-number-circle w-6 h-6 rounded-full flex items-center justify-center {{ $day['date']->isToday() ? 'bg-primary-500 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200' }}">
+                            <div class="calendar-day-number-circle w-6 h-6 rounded-full flex items-center justify-center {{ $day['date']->isToday() ? 'calendar-day-number-active' : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300' }}">
                                 <span class="text-xs font-medium">{{ $day['date']->day }}</span>
                             </div>
                         </div>
@@ -184,43 +80,45 @@
                         <!-- Booking information -->
                         <div class="flex-grow flex flex-col mt-6">
                             @if(!$day['isWorkingDay'])
-                                <div class="closed-label text-gray-500 dark:text-gray-400 font-medium text-center">
+                                <div class="closed-label text-gray-500 dark:text-gray-400 font-medium text-center flex flex-col items-center justify-center h-full">
                                     Closed
                                 </div>
                             @elseif(count($day['bookings']) > 0)
-                                <div class="booking-count text-center text-sm">
-                                    {{ count($day['bookings']) }} Booked
-                                </div>
-                                <div class="people-count text-center text-xs">
-                                    {{ $day['totalPeople'] }}/{{ $day['maxCapacity'] }} People
-                                </div>
-                                <div class="capacity-bar w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full mt-2 overflow-hidden">
-                                    <div class="h-full rounded-full 
-                                        @if($day['capacityPercentage'] >= 100)
-                                            bg-red-500
-                                        @elseif($day['capacityPercentage'] >= 50)
-                                            bg-yellow-500
-                                        @else
-                                            bg-green-500
-                                        @endif" 
-                                        style="<?php echo 'width: ' . min($day['capacityPercentage'], 100) . '%'; ?>">
+                                <div class="flex flex-col items-center justify-center w-full">
+                                    <div class="booking-count text-center text-sm font-bold">
+                                        {{ count($day['bookings']) }} Booked
+                                    </div>
+                                    <div class="people-count text-gray-500">
+                                        {{ $day['totalPeople'] }}/{{ $day['maxCapacity'] }} People
+                                    </div>
+                                    <div class="capacity-bar w-full h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full mt-1.5 overflow-hidden">
+                                        <div class="h-full rounded-full 
+                                            @if($day['capacityPercentage'] >= 100)
+                                                bg-red-500
+                                            @elseif($day['capacityPercentage'] >= 50)
+                                                bg-yellow-500
+                                            @else
+                                                bg-green-500
+                                            @endif" 
+                                            style="width: {{ min($day['capacityPercentage'], 100) }}%">&nbsp
+                                        </div>
                                     </div>
                                 </div>
                                 
                                 <!-- Bookings list -->
-                                <div class="mt-2 overflow-y-auto max-h-32">
+                                <div class="booking-list mt-2 overflow-y-auto max-h-32 w-full">
                                     @foreach($day['bookings'] as $booking)
-                                        <div class="text-xs p-0.5 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between">
-                                            <div class="flex items-center space-x-1">
-                                                <span class="font-medium text-xs">{{ (new \DateTime($booking->start_time))->format('H:i') }}</span>
+                                        <div class="text-[10px] p-0.5 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between">
+                                            <div class="flex items-center space-x-1 w-full">
+                                                <span class="font-medium text-[10px] text-gray-500">{{ (new \DateTime($booking->start_time))->format('H:i') }}</span>
                                                 <button 
                                                     type="button" 
-                                                    class="text-primary-600 hover:text-primary-800 hover:underline focus:outline-none text-xs"
+                                                    class="text-primary-600 hover:text-primary-800 hover:underline focus:outline-none text-[10px] truncate max-w-[80px] text-left"
                                                     @click="openModal(@js($booking->customer->name), @js($booking->customer->phone), @js($booking->service->name_en))"
                                                 >
                                                     {{ $booking->customer->name }}
                                                 </button>
-                                                <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-primary-100 text-primary-800 text-xs font-bold border border-primary-200">
+                                                <span class="inline-flex items-center justify-center w-4 h-4 rounded-full bg-primary-100 text-primary-800 text-[9px] font-bold border border-primary-200 ml-auto flex-shrink-0">
                                                     {{ $booking->number_of_people }}
                                                 </span>
                                             </div>
@@ -229,15 +127,15 @@
                                     @endforeach
                                 </div>
                             @else
-                                <div class="no-bookings text-gray-500 dark:text-gray-400 text-center">
-                                    {{ $day['totalPeople'] }}/{{ $day['maxCapacity'] }} People
+                                <div class="no-bookings text-gray-400 dark:text-gray-500 text-center text-xs flex flex-col items-center justify-center h-full w-full">
+                                    <span class="mb-1">No Bookings</span>
+                                    <span class="text-[10px]">{{ $day['totalPeople'] }}/{{ $day['maxCapacity'] }} People</span>
                                 </div>
                             @endif
                         </div>
                     </div>
                 @endforeach
             </div>
-            
             <!-- Legend -->
             <div class="calendar-legend-container mt-6 flex flex-wrap gap-6 justify-center">
                 <div class="calendar-legend-item flex items-center">
