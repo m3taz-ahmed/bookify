@@ -2,54 +2,82 @@
 
 @section('content')
 
-<!-- Sky Bridge Background Section -->
+
+<!-- Sky Bridge Background Section with Slider -->
 <div class="relative">
-  <!-- Background image with overlay -->
-  <div class="absolute inset-0 z-0">
-    <div class="bg-[url('https://images.pexels.com/photos/2097794/pexels-photo-2097794.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')] bg-cover bg-center bg-no-repeat w-full h-full brightness-75"></div>
-    <div class="absolute inset-0 bg-gradient-to-b from-background-50/90 to-background-100/90"></div>
+  <!-- Background Image Slider -->
+  <div class="absolute inset-0 z-0 overflow-hidden">
+    <!-- Slider Images -->
+    <div class="hero-slider-container relative w-full h-full">
+      <div class="hero-slide absolute inset-0 transition-opacity duration-1000 opacity-100">
+        <img src="{{ asset('images/hero-slider/slide-1.png') }}" alt="SkyBridge Riyadh" class="w-full h-full object-cover brightness-75">
+      </div>
+      <div class="hero-slide absolute inset-0 transition-opacity duration-1000 opacity-0">
+        <img src="{{ asset('images/hero-slider/slide-2.png') }}" alt="SkyBridge Riyadh" class="w-full h-full object-cover brightness-75">
+      </div>
+      <div class="hero-slide absolute inset-0 transition-opacity duration-1000 opacity-0">
+        <img src="{{ asset('images/hero-slider/slide-3.png') }}" alt="SkyBridge Riyadh" class="w-full h-full object-cover brightness-75">
+      </div>
+      
+      <!-- Navigation Arrows -->
+      <button class="hero-slider-prev absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-black/30 hover:bg-black/50 text-white p-4 rounded-full transition-all duration-300 backdrop-blur-sm">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+        </svg>
+      </button>
+      <button class="hero-slider-next absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-black/30 hover:bg-black/50 text-white p-4 rounded-full transition-all duration-300 backdrop-blur-sm">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+        </svg>
+      </button>
+    </div>
+    
+    <!-- Gradient Overlay -->
+    <div class="absolute inset-0 bg-gradient-to-b from-background-50/40 to-background-100/40"></div>
   </div>
 
   <!-- Existing content with higher z-index -->
-  <div class="relative z-10 bg-gradient-to-br from-background-50/80 to-background-100/80 py-24 backdrop-blur-sm">
+  <div class="relative z-10 py-24">
     <div class="max-w-7xl mx-auto px-4 lg:px-8 flex flex-col lg:flex-row items-center gap-16">
 
       <div class="lg:w-1/2">
-        <div class="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800 mb-6">
-          <span class="h-2 w-2 rounded-full bg-primary-600 mr-2"></span>
-          {{ __('website.welcome') }}
-        </div>
-
-        <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-dark-900 mb-6">
-          {{ __('website.tagline') }}
-        </h1>
-
-        <p class="text-lg md:text-xl text-dark-600 mb-10">
-          {{ __('website.our_platform') }}
-        </p>
-
-        <div class="flex flex-col sm:flex-row gap-4">
-          <a href="{{ route('customer.bookings.create') }}"
-             class="px-8 py-4 bg-primary-600 text-white font-bold rounded-xl shadow-lg hover:bg-primary-700 transition">
-            {{ __('website.book_appointment') }}
-          </a>
-          <a href="{{ route('customer.register') }}"
-             class="px-8 py-4 bg-white text-primary-600 font-bold rounded-xl border border-primary-200 shadow hover:shadow-md transition">
-            {{ __('website.create_account') }}
-          </a>
-        </div>
-
-        <div class="mt-10 flex items-center">
-          <div class="flex -space-x-2">
-            <div class="h-10 w-10 rounded-full bg-primary-200 ring-2 ring-white"></div>
-            <div class="h-10 w-10 rounded-full bg-secondary-200 ring-2 ring-white"></div>
-            <div class="h-10 w-10 rounded-full bg-accent-200 ring-2 ring-white"></div>
+        <div class="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl border border-background-200 p-8">
+          <div class="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800 mb-6">
+            <span class="h-2 w-2 rounded-full bg-primary-600 mr-2"></span>
+            {{ __('website.welcome') }}
           </div>
-          <div class="ml-4">
-            <p class="text-sm font-medium text-dark-700">
-              <span class="text-primary-600 font-bold">10,000+</span> {{ __('website.happy_customers') }}
-            </p>
-            <p class="text-xs text-dark-500">{{ __('website.joined_us_last_month') }}</p>
+
+          <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-dark-900 mb-6">
+            {{ __('website.tagline') }}
+          </h1>
+
+          <p class="text-lg md:text-xl text-dark-600 mb-10">
+            {{ __('website.our_platform') }}
+          </p>
+
+          <div class="flex flex-col sm:flex-row gap-4">
+            <a href="{{ route('customer.bookings.create') }}"
+               class="px-8 py-4 bg-primary-600 text-white font-bold rounded-xl shadow-lg hover:bg-primary-700 transition">
+              {{ __('website.book_appointment') }}
+            </a>
+            <a href="{{ route('customer.register') }}"
+               class="px-8 py-4 bg-white text-primary-600 font-bold rounded-xl border border-primary-200 shadow hover:shadow-md transition">
+              {{ __('website.create_account') }}
+            </a>
+          </div>
+
+          <div class="mt-10 flex items-center">
+            <div class="flex -space-x-2">
+              <div class="h-10 w-10 rounded-full bg-primary-200 ring-2 ring-white"></div>
+              <div class="h-10 w-10 rounded-full bg-secondary-200 ring-2 ring-white"></div>
+              <div class="h-10 w-10 rounded-full bg-accent-200 ring-2 ring-white"></div>
+            </div>
+            <div class="ml-4">
+              <p class="text-sm font-medium text-dark-700">
+                <span class="text-primary-600 font-bold">10,000+</span> {{ __('website.happy_customers') }}
+              </p>
+              <p class="text-xs text-dark-500">{{ __('website.joined_us_last_month') }}</p>
+            </div>
           </div>
         </div>
       </div>
@@ -191,6 +219,47 @@
 @push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+  // Hero Slider
+  const heroContainer = document.querySelector('.hero-slider-container');
+  if (heroContainer) {
+    const heroSlides = heroContainer.querySelectorAll('.hero-slide');
+    const heroPrev = heroContainer.querySelector('.hero-slider-prev');
+    const heroNext = heroContainer.querySelector('.hero-slider-next');
+    let heroCurrent = 0;
+
+    function showHeroSlide(i) {
+      heroSlides.forEach(s => s.classList.replace('opacity-100', 'opacity-0'));
+      heroSlides[i].classList.replace('opacity-0', 'opacity-100');
+    }
+
+    // Auto-advance every 5 seconds
+    const heroAuto = setInterval(() => {
+      heroCurrent = (heroCurrent + 1) % heroSlides.length;
+      showHeroSlide(heroCurrent);
+    }, 5000);
+
+    // Next button
+    if (heroNext) {
+      heroNext.onclick = e => {
+        e.stopPropagation();
+        clearInterval(heroAuto);
+        heroCurrent = (heroCurrent + 1) % heroSlides.length;
+        showHeroSlide(heroCurrent);
+      };
+    }
+
+    // Previous button
+    if (heroPrev) {
+      heroPrev.onclick = e => {
+        e.stopPropagation();
+        clearInterval(heroAuto);
+        heroCurrent = (heroCurrent - 1 + heroSlides.length) % heroSlides.length;
+        showHeroSlide(heroCurrent);
+      };
+    }
+  }
+
+  // Service Sliders
   const sliders = document.querySelectorAll('.image-slider-container');
 
   sliders.forEach(function(container) {
