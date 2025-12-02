@@ -18,7 +18,7 @@
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
                     </svg>
-                    <span>Prev</span>
+                    <span>{{ __('filament.Previous') }}</span>
                 </button>
             </div>
             <div class="calendar-nav-title">
@@ -26,7 +26,7 @@
             </div>
             <div>
                 <button id="next-btn" class="calendar-nav-btn">
-                    <span>Next</span>
+                    <span>{{ __('filament.Next') }}</span>
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                     </svg>
@@ -41,7 +41,15 @@
                 @php
                     // Always start the week on Saturday, regardless of locale
                     $firstDayOfWeek = 6; // 6 = Saturday in Carbon (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
-                    $dayNames = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+                    $dayNames = [
+                        __('filament.Sun'),
+                        __('filament.Mon'),
+                        __('filament.Tue'),
+                        __('filament.Wed'),
+                        __('filament.Thu'),
+                        __('filament.Fri'),
+                        __('filament.Sat'),
+                    ];
                     // Rotate the array so that Saturday is first
                     $rotatedDayNames = array_merge(array_slice($dayNames, $firstDayOfWeek), array_slice($dayNames, 0, $firstDayOfWeek));
                     
@@ -80,16 +88,16 @@
                         <!-- Booking information -->
                         <div class="flex-grow flex flex-col mt-6">
                             @if(!$day['isWorkingDay'])
-                                <div class="closed-label text-gray-500 dark:text-gray-400 font-medium text-center flex flex-col items-center justify-center h-full">
-                                    Closed
+                        <div class="closed-label text-gray-500 dark:text-gray-400 font-medium text-center flex flex-col items-center justify-center h-full">
+                                    {{ __('filament.Closed') }}
                                 </div>
                             @elseif(count($day['bookings']) > 0)
                                 <div class="flex flex-col items-center justify-center w-full">
                                     <div class="booking-count text-center text-sm font-bold">
-                                        {{ count($day['bookings']) }} Booked
+                                        {{ count($day['bookings']) }} {{ __('filament.Booked') }}
                                     </div>
                                     <div class="people-count text-gray-500">
-                                        {{ $day['totalPeople'] }}/{{ $day['maxCapacity'] }} People
+                                        {{ $day['totalPeople'] }}/{{ $day['maxCapacity'] }} {{ __('filament.People') }}
                                     </div>
                                     <div class="capacity-bar w-full h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full mt-1.5 overflow-hidden">
                                         <div class="h-full rounded-full 
@@ -114,7 +122,7 @@
                                                 <button 
                                                     type="button" 
                                                     class="text-primary-600 hover:text-primary-800 hover:underline focus:outline-none text-[10px] truncate max-w-[80px] text-left"
-                                                    @click="openModal(@js($booking->customer->name), @js($booking->customer->phone), @js($booking->service->name_en))"
+                                                    @click="openModal(@js($booking->customer->name), @js($booking->customer->phone), @js(app()->getLocale() === 'ar' ? $booking->service->name_ar : $booking->service->name_en))"
                                                 >
                                                     {{ $booking->customer->name }}
                                                 </button>
@@ -128,8 +136,8 @@
                                 </div>
                             @else
                                 <div class="no-bookings text-gray-400 dark:text-gray-500 text-center text-xs flex flex-col items-center justify-center h-full w-full">
-                                    <span class="mb-1">No Bookings</span>
-                                    <span class="text-[10px]">{{ $day['totalPeople'] }}/{{ $day['maxCapacity'] }} People</span>
+                                    <span class="mb-1">{{ __('filament.No Bookings') }}</span>
+                                    <span class="text-[10px]">{{ $day['totalPeople'] }}/{{ $day['maxCapacity'] }} {{ __('filament.People') }}</span>
                                 </div>
                             @endif
                         </div>
@@ -140,15 +148,15 @@
             <div class="calendar-legend-container mt-6 flex flex-wrap gap-6 justify-center">
                 <div class="calendar-legend-item flex items-center">
                     <div class="calendar-legend-color-box w-4 h-4 bg-green-100 border border-green-200 rounded mr-2 dark:bg-green-900/30 dark:border-green-800"></div>
-                    <span class="calendar-legend-text">&lt; 50% Capacity</span>
+                    <span class="calendar-legend-text">{{ __('filament.< 50% Capacity') }}</span>
                 </div>
                 <div class="calendar-legend-item flex items-center">
                     <div class="calendar-legend-color-box w-4 h-4 bg-yellow-100 border border-yellow-200 rounded mr-2 dark:bg-yellow-900/30 dark:border-yellow-800"></div>
-                    <span class="calendar-legend-text">50-100% Capacity</span>
+                    <span class="calendar-legend-text">{{ __('filament.50-100% Capacity') }}</span>
                 </div>
                 <div class="calendar-legend-item flex items-center">
                     <div class="calendar-legend-color-box w-4 h-4 bg-red-100 border border-red-200 rounded mr-2 dark:bg-red-900/30 dark:border-red-800"></div>
-                    <span class="calendar-legend-text">Fully Booked</span>
+                    <span class="calendar-legend-text">{{ __('filament.Fully Booked') }}</span>
                 </div>
             </div>
         </div>
@@ -179,7 +187,7 @@
                     <div class="custom-modal-header">
                         <h3 class="custom-modal-title" id="modal-title">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
-                            Customer Details
+                            {{ __('filament.Customer Details') }}
                         </h3>
                         <button @click="showModal = false" class="text-white hover:text-gray-200 focus:outline-none">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -195,7 +203,7 @@
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
                                 </div>
                                 <div class="ml-4">
-                                    <p class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Customer Name</p>
+                                    <p class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('filament.Customer Name') }}</p>
                                     <p class="text-base font-semibold text-gray-900 dark:text-white" x-text="customerName"></p>
                                 </div>
                             </div>
@@ -206,7 +214,7 @@
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
                                 </div>
                                 <div class="ml-4">
-                                    <p class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Phone Number</p>
+                                    <p class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('filament.Customer Phone') }}</p>
                                     <p class="text-base font-semibold text-gray-900 dark:text-white" x-text="customerPhone"></p>
                                 </div>
                             </div>
@@ -217,7 +225,7 @@
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
                                 </div>
                                 <div class="ml-4">
-                                    <p class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Service</p>
+                                    <p class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('filament.Service') }}</p>
                                     <p class="text-base font-semibold text-gray-900 dark:text-white" x-text="bookingService"></p>
                                 </div>
                             </div>
@@ -231,7 +239,7 @@
                             class="custom-close-btn"
                             @click="showModal = false"
                         >
-                            Close
+                            {{ __('filament.Close') }}
                         </button>
                     </div>
                 </div>

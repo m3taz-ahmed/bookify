@@ -29,12 +29,12 @@ class MsegatSettings extends Page implements HasForms
 
     public static function getNavigationLabel(): string
     {
-        return 'SMS Settings (Msegat)';
+        return __('filament.SMS Settings (Msegat)');
     }
 
     public function getTitle(): string
     {
-        return 'Msegat SMS Configuration';
+        return __('filament.Msegat SMS Configuration');
     }
 
     public function getView(): string
@@ -64,113 +64,113 @@ class MsegatSettings extends Page implements HasForms
     {
         return $form
             ->schema([
-                Section::make('Msegat API Credentials')
-                    ->description('Configure your Msegat SMS service credentials. Get your credentials from msegat.com')
+                Section::make(__('filament.Msegat API Credentials'))
+                    ->description(__('filament.Configure your Msegat SMS service credentials. Get your credentials from msegat.com'))
                     ->schema([
                         TextInput::make('username')
-                            ->label('Username')
+                            ->label(__('filament.Username'))
                             ->required()
                             ->placeholder('techflipp')
-                            ->helperText('Your Msegat account username'),
+                            ->helperText(__('filament.Your Msegat account username')),
 
                         TextInput::make('api_key')
-                            ->label('API Key')
+                            ->label(__('filament.API Key'))
                             ->required()
                             ->password()
                             ->revealable()
                             ->placeholder('4563eb312a38125a5b63acb0d57bd57a')
-                            ->helperText('Your Msegat API key'),
+                            ->helperText(__('filament.Your Msegat API key')),
 
                         TextInput::make('sender')
-                            ->label('Sender Name')
+                            ->label(__('filament.Sender Name'))
                             ->required()
                             ->placeholder('Bookify')
                             ->maxLength(11)
-                            ->helperText('The sender name that will appear in SMS (max 11 characters)'),
+                            ->helperText(__('filament.The sender name that will appear in SMS (max 11 characters)')),
 
                         TextInput::make('base_url')
-                            ->label('Base URL')
+                            ->label(__('filament.Base URL'))
                             ->required()
                             ->url()
                             ->default('https://www.msegat.com/gw')
-                            ->helperText('Msegat API base URL (usually no need to change)'),
+                            ->helperText(__('filament.Msegat API base URL (usually no need to change)')),
                     ])->columns(2),
 
-                Section::make('SMS Features')
-                    ->description('Enable or disable SMS features')
+                Section::make(__('filament.SMS Features'))
+                    ->description(__('filament.Enable or disable SMS features'))
                     ->schema([
                         Toggle::make('otp_enabled')
-                            ->label('Enable OTP SMS')
-                            ->helperText('Send OTP codes via SMS for customer authentication')
+                            ->label(__('filament.Enable OTP SMS'))
+                            ->helperText(__('filament.Send OTP codes via SMS for customer authentication'))
                             ->default(true),
 
                         Toggle::make('booking_sms_enabled')
-                            ->label('Enable Booking Notifications SMS')
-                            ->helperText('Send SMS notifications for booking confirmations and cancellations')
+                            ->label(__('filament.Enable Booking Notifications SMS'))
+                            ->helperText(__('filament.Send SMS notifications for booking confirmations and cancellations'))
                             ->default(true),
                     ])->columns(2),
 
-                Section::make('Test SMS')
-                    ->description('Test your SMS configuration by sending a test message')
+                Section::make(__('filament.Test SMS'))
+                    ->description(__('filament.Test your SMS configuration by sending a test message'))
                     ->schema([
                         TextInput::make('test_phone')
-                            ->label('Test Phone Number')
+                            ->label(__('filament.Test Phone Number'))
                             ->tel()
                             ->placeholder('966xxxxxxxxx')
-                            ->helperText('Enter a phone number in international format (e.g., 966xxxxxxxxx)'),
+                            ->helperText(__('filament.Enter a phone number in international format (e.g., 966xxxxxxxxx)')),
 
                         Textarea::make('test_message')
-                            ->label('Test Message')
-                            ->placeholder('This is a test message from SkyBridge')
+                            ->label(__('filament.Test Message'))
+                            ->placeholder(__('filament.This is a test message from SkyBridge'))
                             ->rows(3)
-                            ->helperText('The message to send'),
+                            ->helperText(__('filament.The message to send')),
                     ])->columns(1),
 
-                Section::make('OTP SMS Template')
-                    ->description('Customize the OTP SMS message template for both English and Arabic')
+                Section::make(__('filament.OTP SMS Template'))
+                    ->description(__('filament.Customize the OTP SMS message template for both English and Arabic'))
                     ->schema([
                         Textarea::make('otp_message_en')
-                            ->label('OTP Message (English)')
+                            ->label(__('filament.OTP Message (English)'))
                             ->rows(3)
-                            ->helperText('Available placeholders: {otp_code}')
+                            ->helperText(__('filament.Available placeholders: {otp_code}'))
                             ->required(),
 
                         Textarea::make('otp_message_ar')
-                            ->label('OTP Message (Arabic)')
+                            ->label(__('filament.OTP Message (Arabic)'))
                             ->rows(3)
-                            ->helperText('Available placeholders: {otp_code}')
+                            ->helperText(__('filament.Available placeholders: {otp_code}'))
                             ->required(),
                     ])->columns(2),
 
-                Section::make('Booking Confirmation SMS Template')
-                    ->description('Customize the booking confirmation SMS message template for both English and Arabic')
+                Section::make(__('filament.Booking Confirmation SMS Template'))
+                    ->description(__('filament.Customize the booking confirmation SMS message template for both English and Arabic'))
                     ->schema([
                         Textarea::make('booking_confirmation_message_en')
-                            ->label('Booking Confirmation Message (English)')
+                            ->label(__('filament.Booking Confirmation Message (English)'))
                             ->rows(5)
-                            ->helperText('Available placeholders: {customer_name}, {service_name}, {booking_date}, {start_time}, {confirm_link}')
+                            ->helperText(__('filament.Available placeholders: {customer_name}, {service_name}, {booking_date}, {start_time}, {confirm_link}'))
                             ->required(),
 
                         Textarea::make('booking_confirmation_message_ar')
-                            ->label('Booking Confirmation Message (Arabic)')
+                            ->label(__('filament.Booking Confirmation Message (Arabic)'))
                             ->rows(5)
-                            ->helperText('Available placeholders: {customer_name}, {service_name}, {booking_date}, {start_time}, {confirm_link}')
+                            ->helperText(__('filament.Available placeholders: {customer_name}, {service_name}, {booking_date}, {start_time}, {confirm_link}'))
                             ->required(),
                     ])->columns(2),
 
-                Section::make('Booking Cancellation SMS Template')
-                    ->description('Customize the booking cancellation SMS message template for both English and Arabic')
+                Section::make(__('filament.Booking Cancellation SMS Template'))
+                    ->description(__('filament.Customize the booking cancellation SMS message template for both English and Arabic'))
                     ->schema([
                         Textarea::make('booking_cancellation_message_en')
-                            ->label('Booking Cancellation Message (English)')
+                            ->label(__('filament.Booking Cancellation Message (English)'))
                             ->rows(5)
-                            ->helperText('Available placeholders: {customer_name}, {service_name}, {booking_date}, {start_time}, {confirm_link}')
+                            ->helperText(__('filament.Available placeholders: {customer_name}, {service_name}, {booking_date}, {start_time}, {confirm_link}'))
                             ->required(),
 
                         Textarea::make('booking_cancellation_message_ar')
-                            ->label('Booking Cancellation Message (Arabic)')
+                            ->label(__('filament.Booking Cancellation Message (Arabic)'))
                             ->rows(5)
-                            ->helperText('Available placeholders: {customer_name}, {service_name}, {booking_date}, {start_time}, {confirm_link}')
+                            ->helperText(__('filament.Available placeholders: {customer_name}, {service_name}, {booking_date}, {start_time}, {confirm_link}'))
                             ->required(),
                     ])->columns(2),
             ])
@@ -201,7 +201,7 @@ class MsegatSettings extends Page implements HasForms
         Artisan::call('config:clear');
 
         Notification::make()
-            ->title('Settings saved successfully')
+            ->title(__('filament.Settings saved successfully'))
             ->success()
             ->send();
     }
@@ -212,7 +212,7 @@ class MsegatSettings extends Page implements HasForms
 
         if (empty($data['test_phone']) || empty($data['test_message'])) {
             Notification::make()
-                ->title('Please fill in both phone number and message')
+                ->title(__('filament.Please fill in both phone number and message'))
                 ->warning()
                 ->send();
             return;
@@ -223,13 +223,13 @@ class MsegatSettings extends Page implements HasForms
 
         if ($result['success']) {
             Notification::make()
-                ->title('Test SMS sent successfully!')
-                ->body('Message ID: ' . ($result['msg_id'] ?? 'N/A'))
+                ->title(__('filament.Test SMS sent successfully!'))
+                ->body(__('filament.Message ID') . ': ' . ($result['msg_id'] ?? 'N/A'))
                 ->success()
                 ->send();
         } else {
             Notification::make()
-                ->title('Failed to send test SMS')
+                ->title(__('filament.Failed to send test SMS'))
                 ->body($result['message'])
                 ->danger()
                 ->send();
@@ -269,12 +269,12 @@ class MsegatSettings extends Page implements HasForms
     {
         return [
             \Filament\Actions\Action::make('save')
-                ->label('Save Settings')
+                ->label(__('filament.Save Settings'))
                 ->action('save')
                 ->color('primary'),
             
             \Filament\Actions\Action::make('test')
-                ->label('Send Test SMS')
+                ->label(__('filament.Send Test SMS'))
                 ->action('testSms')
                 ->color('warning')
                 ->icon('heroicon-o-paper-airplane'),

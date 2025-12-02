@@ -75,6 +75,7 @@ class WeekCalendarBookings extends Page
 
     public function getViewData(): array
     {
+        \Carbon\Carbon::setLocale(app()->getLocale());
         // Get the current week start date from the request, or use the current date
         $currentDate = request()->query('date', Carbon::now()->timezone('Asia/Riyadh')->toDateString());
         $currentDate = Carbon::parse($currentDate)->timezone('Asia/Riyadh');
@@ -132,12 +133,12 @@ class WeekCalendarBookings extends Page
 
     public static function getNavigationLabel(): string
     {
-        return __('Week Calendar');
+        return __('filament.Week Calendar');
     }
 
     public function getBreadcrumb(): string
     {
-        return __('Week Calendar');
+        return __('filament.Week Calendar');
     }
 
     protected function getHeaderActions(): array

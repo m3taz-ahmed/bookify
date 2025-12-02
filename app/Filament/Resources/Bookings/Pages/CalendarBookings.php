@@ -76,6 +76,7 @@ class CalendarBookings extends Page
 
     public function getViewData(): array
     {
+        \Carbon\Carbon::setLocale(app()->getLocale());
 
         // Get the current month and year from the request, or use the current date
         $currentMonth = (int) request()->query('month', Carbon::now()->timezone('Asia/Riyadh')->month);
@@ -139,12 +140,12 @@ class CalendarBookings extends Page
 
     public static function getNavigationLabel(): string
     {
-        return __('Calendar');
+        return __('filament.Calendar');
     }
 
     public function getBreadcrumb(): string
     {
-        return __('Calendar');
+        return __('filament.Calendar');
     }
 
     protected function getHeaderActions(): array
