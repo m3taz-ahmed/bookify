@@ -20,6 +20,17 @@ class EditSiteSetting extends EditRecord
         ];
     }
 
+    protected function afterSave(): void
+    {
+        // Clear the cache for this specific setting
+        if ($this->record && $this->record->setting_key) {
+            \Illuminate\Support\Facades\Cache::forget("site_setting_{$this->record->setting_key}");
+        }
+        
+        // Also clear general cache
+        \Illuminate\Support\Facades\Cache::forget('site_settings');
+    }
+
     protected function mutateFormDataBeforeFill(array $data): array
     {
         // For max_capacity setting, ensure we load the actual value from database
@@ -37,23 +48,10 @@ class EditSiteSetting extends EditRecord
         // }
         
         // For working_hours setting, ensure we load the actual value from database
-        if (isset($data['setting_key']) && $data['setting_key'] === 'working_hours') {
-            $actualValue = SiteSetting::where('setting_key', 'working_hours')->value('setting_value');
-            if ($actualValue !== null) {
-                // Since setting_value is cast as array, we need to handle it properly
-                if (is_array($actualValue)) {
-                    $data['setting_value'] = $actualValue;
-                } else {
-                    // Decode JSON string if needed
-                    $decoded = json_decode($actualValue, true);
-                    if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
-                        $data['setting_value'] = $decoded;
-                    } else {
-                        $data['setting_value'] = [];
-                    }
-                }
-            }
-        }
+        // For working_hours setting, the model cast handles it now
+        // if (isset($data['setting_key']) && $data['setting_key'] === 'working_hours') {
+        //     // Logic removed as model cast handles it
+        // }
 
         return $data;
     }

@@ -237,4 +237,6 @@ return [
     'non_working_day' => 'Non-Working Day',
     'cannot_book_on_non_working_day' => 'Cannot book on a non-working day. Please select another date.',
     'working_hours' => 'Working Hours',
+    'payment_methods_unavailable' => 'Payment Methods Unavailable',
+    'payment_methods_unavailable_message' => 'We apologize, but all payment methods are currently unavailable. Please contact us for assistance.',
 ];

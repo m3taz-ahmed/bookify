@@ -40,37 +40,67 @@ class SiteSettingForm
                         },
                     ]),
 
-                TextInput::make('setting_value')
+                TextInput::make('setting_value_capacity')
                     ->label('Maximum Capacity')
                     ->numeric()
                     ->minValue(1)
                     ->required()
                     ->helperText('Maximum number of people allowed per day')
                     ->visible(fn ($get) => $get('setting_key') === 'max_capacity')
-                    ->dehydrateStateUsing(fn ($state) => (int) $state)
-                    ->formatStateUsing(function ($state) {
-                        // Handle the case where the value might be an array due to model casting
+                    ->afterStateHydrated(function ($component, $record) {
+                        $state = $record->setting_value;
                         if (is_array($state)) {
-                            // Extract the actual integer value from the array
-                            return (int) ($state[0] ?? 200);
+                            $component->state((int) ($state[0] ?? 200));
+                        } else {
+                            $component->state((int) $state);
                         }
-                        
-                        // If it's already a scalar value, convert to int
-                        return $state;
-                    }),
+                    })
+                    ->dehydrated(false)
+                    ->reactive()
+                    ->afterStateUpdated(fn ($state, $set) => $set('setting_value', $state)),
 
                 // Working hours setting with improved UI
-                WorkingHoursField::make('setting_value')
+                WorkingHoursField::make('setting_value_working_hours')
                     ->label('Working Hours')
                     ->columnSpanFull()
-                    ->visible(fn ($get) => $get('setting_key') === 'working_hours'),
-                
-                // Fallback textarea for other settings
-                Textarea::make('setting_value')
+                    ->visible(fn ($get) => $get('setting_key') === 'working_hours')
+                    ->afterStateHydrated(fn ($component, $record) => $component->state($record->setting_value))
+                    ->dehydrated(false)
+                    ->reactive()
+                    ->afterStateUpdated(fn ($state, $set) => $set('setting_value', $state)),
+
+                // Boolean settings (Payment Methods)
+                Toggle::make('setting_value_boolean')
+                    ->label('Enable Payment Method')
+                    ->helperText('Toggle to enable or disable this payment method')
+                    ->visible(fn ($get) => in_array($get('setting_key'), ['payment_method_cash', 'payment_method_online']))
+                    ->afterStateHydrated(fn ($component, $record) => $component->state((bool) $record->setting_value))
+                    ->dehydrated(false)
+                    ->reactive()
+                    ->afterStateUpdated(fn ($state, $set) => $set('setting_value', $state)),
+
+                // Text settings (Fallback)
+                Textarea::make('setting_value_text')
+                    ->label('Value')
                     ->columnSpanFull()
                     ->required()
                     ->helperText('Enter value for this setting')
-                    ->visible(fn ($get) => !in_array($get('setting_key'), ['max_capacity', 'working_hours'])),
+                    ->visible(fn ($get) => !in_array($get('setting_key'), ['max_capacity', 'working_hours', 'payment_method_cash', 'payment_method_online']))
+                    ->afterStateHydrated(function ($component, $record) {
+                        $state = $record->setting_value;
+                        if (is_array($state) || is_object($state)) {
+                            $component->state(json_encode($state, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+                        } else {
+                            $component->state($state);
+                        }
+                    })
+                    ->dehydrated(false)
+                    ->lazy()
+                    ->afterStateUpdated(fn ($state, $set) => $set('setting_value', $state)),
+
+                // Hidden field to actually save the data
+                \Filament\Forms\Components\Hidden::make('setting_value')
+                    ->dehydrated(true),
                 
                 TextInput::make('description')
                     ->helperText('Brief description of what this setting controls'),

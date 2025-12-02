@@ -14,7 +14,7 @@ class SiteSetting extends Model
     ];
 
     protected $casts = [
-        'setting_value' => 'array'
+        'setting_value' => 'json'
     ];
 
 
@@ -27,8 +27,8 @@ class SiteSetting extends Model
      */
     public static function get($key, $default = null)
     {
-        // Try to get from cache first
-        $value = Cache::remember("site_setting_{$key}", 3600, function () use ($key) {
+        // Try to get from cache first (reduced cache time to 60 seconds for quick updates)
+        $value = Cache::remember("site_setting_{$key}", 60, function () use ($key) {
             $setting = self::where('setting_key', $key)->first();
             return $setting ? $setting->setting_value : null;
         });
@@ -207,5 +207,77 @@ class SiteSetting extends Model
         }
         
         return [];
+    }
+    
+    /**
+     * Check if cash payment method is enabled
+     *
+     * @return bool
+     */
+    public static function isCashPaymentEnabled()
+    {
+        $value = self::get('payment_method_cash', true);
+        
+        // Handle different possible formats
+        if (is_bool($value)) {
+            return $value;
+        }
+        
+        // Handle string representations
+        if (is_string($value)) {
+            return in_array(strtolower($value), ['true', '1', 'yes', 'on']);
+        }
+        
+        // Handle numeric
+        return (bool) $value;
+    }
+    
+    /**
+     * Check if online payment method is enabled
+     *
+     * @return bool
+     */
+    public static function isOnlinePaymentEnabled()
+    {
+        $value = self::get('payment_method_online', true);
+        
+        // Handle different possible formats
+        if (is_bool($value)) {
+            return $value;
+        }
+        
+        // Handle string representations
+        if (is_string($value)) {
+            return in_array(strtolower($value), ['true', '1', 'yes', 'on']);
+        }
+        
+        // Handle numeric
+        return (bool) $value;
+    }
+    
+    /**
+     * Initialize default payment method settings if they don't exist
+     *
+     * @return void
+     */
+    public static function initializePaymentMethods()
+    {
+        // Check if cash payment setting exists, if not create it
+        if (!self::where('setting_key', 'payment_method_cash')->exists()) {
+            self::create([
+                'setting_key' => 'payment_method_cash',
+                'setting_value' => true,
+                'description' => 'Enable cash payment method',
+            ]);
+        }
+        
+        // Check if online payment setting exists, if not create it
+        if (!self::where('setting_key', 'payment_method_online')->exists()) {
+            self::create([
+                'setting_key' => 'payment_method_online',
+                'setting_value' => true,
+                'description' => 'Enable online payment method',
+            ]);
+        }
     }
 }

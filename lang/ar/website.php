@@ -279,4 +279,6 @@ return [
     'non_working_day' => 'يوم غير عمل',
     'cannot_book_on_non_working_day' => 'لا يمكن الحجز في يوم غير عمل. يرجى اختيار تاريخ آخر.',
     'working_hours' => 'ساعات العمل',
+    'payment_methods_unavailable' => 'طرق الدفع غير متوفرة',
+    'payment_methods_unavailable_message' => 'نعتذر، لكن جميع طرق الدفع غير متوفرة حالياً. يرجى الاتصال بنا للمساعدة.',
 ];

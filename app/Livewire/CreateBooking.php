@@ -40,8 +40,7 @@ class CreateBooking extends Component
 
     public function mount()
     {
-        // Set default date to today in Saudi Arabia timezone
-        $this->selectedDate = Carbon::today()->timezone('Asia/Riyadh')->format('Y-m-d');
+        // Don't set default date - let customer choose
     }
     
     public function selectService($serviceId)
@@ -187,7 +186,7 @@ class CreateBooking extends Component
         
         if ($count > 0) {
             $conflicts = $query->get(['id', 'start_time', 'status']);
-            \Log::info('Slot Booked Conflict', [
+            Log::info('Slot Booked Conflict', [
                 'slot' => $time,
                 'conflicts' => $conflicts->toArray()
             ]);
@@ -198,14 +197,14 @@ class CreateBooking extends Component
     
     private function generateTimeSlots($startTime, $endTime)
     {
-        \Log::info('Generating Time Slots', ['start_in' => $startTime, 'end_in' => $endTime]);
+        Log::info('Generating Time Slots', ['start_in' => $startTime, 'end_in' => $endTime]);
         
         $slots = [];
         // Parse the time strings explicitly as Riyadh time to avoid UTC conversion shift
         $start = Carbon::createFromFormat('H:i', $startTime, 'Asia/Riyadh');
         $end = Carbon::createFromFormat('H:i', $endTime, 'Asia/Riyadh');
         
-        \Log::info('Parsed Times', [
+        Log::info('Parsed Times', [
             'start_obj' => $start->toIso8601String(),
             'end_obj' => $end->toIso8601String(),
             'start_fmt' => $start->format('H:i')
@@ -221,7 +220,7 @@ class CreateBooking extends Component
             $start->addMinutes(30);
         }
         
-        \Log::info('Generated Slots', ['slots' => $slots]);
+        Log::info('Generated Slots', ['slots' => $slots]);
         
         return $slots;
     }
@@ -286,6 +285,17 @@ class CreateBooking extends Component
         // Validate that the payment method is either 'cash' or 'online'
         if (!in_array($method, ['cash', 'online'])) {
             $this->addError('paymentMethod', 'Invalid payment method selected.');
+            return;
+        }
+        
+        // Check if the selected payment method is enabled
+        if ($method === 'cash' && !SiteSetting::isCashPaymentEnabled()) {
+            $this->addError('paymentMethod', 'Cash payment method is currently disabled.');
+            return;
+        }
+        
+        if ($method === 'online' && !SiteSetting::isOnlinePaymentEnabled()) {
+            $this->addError('paymentMethod', 'Online payment method is currently disabled.');
             return;
         }
         
@@ -367,9 +377,14 @@ class CreateBooking extends Component
             );
         }
         
+        // Clear cache to ensure fresh payment method settings
+        \Illuminate\Support\Facades\Cache::forget('site_settings');
+        
         return view('livewire.create-booking', [
             'services' => Service::where('is_active', true)->get(),
-            'dateAvailability' => $dateAvailability
+            'dateAvailability' => $dateAvailability,
+            'isCashPaymentEnabled' => SiteSetting::isCashPaymentEnabled(),
+            'isOnlinePaymentEnabled' => SiteSetting::isOnlinePaymentEnabled(),
         ]);
     }
 }

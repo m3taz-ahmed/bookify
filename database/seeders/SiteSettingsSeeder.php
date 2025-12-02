@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\SiteSetting;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -15,6 +16,8 @@ class SiteSettingsSeeder extends Seeder
     {
         // Check if settings already exist
         if (DB::table('site_settings')->where('setting_key', 'max_capacity')->exists()) {
+            // Initialize payment methods if they don't exist
+            SiteSetting::initializePaymentMethods();
             return;
         }
         
@@ -36,5 +39,8 @@ class SiteSettingsSeeder extends Seeder
                 'updated_at' => now(),
             ],
         ]);
+        
+        // Initialize payment methods
+        SiteSetting::initializePaymentMethods();
     }
 }
