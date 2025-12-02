@@ -148,13 +148,13 @@ class MsegatSettings extends Page implements HasForms
                         Textarea::make('booking_confirmation_message_en')
                             ->label('Booking Confirmation Message (English)')
                             ->rows(5)
-                            ->helperText('Available placeholders: {customer_name}, {service_name}, {booking_date}, {start_time}, {reference_code}')
+                            ->helperText('Available placeholders: {customer_name}, {service_name}, {booking_date}, {start_time}, {confirm_link}')
                             ->required(),
 
                         Textarea::make('booking_confirmation_message_ar')
                             ->label('Booking Confirmation Message (Arabic)')
                             ->rows(5)
-                            ->helperText('Available placeholders: {customer_name}, {service_name}, {booking_date}, {start_time}, {reference_code}')
+                            ->helperText('Available placeholders: {customer_name}, {service_name}, {booking_date}, {start_time}, {confirm_link}')
                             ->required(),
                     ])->columns(2),
 
@@ -164,13 +164,13 @@ class MsegatSettings extends Page implements HasForms
                         Textarea::make('booking_cancellation_message_en')
                             ->label('Booking Cancellation Message (English)')
                             ->rows(5)
-                            ->helperText('Available placeholders: {customer_name}, {service_name}, {booking_date}, {start_time}, {reference_code}')
+                            ->helperText('Available placeholders: {customer_name}, {service_name}, {booking_date}, {start_time}, {confirm_link}')
                             ->required(),
 
                         Textarea::make('booking_cancellation_message_ar')
                             ->label('Booking Cancellation Message (Arabic)')
                             ->rows(5)
-                            ->helperText('Available placeholders: {customer_name}, {service_name}, {booking_date}, {start_time}, {reference_code}')
+                            ->helperText('Available placeholders: {customer_name}, {service_name}, {booking_date}, {start_time}, {confirm_link}')
                             ->required(),
                     ])->columns(2),
             ])

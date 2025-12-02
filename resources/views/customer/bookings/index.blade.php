@@ -84,7 +84,18 @@
                                         </div>
                                     @endif
                                     <div>
-                                        <h3 class="font-bold text-lg text-gray-900">{{ $booking->service->name }}</h3>
+                                        @if($booking->items && $booking->items->count() > 0)
+                                            <h3 class="font-bold text-lg text-gray-900">
+                                                @foreach($booking->items as $item)
+                                                    <span class="inline-flex items-center mr-2">
+                                                        <span class="font-semibold">{{ $item->service->name }}</span>
+                                                        <span class="ml-1">×{{ $item->quantity }}</span>
+                                                    </span>
+                                                @endforeach
+                                            </h3>
+                                        @else
+                                            <h3 class="font-bold text-lg text-gray-900">{{ $booking->service->name }}</h3>
+                                        @endif
                                         <p class="text-gray-600 mt-1">
                                             <span class="inline-flex items-center">
                                                 <svg class="h-4 w-4 mr-1 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -157,25 +168,20 @@
                                 </div>
                             </div>
                             
-                            <div class="mt-4 pt-4 border-t border-gray-100 flex flex-col sm:flex-row sm:items-center sm:justify-between">
-                                <div class="text-sm text-gray-500">
+                            <div class="mt-4 pt-4 border-t border-gray-100">
+                                <div class="text-sm text-gray-700 mb-2">
                                     {{ __('website.reference') }}: <span class="font-mono">{{ $booking->reference_code }}</span>
                                 </div>
-                                <div class="mt-2 sm:mt-0 flex space-x-2">
-                                    @if($booking->qr_code)
-                                        <button class="view-qr-btn inline-flex items-center text-sm font-medium text-primary-600 hover:text-primary-900 bg-primary-50 hover:bg-primary-100 px-3 py-1.5 rounded-full transition-all duration-200 transform hover:-translate-y-0.5 shadow-sm hover:shadow-md" data-reference-code="{{ $booking->reference_code }}" data-qr-code="{{ $booking->qr_code }}">
-                                            <svg class="mr-1 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H9a1 1 0 00-1 1v2a1 1 0 001 1h2a1 1 0 011 1v2a1 1 0 01-1 1H9a1 1 0 01-1-1V8a1 1 0 011-1h2a1 1 0 001-1V5a1 1 0 00-1-1H7a2 2 0 00-2 2v2a2 2 0 002 2h2zm0 0v4m0 0h.01M12 16h.01" />
-                                            </svg>
-                                            {{ __('website.view_qr_code') }}
-                                        </button>
-                                    @endif
-                                    @if($booking->status === 'confirmed' || $booking->status === 'pending')
-                                        <button class="cancel-booking-btn text-sm font-medium text-red-600 hover:text-red-900 bg-red-50 hover:bg-red-100 px-3 py-1.5 rounded-full transition-all duration-200 transform hover:-translate-y-0.5 shadow-sm hover:shadow-md" data-booking-id="{{ $booking->id }}" data-reference-code="{{ $booking->reference_code }}">
-                                            {{ __('website.cancel_booking') }}
-                                        </button>
-                                    @endif
-                                </div>
+                                @if($booking->items && $booking->items->count() > 0)
+                                    <div class="text-sm text-gray-700">
+                                        @foreach($booking->items as $item)
+                                            <span class="inline-flex items-center mr-3">
+                                                <span class="font-semibold">{{ $item->service->name }}</span>
+                                                <span class="ml-1">×{{ $item->quantity }}</span>
+                                            </span>
+                                        @endforeach
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     @empty

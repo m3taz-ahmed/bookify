@@ -48,7 +48,7 @@ class CustomerController extends Controller
         /** @var \App\Models\Customer $customer */
         $customer = auth('customer')->user();
         
-        $query = $customer->bookings()->with(['service.images']);
+        $query = $customer->bookings()->with(['service.images', 'items.service']);
         
         // Filter by status if provided
         $status = $request->get('status', 'upcoming'); // Default to upcoming
@@ -114,13 +114,9 @@ class CustomerController extends Controller
             return redirect()->back()->withInput()->withErrors(['number_of_people' => 'Adding this booking would exceed the daily capacity limit.']);
         }
         
-        // Get the service to calculate duration
-        $service = Service::findOrFail($request->service_id);
+        $visitDuration = \App\Models\SiteSetting::get('visit_duration', 120);
+        $duration = (int) (is_array($visitDuration) ? ($visitDuration['value'] ?? 120) : $visitDuration);
         
-        // Use the service's default duration
-        $duration = $service->duration_minutes;
-        
-        // Calculate end time
         $startTime = \Carbon\Carbon::createFromTimeString($request->start_time)->timezone('Asia/Riyadh');
         $endTime = $startTime->copy()->addMinutes($duration);
         
@@ -133,7 +129,6 @@ class CustomerController extends Controller
             'service_id' => $request->service_id,
             'booking_date' => $request->booking_date,
             'start_time' => $request->start_time,
-            'end_time' => $endTime->format('H:i:s'),
             'reference_code' => $referenceCode,
             'status' => ($request->payment_method === 'cash') ? 'confirmed' : 'pending',
             'number_of_people' => $request->number_of_people,
@@ -141,15 +136,7 @@ class CustomerController extends Controller
             'is_paid' => ($request->payment_method === 'cash') ? false : null,
         ]);
         
-        // Generate QR code with booking details
-        $qrData = "Booking Reference: {$referenceCode}\n" .
-                 "Service: " . $booking->service->name . "\n" .
-                 "Date: " . $booking->booking_date->format('Y-m-d') . "\n" .
-                 "Time: " . $booking->start_time->format('H:i') . " - " . $booking->end_time->format('H:i') . "\n" .
-                 "People: " . $booking->number_of_people;
-        
-        // Save QR code to database
-        $booking->update(['qr_code' => $qrData]);
+        // QR code image is generated automatically in Booking::boot creating event
         
         // If payment method is online, generate order reference
         if ($request->payment_method === 'online') {
@@ -214,13 +201,9 @@ class CustomerController extends Controller
             $status = 'pending';
         }
         
-        // Get the service to calculate duration
-        $service = Service::findOrFail($request->service_id);
+        $visitDuration = \App\Models\SiteSetting::get('visit_duration', 120);
+        $duration = (int) (is_array($visitDuration) ? ($visitDuration['value'] ?? 120) : $visitDuration);
         
-        // Use the service's default duration
-        $duration = $service->duration_minutes;
-        
-        // Calculate end time
         $startTime = \Carbon\Carbon::createFromTimeString($request->start_time)->timezone('Asia/Riyadh');
         $endTime = $startTime->copy()->addMinutes($duration);
         
@@ -229,7 +212,6 @@ class CustomerController extends Controller
             'service_id' => $request->service_id,
             'booking_date' => $request->booking_date,
             'start_time' => $request->start_time,
-            'end_time' => $endTime->format('H:i:s'),
             'status' => $status,
             'number_of_people' => $request->number_of_people,
             'payment_method' => $request->payment_method,

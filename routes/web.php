@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\CustomerPhoneAuthController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\Customer\DashboardController;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\BookingLinkController;
 
 // Root redirect to booking welcome page
 Route::get('/', function () {
@@ -55,6 +56,11 @@ Route::get('/check-in-page/{reference}', [CheckInController::class, 'showCheckIn
 Route::get('/book', function () {
     return view('bookings.create');
 })->middleware('web');
+
+// Public signed booking link (customer + reference)
+Route::get('/booking/view/{customer}/{reference}', [BookingLinkController::class, 'show'])
+    ->name('booking.link')
+    ->middleware(['web']);
 
 // Language switcher route
 Route::get('/lang/{locale}', [LanguageController::class, 'switch'])->name('lang.switch')->middleware('web');

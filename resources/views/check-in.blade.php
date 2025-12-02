@@ -32,8 +32,19 @@
                             </div>
                             
                             <div>
-                                <label class="block text-sm font-medium text-gray-500">Service</label>
-                                <p class="text-lg">{{ $booking->service->name_en ?? 'N/A' }}</p>
+                                <label class="block text-sm font-medium text-gray-500">Tickets</label>
+                                <p class="text-lg">
+                                    @if($booking->items && $booking->items->count() > 0)
+                                        @foreach($booking->items as $item)
+                                            <span class="inline-flex items-center mr-3">
+                                                <span class="font-semibold">{{ $item->service->name }}</span>
+                                                <span class="ml-1">×{{ $item->quantity }}</span>
+                                            </span>
+                                        @endforeach
+                                    @else
+                                        N/A
+                                    @endif
+                                </p>
                             </div>
                             
                             <div>

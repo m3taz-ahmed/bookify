@@ -152,8 +152,8 @@ class BookingController extends Controller
         $serviceId = $request->service_id;
         $date = $request->date;
         
-        $service = Service::find($serviceId);
-        $duration = $service->duration_minutes;
+        $visitDuration = \App\Models\SiteSetting::get('visit_duration', 120);
+        $duration = (int) (is_array($visitDuration) ? ($visitDuration['value'] ?? 120) : $visitDuration);
         
         // Define default working hours (9 AM to 5 PM)
         // In a real application, this might be configurable
@@ -164,8 +164,7 @@ class BookingController extends Controller
         $end = strtotime($endHour . ':00');
         
         // Get existing bookings for this date
-        $existingBookings = Booking::where('booking_date', $date)
-            ->get();
+        $existingBookings = Booking::where('booking_date', $date)->get();
             
         $slots = [];
         
@@ -177,8 +176,12 @@ class BookingController extends Controller
             // Check if slot is available
             $isAvailable = true;
             foreach ($existingBookings as $booking) {
-                if (($slotTime >= $booking->start_time && $slotTime < $booking->end_time) ||
-                    ($slotEndTime > $booking->start_time && $slotEndTime <= $booking->end_time)) {
+                $bookingStart = \Carbon\Carbon::createFromFormat('H:i:s', $booking->start_time, 'Asia/Riyadh');
+                $bookingEnd = $bookingStart->copy()->addMinutes($duration);
+                $slotStart = \Carbon\Carbon::createFromFormat('H:i', $slotTime, 'Asia/Riyadh');
+                $slotEnd = \Carbon\Carbon::createFromFormat('H:i', $slotEndTime, 'Asia/Riyadh');
+
+                if ($slotStart < $bookingEnd && $slotEnd > $bookingStart) {
                     $isAvailable = false;
                     break;
                 }

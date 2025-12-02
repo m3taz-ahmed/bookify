@@ -121,6 +121,11 @@ class Booking extends Model
         return $this->belongsTo(Customer::class, 'customer_id');
     }
 
+    public function items()
+    {
+        return $this->hasMany(BookingItem::class);
+    }
+
     public static function createWithLock(array $data)
     {
         // Remove employee_id from lock key since we're removing it
@@ -163,5 +168,21 @@ class Booking extends Model
         } while (self::where('reference_code', $code)->exists());
         
         return $code;
+    }
+
+    public function signedLink(): string
+    {
+        return \Illuminate\Support\Facades\URL::route('booking.link', [
+            'customer' => $this->customer_id,
+            'reference' => $this->reference_code,
+        ]);
+    }
+
+    public function publicLink(): string
+    {
+        return \Illuminate\Support\Facades\URL::route('booking.link', [
+            'customer' => $this->customer_id,
+            'reference' => $this->reference_code,
+        ]);
     }
 }

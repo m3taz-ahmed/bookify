@@ -18,7 +18,7 @@
                 <!-- Progress line -->
                 <div class="absolute top-4 left-0 right-0 h-1.5 bg-gray-200 -z-10 rounded-full overflow-hidden">
                     <div class="h-full bg-gradient-to-r from-primary-500 to-secondary-500 transition-all duration-700 ease-in-out rounded-full" 
-                         style="width: <?php echo ($step - 1) * 25; ?>%"></div>
+                         style="width: <?php echo (($step - 1) / 3) * 100; ?>%"></div>
                 </div>
                 
                 <!-- Steps -->
@@ -35,7 +35,7 @@
                                 {{ $step >= 2 ? 'bg-primary-500 text-white shadow-lg scale-110' : 'bg-white text-gray-500 border-2 border-gray-300 shadow-sm' }}">
                         <span class="font-bold">2</span>
                     </div>
-                    <span class="text-xs text-center hidden sm:block {{ $step >= 2 ? 'font-semibold text-primary-700' : 'text-gray-500' }}">{{ __('website.people') }}</span>
+                    <span class="text-xs text-center hidden sm:block {{ $step >= 2 ? 'font-semibold text-primary-700' : 'text-gray-500' }}">{{ __('website.date') }}</span>
                 </div>
                 
                 <div class="flex flex-col items-center relative z-10 group">
@@ -43,7 +43,7 @@
                                 {{ $step >= 3 ? 'bg-primary-500 text-white shadow-lg scale-110' : 'bg-white text-gray-500 border-2 border-gray-300 shadow-sm' }}">
                         <span class="font-bold">3</span>
                     </div>
-                    <span class="text-xs text-center hidden sm:block {{ $step >= 3 ? 'font-semibold text-primary-700' : 'text-gray-500' }}">{{ __('website.date') }}</span>
+                    <span class="text-xs text-center hidden sm:block {{ $step >= 3 ? 'font-semibold text-primary-700' : 'text-gray-500' }}">{{ __('website.payment') }}</span>
                 </div>
                 
                 <div class="flex flex-col items-center relative z-10 group">
@@ -51,20 +51,14 @@
                                 {{ $step >= 4 ? 'bg-primary-500 text-white shadow-lg scale-110' : 'bg-white text-gray-500 border-2 border-gray-300 shadow-sm' }}">
                         <span class="font-bold">4</span>
                     </div>
-                    <span class="text-xs text-center hidden sm:block {{ $step >= 4 ? 'font-semibold text-primary-700' : 'text-gray-500' }}">{{ __('website.payment') }}</span>
+                    <span class="text-xs text-center hidden sm:block {{ $step >= 4 ? 'font-semibold text-primary-700' : 'text-gray-500' }}">{{ __('website.confirmation') }}</span>
                 </div>
                 
-                <div class="flex flex-col items-center relative z-10 group">
-                    <div class="w-10 h-10 rounded-full flex items-center justify-center mb-2 transition-all duration-300 
-                                {{ $step >= 5 ? 'bg-primary-500 text-white shadow-lg scale-110' : 'bg-white text-gray-500 border-2 border-gray-300 shadow-sm' }}">
-                        <span class="font-bold">5</span>
-                    </div>
-                    <span class="text-xs text-center hidden sm:block {{ $step >= 5 ? 'font-semibold text-primary-700' : 'text-gray-500' }}">{{ __('website.confirmation') }}</span>
-                </div>
+                
             </div>
         </div>
         
-        <!-- Step 1: Select Service -->
+        <!-- Step 1: Select Tickets -->
         @if ($step === 1)
             <div class="transition-all duration-300 fade-in">
                 <div class="mb-8 text-center relative">
@@ -74,66 +68,51 @@
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     @foreach ($services as $service)
-                        <div class="border border-gray-200 rounded-2xl p-6 hover:border-primary-300 cursor-pointer transition-all duration-300 shadow-sm hover:shadow-xl bg-white hover:bg-gradient-to-br from-white to-primary-50 transform hover:-translate-y-2 relative overflow-hidden group flex flex-col"
-                             wire:click="selectService({{ $service->id }})">
-                            <div class="absolute top-0 right-0 w-32 h-32 bg-primary-500 rounded-full -mt-16 -mr-16 transition-all duration-500 group-hover:scale-[2]"></div>
-                            <div class="relative z-10 flex flex-col flex-grow">
-                                <div class="flex justify-between items-start mb-4">
-                                    <h3 class="font-bold text-xl text-gray-900">{{ $service->name }}</h3>
+                        <div class="rounded-2xl p-5 bg-white border border-gray-200 hover:border-primary-300 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col h-full">
+                            <div class="flex items-start justify-between mb-4 flex-grow">
+                                <div>
+                                    <h3 class="font-bold text-lg text-gray-900">{{ $service->name }}</h3>
+                                    <p class="text-sm text-gray-600 mt-1">{{ $service->description }}</p>
                                 </div>
-                                <p class="text-sm text-gray-600 mb-5 line-clamp-2 flex-grow">{{ $service->description }}</p>
-                                <div class="flex justify-between items-center pt-4 border-t border-gray-100 mt-auto">
-                                    <span class="text-2xl font-bold text-primary-600 flex items-center gap-1">
-                                        <x-sar-icon class="w-6 h-6" />
+                                <div class="text-right">
+                                    <div class="text-primary-700 font-bold text-xl flex items-center justify-end gap-1">
+                                        <x-sar-icon class="w-5 h-5" />
                                         {{ $service->price }}
-                                    </span>
-                                    <span class="inline-flex items-center text-white font-medium text-sm bg-gradient-to-r from-primary-500 to-secondary-600 hover:from-primary-600 hover:to-secondary-700 px-4 py-2 rounded-full transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
-                                        {{ __('website.select') }}
-                                        <svg class="ml-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                                        </svg>
-                                    </span>
+                                    </div>
+                                    {{-- <div class="mt-2 inline-flex items-center bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">
+                                        {{ __('website.people') }}
+                                    </div> --}}
                                 </div>
+                            </div>
+                            <div class="mt-auto flex items-center justify-between">
+                                <div class="inline-flex items-center gap-2">
+                                    <button type="button" wire:click="decrementItem({{ $service->id }})" class="w-10 h-10 rounded-full border border-gray-300 text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50" @if(($ticketItems[$service->id] ?? 0) < 1) disabled @endif>-</button>
+                                    <span class="w-10 text-center font-semibold">{{ $ticketItems[$service->id] ?? 0 }}</span>
+                                    <button type="button" wire:click="incrementItem({{ $service->id }})" class="w-10 h-10 rounded-full border border-transparent text-white bg-gradient-to-r from-primary-600 to-secondary-700 hover:from-primary-700 hover:to-secondary-800">+</button>
+                                </div>
+                                @if(($ticketItems[$service->id] ?? 0) > 0)
+                                    <span class="text-sm text-gray-600">× {{ $service->price }} = <span class="font-semibold text-gray-900">{{ ($ticketItems[$service->id] ?? 0) * $service->price }}</span></span>
+                                @endif
                             </div>
                         </div>
                     @endforeach
                 </div>
+                <div class="mt-8 flex items-center justify-between">
+                    <div class="text-lg">
+                        <span class="text-gray-700">{{ __('website.people') }}:</span>
+                        <span class="font-bold text-primary-700">{{ $numberOfPeople }}</span>
+                    </div>
+                    <div class="flex gap-3">
+                        <button wire:click="goToNextStep()" @if($numberOfPeople < 1) disabled @endif class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-gradient-to-r from-primary-600 to-secondary-700 hover:from-primary-700 hover:to-secondary-800">{{ __('website.select_date_time') }}</button>
+                    </div>
+                </div>
             </div>
         @endif
         
-        <!-- Step 2: Select Number of People -->
+        
+        
+        <!-- Step 2: Select Date and Time -->
         @if ($step === 2)
-            <div class="transition-all duration-300 fade-in">
-                <div class="mb-8 text-center relative">
-                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 w-24 h-24 bg-gradient-to-br from-accent-100 to-primary-100 rounded-full opacity-30 blur-xl"></div>
-                    <h2 class="text-3xl font-bold text-gray-900 mb-3 relative z-10">{{ __('website.how_many_people') }}</h2>
-                    <p class="text-gray-600 max-w-xl mx-auto text-lg">{{ __('website.select_number_of_people') }}</p>
-                </div>
-                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 max-w-2xl mx-auto mb-8">
-                    @for ($i = 1; $i <= 10; $i++)
-                        <div class="border border-gray-200 rounded-2xl p-5 hover:border-primary-300 cursor-pointer transition-all duration-300 bg-white hover:bg-gradient-to-br from-white to-primary-50 text-center transform hover:-translate-y-2 shadow-sm hover:shadow-lg flex flex-col items-center justify-center group {{ $numberOfPeople == $i ? 'ring-2 ring-primary-500 ring-offset-2' : '' }}"
-                             wire:click="selectNumberOfPeople({{ $i }})">
-                            <div class="w-16 h-16 rounded-full bg-gradient-to-br from-primary-100 to-secondary-100 flex items-center justify-center mb-3 transition-all duration-300 group-hover:from-primary-200 group-hover:to-secondary-200 group-hover:scale-110 shadow-md">
-                                <span class="text-2xl font-bold text-primary-600">{{ $i }}</span>
-                            </div>
-                            <div class="text-sm font-medium text-gray-700">{{ __('website.people') }}</div>
-                        </div>
-                    @endfor
-                </div>
-                <div class="flex justify-center">
-                    <button wire:click="goToPreviousStep()" 
-                            class="inline-flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-xl text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
-                        <svg class="mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-                        </svg>
-                        {{ __('website.back_to_services') }}
-                    </button>
-                </div>
-            </div>
-        @endif
-        
-        <!-- Step 3: Select Date and Time -->
-        @if ($step === 3)
             <div class="transition-all duration-300 fade-in">
                 <div class="mb-8 text-center relative">
                     <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 w-24 h-24 bg-gradient-to-br from-accent-100 to-primary-100 rounded-full opacity-30 blur-xl"></div>
@@ -290,8 +269,8 @@
             </div>
         @endif
         
-        <!-- Step 4: Select Payment Method -->
-        @if ($step === 4)
+        <!-- Step 3: Select Payment Method -->
+        @if ($step === 3)
             <div class="transition-all duration-300 fade-in max-w-2xl mx-auto">
                 <div class="mb-8 text-center relative">
                     <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 w-24 h-24 bg-gradient-to-br from-accent-100 to-primary-100 rounded-full opacity-30 blur-xl"></div>
@@ -415,8 +394,8 @@
             </div>
         @endif
         
-        <!-- Step 5: Booking Confirmation and QR Code -->
-        @if ($step === 5)
+        <!-- Step 4: Booking Confirmation and QR Code -->
+        @if ($step === 4)
             <div class="text-center py-8 relative">
                 <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-gradient-to-br from-green-100 to-emerald-100 rounded-full opacity-30 blur-2xl"></div>
                 <div class="mb-8 relative z-10">
@@ -443,6 +422,14 @@
                         </div>
                     </div>
                 </div>
+                @if($bookingLink)
+                <div class="max-w-md mx-auto mb-8">
+                    <div class="bg-white border border-gray-200 rounded-xl p-4 text-center">
+                        <p class="text-sm text-gray-700 mb-2">{{ app()->getLocale() === 'ar' ? 'رابط تفاصيل الحجز (للمشاركة على الجوال)' : 'Booking details link (for SMS)' }}</p>
+                        <a href="{{ $bookingLink }}" class="break-all text-primary-700 hover:text-primary-900">{{ $bookingLink }}</a>
+                    </div>
+                </div>
+                @endif
                 
                 <div class="flex flex-col sm:flex-row justify-center gap-4">
                     <a href="{{ route('customer.bookings') }}" 

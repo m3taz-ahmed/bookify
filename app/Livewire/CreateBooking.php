@@ -17,6 +17,7 @@ class CreateBooking extends Component
     public $step = 1;
     public $selectedServiceId;
     public $selectedService;
+    public $ticketItems = [];
     public $selectedDate;
     public $selectedTime;
     public $selectedDateWorkingHours = [];
@@ -29,12 +30,12 @@ class CreateBooking extends Component
     public $booking;
     public $qrCode;
     public $referenceCode;
+    public $bookingLink;
 
     protected $rules = [
-        'selectedServiceId' => 'required|exists:services,id',
         'selectedDate' => 'required|date',
         'selectedTime' => 'required',
-        'numberOfPeople' => 'required|integer|min:1|max:10',
+        'numberOfPeople' => 'required|integer|min:1',
         'paymentMethod' => 'required|in:cash,online',
     ];
 
@@ -43,11 +44,28 @@ class CreateBooking extends Component
         // Don't set default date - let customer choose
     }
     
-    public function selectService($serviceId)
+    public function incrementItem($serviceId)
     {
-        $this->selectedServiceId = $serviceId;
-        $this->selectedService = $serviceId;
-        $this->goToNextStep();
+        $current = $this->ticketItems[$serviceId] ?? 0;
+        $this->ticketItems[$serviceId] = $current + 1;
+        $this->recalculatePeople();
+    }
+
+    public function decrementItem($serviceId)
+    {
+        $current = $this->ticketItems[$serviceId] ?? 0;
+        $new = max(0, $current - 1);
+        if ($new === 0) {
+            unset($this->ticketItems[$serviceId]);
+        } else {
+            $this->ticketItems[$serviceId] = $new;
+        }
+        $this->recalculatePeople();
+    }
+
+    private function recalculatePeople()
+    {
+        $this->numberOfPeople = array_sum($this->ticketItems);
     }
     
     public function selectNumberOfPeople($numberOfPeople)
@@ -58,7 +76,6 @@ class CreateBooking extends Component
 
     public function updatedSelectedServiceId($value)
     {
-        // Reset date and time when service changes
         $this->selectedDate = null;
         $this->selectedTime = null;
         $this->availableTimeSlots = [];
@@ -254,8 +271,8 @@ class CreateBooking extends Component
                     return;
                 }
                 
-                // Proceed to payment method
-                $this->step = 4;
+                // Proceed to payment method (now step 3)
+                $this->step = 3;
             } catch (\Exception $e) {
                 $this->addError('selectedDate', 'Invalid date selected.');
                 return;
@@ -265,7 +282,7 @@ class CreateBooking extends Component
     
     public function goToNextStep()
     {
-        if ($this->step < 5) {
+        if ($this->step < 4) {
             $this->step++;
         }
     }
@@ -307,7 +324,7 @@ class CreateBooking extends Component
 
     private function createBooking()
     {
-        // Validate all inputs
+        $this->recalculatePeople();
         $this->validate();
         
         try {
@@ -318,13 +335,23 @@ class CreateBooking extends Component
                 throw new \Exception('You must be logged in to create a booking.');
             }
             
-            // Get the service
-            $service = Service::find($this->selectedServiceId);
+            $visitDuration = SiteSetting::get('visit_duration', 120);
+            $duration = (int) (is_array($visitDuration) ? ($visitDuration['value'] ?? 120) : $visitDuration);
             
             // Parse date and time with Saudi Arabia timezone
             $bookingDate = Carbon::parse($this->selectedDate)->timezone('Asia/Riyadh');
-            // Use createFromFormat to avoid timezone shifting issues
+            
             $startTime = Carbon::createFromFormat('H:i', $this->selectedTime, 'Asia/Riyadh');
+            $endTime = $startTime->copy()->addMinutes($duration);
+
+            if ($this->numberOfPeople < 1) {
+                throw new \Exception('Please select at least one ticket.');
+            }
+
+            $primaryServiceId = array_key_first($this->ticketItems);
+            if (!$primaryServiceId) {
+                throw new \Exception('Please select at least one ticket.');
+            }
 
             // Generate reference code
             $referenceCode = Booking::generateReferenceCode();
@@ -332,7 +359,7 @@ class CreateBooking extends Component
             // Create the booking
             $this->booking = Booking::create([
                 'customer_id' => $customer->id,
-                'service_id' => $this->selectedServiceId,
+                'service_id' => $primaryServiceId,
                 'booking_date' => $bookingDate->format('Y-m-d'),
                 'start_time' => $startTime->format('H:i:s'),
                 'number_of_people' => $this->numberOfPeople,
@@ -340,6 +367,22 @@ class CreateBooking extends Component
                 'payment_method' => $this->paymentMethod,
                 'reference_code' => $referenceCode,
             ]);
+
+            foreach ($this->ticketItems as $serviceId => $qty) {
+                if ($qty > 0) {
+                    $service = Service::find($serviceId);
+                    if ($service) {
+                        $unit = $service->price;
+                        $total = $unit * $qty;
+                        $this->booking->items()->create([
+                            'service_id' => $serviceId,
+                            'quantity' => $qty,
+                            'unit_price' => $unit,
+                            'total_price' => $total,
+                        ]);
+                    }
+                }
+            }
             
             // Set the reference code
             $this->referenceCode = $this->booking->reference_code;
@@ -347,8 +390,12 @@ class CreateBooking extends Component
             // Set the QR code
             $this->qrCode = $this->booking->qr_code;
             
+            // Public booking link for SMS
+            $this->bookingLink = $this->booking->publicLink();
+            
             // Send confirmation notification
-            $customer->notify(new BookingConfirmed($this->booking));
+            \Illuminate\Support\Facades\Notification::send($customer, new BookingConfirmed($this->booking));
+
             
             if ($this->paymentMethod === 'online') {
                 // For online payment, generate order reference
@@ -356,7 +403,7 @@ class CreateBooking extends Component
                 $this->booking->update(['order_ref' => $this->orderRef]);
             }
             
-            $this->step = 5; // Show success and QR code
+            $this->step = 4; // Show success and QR code
         } catch (\Exception $e) {
             // Handle error
             $this->addError('booking', 'Failed to create booking. Please try again. Error: ' . $e->getMessage());
@@ -367,7 +414,7 @@ class CreateBooking extends Component
     {
         // Get date availability for the next 30 days
         $dateAvailability = [];
-        if ($this->step === 3) {
+        if ($this->step === 2) {
             $startDate = Carbon::today()->timezone('Asia/Riyadh');
             $endDate = Carbon::today()->timezone('Asia/Riyadh')->addDays(30);
             $dateAvailability = \App\Services\DateAvailabilityService::getDateRangeStatus(
