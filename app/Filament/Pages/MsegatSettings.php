@@ -12,6 +12,7 @@ use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 
 class MsegatSettings extends Page implements HasForms
@@ -135,7 +136,7 @@ class MsegatSettings extends Page implements HasForms
         ]);
 
         // Clear config cache
-        \Artisan::call('config:clear');
+        Artisan::call('config:clear');
 
         Notification::make()
             ->title('Settings saved successfully')
