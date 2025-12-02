@@ -281,4 +281,5 @@ return [
     'working_hours' => 'ساعات العمل',
     'payment_methods_unavailable' => 'طرق الدفع غير متوفرة',
     'payment_methods_unavailable_message' => 'نعتذر، لكن جميع طرق الدفع غير متوفرة حالياً. يرجى الاتصال بنا للمساعدة.',
+    'invalid_phone_number' => 'يرجى إدخال رقم هاتف صحيح',
 ];

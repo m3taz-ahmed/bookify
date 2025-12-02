@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+<!-- Include intl-tel-input CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@19.5.6/build/css/intlTelInput.css">
+
 <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-background-50 to-background-100 py-12 px-4 sm:px-6 lg:px-8">
     <div class="max-w-md w-full space-y-8">
         <div class="bg-white rounded-2xl shadow-xl p-8 transition-all duration-300 hover:shadow-2xl border-t-4 border-primary">
@@ -18,46 +21,13 @@
                 @csrf
                 
                 <div class="space-y-4">
-                    <div>
-                        <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">{{ __('website.phone_number') }}</label>
-                        <div class="relative">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                    <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
-                                </svg>
-                            </div>
-                            <input id="phone" name="phone" type="tel" required class="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 @error('phone') border-red-500 @enderror transition duration-200" placeholder="{{ __('website.phone_placeholder') }}" value="{{ old('phone') }}" autocomplete="tel">
-                        </div>
-                        @error('phone')
-                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <!-- Phone Format Info -->
-                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 text-sm text-blue-800">
-                        <div class="flex items-start">
-                            <div class="flex-shrink-0 pt-0.5">
-                                <svg class="h-5 w-5 text-blue-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                            <div class="ml-3">
-                                <h3 class="font-medium mb-1">Phone Number Format:</h3>
-                                <ul class="list-disc list-inside space-y-1 text-blue-700">
-                                    <li>
-                                        <span class="font-medium">Saudi Arabia (KSA):</span> 
-                                        Start with <code class="bg-blue-100 px-1 rounded">05</code> or <code class="bg-blue-100 px-1 rounded">5</code> 
-                                        <br><span class="text-xs opacity-75 ml-4">(e.g., 0512345678)</span>
-                                    </li>
-                                    <li>
-                                        <span class="font-medium">International:</span> 
-                                        Enter full number with country code
-                                        <br><span class="text-xs opacity-75 ml-4">(e.g., 201001234567 for Egypt)</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+                    <x-intl-phone-input 
+                        name="phone" 
+                        id="phone" 
+                        :value="old('phone')" 
+                        :required="true"
+                        :error="$errors->first('phone')"
+                    />
                 </div>
 
                 <div>
@@ -79,4 +49,7 @@
         </div>
     </div>
 </div>
+
+<!-- Include intl-tel-input JS -->
+<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@19.5.6/build/js/intlTelInput.min.js"></script>
 @endsection

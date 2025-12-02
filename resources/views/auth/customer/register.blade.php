@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+<!-- Include intl-tel-input CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@19.5.6/build/css/intlTelInput.css">
+
 <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-background-50 to-background-100 py-12 px-4 sm:px-6 lg:px-8">
     <div class="max-w-md w-full space-y-8">
         <div class="bg-white rounded-2xl shadow-xl p-8 transition-all duration-300 hover:shadow-2xl border-t-4 border-primary">
@@ -33,20 +36,13 @@
                         @enderror
                     </div>
                     
-                    <div>
-                        <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">{{ __('website.phone_number') }}</label>
-                        <div class="relative">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                    <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
-                                </svg>
-                            </div>
-                            <input id="phone" name="phone" type="text" required class="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 @error('phone') border-red-500 @enderror transition duration-200" placeholder="{{ __('website.phone_placeholder') }}" value="{{ old('phone') }}" autocomplete="tel">
-                        </div>
-                        @error('phone')
-                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                        @enderror
-                    </div>
+                    <x-intl-phone-input 
+                        name="phone" 
+                        id="phone" 
+                        :value="old('phone')" 
+                        :required="true"
+                        :error="$errors->first('phone')"
+                    />
                 </div>
 
                 <div>
@@ -68,4 +64,7 @@
         </div>
     </div>
 </div>
+
+<!-- Include intl-tel-input JS -->
+<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@19.5.6/build/js/intlTelInput.min.js"></script>
 @endsection

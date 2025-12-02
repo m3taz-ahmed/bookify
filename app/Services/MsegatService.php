@@ -234,7 +234,17 @@ class MsegatService
         // Remove spaces, dashes, and plus signs
         $phone = preg_replace('/[\s\-\+]/', '', $phoneNumber);
         
-        // Check for Saudi local numbers
+        // If phone number is already in international format (starts with country code)
+        // and has sufficient length, return as is
+        if (preg_match('/^\d{10,15}$/', $phone)) {
+            // Check if it starts with a valid country code
+            // Common country codes: 966 (SA), 20 (EG), 971 (AE), 965 (KW), etc.
+            if (preg_match('/^(966|20|971|965|973|968|974|1|44|33|49|39|34|7|86|81|82|91|92|93|94|95|98|90|62|60|63|84|66|855|856|880|977)/', $phone)) {
+                return $phone;
+            }
+        }
+        
+        // Legacy support: Check for Saudi local numbers
         
         // Starts with 05 (e.g., 0501234567 -> 966501234567)
         if (preg_match('/^05\d{8}$/', $phone)) {

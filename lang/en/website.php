@@ -239,4 +239,5 @@ return [
     'working_hours' => 'Working Hours',
     'payment_methods_unavailable' => 'Payment Methods Unavailable',
     'payment_methods_unavailable_message' => 'We apologize, but all payment methods are currently unavailable. Please contact us for assistance.',
+    'invalid_phone_number' => 'Please enter a valid phone number',
 ];
