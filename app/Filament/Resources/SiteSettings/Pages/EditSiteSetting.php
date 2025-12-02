@@ -5,7 +5,9 @@ namespace App\Filament\Resources\SiteSettings\Pages;
 use App\Filament\Resources\SiteSettings\SiteSettingResource;
 use App\Models\SiteSetting;
 use Filament\Actions\DeleteAction;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
+use Illuminate\Database\Eloquent\Model;
 
 class EditSiteSetting extends EditRecord
 {
@@ -54,5 +56,30 @@ class EditSiteSetting extends EditRecord
         }
 
         return $data;
+    }
+
+    public function mount($record): void
+    {
+        parent::mount($record);
+
+        // Prevent editing SMS template settings
+        $smsTemplateKeys = [
+            'sms_template_otp_en',
+            'sms_template_otp_ar',
+            'sms_template_booking_en',
+            'sms_template_booking_ar',
+            'sms_template_cancelled_en',
+            'sms_template_cancelled_ar',
+        ];
+
+        if (in_array($this->record->setting_key, $smsTemplateKeys)) {
+            Notification::make()
+                ->title('Access Denied')
+                ->body('SMS template settings cannot be edited through this interface. Please use the Msegat Settings page.')
+                ->danger()
+                ->send();
+                
+            $this->redirect(SiteSettingResource::getUrl('index'));
+        }
     }
 }

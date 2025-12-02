@@ -19,7 +19,26 @@ class SiteSettingForm
                 TextInput::make('setting_key')
                     ->required()
                     ->disabledOn('edit')
-                    ->helperText('Unique identifier for this setting.'),
+                    ->helperText('Unique identifier for this setting.')
+                    ->rules([
+                        function () {
+                            return function (string $attribute, $value, \Closure $fail) {
+                                // Prevent creation of SMS template settings through SiteSetting resource
+                                $smsTemplateKeys = [
+                                    'sms_template_otp_en',
+                                    'sms_template_otp_ar',
+                                    'sms_template_booking_en',
+                                    'sms_template_booking_ar',
+                                    'sms_template_cancelled_en',
+                                    'sms_template_cancelled_ar',
+                                ];
+                                
+                                if (in_array($value, $smsTemplateKeys)) {
+                                    $fail('SMS template settings cannot be created or modified through this interface. Please use the Msegat Settings page.');
+                                }
+                            };
+                        },
+                    ]),
 
                 TextInput::make('setting_value')
                     ->label('Maximum Capacity')

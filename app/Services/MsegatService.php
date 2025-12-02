@@ -78,8 +78,12 @@ class MsegatService
     public function sendOtpCode(string $phoneNumber, string $otpCode): array
     {
         try {
-            // Changed to Arabic to match the successful booking confirmation format
-            $message = "مرحباً بك في جسر المشاهدة. رمز التحقق الخاص بك هو: $otpCode";
+            // Get SMS templates from database
+            $otpMessageEn = \App\Models\SiteSetting::get('sms_template_otp_en', 'Welcome to SkyBridge. Your verification code is: {otp_code}');
+            $otpMessageAr = \App\Models\SiteSetting::get('sms_template_otp_ar', 'مرحباً بك في جسر المشاهدة. رمز التحقق الخاص بك هو: {otp_code}');
+            
+            // Use Arabic message as default (based on previous implementation)
+            $message = str_replace('{otp_code}', $otpCode, $otpMessageAr);
             
             $payload = [
                 'userName' => $this->username,

@@ -51,6 +51,12 @@ class MsegatSettings extends Page implements HasForms
             'base_url' => config('services.msegat.base_url'),
             'otp_enabled' => true,
             'booking_sms_enabled' => true,
+            'otp_message_en' => \App\Models\SiteSetting::get('sms_template_otp_en', 'Welcome to SkyBridge. Your verification code is: {otp_code}'),
+            'otp_message_ar' => \App\Models\SiteSetting::get('sms_template_otp_ar', 'مرحباً بك في جسر المشاهدة. رمز التحقق الخاص بك هو: {otp_code}'),
+            'booking_confirmation_message_en' => \App\Models\SiteSetting::get('sms_template_booking_en', "Hello {customer_name}, your booking has been confirmed.\nService: {service_name}\nDate: {booking_date}\nTime: {start_time}\nReference Code: {reference_code}"),
+            'booking_confirmation_message_ar' => \App\Models\SiteSetting::get('sms_template_booking_ar', "مرحباً {customer_name}، تم تأكيد حجزك\nالخدمة: {service_name}\nالتاريخ: {booking_date}\nالوقت: {start_time}\nرمز الحجز: {reference_code}"),
+            'booking_cancellation_message_en' => \App\Models\SiteSetting::get('sms_template_cancelled_en', "Hello {customer_name}, your booking has been cancelled.\nService: {service_name}\nDate: {booking_date}\nTime: {start_time}\nReference Code: {reference_code}"),
+            'booking_cancellation_message_ar' => \App\Models\SiteSetting::get('sms_template_cancelled_ar', "مرحباً {customer_name}، تم إلغاء حجزك\nالخدمة: {service_name}\nالتاريخ: {booking_date}\nالوقت: {start_time}\nرمز الحجز: {reference_code}"),
         ]);
     }
 
@@ -119,6 +125,54 @@ class MsegatSettings extends Page implements HasForms
                             ->rows(3)
                             ->helperText('The message to send'),
                     ])->columns(1),
+
+                Section::make('OTP SMS Template')
+                    ->description('Customize the OTP SMS message template for both English and Arabic')
+                    ->schema([
+                        Textarea::make('otp_message_en')
+                            ->label('OTP Message (English)')
+                            ->rows(3)
+                            ->helperText('Available placeholders: {otp_code}')
+                            ->required(),
+
+                        Textarea::make('otp_message_ar')
+                            ->label('OTP Message (Arabic)')
+                            ->rows(3)
+                            ->helperText('Available placeholders: {otp_code}')
+                            ->required(),
+                    ])->columns(2),
+
+                Section::make('Booking Confirmation SMS Template')
+                    ->description('Customize the booking confirmation SMS message template for both English and Arabic')
+                    ->schema([
+                        Textarea::make('booking_confirmation_message_en')
+                            ->label('Booking Confirmation Message (English)')
+                            ->rows(5)
+                            ->helperText('Available placeholders: {customer_name}, {service_name}, {booking_date}, {start_time}, {reference_code}')
+                            ->required(),
+
+                        Textarea::make('booking_confirmation_message_ar')
+                            ->label('Booking Confirmation Message (Arabic)')
+                            ->rows(5)
+                            ->helperText('Available placeholders: {customer_name}, {service_name}, {booking_date}, {start_time}, {reference_code}')
+                            ->required(),
+                    ])->columns(2),
+
+                Section::make('Booking Cancellation SMS Template')
+                    ->description('Customize the booking cancellation SMS message template for both English and Arabic')
+                    ->schema([
+                        Textarea::make('booking_cancellation_message_en')
+                            ->label('Booking Cancellation Message (English)')
+                            ->rows(5)
+                            ->helperText('Available placeholders: {customer_name}, {service_name}, {booking_date}, {start_time}, {reference_code}')
+                            ->required(),
+
+                        Textarea::make('booking_cancellation_message_ar')
+                            ->label('Booking Cancellation Message (Arabic)')
+                            ->rows(5)
+                            ->helperText('Available placeholders: {customer_name}, {service_name}, {booking_date}, {start_time}, {reference_code}')
+                            ->required(),
+                    ])->columns(2),
             ])
             ->statePath('data');
     }
@@ -134,6 +188,14 @@ class MsegatSettings extends Page implements HasForms
             'MSEGAT_SENDER' => $data['sender'],
             'MSEGAT_BASE_URL' => $data['base_url'],
         ]);
+
+        // Save SMS templates to database
+        \App\Models\SiteSetting::set('sms_template_otp_en', $data['otp_message_en']);
+        \App\Models\SiteSetting::set('sms_template_otp_ar', $data['otp_message_ar']);
+        \App\Models\SiteSetting::set('sms_template_booking_en', $data['booking_confirmation_message_en']);
+        \App\Models\SiteSetting::set('sms_template_booking_ar', $data['booking_confirmation_message_ar']);
+        \App\Models\SiteSetting::set('sms_template_cancelled_en', $data['booking_cancellation_message_en']);
+        \App\Models\SiteSetting::set('sms_template_cancelled_ar', $data['booking_cancellation_message_ar']);
 
         // Clear config cache
         Artisan::call('config:clear');

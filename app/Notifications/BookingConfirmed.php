@@ -67,17 +67,25 @@ class BookingConfirmed extends Notification
      */
     public function toMsegatSms(object $notifiable): string
     {
+        // Get SMS templates from database
+        $bookingMessageEn = \App\Models\SiteSetting::get('sms_template_booking_en', "Hello {customer_name}, your booking has been confirmed.\nService: {service_name}\nDate: {booking_date}\nTime: {start_time}\nReference Code: {reference_code}");
+        $bookingMessageAr = \App\Models\SiteSetting::get('sms_template_booking_ar', "مرحباً {customer_name}، تم تأكيد حجزك\nالخدمة: {service_name}\nالتاريخ: {booking_date}\nالوقت: {start_time}\nرمز الحجز: {reference_code}");
+        
         $serviceName = $this->booking->service->name_ar ?? $this->booking->service->name_en;
         $date = $this->booking->booking_date->format('Y-m-d');
         // Format time to show only H:i (e.g. 14:30)
         $time = $this->booking->start_time->format('H:i');
         $refCode = $this->booking->reference_code;
+        $customerName = $this->booking->customer_name;
         
-        return "مرحباً ، تم تأكيد حجزك\n"
-            . "الخدمة: {$serviceName}\n"
-            . "التاريخ: {$date}\n"
-            . "الوقت: {$time}\n"
-            . "رمز الحجز: {$refCode}";
+        // Replace placeholders in Arabic template (default)
+        $message = str_replace(
+            ['{customer_name}', '{service_name}', '{booking_date}', '{start_time}', '{reference_code}'],
+            [$customerName, $serviceName, $date, $time, $refCode],
+            $bookingMessageAr
+        );
+        
+        return $message;
     }
 
     /**

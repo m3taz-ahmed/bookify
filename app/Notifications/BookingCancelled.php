@@ -67,16 +67,24 @@ class BookingCancelled extends Notification
      */
     public function toMsegatSms(object $notifiable): string
     {
+        // Get SMS templates from database
+        $cancelledMessageEn = \App\Models\SiteSetting::get('sms_template_cancelled_en', "Hello {customer_name}, your booking has been cancelled.\nService: {service_name}\nDate: {booking_date}\nTime: {start_time}\nReference Code: {reference_code}");
+        $cancelledMessageAr = \App\Models\SiteSetting::get('sms_template_cancelled_ar', "مرحباً {customer_name}، تم إلغاء حجزك\nالخدمة: {service_name}\nالتاريخ: {booking_date}\nالوقت: {start_time}\nرمز الحجز: {reference_code}");
+        
         $serviceName = $this->booking->service->name_ar ?? $this->booking->service->name_en;
         $date = $this->booking->booking_date->format('Y-m-d');
         $time = $this->booking->start_time;
         $refCode = $this->booking->reference_code;
+        $customerName = $this->booking->customer_name;
         
-        return "مرحباً {$this->booking->customer_name}، تم إلغاء حجزك\n"
-            . "الخدمة: {$serviceName}\n"
-            . "التاريخ: {$date}\n"
-            . "الوقت: {$time}\n"
-            . "رمز الحجز: {$refCode}";
+        // Replace placeholders in Arabic template (default)
+        $message = str_replace(
+            ['{customer_name}', '{service_name}', '{booking_date}', '{start_time}', '{reference_code}'],
+            [$customerName, $serviceName, $date, $time, $refCode],
+            $cancelledMessageAr
+        );
+        
+        return $message;
     }
 
     /**
