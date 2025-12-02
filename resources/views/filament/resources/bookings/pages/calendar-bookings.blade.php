@@ -82,19 +82,7 @@
                                             {{ count($day['bookings']) }} {{ __('filament.Booked') }}
                                         </div>
                                         <div class="people-count text-gray-500">
-                                            {{ $day['totalPeople'] }}/{{ $day['maxCapacity'] }} {{ __('filament.People') }}
-                                        </div>
-                                        <div class="capacity-bar w-full h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full mt-1.5 overflow-hidden">
-                                            <div class="h-full rounded-full 
-                                                @if($day['capacityPercentage'] >= 100)
-                                                    bg-red-500
-                                                @elseif($day['capacityPercentage'] >= 50)
-                                                    bg-yellow-500
-                                                @else
-                                                    bg-green-500
-                                                @endif" 
-                                                style="width: {{ min($day['capacityPercentage'], 100) }}%">&nbsp
-                                            </div>
+                                            {{ $day['totalPeople'] }} {{ __('filament.People') }}
                                         </div>
                                     </div>
                                 @else
