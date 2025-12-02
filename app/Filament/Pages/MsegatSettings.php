@@ -84,7 +84,7 @@ class MsegatSettings extends Page implements HasForms
                         TextInput::make('sender')
                             ->label(__('filament.Sender Name'))
                             ->required()
-                            ->placeholder('Bookify')
+                            ->placeholder('DTC')
                             ->maxLength(11)
                             ->helperText(__('filament.The sender name that will appear in SMS (max 11 characters)')),
 

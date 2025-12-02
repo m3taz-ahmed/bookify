@@ -19,9 +19,6 @@ class MsegatService
         $this->apiKey = config('services.msegat.api_key');
         $this->userSender = config('services.msegat.sender');
         
-        if (empty($this->userSender)) {
-            $this->userSender = 'Bookify';
-        }
     }
 
     /**

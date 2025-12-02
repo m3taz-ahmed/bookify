@@ -8,7 +8,7 @@
                 <div class="flex justify-between h-16">
                     <div class="flex items-center">
                         <div class="flex-shrink-0 flex items-center">
-                            <img src="{{ asset('images/logo.svg') }}" alt="SkyBridge Logo" class="h-8 w-8 filter brightness-0 invert" style="filter: drop-shadow(0 0 2px rgba(0,0,0,0.5));">
+                            <img src="{{ asset('images/logo.svg') }}" alt="SkyBridge Logo" class="h-12 w-10 invert">
                             <span class="ml-2 text-xl font-bold">
                                 <span style="color: #536B7C">Sky</span>
                                 <span style="color: #000000">Bridge</span>

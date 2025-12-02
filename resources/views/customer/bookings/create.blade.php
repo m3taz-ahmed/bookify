@@ -26,7 +26,7 @@
     </div>
     
     <div class="mt-8 text-center text-sm text-gray-500">
-        <p>{{ __('website.need_help_contact_support', ['email' => 'support@bookify.com']) }}</p>
+        <p>{{ __('website.need_help_contact_support', ['email' => 'support@skybridge.com']) }}</p>
     </div>
 </div>
 @endsection

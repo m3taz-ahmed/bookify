@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Bookify') }}</title>
+    <title>{{ config('app.name', 'SkyBridge') }}</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -146,10 +146,10 @@
                 <div class="space-y-8 xl:col-span-1">
                     <div class="flex items-center">
                         <a href="{{ route('booking-welcome') }}" class="flex items-center">
-                            <img src="{{ asset('images/logo.svg') }}" alt="SkyBridge Logo" class="h-8 w-8 filter brightness-0 invert" style="filter: drop-shadow(0 0 2px rgba(0,0,0,0.5));">
+                            <img src="{{ asset('images/logo.svg') }}" alt="SkyBridge Logo" class="h-12 w-10 filter brightness-0 invert" style="filter: drop-shadow(0 0 2px rgba(0,0,0,0.5));">
                             <span class="ml-2 text-xl font-bold">
                                 <span style="color: #536B7C">Sky</span>
-                                <span style="color: #000000">Bridge</span>
+                                <span style="color: #ffffff">Bridge</span>
                             </span>
                         </a>
                     </div>
@@ -222,7 +222,7 @@
             </div>
             <div class="mt-12 border-t border-gray-700 pt-8">
                 <p class="text-base text-dark-400 xl:text-center">
-                    &copy; {{ date('Y') }} Bookify. {{ __('website.all_rights_reserved') }}
+                    &copy; {{ date('Y') }} SkyBridge. {{ __('website.all_rights_reserved') }}
                 </p>
             </div>
         </div>

@@ -75,7 +75,7 @@
         </div>
         
         <div class="text-center text-sm text-gray-500 mt-4">
-            <p>&copy; {{ date('Y') }} Bookify. {{ __('website.all_rights_reserved') }}</p>
+            <p>&copy; {{ date('Y') }} SkyBridge. {{ __('website.all_rights_reserved') }}</p>
         </div>
     </div>
 </div>

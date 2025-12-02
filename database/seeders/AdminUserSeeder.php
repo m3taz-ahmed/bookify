@@ -20,7 +20,7 @@ class AdminUserSeeder extends Seeder
         
         // Create the admin user with the specified credentials
         $adminUser = User::firstOrCreate(
-            ['email' => 'admin@bookify.com'],
+            ['email' => 'admin@skybridge.com'],
             [
                 'name' => 'Admin',
                 'password' => Hash::make('password'),
