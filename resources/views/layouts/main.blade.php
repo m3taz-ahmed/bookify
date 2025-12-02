@@ -23,7 +23,7 @@
                 <div class="flex items-center">
                     <div class="flex-shrink-0 flex items-center">
                         <a href="{{ route('booking-welcome') }}" class="flex items-center">
-                            <img src="{{ asset('images/logo.svg') }}" alt="SkyBridge Logo" class="h-9 w-10 filter brightness-0 invert">
+                            <img src="{{ asset('images/logo.svg') }}" alt="SkyBridge Logo" class="h-12 w-10 invert">
                             <span class="ml-2 text-xl font-bold">
                                 <span style="color: #536B7C">Sky</span>
                                 <span style="color: #000000">Bridge</span>
