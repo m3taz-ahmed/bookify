@@ -8,10 +8,11 @@
                 <div class="flex justify-between h-16">
                     <div class="flex items-center">
                         <div class="flex-shrink-0 flex items-center">
-                            <svg class="h-8 w-8 text-primary-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                            </svg>
-                            <span class="ml-2 text-xl font-bold text-primary-600">{{ config('app.name', 'Bookify') }}</span>
+                            <img src="{{ asset('images/logo.svg') }}" alt="SkyBridge Logo" class="h-8 w-8 filter brightness-0 invert" style="filter: drop-shadow(0 0 2px rgba(0,0,0,0.5));">
+                            <span class="ml-2 text-xl font-bold">
+                                <span style="color: #536B7C">Sky</span>
+                                <span style="color: #000000">Bridge</span>
+                            </span>
                         </div>
                         <div class="hidden md:ml-6 md:flex md:space-x-8">
                             <a href="{{ route('customer.dashboard') }}" class="text-dark-500 hover:text-dark-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition-colors duration-200 {{ request()->routeIs('customer.dashboard') ? 'border-primary-500 text-primary-600' : 'border-transparent' }}">

@@ -1,9 +1,10 @@
 <?php
 
 return [
+    'app_name' => 'جسر المشاهدة',
     'arabic' => 'العربية',
     'english' => 'English',
-    'welcome' => 'مرحبا بكم في Bookify',
+    'welcome' => 'مرحبا بكم في جسر المشاهدة',
     'tagline' => 'احجز موعدك اليوم',
     'book_now' => 'احجز الآن',
     'learn_more' => 'اعرف المزيد',
@@ -124,6 +125,7 @@ return [
     'select' => 'اختر',
     'select_date_time' => 'اختر التاريخ والوقت',
     'choose_appointment_date_time' => 'اختر تاريخ ووقت الموعد المفضل لديك',
+    'appointment_date' => 'تاريخ الحجز',
     'Time' => 'الوقت',
     'no_available_slots' => 'لا توجد فترات زمنية متاحة',
     'please_select_another_date' => 'يرجى اختيار تاريخ آخر أو الاتصال بنا للحصول على المزيد من الخيارات.',
@@ -139,7 +141,7 @@ return [
     'back' => 'رجوع',
     'confirm_booking' => 'تأكيد الحجز',
     'booking_confirmed' => 'تم تأكيد الحجز!',
-    'appointment_successfully_booked' => 'تم حجز موعدك بنجاح. تم إرسال تأكيد إلى بريدك الإلكتروني.',
+    'appointment_successfully_booked' => 'تم حجز موعدك بنجاح. تم إرسال تأكيد إلى جوالك .',
     'booking_reference' => 'مرجع الحجز',
     'save_reference_number' => 'يرجى حفظ هذا الرقم المرجعي لسجلاتك',
     'check_in_qr_code' => 'رمز الاستجابة السريعة للتسجيل',

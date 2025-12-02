@@ -1,9 +1,10 @@
 <?php
 
 return [
+    'app_name' => 'SkyBridge',
     'arabic' => 'Arabic',
     'english' => 'English',
-    'welcome' => 'Welcome to Bookify',
+    'welcome' => 'Welcome to SkyBridge',
     'tagline' => 'Book Your Appointment Today',
     'book_now' => 'Book Now',
     'learn_more' => 'Learn More',

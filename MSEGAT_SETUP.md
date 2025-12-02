@@ -9,7 +9,7 @@ Open your `.env` file and add these lines:
 ```env
 MSEGAT_USERNAME=techflipp
 MSEGAT_API_KEY=4563eb312a38125a5b63acb0d57bd57a
-MSEGAT_SENDER=Bookify
+MSEGAT_SENDER=SkyBridge
 MSEGAT_BASE_URL=https://www.msegat.com/gw
 ```
 
@@ -132,7 +132,7 @@ For complete documentation, see: `MSEGAT_INTEGRATION.md`
 
 ## 🎉 You're Done!
 
-Your Bookify application now has:
+Your SkyBridge application now has:
 - ✅ Real OTP authentication via SMS
 - ✅ Automatic booking notifications via SMS
 - ✅ User-friendly admin configuration

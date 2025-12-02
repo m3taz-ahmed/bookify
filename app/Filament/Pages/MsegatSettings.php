@@ -114,7 +114,7 @@ class MsegatSettings extends Page implements HasForms
 
                         Textarea::make('test_message')
                             ->label('Test Message')
-                            ->placeholder('This is a test message from Bookify')
+                            ->placeholder('This is a test message from SkyBridge')
                             ->rows(3)
                             ->helperText('The message to send'),
                     ])->columns(1),

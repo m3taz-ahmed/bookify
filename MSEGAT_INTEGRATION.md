@@ -2,7 +2,7 @@
 
 ## Overview
 
-This integration connects your Bookify application with Msegat SMS service to provide:
+This integration connects your SkyBridge application with Msegat SMS service to provide:
 
 1. **OTP Authentication**: Real OTP codes sent via SMS for customer login
 2. **Booking Notifications**: SMS notifications for booking confirmations and cancellations
@@ -30,7 +30,7 @@ Add these variables to your `.env` file:
 ```env
 MSEGAT_USERNAME=techflipp
 MSEGAT_API_KEY=4563eb312a38125a5b63acb0d57bd57a
-MSEGAT_SENDER=Bookify
+MSEGAT_SENDER=SkyBridge
 MSEGAT_BASE_URL=https://www.msegat.com/gw
 ```
 
@@ -41,7 +41,7 @@ MSEGAT_BASE_URL=https://www.msegat.com/gw
 3. Fill in your credentials:
    - **Username**: techflipp
    - **API Key**: 4563eb312a38125a5b63acb0d57bd57a
-   - **Sender Name**: Bookify (max 11 characters)
+   - **Sender Name**: SkyBridge (max 11 characters)
 4. Click **Save Settings**
 5. Use **Send Test SMS** to verify the configuration
 
@@ -181,7 +181,7 @@ $msegatService = app(MsegatService::class);
 
 $result = $msegatService->sendSms(
     '966501234567',
-    'مرحباً! هذه رسالة تجريبية من Bookify'
+    'مرحباً! هذه رسالة تجريبية من SkyBridge'
 );
 
 if ($result['success']) {
@@ -287,7 +287,7 @@ For Msegat API support:
 - Website: https://www.msegat.com
 - Documentation: https://msegat.docs.apiary.io/
 
-For Bookify integration support:
+For SkyBridge integration support:
 - Check Laravel logs
 - Review this documentation
 - Contact your development team

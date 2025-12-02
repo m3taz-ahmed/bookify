@@ -79,7 +79,7 @@ class MsegatService
     {
         try {
             // Changed to Arabic to match the successful booking confirmation format
-            $message = "مرحباً بك في Bookify. رمز التحقق الخاص بك هو: $otpCode";
+            $message = "مرحباً بك في جسر المشاهدة. رمز التحقق الخاص بك هو: $otpCode";
             
             $payload = [
                 'userName' => $this->username,

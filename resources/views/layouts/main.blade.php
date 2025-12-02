@@ -8,13 +8,14 @@
     <title>{{ config('app.name', 'Bookify') }}</title>
 
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600,700" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="font-sans antialiased bg-gradient-to-br from-background-50 to-background-100 min-h-screen text-dark-500">
+<body class="font-sans antialiased bg-gradient-to-br from-background-50 to-background-100 min-h-screen text-dark-500" style="font-family: 'Tajawal', sans-serif;">
     <!-- Navigation -->
     <nav class="bg-white shadow-sm border-b border-background-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -22,10 +23,11 @@
                 <div class="flex items-center">
                     <div class="flex-shrink-0 flex items-center">
                         <a href="{{ route('booking-welcome') }}" class="flex items-center">
-                            <svg class="h-8 w-8 text-primary-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                            </svg>
-                            <span class="ml-2 text-xl font-bold text-primary-600">{{ config('app.name', 'Bookify') }}</span>
+                            <img src="{{ asset('images/logo.svg') }}" alt="SkyBridge Logo" class="h-9 w-10 filter brightness-0 invert">
+                            <span class="ml-2 text-xl font-bold">
+                                <span style="color: #536B7C">Sky</span>
+                                <span style="color: #000000">Bridge</span>
+                            </span>
                         </a>
                     </div>
                 </div>
@@ -144,10 +146,11 @@
                 <div class="space-y-8 xl:col-span-1">
                     <div class="flex items-center">
                         <a href="{{ route('booking-welcome') }}" class="flex items-center">
-                            <svg class="h-8 w-8 text-primary-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                            </svg>
-                            <span class="ml-2 text-xl font-bold text-primary-300">{{ config('app.name', 'Bookify') }}</span>
+                            <img src="{{ asset('images/logo.svg') }}" alt="SkyBridge Logo" class="h-8 w-8 filter brightness-0 invert" style="filter: drop-shadow(0 0 2px rgba(0,0,0,0.5));">
+                            <span class="ml-2 text-xl font-bold">
+                                <span style="color: #536B7C">Sky</span>
+                                <span style="color: #000000">Bridge</span>
+                            </span>
                         </a>
                     </div>
                     <p class="text-dark-300 text-base">

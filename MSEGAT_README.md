@@ -2,7 +2,7 @@
 
 ## ✅ What's Been Done
 
-I've successfully integrated Msegat SMS service into your Bookify application. Here's what's now working:
+I've successfully integrated Msegat SMS service into your SkyBridge application. Here's what's now working:
 
 ### 1. **Real OTP Authentication** 🔐
 - ❌ **Before**: Hardcoded OTP `123456`
@@ -69,7 +69,7 @@ Open your `.env` file and add:
 ```env
 MSEGAT_USERNAME=techflipp
 MSEGAT_API_KEY=4563eb312a38125a5b63acb0d57bd57a
-MSEGAT_SENDER=Bookify
+MSEGAT_SENDER=SkyBridge
 MSEGAT_BASE_URL=https://www.msegat.com/gw
 ```
 
@@ -198,7 +198,7 @@ Notifications now support multiple channels:
 
 ## 🎉 You're All Set!
 
-Your Bookify application now has professional SMS integration with:
+Your SkyBridge application now has professional SMS integration with:
 - Real OTP authentication
 - Automatic booking notifications
 - User-friendly admin interface

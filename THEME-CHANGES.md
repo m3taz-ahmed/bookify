@@ -1,8 +1,8 @@
-# Bookify Filament Theme Improvements
+# SkyBridge Filament Theme Improvements
 
 ## Summary of Changes
 
-I've significantly improved the dark theme implementation for the Filament admin panel in the Bookify application. The previous implementation had issues where certain components (particularly the sidebar and topbar) remained light even when dark mode was enabled.
+I've significantly improved the dark theme implementation for the Filament admin panel in the SkyBridge application. The previous implementation had issues where certain components (particularly the sidebar and topbar) remained light even when dark mode was enabled.
 
 ## Key Improvements
 
@@ -41,7 +41,7 @@ I've significantly improved the dark theme implementation for the Filament admin
 ## Files Modified
 
 1. `resources/css/custom-filament-theme.css` - Complete rewrite with enhanced dark mode support
-2. `app/Filament/Plugins/BookifyThemePlugin.php` - Plugin registration (unchanged, but confirmed working)
+2. `app/Filament/Plugins/SkyBridgeThemePlugin.php` - Plugin registration (unchanged, but confirmed working)
 3. `vite.config.js` - Asset building configuration (unchanged, but confirmed working)
 
 ## Testing

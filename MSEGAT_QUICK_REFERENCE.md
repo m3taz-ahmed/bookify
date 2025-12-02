@@ -4,7 +4,7 @@
 ```
 Username: techflipp
 API Key:  4563eb312a38125a5b63acb0d57bd57a
-Sender:   Bookify
+Sender:   SkyBridge
 ```
 
 ## ⚡ Quick Setup (3 Steps)
@@ -13,7 +13,7 @@ Sender:   Bookify
 ```env
 MSEGAT_USERNAME=techflipp
 MSEGAT_API_KEY=4563eb312a38125a5b63acb0d57bd57a
-MSEGAT_SENDER=Bookify
+MSEGAT_SENDER=SkyBridge
 MSEGAT_BASE_URL=https://www.msegat.com/gw
 ```
 
