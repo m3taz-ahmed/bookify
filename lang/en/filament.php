@@ -174,4 +174,5 @@ return [
     'Customize the booking cancellation SMS message template for both English and Arabic' => 'Customize the booking cancellation SMS message template for both English and Arabic',
     'Booking Cancellation Message (English)' => 'Booking Cancellation Message (English)',
     'Booking Cancellation Message (Arabic)' => 'Booking Cancellation Message (Arabic)',
+    'Tickets' => 'Tickets',
 ];

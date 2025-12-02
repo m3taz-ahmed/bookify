@@ -86,7 +86,7 @@
                             </div>
                             <div class="mt-auto flex items-center justify-between">
                                 <div class="inline-flex items-center gap-2">
-                                    <button type="button" wire:click="decrementItem({{ $service->id }})" class="w-10 h-10 rounded-full border border-gray-300 text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50" @if(($ticketItems[$service->id] ?? 0) < 1) disabled @endif>-</button>
+                                    <button type="button" wire:click="decrementItem({{ $service->id }})" class="w-10 h-10 rounded-full border border-gray-300" style="background-color:#8d8c8c;color:#000;" @if(($ticketItems[$service->id] ?? 0) < 1) disabled @endif>-</button>
                                     <span class="w-10 text-center font-semibold">{{ $ticketItems[$service->id] ?? 0 }}</span>
                                     <button type="button" wire:click="incrementItem({{ $service->id }})" class="w-10 h-10 rounded-full border border-transparent text-white bg-gradient-to-r from-primary-600 to-secondary-700 hover:from-primary-700 hover:to-secondary-800">+</button>
                                 </div>

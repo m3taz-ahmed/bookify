@@ -85,7 +85,7 @@ class WeekCalendarBookings extends Page
         $endDate = $startDate->copy()->addDays(6);
         
         // Get all bookings for the current week with related data, excluding cancelled bookings
-        $bookings = Booking::with(['customer', 'service'])
+        $bookings = Booking::with(['customer', 'service', 'items.service'])
             ->whereBetween('booking_date', [$startDate, $endDate])
             ->where('status', '!=', 'cancelled')
             ->orderBy('booking_date')

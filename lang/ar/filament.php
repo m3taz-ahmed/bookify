@@ -174,4 +174,5 @@ return [
     'Customize the booking cancellation SMS message template for both English and Arabic' => 'خصص قالب رسالة إلغاء الحجز باللغتين العربية والإنجليزية',
     'Booking Cancellation Message (English)' => 'رسالة إلغاء الحجز (بالإنجليزية)',
     'Booking Cancellation Message (Arabic)' => 'رسالة إلغاء الحجز (بالعربية)',
+    'Tickets' => 'التذاكر',
 ];
