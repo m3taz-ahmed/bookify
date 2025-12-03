@@ -11,30 +11,31 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('pages', function (Blueprint $table) {
-            // About Us fields
-            $table->string('company_name_en')->nullable();
-            $table->string('company_name_ar')->nullable();
-            $table->integer('founded_year')->nullable();
-            $table->string('location_en')->nullable();
-            $table->string('location_ar')->nullable();
-            $table->longText('company_description_en')->nullable();
-            $table->longText('company_description_ar')->nullable();
-            $table->longText('history_en')->nullable();
-            $table->longText('history_ar')->nullable();
-            
-            // Contact Us fields
-            $table->string('email')->nullable();
-            $table->string('phone')->nullable();
-            $table->string('whatsapp')->nullable();
-            $table->string('address_en')->nullable();
-            $table->string('address_ar')->nullable();
-            $table->decimal('latitude', 10, 8)->nullable();
-            $table->decimal('longitude', 11, 8)->nullable();
-            $table->integer('map_zoom')->default(15);
-            $table->longText('contact_description_en')->nullable();
-            $table->longText('contact_description_ar')->nullable();
-        });
+        // Check if columns exist before adding them to avoid duplicates
+        if (!Schema::hasColumn('pages', 'company_name_en')) {
+            Schema::table('pages', function (Blueprint $table) {
+                // About Us fields
+                $table->string('company_name_en')->nullable();
+                $table->string('company_name_ar')->nullable();
+                $table->integer('founded_year')->nullable();
+                $table->string('location_en')->nullable();
+                $table->string('location_ar')->nullable();
+                
+                // Skip company_description and history fields as they're added in another migration
+                
+                // Contact Us fields
+                $table->string('email')->nullable();
+                $table->string('phone')->nullable();
+                $table->string('whatsapp')->nullable();
+                $table->string('address_en')->nullable();
+                $table->string('address_ar')->nullable();
+                $table->decimal('latitude', 10, 8)->nullable();
+                $table->decimal('longitude', 11, 8)->nullable();
+                $table->integer('map_zoom')->default(15);
+                
+                // Skip contact_description fields as they're added in another migration
+            });
+        }
     }
 
     /**
@@ -43,27 +44,23 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('pages', function (Blueprint $table) {
-            $table->dropColumn([
-                'company_name_en',
-                'company_name_ar',
-                'founded_year',
-                'location_en',
-                'location_ar',
-                'company_description_en',
-                'company_description_ar',
-                'history_en',
-                'history_ar',
-                'email',
-                'phone',
-                'whatsapp',
-                'address_en',
-                'address_ar',
-                'latitude',
-                'longitude',
-                'map_zoom',
-                'contact_description_en',
-                'contact_description_ar',
-            ]);
+            if (Schema::hasColumn('pages', 'company_name_en')) {
+                $table->dropColumn([
+                    'company_name_en',
+                    'company_name_ar',
+                    'founded_year',
+                    'location_en',
+                    'location_ar',
+                    'email',
+                    'phone',
+                    'whatsapp',
+                    'address_en',
+                    'address_ar',
+                    'latitude',
+                    'longitude',
+                    'map_zoom',
+                ]);
+            }
         });
     }
 };
