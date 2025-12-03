@@ -2,13 +2,13 @@
     workingHours: {{ Illuminate\Support\Js::from($getState() ?: []) }},
     days: ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'],
     dayNames: {
-        'sunday': 'Sunday',
-        'monday': 'Monday', 
-        'tuesday': 'Tuesday',
-        'wednesday': 'Wednesday',
-        'thursday': 'Thursday',
-        'friday': 'Friday',
-        'saturday': 'Saturday'
+        'sunday': '{{ __('filament.Sunday') }}',
+        'monday': '{{ __('filament.Monday') }}', 
+        'tuesday': '{{ __('filament.Tuesday') }}',
+        'wednesday': '{{ __('filament.Wednesday') }}',
+        'thursday': '{{ __('filament.Thursday') }}',
+        'friday': '{{ __('filament.Friday') }}',
+        'saturday': '{{ __('filament.Saturday') }}'
     },
     init() {
         // Ensure workingHours is always an object
@@ -179,6 +179,31 @@
             }
         }
     },
+    getToggleButtonLabel(day) {
+        if (this.workingHours[day] && Array.isArray(this.workingHours[day])) {
+            return '{{ __('website.close') }}';
+        } else {
+            return '{{ __('website.open') }}';
+        }
+    },
+    getClosedText() {
+        return '{{ __('filament.Closed') }}';
+    },
+    getNotConfiguredText() {
+        return '{{ __('website.not_configured_will_be_closed') }}';
+    },
+    getAddTimeSlotText() {
+        return '{{ __('website.add_time_slot') }}';
+    },
+    getStartLabelText() {
+        return '{{ __('filament.Start Time') }}';
+    },
+    getEndLabelText() {
+        return '{{ __('filament.End Time') }}';
+    },
+    getToText() {
+        return '{{ __('filament.to') }}';
+    }
 }" 
 x-init="init()"
 class="space-y-4"
@@ -284,7 +309,7 @@ style="margin-bottom: 1rem;">
                         @click="toggleDay(day)"
                         class="whf-toggle-btn"
                         :class="(workingHours[day] && Array.isArray(workingHours[day])) ? 'open' : (workingHours[day] === null ? 'closed' : 'not-configured')"
-                        x-text="(workingHours[day] && Array.isArray(workingHours[day])) ? 'Close' : (workingHours[day] === null ? 'Open' : 'Open')"
+                        x-text="getToggleButtonLabel(day)"
                     ></button>
                 </div>
                 
@@ -293,7 +318,7 @@ style="margin-bottom: 1rem;">
                         <template x-for="(slot, index) in workingHours[day]" :key="index">
                             <div class="whf-time-slot">
                                 <div class="whf-time-select-group">
-                                    <label class="whf-time-label">Start</label>
+                                    <label class="whf-time-label" x-text="getStartLabelText()"></label>
                                     <select 
                                         x-model="slot.start"
                                         @change="validateTimeSlot(day, index)"
@@ -305,9 +330,9 @@ style="margin-bottom: 1rem;">
                                         <?php endfor; ?>
                                     </select>
                                 </div>
-                                <span class="text-gray-500">to</span>
+                                <span class="text-gray-500" x-text="getToText()"></span>
                                 <div class="whf-time-select-group">
-                                    <label class="whf-time-label">End</label>
+                                    <label class="whf-time-label" x-text="getEndLabelText()"></label>
                                     <select 
                                         x-model="slot.end"
                                         @change="validateTimeSlot(day, index)"
@@ -334,19 +359,19 @@ style="margin-bottom: 1rem;">
                             @click="addTimeSlot(day)"
                             class="whf-add-btn"
                         >
-                            + Add time slot
+                            + <span x-text="getAddTimeSlotText()"></span>
                         </button>
                     </div>
                 </template>
                 <template x-if="workingHours[day] === null">
                     <div class="whf-closed-text">
-                        Closed
+                        <span x-text="getClosedText()"></span>
                     </div>
                 </template>
                 
                 <template x-if="!workingHours[day]">
                     <div class="whf-not-configured-text">
-                        Not configured (will be closed)
+                        <span x-text="getNotConfiguredText()"></span>
                     </div>
                 </template>
             </div>

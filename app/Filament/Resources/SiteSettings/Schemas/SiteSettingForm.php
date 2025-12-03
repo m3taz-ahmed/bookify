@@ -41,11 +41,11 @@ class SiteSettingForm
                     ]),
 
                 TextInput::make('setting_value_capacity')
-                    ->label('Maximum Capacity')
+                    ->label(__('filament.maximum_capacity'))
                     ->numeric()
                     ->minValue(1)
                     ->required()
-                    ->helperText('Maximum number of people allowed per day')
+                    ->helperText(__('filament.maximum_number_of_people_allowed_per_day'))
                     ->visible(fn ($get) => $get('setting_key') === 'max_capacity')
                     ->afterStateHydrated(function ($component, $record) {
                         $state = $record->setting_value;
@@ -61,7 +61,7 @@ class SiteSettingForm
 
                 // Working hours setting with improved UI
                 WorkingHoursField::make('setting_value_working_hours')
-                    ->label('Working Hours')
+                    ->label(__('filament.working_hours'))
                     ->columnSpanFull()
                     ->visible(fn ($get) => $get('setting_key') === 'working_hours')
                     ->afterStateHydrated(fn ($component, $record) => $component->state($record->setting_value))
@@ -71,8 +71,8 @@ class SiteSettingForm
 
                 // Boolean settings (Payment Methods)
                 Toggle::make('setting_value_boolean')
-                    ->label('Enable Payment Method')
-                    ->helperText('Toggle to enable or disable this payment method')
+                    ->label(__('filament.enable_payment_method'))
+                    ->helperText(__('filament.toggle_to_enable_or_disable_this_payment_method'))
                     ->visible(fn ($get) => in_array($get('setting_key'), ['payment_method_cash', 'payment_method_online']))
                     ->afterStateHydrated(fn ($component, $record) => $component->state((bool) $record->setting_value))
                     ->dehydrated(false)
@@ -81,10 +81,10 @@ class SiteSettingForm
 
                 // Text settings (Fallback)
                 Textarea::make('setting_value_text')
-                    ->label('Value')
+                    ->label(__('filament.value'))
                     ->columnSpanFull()
                     ->required()
-                    ->helperText('Enter value for this setting')
+                    ->helperText(__('filament.enter_value_for_this_setting'))
                     ->visible(fn ($get) => !in_array($get('setting_key'), ['max_capacity', 'working_hours', 'payment_method_cash', 'payment_method_online']))
                     ->afterStateHydrated(function ($component, $record) {
                         $state = $record->setting_value;
@@ -103,7 +103,7 @@ class SiteSettingForm
                     ->dehydrated(true),
                 
                 TextInput::make('description')
-                    ->helperText('Brief description of what this setting controls'),
+                    ->helperText(__('filament.brief_description_of_what_this_setting_controls')),
             ]);
     }
 }

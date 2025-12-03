@@ -72,8 +72,8 @@ class EditSiteSetting extends EditRecord
 
         if (in_array($this->record->setting_key, $smsTemplateKeys)) {
             Notification::make()
-                ->title('Access Denied')
-                ->body('SMS template settings cannot be edited through this interface. Please use the Msegat Settings page.')
+                ->title(__('filament.access_denied'))
+                ->body(__('filament.sms_template_settings_cannot_be_edited_through_this_interface'))
                 ->danger()
                 ->send();
                 

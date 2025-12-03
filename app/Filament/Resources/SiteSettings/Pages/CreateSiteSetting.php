@@ -25,8 +25,8 @@ class CreateSiteSetting extends CreateRecord
 
         if (in_array($data['setting_key'] ?? '', $smsTemplateKeys)) {
             Notification::make()
-                ->title('Creation Failed')
-                ->body('SMS template settings cannot be created through this interface. Please use the Msegat Settings page.')
+                ->title(__('filament.creation_failed'))
+                ->body(__('filament.sms_template_settings_cannot_be_created_through_this_interface'))
                 ->danger()
                 ->send();
                 

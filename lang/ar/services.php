@@ -1,8 +1,8 @@
 <?php
 
 return [
-    'services' => 'الخدمات',
-    'service' => 'الخدمة',
+    'services' => 'التذاكر',
+    'service' => 'التذكرة',
     'name_en' => 'الاسم (الإنجليزية)',
     'name_ar' => 'الاسم (العربية)',
     'description' => 'الوصف',

@@ -1,8 +1,8 @@
 <?php
 
 return [
-    'services' => 'Services',
-    'service' => 'Service',
+    'services' => 'Tickets',
+    'service' => 'Ticket',
     'name_en' => 'Name (English)',
     'name_ar' => 'Name (Arabic)',
     'description' => 'Description',
