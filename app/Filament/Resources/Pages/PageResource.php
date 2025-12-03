@@ -5,7 +5,7 @@ namespace App\Filament\Resources\Pages;
 use App\Filament\Resources\Pages\Pages\CreatePage;
 use App\Filament\Resources\Pages\Pages\EditPage;
 use App\Filament\Resources\Pages\Pages\ListPages;
-use App\Filament\Resources\Pages\Schemas\PageForm;
+use App\Filament\Resources\Pages\Schemas\DynamicPageForm;
 use App\Filament\Resources\Pages\Tables\PagesTable;
 use App\Models\Page;
 use BackedEnum;
@@ -36,7 +36,7 @@ class PageResource extends Resource
 
     public static function form(Schema $schema): Schema
     {
-        return PageForm::configure($schema);
+        return DynamicPageForm::configure($schema);
     }
 
     public static function table(Table $table): Table

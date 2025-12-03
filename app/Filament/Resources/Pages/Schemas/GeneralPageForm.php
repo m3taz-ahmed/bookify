@@ -2,40 +2,20 @@
 
 namespace App\Filament\Resources\Pages\Schemas;
 
-use App\Models\Page;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\RichEditor;
-use Filament\Forms\Get;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
-class PageForm
+class GeneralPageForm
 {
     public static function configure(Schema $schema): Schema
     {
         return $schema
             ->columns(2)
             ->schema([
-                Select::make('type')
-                    ->options(Page::getTypes())
-                    ->required()
-                    ->live()
-                    ->columnSpanFull(),
-                
-                TextInput::make('slug')
-                    ->required()
-                    ->unique(ignoreRecord: true)
-                    ->maxLength(255)
-                    ->columnSpanFull(),
-                    
                 self::getTitleFields(),
-                
                 self::getContentFields(),
-                
-                Toggle::make('is_active')
-                    ->required(),
             ]);
     }
     

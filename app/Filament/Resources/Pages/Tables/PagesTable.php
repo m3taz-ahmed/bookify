@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Pages\Tables;
 
+use App\Models\Page;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -15,6 +16,10 @@ class PagesTable
     {
         return $table
             ->columns([
+                TextColumn::make('type')
+                    ->label('Page Type')
+                    ->formatStateUsing(fn (string $state): string => Page::getTypes()[$state] ?? ucfirst(str_replace('_', ' ', $state)))
+                    ->badge(),
                 TextColumn::make('slug')
                     ->searchable(),
                 TextColumn::make('title_en')

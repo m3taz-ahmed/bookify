@@ -15,7 +15,29 @@ class Page extends Model
 
     protected $casts = [
         'is_active' => 'boolean',
+        'latitude' => 'decimal:8',
+        'longitude' => 'decimal:8',
+        'map_zoom' => 'integer',
+        'founded_year' => 'integer',
     ];
+
+    // Add the page type constants
+    public const TYPE_ABOUT_US = 'about_us';
+    public const TYPE_CONTACT_US = 'contact_us';
+    public const TYPE_PRIVACY_POLICY = 'privacy_policy';
+    public const TYPE_TERMS_CONDITIONS = 'terms_conditions';
+    public const TYPE_FAQ = 'faq';
+    
+    public static function getTypes(): array
+    {
+        return [
+            self::TYPE_ABOUT_US => 'About Us',
+            self::TYPE_CONTACT_US => 'Contact Us',
+            self::TYPE_PRIVACY_POLICY => 'Privacy Policy',
+            self::TYPE_TERMS_CONDITIONS => 'Terms & Conditions',
+            self::TYPE_FAQ => 'FAQ',
+        ];
+    }
 
     public function getActivitylogOptions(): LogOptions
     {
@@ -48,5 +70,11 @@ class Page extends Model
     public function scopeSlug($query, $slug)
     {
         return $query->where('slug', $slug);
+    }
+    
+    // Scope for finding by type
+    public function scopeType($query, $type)
+    {
+        return $query->where('type', $type);
     }
 }
