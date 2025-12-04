@@ -1,5 +1,24 @@
 @extends('layouts.app')
 
+@section('breadcrumbs')
+<li>
+    <div class="flex items-center">
+        <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+        </svg>
+        <a href="{{ route('customer.bookings') }}" class="ml-1 text-sm font-medium text-primary-700 hover:text-primary-900 md:ml-2 dark:text-primary-400 dark:hover:text-white">{{ __('website.my_bookings') }}</a>
+    </div>
+</li>
+<li>
+    <div class="flex items-center">
+        <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+        </svg>
+        <a href="{{ route('customer.bookings.create') }}" class="ml-1 text-sm font-medium text-primary-700 hover:text-primary-900 md:ml-2 dark:text-primary-400 dark:hover:text-white">{{ __('website.book_new_appointment') }}</a>
+    </div>
+</li>
+@endsection
+
 @section('content')
 <div class="container mx-auto px-4 py-8">
     <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden transition-all duration-300 hover:shadow-2xl border-t-4 border-primary">

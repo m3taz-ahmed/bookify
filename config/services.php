@@ -42,4 +42,8 @@ return [
         'base_url' => env('MSEGAT_BASE_URL', 'https://www.msegat.com/gw'),
     ],
 
+    'google_maps' => [
+        'key' => env('GOOGLE_MAPS_API_KEY'),
+    ],
+
 ];

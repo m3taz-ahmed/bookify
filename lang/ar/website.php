@@ -286,4 +286,21 @@ return [
     'add_time_slot' => 'إضافة فترة زمنية',
     'open' => 'فتح',
     'close' => 'إغلاق',
+    
+    // New keys for page types
+    'founded' => 'تأسس',
+    'location' => 'الموقع',
+    'history' => 'التاريخ',
+    'contact_information' => 'معلومات الاتصال',
+    'email' => 'البريد الإلكتروني',
+    'phone' => 'الهاتف',
+    'whatsapp' => 'واتساب',
+    'address' => 'العنوان',
+    'find_us' => 'موقعنا',
+    'map_placeholder' => 'سيتم عرض الخريطة هنا',
+    'company' => 'الشركة',
+    'view_on_google_maps' => 'عرض على خرائط جوجل',
+    'map_not_available' => 'الخريطة غير متوفرة',
+    'home' => 'الرئيسية',
+    'check_in' => 'تسجيل الوصول',
 ];

@@ -244,4 +244,21 @@ return [
     'add_time_slot' => 'Add time slot',
     'open' => 'Open',
     'close' => 'Close',
+    
+    // New keys for page types
+    'founded' => 'Founded',
+    'location' => 'Location',
+    'history' => 'History',
+    'contact_information' => 'Contact Information',
+    'email' => 'Email',
+    'phone' => 'Phone',
+    'whatsapp' => 'WhatsApp',
+    'address' => 'Address',
+    'find_us' => 'Find Us',
+    'map_placeholder' => 'Map will be displayed here',
+    'company' => 'Company',
+    'view_on_google_maps' => 'View on Google Maps',
+    'map_not_available' => 'Map Not Available',
+    'home' => 'Home',
+    'check_in' => 'Check In',
 ];

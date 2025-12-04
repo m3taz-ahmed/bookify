@@ -134,99 +134,35 @@
         </div>
     </nav>
 
+    <!-- Breadcrumbs -->
+    @if (!request()->is('login') && !request()->is('register') && !request()->is('customer/login') && !request()->is('customer/register') && !request()->is('password/*') && !request()->is('/') && !request()->is('customer/dashboard'))
+        <div class="container mx-auto px-4 py-3">
+            <div class="max-w-7xl mx-auto">
+                <nav class="flex" aria-label="Breadcrumb">
+                    <ol class="inline-flex items-center space-x-1 md:space-x-3">
+                        <li class="inline-flex items-center">
+                            <a href="{{ route('booking-welcome') }}" class="inline-flex items-center text-sm font-medium text-primary-700 hover:text-primary-900 dark:text-primary-400 dark:hover:text-white">
+                                <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+                                </svg>
+                                {{ __('website.app_name') }}
+                            </a>
+                        </li>
+                        @hasSection('breadcrumbs')
+                            @yield('breadcrumbs')
+                        @endif
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    @endif
+
     <!-- Page Content -->
     <main>
         @yield('content')
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-dark-900 mt-12">
-        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
-            <div class="xl:grid xl:grid-cols-3 xl:gap-8">
-                <div class="space-y-8 xl:col-span-1">
-                    <div class="flex items-center">
-                        <a href="{{ route('booking-welcome') }}" class="flex items-center">
-                            <img src="{{ asset('images/logo.svg') }}" alt="SkyBridge Logo" class="h-12 w-10 filter brightness-0 invert" style="filter: drop-shadow(0 0 2px rgba(0,0,0,0.5));">
-                            <span class="ml-2 text-xl font-bold">
-                                <span style="color: #536B7C">Sky</span>
-                                <span style="color: #ffffff">Bridge</span>
-                            </span>
-                        </a>
-                    </div>
-                    <p class="text-dark-300 text-base">
-                        {{ __('website.our_platform') }}
-                    </p>
-                </div>
-                <div class="mt-12 grid grid-cols-2 gap-8 xl:mt-0 xl:col-span-2">
-                    <div class="md:grid md:grid-cols-2 md:gap-8">
-                        <div>
-                            <h3 class="text-sm font-semibold text-dark-300 tracking-wider uppercase">
-                                {{ __('website.support') }}
-                            </h3>
-                            <ul class="mt-4 space-y-4">
-                                <li>
-                                    <a href="#" class="text-base text-dark-400 hover:text-primary-300">
-                                        {{ __('website.help_center') }}
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="text-base text-dark-400 hover:text-primary-300">
-                                        {{ __('website.contact_us') }}
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="mt-12 md:mt-0">
-                            <h3 class="text-sm font-semibold text-dark-300 tracking-wider uppercase">
-                                {{ __('website.company') }}
-                            </h3>
-                            <ul class="mt-4 space-y-4">
-                                <li>
-                                    <a href="{{ route('pages.show', 'about-us') }}" class="text-base text-dark-400 hover:text-primary-300">
-                                        {{ __('website.about') }}
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('pages.show', 'contact-us') }}" class="text-base text-dark-400 hover:text-primary-300">
-                                        {{ __('website.contact_us') }}
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="md:grid md:grid-cols-2 md:gap-8">
-                        <div>
-                            <h3 class="text-sm font-semibold text-dark-300 tracking-wider uppercase">
-                                {{ __('website.legal') }}
-                            </h3>
-                            <ul class="mt-4 space-y-4">
-                                <li>
-                                    <a href="{{ route('pages.show', 'privacy-policy') }}" class="text-base text-dark-400 hover:text-primary-300">
-                                        {{ __('website.privacy') }}
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('pages.show', 'terms-and-conditions') }}" class="text-base text-dark-400 hover:text-primary-300">
-                                        {{ __('website.terms') }}
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('pages.show', 'faq') }}" class="text-base text-dark-400 hover:text-primary-300">
-                                        {{ __('website.faq') }}
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="mt-12 border-t border-gray-700 pt-8">
-                <p class="text-base text-dark-400 xl:text-center">
-                    &copy; {{ date('Y') }} SkyBridge. {{ __('website.all_rights_reserved') }}
-                </p>
-            </div>
-        </div>
-    </footer>
+    @include('layouts.partials.footer')
     
     <!-- Mobile menu toggle script -->
     <script>
