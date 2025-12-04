@@ -11,20 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Check if columns exist before adding them to avoid duplicates
-        if (!Schema::hasColumn('pages', 'company_description_en')) {
-            Schema::table('pages', function (Blueprint $table) {
-                // About Us fields
-                $table->longText('company_description_en')->nullable();
-                $table->longText('company_description_ar')->nullable();
-                $table->longText('history_en')->nullable();
-                $table->longText('history_ar')->nullable();
-                
-                // Contact Us fields
-                $table->longText('contact_description_en')->nullable();
-                $table->longText('contact_description_ar')->nullable();
-            });
-        }
+        Schema::table('pages', function (Blueprint $table) {
+            // About Us fields
+            $table->longText('company_description_en')->nullable();
+            $table->longText('company_description_ar')->nullable();
+            $table->longText('history_en')->nullable();
+            $table->longText('history_ar')->nullable();
+            
+            // Contact Us fields
+            $table->longText('contact_description_en')->nullable();
+            $table->longText('contact_description_ar')->nullable();
+        });
     }
 
     /**
@@ -33,16 +30,14 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('pages', function (Blueprint $table) {
-            if (Schema::hasColumn('pages', 'company_description_en')) {
-                $table->dropColumn([
-                    'company_description_en',
-                    'company_description_ar',
-                    'history_en',
-                    'history_ar',
-                    'contact_description_en',
-                    'contact_description_ar',
-                ]);
-            }
+            $table->dropColumn([
+                'company_description_en',
+                'company_description_ar',
+                'history_en',
+                'history_ar',
+                'contact_description_en',
+                'contact_description_ar',
+            ]);
         });
     }
 };

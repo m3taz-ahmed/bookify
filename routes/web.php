@@ -7,8 +7,6 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\Customer\DashboardController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\BookingLinkController;
-use App\Http\Controllers\PageController;
-use App\Http\Controllers\SitemapController;
 
 // Root redirect to booking welcome page
 Route::get('/', function () {
@@ -85,11 +83,13 @@ Route::get('/test-translations', function () {
     ]);
 })->name('test.translations')->middleware('web');
 
-// Sitemap
-Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
-
 // Static pages routes
-Route::get('/{slug}', [PageController::class, 'show'])
-    ->where('slug', '^(?!admin|customer|api|filament|lang|check-in|book|welcome|test|sitemap).*')
-    ->name('pages.show')
-    ->middleware('web');
+Route::get('/{slug}', function ($slug) {
+    $page = \App\Models\Page::where('slug', $slug)->active()->first();
+    
+    if (!$page) {
+        abort(404);
+    }
+    
+    return view('pages.show', compact('page'));
+})->where('slug', '^(?!admin|customer|api|filament|lang|check-in|book|welcome|test).*')->name('pages.show')->middleware('web');
