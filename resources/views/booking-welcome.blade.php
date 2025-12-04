@@ -52,7 +52,7 @@
     <div class="max-w-7xl mx-auto px-4 lg:px-8 flex flex-col lg:flex-row items-center gap-16">
 
       <div class="lg:w-1/2">
-        <div class="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl border border-background-200 p-8">
+        <div class="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl border border-background-200 p-8 scroll-reveal animate-fade-in-up">
           <div class="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800 mb-6">
             <span class="h-2 w-2 rounded-full bg-primary-600 mr-2"></span>
             {{ __('website.welcome') }}
@@ -68,11 +68,11 @@
 
           <div class="flex flex-col sm:flex-row gap-4">
             <a href="{{ route('customer.bookings.create') }}"
-               class="px-8 py-4 bg-primary-600 text-white font-bold rounded-xl shadow-lg hover:bg-primary-700 transition">
+               class="px-8 py-4 bg-primary-600 text-white font-bold rounded-xl shadow-lg hover:bg-primary-700 transition-all duration-300 hover-lift btn-primary-enhanced text-center">
               {{ __('website.book_appointment') }}
             </a>
             <a href="{{ route('customer.register') }}"
-               class="px-8 py-4 bg-white text-primary-600 font-bold rounded-xl border border-primary-200 shadow hover:shadow-md transition">
+               class="px-8 py-4 bg-white text-primary-600 font-bold rounded-xl border-2 border-primary-600 shadow hover:shadow-md transition-all duration-300 hover-lift text-center">
               {{ __('website.create_account') }}
             </a>
           </div>
@@ -94,7 +94,7 @@
       </div>
 
       <div class="lg:w-1/2 flex justify-center">
-        <div class="w-full max-w-md bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl border border-background-200 overflow-hidden">
+        <div class="w-full max-w-md bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl border border-background-200 overflow-hidden scroll-reveal animate-fade-in-up" style="animation-delay: 0.2s;">
           <div class="p-6">
             <div class="flex items-center justify-between mb-6">
               <h3 class="text-xl font-bold text-dark-900">{{ __('website.app_name') }}</h3>
@@ -177,7 +177,7 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       @foreach(\App\Models\Service::where('is_active', true)->with('images')->get() as $service)
-        <div class="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col">
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col card-modern scroll-reveal">
 
           <div class="relative h-64 rounded-t-lg overflow-hidden image-slider-container">
             @if($service->images->isNotEmpty())
@@ -214,7 +214,7 @@
                 {{ $service->price }}
               </p>
               <div class="text-center">
-                <a href="{{ route('customer.bookings.create') }}" class="inline-block bg-primary-500 hover:bg-primary-700 text-white font-bold py-3 px-6 rounded-lg transition">
+                <a href="{{ route('customer.bookings.create') }}" class="inline-block bg-primary-500 hover:bg-primary-700 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 hover-lift btn-primary-enhanced">
                     {{ __('website.book_now') }}
                 </a>
               </div>

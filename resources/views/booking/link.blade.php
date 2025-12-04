@@ -1,10 +1,10 @@
 @php($isAr = app()->getLocale() === 'ar')
-@extends('layouts.app')
+@extends('layouts.minimal')
 
 @section('content')
-<div class="container mx-auto px-4 py-8">
+<div class="min-h-screen bg-gradient-to-br from-background-50 to-background-100 py-8 px-4">
   <div class="max-w-3xl mx-auto">
-    <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+    <div class="bg-white rounded-2xl shadow-2xl overflow-hidden">
       <div class="px-6 py-6 border-b border-gray-200 bg-gradient-to-r from-background-50 to-accent-50">
         <h1 class="text-2xl font-bold text-gray-900">{{ $isAr ? 'تفاصيل الحجز' : 'Booking Details' }}</h1>
         <p class="mt-1 text-sm text-gray-600">{{ $isAr ? 'عرض معلومات الحجز' : 'A summary of your booking' }}</p>
@@ -108,4 +108,22 @@
     </div>
   </div>
 </div>
+
+<style>
+    /* Print styles for ticket */
+    @media print {
+        body {
+            background: white !important;
+        }
+        .bg-gradient-to-br {
+            background: white !important;
+        }
+        .shadow-2xl, .shadow-xl {
+            box-shadow: none !important;
+        }
+        .rounded-2xl {
+            border-radius: 0 !important;
+        }
+    }
+</style>
 @endsection

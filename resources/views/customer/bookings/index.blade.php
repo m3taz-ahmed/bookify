@@ -13,9 +13,9 @@
 
 @section('content')
 <div class="container mx-auto px-4 py-8">
-    <div class="max-w-6xl mx-auto">
-        <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
-            <div class="px-6 py-6 border-b border-gray-200 bg-gradient-to-r from-background-50 to-accent-50 relative overflow-hidden">
+    <div class="max-w-6xl mx-auto" style="overflow: visible;">
+        <div class="bg-white rounded-2xl shadow-xl" style="overflow: visible;">
+            <div class="px-6 py-6 border-b border-gray-200 bg-gradient-to-br from-background-50 to-accent-50 relative" style="overflow: visible;">
                 <div class="absolute top-0 right-0 w-32 h-32 bg-primary-500 rounded-full -mt-16 -mr-16 opacity-10"></div>
                 <div class="absolute bottom-0 left-0 w-24 h-24 bg-secondary-500 rounded-full -mb-12 -ml-12 opacity-10"></div>
                 <div class="flex flex-col md:flex-row md:items-center md:justify-between relative z-10">
@@ -34,7 +34,7 @@
                 </div>
             </div>
             
-            <div class="px-6 py-6">
+            <div class="px-6 py-6" style="overflow: visible;">
                 <!-- Filter Tabs -->
                 <div class="border-b border-gray-200 mb-6">
                     <nav class="flex space-x-8">
@@ -70,9 +70,9 @@
                 </div>
                 
                 <!-- Bookings List -->
-                <div class="space-y-4" id="bookings-container">
+                <div class="space-y-4" id="bookings-container" style="overflow: visible;">
                     @forelse($bookings as $booking)
-                        <div class="border border-gray-200 rounded-2xl p-6 hover:border-primary-300 transition-all duration-300 bg-white hover:bg-gradient-to-br from-white to-primary-50 shadow-sm hover:shadow-lg transform hover:-translate-y-1 relative overflow-hidden group">
+                        <div class="border border-gray-200 rounded-2xl p-6 hover:border-primary-300 transition-all duration-300 bg-white hover:bg-gradient-to-br from-white to-primary-50 shadow-sm hover:shadow-lg transform hover:-translate-y-1 relative overflow-visible group">
                             <div class="absolute top-0 right-0 w-24 h-24 bg-primary-500 rounded-full -mt-12 -mr-12 transition-all duration-500 group-hover:scale-150 opacity-5"></div>
                             <div class="absolute bottom-0 left-0 w-16 h-16 bg-secondary-500 rounded-full -mb-8 -ml-8 transition-all duration-500 group-hover:scale-150 opacity-5"></div>
                             <div class="flex flex-col md:flex-row md:items-center md:justify-between">
@@ -163,7 +163,7 @@
                                             </svg>
                                         </button>
                                         <!-- Dropdown menu -->
-                                        <div class="dropdown-menu absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden z-10">
+                                        <div class="dropdown-menu absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden z-[9999] border border-gray-200" style="position: absolute; top: 100%; right: 0; margin-top: 0.5rem;">
                                             @if($booking->qr_code)
                                                 <button class="view-qr-btn block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-reference-code="{{ $booking->reference_code }}" data-qr-code="{{ $booking->qr_code }}">
                                                     {{ __('website.view_qr_code') }}
@@ -664,4 +664,44 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 </script>
+
+<style>
+    /* Ensure dropdown menus are visible outside ticket cards */
+    .border.border-gray-200.rounded-2xl {
+        overflow: visible !important;
+    }
+    
+    .dropdown-menu {
+        position: absolute !important;
+        z-index: 9999 !important;
+        margin-top: 0.5rem;
+        top: 100% !important;
+        right: 0 !important;
+    }
+    
+    /* Ensure the relative container allows overflow */
+    .relative.ml-3 {
+        position: relative !important;
+        overflow: visible !important;
+    }
+    
+    /* Ensure parent containers don't clip dropdowns */
+    #bookings-container,
+    #bookings-container > div,
+    .max-w-6xl,
+    .bg-white.rounded-2xl,
+    .px-6.py-6 {
+        overflow: visible !important;
+    }
+    
+    /* Keep rounded corners but allow overflow for dropdowns */
+    .bg-white.rounded-2xl {
+        position: relative;
+    }
+    
+    /* Ensure container doesn't clip */
+    .container.mx-auto {
+        overflow: visible !important;
+    }
+</style>
 @endsection

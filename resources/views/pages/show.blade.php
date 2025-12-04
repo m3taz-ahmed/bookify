@@ -76,64 +76,72 @@
                 <!-- Contact Us Page -->
                 @elseif($page->type === \App\Models\Page::TYPE_CONTACT_US)
                     <div class="prose prose-lg max-w-none fade-in">
-                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                            <div>
-                                <h2 class="text-2xl font-bold text-primary-800 mb-4">{{ __('website.contact_information') }}</h2>
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+                            <div class="scroll-reveal">
+                                <h2 class="text-2xl font-bold text-primary-800 mb-6">{{ __('website.contact_information') }}</h2>
                                 
-                                <div class="space-y-4">
+                                <div class="space-y-5">
                                     @if($page->email)
-                                        <div class="flex items-start">
+                                        <div class="flex items-start p-4 bg-background-50 rounded-lg hover:bg-background-100 transition-colors duration-200 hover-lift">
                                             <div class="flex-shrink-0">
-                                                <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                                                </svg>
+                                                <div class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
+                                                    <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                                    </svg>
+                                                </div>
                                             </div>
-                                            <div class="ml-3">
-                                                <p class="text-sm font-medium text-gray-900">{{ __('website.email') }}</p>
-                                                <a href="mailto:{{ $page->email }}" class="text-primary-600 hover:text-primary-800">{{ $page->email }}</a>
+                                            <div class="ml-4 flex-1">
+                                                <p class="text-sm font-semibold text-gray-900 mb-1">{{ __('website.email') }}</p>
+                                                <a href="mailto:{{ $page->email }}" class="text-primary-600 hover:text-primary-800 font-medium transition-colors">{{ $page->email }}</a>
                                             </div>
                                         </div>
                                     @endif
                                     
                                     @if($page->phone)
-                                        <div class="flex items-start">
+                                        <div class="flex items-start p-4 bg-background-50 rounded-lg hover:bg-background-100 transition-colors duration-200 hover-lift">
                                             <div class="flex-shrink-0">
-                                                <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
-                                                </svg>
+                                                <div class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
+                                                    <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                                                    </svg>
+                                                </div>
                                             </div>
-                                            <div class="ml-3">
-                                                <p class="text-sm font-medium text-gray-900">{{ __('website.phone') }}</p>
-                                                <a href="tel:{{ $page->phone }}" class="text-primary-600 hover:text-primary-800">{{ $page->phone }}</a>
+                                            <div class="ml-4 flex-1">
+                                                <p class="text-sm font-semibold text-gray-900 mb-1">{{ __('website.phone') }}</p>
+                                                <a href="tel:{{ $page->phone }}" class="text-primary-600 hover:text-primary-800 font-medium transition-colors">{{ $page->phone }}</a>
                                             </div>
                                         </div>
                                     @endif
                                     
                                     @if($page->whatsapp)
-                                        <div class="flex items-start">
+                                        <div class="flex items-start p-4 bg-background-50 rounded-lg hover:bg-background-100 transition-colors duration-200 hover-lift">
                                             <div class="flex-shrink-0">
-                                                <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-                                                </svg>
+                                                <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                                                    <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                                                    </svg>
+                                                </div>
                                             </div>
-                                            <div class="ml-3">
-                                                <p class="text-sm font-medium text-gray-900">{{ __('website.whatsapp') }}</p>
-                                                <a href="https://wa.me/{{ $page->whatsapp }}" target="_blank" class="text-primary-600 hover:text-primary-800">{{ $page->whatsapp }}</a>
+                                            <div class="ml-4 flex-1">
+                                                <p class="text-sm font-semibold text-gray-900 mb-1">{{ __('website.whatsapp') }}</p>
+                                                <a href="https://wa.me/{{ $page->whatsapp }}" target="_blank" rel="noopener noreferrer" class="text-green-600 hover:text-green-800 font-medium transition-colors">{{ $page->whatsapp }}</a>
                                             </div>
                                         </div>
                                     @endif
                                     
                                     @if($page->address_en || $page->address_ar)
-                                        <div class="flex items-start">
+                                        <div class="flex items-start p-4 bg-background-50 rounded-lg hover:bg-background-100 transition-colors duration-200 hover-lift">
                                             <div class="flex-shrink-0">
-                                                <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                                </svg>
+                                                <div class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
+                                                    <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                                    </svg>
+                                                </div>
                                             </div>
-                                            <div class="ml-3">
-                                                <p class="text-sm font-medium text-gray-900">{{ __('website.address') }}</p>
-                                                <p class="text-gray-700">{{ app()->getLocale() === 'ar' ? $page->address_ar : $page->address_en }}</p>
+                                            <div class="ml-4 flex-1">
+                                                <p class="text-sm font-semibold text-gray-900 mb-1">{{ __('website.address') }}</p>
+                                                <p class="text-gray-700 leading-relaxed">{{ app()->getLocale() === 'ar' ? $page->address_ar : $page->address_en }}</p>
                                             </div>
                                         </div>
                                     @endif
@@ -149,26 +157,51 @@
                             </div>
                             
                             @if($page->latitude && $page->longitude)
-                                <div>
+                                <div class="scroll-reveal">
                                     <h2 class="text-2xl font-bold text-primary-800 mb-4">{{ __('website.find_us') }}</h2>
-                                    <div class="bg-gray-100 rounded-xl overflow-hidden w-full h-80 relative">
-                                        <!-- Static map image as fallback (works without API key) -->
-                                        <img src="https://maps.googleapis.com/maps/api/staticmap?center={{ $page->latitude }},{{ $page->longitude }}&zoom={{ $page->map_zoom ?? 15 }}&size=600x400&maptype=roadmap&markers=color:red%7C{{ $page->latitude }},{{ $page->longitude }}" 
-                                             alt="{{ __('website.map_placeholder') }}" 
-                                             class="w-full h-full object-cover"
-                                             onerror="this.onerror=null; this.src='https://via.placeholder.com/600x400/eeeeee/969696.png?text=Map+Not+Available';">
-                                        <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-2 text-center text-sm">
-                                            {{ app()->getLocale() === 'ar' ? $page->address_ar : $page->address_en }}
+                                    <div class="bg-gray-100 rounded-xl overflow-hidden w-full h-80 md:h-96 relative shadow-lg hover:shadow-xl transition-shadow duration-300">
+                                        <!-- Interactive Google Maps Embed -->
+                                        <div id="map-container" class="w-full h-full">
+                                            @php
+                                                $apiKey = config('services.google_maps.key', '');
+                                                $mapUrl = $apiKey 
+                                                    ? "https://www.google.com/maps/embed/v1/place?key={$apiKey}&q={$page->latitude},{$page->longitude}&zoom=" . ($page->map_zoom ?? 15) . "&maptype=roadmap"
+                                                    : "https://maps.google.com/maps?q={$page->latitude},{$page->longitude}&z=" . ($page->map_zoom ?? 15) . "&output=embed";
+                                            @endphp
+                                            <iframe 
+                                                id="google-map-iframe"
+                                                class="w-full h-full border-0"
+                                                loading="lazy"
+                                                allowfullscreen
+                                                referrerpolicy="no-referrer-when-downgrade"
+                                                src="{{ $mapUrl }}"
+                                                title="Google Maps - {{ app()->getLocale() === 'ar' ? $page->address_ar : $page->address_en }}">
+                                            </iframe>
+                                        </div>
+                                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/60 to-transparent text-white p-4 pointer-events-none">
+                                            <p class="text-sm font-medium text-center">
+                                                {{ app()->getLocale() === 'ar' ? $page->address_ar : $page->address_en }}
+                                            </p>
                                         </div>
                                     </div>
-                                    <div class="mt-2 text-center">
+                                    <div class="mt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
                                         <a href="https://www.google.com/maps/search/?api=1&query={{ $page->latitude }},{{ $page->longitude }}" 
                                            target="_blank" 
-                                           class="inline-flex items-center text-primary-600 hover:text-primary-800 text-sm font-medium">
-                                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                           rel="noopener noreferrer"
+                                           class="inline-flex items-center gap-2 px-5 py-2.5 bg-primary-600 hover:bg-primary-700 text-white rounded-lg text-sm font-medium transition-all duration-200 shadow-md hover:shadow-lg hover-lift w-full sm:w-auto justify-center">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
                                             </svg>
                                             {{ __('website.view_on_google_maps') }}
+                                        </a>
+                                        <a href="https://www.google.com/maps/dir/?api=1&destination={{ $page->latitude }},{{ $page->longitude }}" 
+                                           target="_blank" 
+                                           rel="noopener noreferrer"
+                                           class="inline-flex items-center gap-2 px-5 py-2.5 bg-white hover:bg-gray-50 text-primary-600 border-2 border-primary-600 rounded-lg text-sm font-medium transition-all duration-200 hover-lift w-full sm:w-auto justify-center">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path>
+                                            </svg>
+                                            {{ __('website.get_directions') }}
                                         </a>
                                     </div>
                                 </div>

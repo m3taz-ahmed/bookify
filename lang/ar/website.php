@@ -300,6 +300,7 @@ return [
     'map_placeholder' => 'سيتم عرض الخريطة هنا',
     'company' => 'الشركة',
     'view_on_google_maps' => 'عرض على خرائط جوجل',
+    'get_directions' => 'احصل على الاتجاهات',
     'map_not_available' => 'الخريطة غير متوفرة',
     'home' => 'الرئيسية',
     'check_in' => 'تسجيل الوصول',

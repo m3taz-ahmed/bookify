@@ -258,6 +258,7 @@ return [
     'map_placeholder' => 'Map will be displayed here',
     'company' => 'Company',
     'view_on_google_maps' => 'View on Google Maps',
+    'get_directions' => 'Get Directions',
     'map_not_available' => 'Map Not Available',
     'home' => 'Home',
     'check_in' => 'Check In',

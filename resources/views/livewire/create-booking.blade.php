@@ -13,16 +13,16 @@
         </div>
         
         <!-- Progress Bar -->
-        <div class="mb-10 relative">
-            <div class="flex justify-between relative">
+        <div class="mb-10 relative booking-progress-container" style="position: static !important; top: auto !important;">
+            <div class="flex justify-between relative" style="position: static !important;">
                 <!-- Progress line -->
-                <div class="absolute top-4 left-0 right-0 h-1.5 bg-gray-200 -z-10 rounded-full overflow-hidden">
+                <div class="absolute top-4 left-0 right-0 h-1.5 bg-gray-200 -z-10 rounded-full overflow-hidden" style="position: absolute !important;">
                     <div class="h-full bg-gradient-to-r from-primary-500 to-secondary-500 transition-all duration-700 ease-in-out rounded-full" 
                          style="width: <?php echo (($step - 1) / 3) * 100; ?>%"></div>
                 </div>
                 
                 <!-- Steps -->
-                <div class="flex flex-col items-center relative z-10 group">
+                <div class="flex flex-col items-center relative z-10 group" style="position: relative !important;">
                     <div class="w-10 h-10 rounded-full flex items-center justify-center mb-2 transition-all duration-300 
                                 {{ $step >= 1 ? 'bg-primary-500 text-white shadow-lg scale-110' : 'bg-white text-gray-500 border-2 border-gray-300 shadow-sm' }}">
                         <span class="font-bold">1</span>
@@ -459,6 +459,33 @@
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Ensure progress bar doesn't stick or move */
+        .booking-progress-container {
+            position: static !important;
+            top: auto !important;
+            bottom: auto !important;
+            left: auto !important;
+            right: auto !important;
+            transform: none !important;
+            will-change: auto !important;
+        }
+        
+        .booking-progress-container * {
+            position: relative !important;
+            transform: none !important;
+        }
+        
+        .booking-progress-container .absolute {
+            position: absolute !important;
+            transform: none !important;
+        }
+        
+        /* Prevent any scroll-based movement on steps */
+        .booking-progress-container .flex.flex-col.items-center {
+            transform: none !important;
+            position: relative !important;
         }
     </style>
     

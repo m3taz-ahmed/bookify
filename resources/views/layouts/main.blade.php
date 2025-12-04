@@ -17,16 +17,16 @@
 </head>
 <body class="font-sans antialiased bg-gradient-to-br from-background-50 to-background-100 min-h-screen text-dark-500" style="font-family: 'Tajawal', sans-serif;">
     <!-- Navigation -->
-    <nav class="bg-white shadow-sm border-b border-background-200">
+    <nav class="bg-white shadow-sm border-b border-background-200 sticky top-0 z-50 backdrop-blur-sm bg-white/95">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
                     <div class="flex-shrink-0 flex items-center">
-                        <a href="{{ route('booking-welcome') }}" class="flex items-center">
-                            <img src="{{ asset('images/logo.svg') }}" alt="SkyBridge Logo" class="h-12 w-10 invert">
+                        <a href="{{ route('booking-welcome') }}" class="flex items-center group transition-transform duration-200 hover:scale-105">
+                            <img src="{{ asset('images/logo.svg') }}" alt="SkyBridge Logo" class="h-12 w-10 invert transition-transform duration-300 group-hover:rotate-6">
                             <span class="ml-2 text-xl font-bold">
-                                <span style="color: #536B7C">Sky</span>
-                                <span style="color: #000000">Bridge</span>
+                                <span style="color: #536B7C" class="transition-colors duration-200 group-hover:text-primary-600">Sky</span>
+                                <span style="color: #000000" class="transition-colors duration-200 group-hover:text-primary-700">Bridge</span>
                             </span>
                         </a>
                     </div>
@@ -46,8 +46,8 @@
                             @csrf
                         </form>
                     </div>
-                    <a href="{{ route('pages.show', 'about-us') }}" class="text-dark-500 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">{{ __('website.about') }}</a>
-                    <a href="{{ route('pages.show', 'contact-us') }}" class="text-dark-500 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">{{ __('website.contact_us') }}</a>
+                    <a href="{{ route('pages.show', 'about-us') }}" class="text-dark-500 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 hover:bg-primary-50 {{ request()->routeIs('pages.show') && request()->route('slug') === 'about-us' ? 'bg-primary-100 text-primary-700' : '' }}">{{ __('website.about') }}</a>
+                    <a href="{{ route('pages.show', 'contact-us') }}" class="text-dark-500 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 hover:bg-primary-50 {{ request()->routeIs('pages.show') && request()->route('slug') === 'contact-us' ? 'bg-primary-100 text-primary-700' : '' }}">{{ __('website.contact_us') }}</a>
                     @auth('customer')
                         <a href="{{ route('customer.dashboard') }}" class="text-dark-500 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 {{ request()->routeIs('customer.dashboard') ? 'bg-primary-100 text-primary-600' : '' }}">{{ __('website.dashboard') }}</a>
                         <a href="{{ route('customer.bookings') }}" class="text-dark-500 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 {{ request()->routeIs('customer.bookings') ? 'bg-primary-100 text-primary-600' : '' }}">{{ __('website.my_bookings') }}</a>
