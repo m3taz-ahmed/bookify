@@ -17,58 +17,119 @@
 </head>
 <body class="font-sans antialiased bg-gradient-to-br from-background-50 to-background-100 min-h-screen text-dark-500" style="font-family: 'Tajawal', sans-serif;">
     <!-- Navigation -->
-    <nav class="bg-white shadow-sm border-b border-background-200 sticky top-0 z-50 backdrop-blur-sm bg-white/95">
+    <nav class="bg-white/95 backdrop-blur-md shadow-md border-b border-background-200 sticky top-0 z-50 transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
                 <div class="flex items-center">
-                    <div class="flex-shrink-0 flex items-center">
-                        <a href="{{ route('booking-welcome') }}" class="flex items-center group transition-transform duration-200 hover:scale-105">
-                            <img src="{{ asset('images/logo.svg') }}" alt="SkyBridge Logo" class="h-12 w-10 invert transition-transform duration-300 group-hover:rotate-6">
-                            <span class="ml-2 text-xl font-bold">
-                                <span style="color: #536B7C" class="transition-colors duration-200 group-hover:text-primary-600">Sky</span>
-                                <span style="color: #000000" class="transition-colors duration-200 group-hover:text-primary-700">Bridge</span>
-                            </span>
-                        </a>
-                    </div>
+                    <a href="{{ route('booking-welcome') }}" class="flex items-center group transition-all duration-300 hover:scale-105">
+                        <div class="relative">
+                            <img src="{{ asset('images/logo.svg') }}" alt="SkyBridge Logo" class="h-14 w-12 invert transition-transform duration-300 group-hover:rotate-6 drop-shadow-sm">
+                            <div class="absolute inset-0 bg-primary-500 rounded-full opacity-0 group-hover:opacity-10 blur-xl transition-opacity duration-300"></div>
+                        </div>
+                        <span class="ml-3 text-2xl font-bold">
+                            <span style="color: #536B7C" class="transition-colors duration-200 group-hover:text-primary-600">Sky</span>
+                            <span style="color: #000000" class="transition-colors duration-200 group-hover:text-primary-700">Bridge</span>
+                        </span>
+                    </a>
                 </div>
+                
                 @php
-                    // Get the current locale to determine the switch locale
                     $currentLocale = app()->getLocale();
                     $switchLocale = $currentLocale === 'ar' ? 'en' : 'ar';
                 @endphp
-                <div class="hidden md:ml-6 md:flex md:items-center md:space-x-4">
-                    <!-- Language Switcher -->
-                    <div class="flex items-center space-x-2">
-                        <a href="{{ route('lang.switch', ['locale' => $switchLocale]) }}" class="px-3 py-2 text-sm rounded-md {{ app()->getLocale() === $switchLocale ? 'bg-primary-100 text-primary-700 font-medium' : 'text-gray-600 hover:bg-gray-100' }}" onclick="event.preventDefault(); document.getElementById('language-switch-form-{{ $switchLocale }}').submit();">
-                            {{ $switchLocale === 'ar' ? __('website.arabic') : __('website.english') }}
-                        </a>
-                        <form id="language-switch-form-{{ $switchLocale }}" action="{{ route('lang.switch', ['locale' => $switchLocale]) }}" method="GET" class="hidden">
-                            @csrf
-                        </form>
-                    </div>
-                    <a href="{{ route('pages.show', 'about-us') }}" class="text-dark-500 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 hover:bg-primary-50 {{ request()->routeIs('pages.show') && request()->route('slug') === 'about-us' ? 'bg-primary-100 text-primary-700' : '' }}">{{ __('website.about') }}</a>
-                    <a href="{{ route('pages.show', 'contact-us') }}" class="text-dark-500 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 hover:bg-primary-50 {{ request()->routeIs('pages.show') && request()->route('slug') === 'contact-us' ? 'bg-primary-100 text-primary-700' : '' }}">{{ __('website.contact_us') }}</a>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden lg:flex lg:items-center lg:space-x-1">
+                    <!-- Main Navigation Links -->
+                    <a href="{{ route('pages.show', 'about-us') }}" class="inline-flex items-center px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-primary-50 hover:text-primary-700 {{ request()->routeIs('pages.show') && request()->route('slug') === 'about-us' ? 'bg-primary-100 text-primary-700' : 'text-dark-600' }}">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        {{ __('website.about') }}
+                    </a>
+                    <a href="{{ route('pages.show', 'contact-us') }}" class="inline-flex items-center px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-primary-50 hover:text-primary-700 {{ request()->routeIs('pages.show') && request()->route('slug') === 'contact-us' ? 'bg-primary-100 text-primary-700' : 'text-dark-600' }}">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                        </svg>
+                        {{ __('website.contact_us') }}
+                    </a>
+                    
                     @auth('customer')
-                        <a href="{{ route('customer.dashboard') }}" class="text-dark-500 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 {{ request()->routeIs('customer.dashboard') ? 'bg-primary-100 text-primary-600' : '' }}">{{ __('website.dashboard') }}</a>
-                        <a href="{{ route('customer.bookings') }}" class="text-dark-500 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 {{ request()->routeIs('customer.bookings') ? 'bg-primary-100 text-primary-600' : '' }}">{{ __('website.my_bookings') }}</a>
-                        <a href="{{ route('customer.profile') }}" class="text-dark-500 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 {{ request()->routeIs('customer.profile') ? 'bg-primary-100 text-primary-600' : '' }}">{{ __('website.profile') }}</a>
-                        <a href="{{ route('customer.bookings.create') }}" class="text-dark-500 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 {{ request()->routeIs('customer.bookings.create') ? 'bg-primary-100 text-primary-600' : '' }}">{{ __('website.book_appointment_nav') }}</a>
+                        <!-- Authenticated User Menu -->
+                        <div class="mx-2 h-6 w-px bg-gray-300"></div>
+                        <a href="{{ route('customer.bookings.create') }}" class="inline-flex items-center px-5 py-2.5 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-primary-600 to-secondary-700 hover:from-primary-700 hover:to-secondary-800 transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 {{ request()->routeIs('customer.bookings.create') ? 'ring-2 ring-primary-500 ring-offset-2' : '' }}">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                            </svg>
+                            {{ __('website.book_appointment_nav') }}
+                        </a>
+                        <a href="{{ route('customer.dashboard') }}" class="inline-flex items-center px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-primary-50 hover:text-primary-700 {{ request()->routeIs('customer.dashboard') ? 'bg-primary-100 text-primary-700' : 'text-dark-600' }}">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                            </svg>
+                            {{ __('website.dashboard') }}
+                        </a>
+                        <a href="{{ route('customer.bookings') }}" class="inline-flex items-center px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-primary-50 hover:text-primary-700 {{ request()->routeIs('customer.bookings') ? 'bg-primary-100 text-primary-700' : 'text-dark-600' }}">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                            </svg>
+                            {{ __('website.my_bookings') }}
+                        </a>
+                        <a href="{{ route('customer.profile') }}" class="inline-flex items-center px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-primary-50 hover:text-primary-700 {{ request()->routeIs('customer.profile') ? 'bg-primary-100 text-primary-700' : 'text-dark-600' }}">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                            </svg>
+                            {{ __('website.profile') }}
+                        </a>
+                        <div class="mx-2 h-6 w-px bg-gray-300"></div>
                         <a href="{{ route('customer.logout') }}" 
                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                           class="text-dark-500 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+                           class="inline-flex items-center px-4 py-2.5 rounded-lg text-sm font-medium text-red-600 hover:bg-red-50 transition-all duration-200">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                            </svg>
                             {{ __('website.logout') }}
                         </a>
                         <form id="logout-form" action="{{ route('customer.logout') }}" method="POST" class="hidden">
                             @csrf
                         </form>
                     @else
-                        <a href="{{ route('customer.login') }}" class="text-dark-500 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">{{ __('website.login') }}</a>
-                        <a href="{{ route('customer.register') }}" class="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200">{{ __('website.register') }}</a>
+                        <!-- Guest Menu -->
+                        <div class="mx-2 h-6 w-px bg-gray-300"></div>
+                        <a href="{{ route('customer.login') }}" class="inline-flex items-center px-4 py-2.5 rounded-lg text-sm font-medium text-dark-600 hover:bg-gray-50 transition-all duration-200">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
+                            </svg>
+                            {{ __('website.login') }}
+                        </a>
+                        <a href="{{ route('customer.register') }}" class="inline-flex items-center px-5 py-2.5 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-primary-600 to-secondary-700 hover:from-primary-700 hover:to-secondary-800 transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
+                            </svg>
+                            {{ __('website.register') }}
+                        </a>
                     @endauth
+                    
+                    <!-- Language Switcher -->
+                    <div class="mx-2 h-6 w-px bg-gray-300"></div>
+                    <div class="flex items-center">
+                        <a href="{{ route('lang.switch', ['locale' => $switchLocale]) }}" 
+                           onclick="event.preventDefault(); document.getElementById('language-switch-form-{{ $switchLocale }}').submit();"
+                           class="inline-flex items-center px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 {{ app()->getLocale() === $switchLocale ? 'bg-primary-100 text-primary-700' : 'text-gray-600 hover:bg-gray-100' }}">
+                            <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/>
+                            </svg>
+                            {{ $switchLocale === 'ar' ? __('website.arabic') : __('website.english') }}
+                        </a>
+                        <form id="language-switch-form-{{ $switchLocale }}" action="{{ route('lang.switch', ['locale' => $switchLocale]) }}" method="GET" class="hidden">
+                            @csrf
+                        </form>
+                    </div>
                 </div>
                 <!-- Mobile menu button -->
-                <div class="flex items-center md:hidden">
-                    <button type="button" class="inline-flex items-center justify-center p-2 rounded-md text-dark-400 hover:text-dark-500 hover:bg-background-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500" aria-controls="mobile-menu" aria-expanded="false">
+                <div class="flex items-center lg:hidden">
+                    <button type="button" class="inline-flex items-center justify-center p-2.5 rounded-lg text-dark-400 hover:text-dark-600 hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500 transition-all duration-200" aria-controls="mobile-menu" aria-expanded="false">
                         <span class="sr-only">Open main menu</span>
                         <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -79,63 +140,94 @@
         </div>
         
         <!-- Mobile menu -->
-        <div class="md:hidden hidden" id="mobile-menu">
-            <div class="pt-2 pb-3 space-y-1">
-                <a href="{{ route('pages.show', 'about-us') }}" class="border-transparent text-dark-600 hover:bg-background-50 hover:border-background-300 hover:text-dark-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
+        <div class="lg:hidden hidden border-t border-gray-200 bg-white" id="mobile-menu">
+            <div class="px-4 pt-4 pb-3 space-y-1">
+                <!-- Main Links -->
+                <a href="{{ route('pages.show', 'about-us') }}" class="flex items-center px-4 py-3 rounded-lg text-base font-medium text-dark-600 hover:bg-primary-50 hover:text-primary-700 transition-all duration-200 {{ request()->routeIs('pages.show') && request()->route('slug') === 'about-us' ? 'bg-primary-100 text-primary-700' : '' }}">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
                     {{ __('website.about') }}
                 </a>
-                <a href="{{ route('pages.show', 'contact-us') }}" class="border-transparent text-dark-600 hover:bg-background-50 hover:border-background-300 hover:text-dark-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
+                <a href="{{ route('pages.show', 'contact-us') }}" class="flex items-center px-4 py-3 rounded-lg text-base font-medium text-dark-600 hover:bg-primary-50 hover:text-primary-700 transition-all duration-200 {{ request()->routeIs('pages.show') && request()->route('slug') === 'contact-us' ? 'bg-primary-100 text-primary-700' : '' }}">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                    </svg>
                     {{ __('website.contact_us') }}
                 </a>
+                
                 @auth('customer')
-                    <a href="{{ route('customer.dashboard') }}" class="border-transparent text-dark-600 hover:bg-background-50 hover:border-background-300 hover:text-dark-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium {{ request()->routeIs('customer.dashboard') ? 'bg-primary-100 border-primary-500' : '' }}">
-                        {{ __('website.dashboard') }}
-                    </a>
-                    <a href="{{ route('customer.bookings') }}" class="border-transparent text-dark-600 hover:bg-background-50 hover:border-background-300 hover:text-dark-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium {{ request()->routeIs('customer.bookings') ? 'bg-primary-100 border-primary-500' : '' }}">
-                        {{ __('website.my_bookings') }}
-                    </a>
-                    <a href="{{ route('customer.profile') }}" class="border-transparent text-dark-600 hover:bg-background-50 hover:border-background-300 hover:text-dark-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium {{ request()->routeIs('customer.profile') ? 'bg-primary-100 border-primary-500' : '' }}">
-                        {{ __('website.profile') }}
-                    </a>
-                    <a href="{{ route('customer.bookings.create') }}" class="border-transparent text-dark-600 hover:bg-background-50 hover:border-background-300 hover:text-dark-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium {{ request()->routeIs('customer.bookings.create') ? 'bg-primary-100 border-primary-500' : '' }}">
+                    <div class="border-t border-gray-200 my-2"></div>
+                    <a href="{{ route('customer.bookings.create') }}" class="flex items-center justify-center px-4 py-3 rounded-lg text-base font-semibold text-white bg-gradient-to-r from-primary-600 to-secondary-700 hover:from-primary-700 hover:to-secondary-800 transition-all duration-200 shadow-md">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                        </svg>
                         {{ __('website.book_appointment_nav') }}
                     </a>
+                    <a href="{{ route('customer.dashboard') }}" class="flex items-center px-4 py-3 rounded-lg text-base font-medium text-dark-600 hover:bg-primary-50 hover:text-primary-700 transition-all duration-200 {{ request()->routeIs('customer.dashboard') ? 'bg-primary-100 text-primary-700' : '' }}">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                        </svg>
+                        {{ __('website.dashboard') }}
+                    </a>
+                    <a href="{{ route('customer.bookings') }}" class="flex items-center px-4 py-3 rounded-lg text-base font-medium text-dark-600 hover:bg-primary-50 hover:text-primary-700 transition-all duration-200 {{ request()->routeIs('customer.bookings') ? 'bg-primary-100 text-primary-700' : '' }}">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                        </svg>
+                        {{ __('website.my_bookings') }}
+                    </a>
+                    <a href="{{ route('customer.profile') }}" class="flex items-center px-4 py-3 rounded-lg text-base font-medium text-dark-600 hover:bg-primary-50 hover:text-primary-700 transition-all duration-200 {{ request()->routeIs('customer.profile') ? 'bg-primary-100 text-primary-700' : '' }}">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                        </svg>
+                        {{ __('website.profile') }}
+                    </a>
+                    <div class="border-t border-gray-200 my-2"></div>
+                    <a href="{{ route('customer.logout') }}" 
+                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                       class="flex items-center px-4 py-3 rounded-lg text-base font-medium text-red-600 hover:bg-red-50 transition-all duration-200">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                        </svg>
+                        {{ __('website.logout') }}
+                    </a>
                 @else
-                    <a href="{{ route('customer.login') }}" class="border-transparent text-dark-600 hover:bg-background-50 hover:border-background-300 hover:text-dark-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
+                    <div class="border-t border-gray-200 my-2"></div>
+                    <a href="{{ route('customer.login') }}" class="flex items-center px-4 py-3 rounded-lg text-base font-medium text-dark-600 hover:bg-gray-50 transition-all duration-200">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
+                        </svg>
                         {{ __('website.login') }}
                     </a>
-                    <a href="{{ route('customer.register') }}" class="border-transparent text-dark-600 hover:bg-background-50 hover:border-background-300 hover:text-dark-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
+                    <a href="{{ route('customer.register') }}" class="flex items-center justify-center px-4 py-3 rounded-lg text-base font-semibold text-white bg-gradient-to-r from-primary-600 to-secondary-700 hover:from-primary-700 hover:to-secondary-800 transition-all duration-200 shadow-md">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
+                        </svg>
                         {{ __('website.register') }}
                     </a>
                 @endauth
-            </div>
-            <div class="pt-4 pb-3 border-t border-gray-200">
-                <div class="mt-3 space-y-1">
-                    <!-- Language Switcher Mobile -->
-                    <div class="px-4 py-2">
-                        <div class="flex space-x-2">
-                            <a href="{{ route('lang.switch', ['locale' => $switchLocale]) }}" class="px-3 py-1 text-sm rounded-md {{ app()->getLocale() === $switchLocale ? 'bg-primary-100 text-primary-700 font-medium' : 'text-gray-600 hover:bg-gray-100' }}" onclick="event.preventDefault(); document.getElementById('language-switch-form-mobile-{{ $switchLocale }}').submit();">
-                                {{ $switchLocale === 'ar' ? __('website.arabic') : __('website.english') }}
-                            </a>
-                            <form id="language-switch-form-mobile-{{ $switchLocale }}" action="{{ route('lang.switch', ['locale' => $switchLocale]) }}" method="GET" class="hidden">
-                                @csrf
-                            </form>
-                        </div>
-                    </div>
-                    @auth('customer')
-                        <a href="{{ route('customer.logout') }}" 
-                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                           class="block px-4 py-2 text-base font-medium text-dark-500 hover:text-dark-800 hover:bg-background-100">
-                            {{ __('website.logout') }}
-                        </a>
-                    @endauth
+                
+                <!-- Language Switcher Mobile -->
+                <div class="border-t border-gray-200 my-2"></div>
+                <div class="px-4 py-2">
+                    <a href="{{ route('lang.switch', ['locale' => $switchLocale]) }}" 
+                       onclick="event.preventDefault(); document.getElementById('language-switch-form-mobile-{{ $switchLocale }}').submit();"
+                       class="flex items-center justify-center px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 {{ app()->getLocale() === $switchLocale ? 'bg-primary-100 text-primary-700' : 'text-gray-600 bg-gray-50 hover:bg-gray-100' }}">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/>
+                        </svg>
+                        {{ $switchLocale === 'ar' ? __('website.arabic') : __('website.english') }}
+                    </a>
+                    <form id="language-switch-form-mobile-{{ $switchLocale }}" action="{{ route('lang.switch', ['locale' => $switchLocale]) }}" method="GET" class="hidden">
+                        @csrf
+                    </form>
                 </div>
             </div>
         </div>
     </nav>
 
     <!-- Breadcrumbs -->
-    @if (!request()->is('login') && !request()->is('register') && !request()->is('customer/login') && !request()->is('customer/register') && !request()->is('password/*') && !request()->is('/') && !request()->is('customer/dashboard'))
+    @if (!request()->is('login') && !request()->is('register') && !request()->is('customer/login') && !request()->is('customer/register') && !request()->is('password/*') && !request()->is('/') && !request()->is('welcome') && !request()->is('customer/dashboard') && !request()->routeIs('booking-welcome'))
         <div class="container mx-auto px-4 py-3">
             <div class="max-w-7xl mx-auto">
                 <nav class="flex" aria-label="Breadcrumb">
