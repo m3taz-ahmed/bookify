@@ -405,7 +405,15 @@ class CreateBooking extends Component
             
             $this->step = 4; // Show success and QR code
         } catch (\Exception $e) {
-            // Handle error
+            \Illuminate\Support\Facades\Log::error('Booking creation failed', [
+                'customer_id' => auth('customer')->id() ?? null,
+                'selected_date' => $this->selectedDate,
+                'selected_time' => $this->selectedTime,
+                'ticket_items' => $this->ticketItems,
+                'number_of_people' => $this->numberOfPeople,
+                'payment_method' => $this->paymentMethod,
+                'error' => $e->getMessage(),
+            ]);
             $this->addError('booking', 'Failed to create booking. Please try again. Error: ' . $e->getMessage());
         }
     }

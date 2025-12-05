@@ -19,14 +19,14 @@ Route::get('/welcome', function () {
 })->name('booking-welcome')->middleware('web');
 
 // Customer Phone Authentication Routes (ONLY method now)
-Route::get('/customer/login', [CustomerPhoneAuthController::class, 'showPhoneForm'])->name('customer.login')->middleware('web');
-Route::post('/customer/login', [CustomerPhoneAuthController::class, 'sendOtp'])->name('customer.login.attempt')->middleware('web');
-Route::post('/customer/verify-otp', [CustomerPhoneAuthController::class, 'verifyOtp'])->name('customer.verify-otp')->middleware('web');
+Route::get('/customer/login', [CustomerPhoneAuthController::class, 'showPhoneForm'])->name('customer.login')->middleware(['web','throttle:30,1']);
+Route::post('/customer/login', [CustomerPhoneAuthController::class, 'sendOtp'])->name('customer.login.attempt')->middleware(['web','throttle:5,1']);
+Route::post('/customer/verify-otp', [CustomerPhoneAuthController::class, 'verifyOtp'])->name('customer.verify-otp')->middleware(['web','throttle:10,1']);
 Route::post('/customer/logout', [CustomerPhoneAuthController::class, 'logout'])->name('customer.logout')->middleware('web');
 
 // Customer Registration
-Route::get('/customer/register', [CustomerPhoneAuthController::class, 'showRegistrationForm'])->name('customer.register')->middleware('web');
-Route::post('/customer/register', [CustomerPhoneAuthController::class, 'register'])->name('customer.register.attempt')->middleware('web');
+Route::get('/customer/register', [CustomerPhoneAuthController::class, 'showRegistrationForm'])->name('customer.register')->middleware(['web','throttle:30,1']);
+Route::post('/customer/register', [CustomerPhoneAuthController::class, 'register'])->name('customer.register.attempt')->middleware(['web','throttle:10,1']);
 
 // Customer Dashboard and Bookings (protected by customer auth)
 Route::middleware(['auth:customer', 'web'])->group(function () {
@@ -51,8 +51,8 @@ Route::middleware(['auth:customer', 'web'])->group(function () {
     })->name('customer.bookings.test');
 });
 
-Route::get('/check-in/{reference}', [CheckInController::class, 'checkIn'])->name('check-in-api')->middleware(['auth:customer', 'web']);
-Route::get('/check-in-page/{reference}', [CheckInController::class, 'showCheckInPage'])->name('check-in')->middleware(['auth:customer', 'web']);
+Route::get('/check-in/{reference}', [CheckInController::class, 'checkIn'])->name('check-in-api')->middleware(['auth:customer', 'web','throttle:30,1']);
+Route::get('/check-in-page/{reference}', [CheckInController::class, 'showCheckInPage'])->name('check-in')->middleware(['auth:customer', 'web','throttle:30,1']);
 Route::get('/book', function () {
     return view('bookings.create');
 })->middleware('web');
@@ -60,10 +60,10 @@ Route::get('/book', function () {
 // Public signed booking link (customer + reference)
 Route::get('/booking/view/{customer}/{reference}', [BookingLinkController::class, 'show'])
     ->name('booking.link')
-    ->middleware(['web']);
+    ->middleware(['web','throttle:60,1']);
 
 // Language switcher route
-Route::get('/lang/{locale}', [LanguageController::class, 'switch'])->name('lang.switch')->middleware('web');
+Route::get('/lang/{locale}', [LanguageController::class, 'switch'])->name('lang.switch')->middleware(['web','throttle:60,1']);
 
 // Language test route
 Route::get('/language-test', function () {
@@ -92,4 +92,4 @@ Route::get('/{slug}', function ($slug) {
     }
     
     return view('pages.show', compact('page'));
-})->where('slug', '^(?!admin|customer|api|filament|lang|check-in|book|welcome|test).*')->name('pages.show')->middleware('web');
+})->where('slug', '^(?!admin|customer|api|filament|lang|check-in|book|welcome|test).*')->name('pages.show')->middleware(['web','throttle:120,1']);

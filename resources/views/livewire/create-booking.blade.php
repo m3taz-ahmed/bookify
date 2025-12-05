@@ -218,7 +218,7 @@
                                 </svg>
                                 <div>
                                     <span class="text-sm font-medium text-green-800">{{ __('website.selected_time') }}:</span>
-                                    <span class="font-semibold text-green-900 ml-1">{{ $selectedTime }}</span>
+                                    <span class="font-semibold text-green-900 ml-1">{{ \Carbon\Carbon::createFromFormat('H:i', $selectedTime, 'Asia/Riyadh')->format('g:i A') }}</span>
                                 </div>
                             </div>
                         </div>
@@ -248,6 +248,7 @@
                 
                 <div class="flex justify-center mb-4">
                     <button wire:click="handleDateSelection()" 
+                            wire:loading.attr="disabled" wire:target="handleDateSelection"
                             class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-gradient-to-r from-primary-600 to-secondary-700 hover:from-primary-700 hover:to-secondary-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
                             @if(!$selectedDate || !$selectedTime) disabled @endif>
                         {{ __('website.continue_to_payment') }}
@@ -299,7 +300,7 @@
                             </div>
                             <div class="text-right">
                                 <span class="text-sm font-medium text-blue-800">{{ __('website.time') }}:</span>
-                                <span class="font-semibold text-blue-900 ml-1">{{ $selectedTime }}</span>
+                                <span class="font-semibold text-blue-900 ml-1">{{ \Carbon\Carbon::createFromFormat('H:i', $selectedTime, 'Asia/Riyadh')->format('g:i A') }}</span>
                             </div>
                         </div>
                     </div>
@@ -332,7 +333,7 @@
                 <div class="grid grid-cols-1 {{ $enabledPaymentCount === 2 ? 'md:grid-cols-2' : '' }} gap-6 mb-8 {{ $enabledPaymentCount === 1 ? 'max-w-md mx-auto' : '' }}">
                     @if($isCashPaymentEnabled)
                     <div class="border border-gray-200 rounded-2xl p-6 hover:border-primary-300 cursor-pointer transition-all duration-300 bg-white hover:bg-gradient-to-br from-white to-primary-50 transform hover:-translate-y-2 shadow-sm hover:shadow-lg" 
-                         wire:click="selectPaymentMethod('cash')" wire:loading.class="opacity-50 pointer-events-none" wire:target="selectPaymentMethod">
+                         wire:click="selectPaymentMethod('cash')" wire:loading.class="opacity-50 pointer-events-none" wire:loading.attr="disabled" wire:target="selectPaymentMethod">
                         <div class="flex items-center mb-4">
                         <div class="flex-shrink-0 mr-4">
                             <div class="w-16 h-16 rounded-full bg-gradient-to-br from-yellow-100 to-amber-100 flex items-center justify-center shadow-md">
@@ -354,7 +355,7 @@
                     
                     @if($isOnlinePaymentEnabled)
                     <div class="border border-gray-200 rounded-2xl p-6 hover:border-primary-300 cursor-pointer transition-all duration-300 bg-white hover:bg-gradient-to-br from-white to-primary-50 transform hover:-translate-y-2 shadow-sm hover:shadow-lg" 
-                         wire:click="selectPaymentMethod('online')" wire:loading.class="opacity-50 pointer-events-none" wire:target="selectPaymentMethod">
+                         wire:click="selectPaymentMethod('online')" wire:loading.class="opacity-50 pointer-events-none" wire:loading.attr="disabled" wire:target="selectPaymentMethod">
                         <div class="flex items-center mb-4">
                         <div class="flex-shrink-0 mr-4">
                             <div class="w-16 h-16 rounded-full bg-gradient-to-br from-blue-100 to-indigo-100 flex items-center justify-center shadow-md">

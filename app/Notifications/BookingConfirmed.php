@@ -9,9 +9,18 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class BookingConfirmed extends Notification
+class BookingConfirmed extends Notification implements ShouldQueue
 {
     use Queueable;
+
+    public $tries = 5;
+
+    public function backoff(): array
+    {
+        return [10, 60, 300];
+    }
+
+    public $queue = 'notifications';
 
     protected $booking;
 
@@ -37,10 +46,7 @@ class BookingConfirmed extends Notification
             $channels[] = MsegatSmsChannel::class;
         }
         
-        // Add mail channel if customer has email
-        if ($notifiable->email) {
-            $channels[] = 'mail';
-        }
+        // Mail channel disabled in this project
         
         return $channels;
     }
