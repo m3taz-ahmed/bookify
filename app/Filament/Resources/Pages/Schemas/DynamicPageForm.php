@@ -84,6 +84,7 @@ class DynamicPageForm
                     ->label('Company Description (English)')
                     ->columnSpanFull()
                     ->toolbarButtons([
+                        'attachFiles',
                         'blockquote',
                         'bold',
                         'bulletList',
@@ -95,13 +96,18 @@ class DynamicPageForm
                         'orderedList',
                         'redo',
                         'strike',
+                        'table',
                         'underline',
                         'undo',
-                    ]),
+                    ])
+                    ->fileAttachmentsDisk('public')
+                    ->fileAttachmentsDirectory('pages/images')
+                    ->fileAttachmentsVisibility('public'),
                 RichEditor::make('company_description_ar')
                     ->label('Company Description (Arabic)')
                     ->columnSpanFull()
                     ->toolbarButtons([
+                        'attachFiles',
                         'blockquote',
                         'bold',
                         'bulletList',
@@ -113,13 +119,18 @@ class DynamicPageForm
                         'orderedList',
                         'redo',
                         'strike',
+                        'table',
                         'underline',
                         'undo',
-                    ]),
+                    ])
+                    ->fileAttachmentsDisk('public')
+                    ->fileAttachmentsDirectory('pages/images')
+                    ->fileAttachmentsVisibility('public'),
                 RichEditor::make('history_en')
                     ->label('History (English)')
                     ->columnSpanFull()
                     ->toolbarButtons([
+                        'attachFiles',
                         'blockquote',
                         'bold',
                         'bulletList',
@@ -131,13 +142,18 @@ class DynamicPageForm
                         'orderedList',
                         'redo',
                         'strike',
+                        'table',
                         'underline',
                         'undo',
-                    ]),
+                    ])
+                    ->fileAttachmentsDisk('public')
+                    ->fileAttachmentsDirectory('pages/images')
+                    ->fileAttachmentsVisibility('public'),
                 RichEditor::make('history_ar')
                     ->label('History (Arabic)')
                     ->columnSpanFull()
                     ->toolbarButtons([
+                        'attachFiles',
                         'blockquote',
                         'bold',
                         'bulletList',
@@ -149,9 +165,13 @@ class DynamicPageForm
                         'orderedList',
                         'redo',
                         'strike',
+                        'table',
                         'underline',
                         'undo',
-                    ]),
+                    ])
+                    ->fileAttachmentsDisk('public')
+                    ->fileAttachmentsDirectory('pages/images')
+                    ->fileAttachmentsVisibility('public'),
             ])
             ->visible(fn ($get) => $get('type') == Page::TYPE_ABOUT_US);
     }
@@ -196,6 +216,7 @@ class DynamicPageForm
                     ->label('Contact Description (English)')
                     ->columnSpanFull()
                     ->toolbarButtons([
+                        'attachFiles',
                         'blockquote',
                         'bold',
                         'bulletList',
@@ -207,13 +228,18 @@ class DynamicPageForm
                         'orderedList',
                         'redo',
                         'strike',
+                        'table',
                         'underline',
                         'undo',
-                    ]),
+                    ])
+                    ->fileAttachmentsDisk('public')
+                    ->fileAttachmentsDirectory('pages/images')
+                    ->fileAttachmentsVisibility('public'),
                 RichEditor::make('contact_description_ar')
                     ->label('Contact Description (Arabic)')
                     ->columnSpanFull()
                     ->toolbarButtons([
+                        'attachFiles',
                         'blockquote',
                         'bold',
                         'bulletList',
@@ -225,9 +251,13 @@ class DynamicPageForm
                         'orderedList',
                         'redo',
                         'strike',
+                        'table',
                         'underline',
                         'undo',
-                    ]),
+                    ])
+                    ->fileAttachmentsDisk('public')
+                    ->fileAttachmentsDirectory('pages/images')
+                    ->fileAttachmentsVisibility('public'),
             ])
             ->visible(fn ($get) => $get('type') == Page::TYPE_CONTACT_US);
     }
@@ -241,6 +271,7 @@ class DynamicPageForm
                     ->required()
                     ->columnSpanFull()
                     ->toolbarButtons([
+                        'attachFiles',
                         'blockquote',
                         'bold',
                         'bulletList',
@@ -252,6 +283,7 @@ class DynamicPageForm
                         'orderedList',
                         'redo',
                         'strike',
+                        'table',
                         'underline',
                         'undo',
                     ])
@@ -263,6 +295,7 @@ class DynamicPageForm
                     ->required()
                     ->columnSpanFull()
                     ->toolbarButtons([
+                        'attachFiles',
                         'blockquote',
                         'bold',
                         'bulletList',
@@ -274,6 +307,7 @@ class DynamicPageForm
                         'orderedList',
                         'redo',
                         'strike',
+                        'table',
                         'underline',
                         'undo',
                     ])
