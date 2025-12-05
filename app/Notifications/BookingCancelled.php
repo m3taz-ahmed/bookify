@@ -20,7 +20,7 @@ class BookingCancelled extends Notification implements ShouldQueue
         return [10, 60, 300];
     }
 
-    public $queue = 'notifications';
+
 
     protected $booking;
 
@@ -30,6 +30,7 @@ class BookingCancelled extends Notification implements ShouldQueue
     public function __construct(Booking $booking)
     {
         $this->booking = $booking;
+        $this->onQueue('notifications');
     }
 
     /**
