@@ -104,7 +104,8 @@
                                         {{ count($day['bookings']) }} {{ __('filament.Booked') }}
                                     </div>
                                     <div class="people-count text-gray-500">
-                                        {{ $day['totalPeople'] }}/{{ $day['maxCapacity'] }} {{ __('filament.People') }}
+                                        {{ $day['totalPeople'] }} {{ __('filament.People') }}
+                                        <!-- /{{ $day['maxCapacity'] }}  -->
                                     </div>
                                     <div class="capacity-bar w-full h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full mt-1.5 overflow-hidden">
                                         <div class="h-full rounded-full 
@@ -147,9 +148,6 @@
                                                 >
                                                     {{ $booking->customer->name }}
                                                 </button>
-                                                <span class="inline-flex items-center justify-center w-4 h-4 rounded-full bg-primary-100 text-primary-800 text-[9px] font-bold border border-primary-200 ml-auto flex-shrink-0">
-                                                    {{ $booking->number_of_people }}
-                                                </span>
                                             </div>
                                             
                                         </div>
@@ -158,7 +156,7 @@
                             @else
                                 <div class="no-bookings text-gray-400 dark:text-gray-500 text-center text-xs flex flex-col items-center justify-center h-full w-full">
                                     <span class="mb-1">{{ __('filament.No Bookings') }}</span>
-                                    <span class="text-[10px]">{{ $day['totalPeople'] }}/{{ $day['maxCapacity'] }} {{ __('filament.People') }}</span>
+                                    <span class="text-[10px]">{{ $day['totalPeople'] }} {{ __('filament.People') }}</span>
                                 </div>
                             @endif
                         </div>

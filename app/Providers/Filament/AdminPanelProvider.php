@@ -69,7 +69,8 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+            ])
+            ->defaultThemeMode(\Filament\Enums\ThemeMode::Dark);
     }
     
     public function boot()

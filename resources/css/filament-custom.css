@@ -807,3 +807,24 @@
   height: 100% !important;
   border-radius: 9999px !important;
 }
+
+/* Hide Filament Theme Switcher - Comprehensive block */
+.fi-theme-switcher,
+.fi-topbar-item-theme-switcher,
+button[aria-label="Switch to light mode"],
+button[aria-label="Switch to dark mode"],
+button[aria-label="Toggle theme"],
+[x-on\:click*="mode"],
+.fi-user-menu-item-theme-switcher,
+div.fi-topbar-item>button .fi-icon-btn-icon[class*="sun"],
+div.fi-topbar-item>button .fi-icon-btn-icon[class*="moon"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}

@@ -807,3 +807,11 @@
   height: 100% !important;
   border-radius: 9999px !important;
 }
+
+/* Hide Filament Theme Switcher */
+.fi-theme-switcher,
+[aria-label="Switch to light mode"],
+[aria-label="Switch to dark mode"],
+button.fi-theme-switcher-btn {
+    display: none !important;
+}
