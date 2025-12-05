@@ -123,33 +123,60 @@
                                 </div>
                                 
                                 <!-- Bookings list -->
-                                <div class="booking-list mt-2 overflow-y-auto max-h-32 w-full">
-                                    @foreach($day['bookings'] as $booking)
-                                        <div class="text-[10px] p-0.5 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between">
-                                            <div class="flex items-center space-x-1 w-full">
-                                                <span class="font-medium text-[10px] text-gray-500">{{ (new \DateTime($booking->start_time))->format('H:i') }}</span>
-                                                <button 
-                                                    type="button" 
-                                                    class="text-primary-600 hover:text-primary-800 hover:underline focus:outline-none text-[10px] truncate max-w-[80px] text-left"
-                                                    @click="openModal(
-                                                        @js($booking->customer->name), 
-                                                        @js($booking->customer->phone), 
-                                                        @js(app()->getLocale() === 'ar' ? $booking->service->name_ar : $booking->service->name_en),
-                                                        @js($booking->booking_date->format('Y-m-d')),
-                                                        @js($booking->start_time ? $booking->start_time->format('H:i') : ''),
-                                                        @js($booking->number_of_people . ' ' . __('filament.People')),
-                                                        @js($booking->reference_code),
-                                                        @js($booking->items->map(function($item) { return [
-                                                            'id' => $item->id,
-                                                            'service_name' => app()->getLocale() === 'ar' ? $item->service->name_ar : $item->service->name_en,
-                                                            'quantity' => $item->quantity
-                                                        ]; })->toArray())
-                                                    )"
-                                                >
-                                                    {{ $booking->customer->name }}
-                                                </button>
+                                <!-- Grouped Bookings by Time -->
+                                <div class="booking-list mt-2 overflow-y-auto w-full custom-scrollbar" style="max-height: 200px;">
+                                    @foreach($day['groupedBookings'] as $time => $slot)
+                                        <div x-data="{ expanded: false }" class="mb-1">
+                                            <!-- Time Slot Header -->
+                                            <div @click="expanded = !expanded" 
+                                                 class="flex flex-col p-1.5 rounded cursor-pointer transition-colors
+                                                 {{ $slot['capacityPercentage'] >= 100 ? 'bg-red-50 dark:bg-red-900/20' : 
+                                                   ($slot['capacityPercentage'] >= 50 ? 'bg-yellow-50 dark:bg-yellow-900/20' : 
+                                                   'bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700') }}">
+                                                
+                                                <div class="flex justify-between items-center w-full">
+                                                    <span class="font-bold text-[11px] text-gray-700 dark:text-gray-200">{{ $time }}</span>
+                                                    <span class="text-[10px] text-gray-500 dark:text-gray-400">
+                                                        {{ $slot['totalPeople'] }} <span class="text-[9px]">{{ __('filament.People') }}</span>
+                                                    </span>
+                                                </div>
+                                                
+                                                <!-- Mini Capacity Bar -->
+                                                <div class="w-full h-1 bg-gray-200 dark:bg-gray-600 rounded-full mt-1 overflow-hidden">
+                                                    <div class="h-full rounded-full 
+                                                        @if($slot['capacityPercentage'] >= 100) bg-red-500
+                                                        @elseif($slot['capacityPercentage'] >= 50) bg-yellow-500
+                                                        @else bg-green-500 @endif" 
+                                                        style="width: {{ min($slot['capacityPercentage'], 100) }}%">
+                                                    </div>
+                                                </div>
                                             </div>
-                                            
+
+                                            <!-- Expanded Customer List -->
+                                            <div x-show="expanded" x-collapse class="pl-2 mt-1 space-y-1 border-l-2 border-gray-100 dark:border-gray-700">
+                                                @foreach($slot['bookings'] as $booking)
+                                                    <button 
+                                                        type="button" 
+                                                        class="block w-full text-left text-[10px] text-primary-600 dark:text-primary-400 hover:underline truncate py-0.5"
+                                                        @click="openModal(
+                                                            @js($booking->customer->name), 
+                                                            @js($booking->customer->phone), 
+                                                            @js(app()->getLocale() === 'ar' ? $booking->service->name_ar : $booking->service->name_en),
+                                                            @js($booking->booking_date->format('Y-m-d')),
+                                                            @js($booking->start_time ? $booking->start_time->format('H:i') : ''),
+                                                            @js($booking->number_of_people . ' ' . __('filament.People')),
+                                                            @js($booking->reference_code),
+                                                            @js($booking->items->map(function($item) { return [
+                                                                'id' => $item->id,
+                                                                'service_name' => app()->getLocale() === 'ar' ? $item->service->name_ar : $item->service->name_en,
+                                                                'quantity' => $item->quantity
+                                                            ]; })->toArray())
+                                                        )"
+                                                    >
+                                                        - {{ $booking->customer->name }} ({{ $booking->number_of_people }})
+                                                    </button>
+                                                @endforeach
+                                            </div>
                                         </div>
                                     @endforeach
                                 </div>

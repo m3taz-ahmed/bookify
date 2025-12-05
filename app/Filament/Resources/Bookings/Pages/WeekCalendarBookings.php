@@ -109,9 +109,34 @@ class WeekCalendarBookings extends Page
             $capacityColor = CapacityService::getCapacityStatusColor($date);
             $isWorkingDay = SiteSetting::isWorkingDay($date);
             
+            // Group bookings by time
+            $groupedBookings = [];
+            foreach ($dayBookings as $booking) {
+                $timeKey = $booking->start_time ? $booking->start_time->format('H:i') : '00:00';
+                if (!isset($groupedBookings[$timeKey])) {
+                    $groupedBookings[$timeKey] = [
+                        'time' => $timeKey,
+                        'bookings' => [],
+                        'totalPeople' => 0
+                    ];
+                }
+                $groupedBookings[$timeKey]['bookings'][] = $booking;
+                $groupedBookings[$timeKey]['totalPeople'] += $booking->number_of_people;
+            }
+            
+            // Calculate capacity percentage for each time slot
+            foreach ($groupedBookings as &$slot) {
+                $slot['capacityPercentage'] = ($maxCapacity > 0) ? ($slot['totalPeople'] / $maxCapacity) * 100 : 0;
+            }
+            unset($slot); // Break reference
+
+            // Sort by time
+            ksort($groupedBookings);
+
             $days[] = [
                 'date' => $date,
-                'bookings' => $dayBookings,
+                'bookings' => $dayBookings, // Keep original flattened list if needed, or remove if unused
+                'groupedBookings' => $groupedBookings, // New grouped structure
                 'totalPeople' => $totalPeople,
                 'maxCapacity' => $maxCapacity,
                 'capacityPercentage' => $capacityPercentage,
