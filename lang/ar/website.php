@@ -324,4 +324,5 @@ return [
     'activity_family_desc' => 'آمنة وممتعة لجميع الأعمار مع سهولة الوصول.',
     'activity_landmarks_title' => 'استكشاف المعالم',
     'activity_landmarks_desc' => 'تعرّف على أبرز معالم المدينة مع رؤية واضحة من الأعلى.',
+    'toggle_theme' => 'تبديل المظهر',
 ];

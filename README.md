@@ -1,59 +1,179 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# SkyBridge - Booking System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A comprehensive booking and appointment management system built with Laravel, Filament PHP, and Tailwind CSS.
 
-## About Laravel
+## Tech Stack
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **Backend:** Laravel 12, PHP 8.3+
+- **Database:** MySQL 8.0+
+- **Admin Panel:** FilamentPHP v3
+- **Frontend:** Blade + Livewire 3 + Tailwind CSS 4
+- **JavaScript:** Alpine.js
+- **Icons:** Heroicons
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Features
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Core Features
+- **Booking System:** Multi-step booking wizard with service selection, date/time picking
+- **Customer Portal:** Login via OTP, view/manage bookings
+- **Admin Dashboard:** Full Filament admin panel for managing services, bookings, customers
+- **QR Check-in:** Generate QR codes for bookings, scan for check-in
 
-## Learning Laravel
+### SMS Integration (Msegat)
+- **OTP Authentication:** Real SMS OTP for customer login (replaces hardcoded codes)
+- **Booking Notifications:** SMS confirmations and cancellations in Arabic
+- **Configuration:** Admin panel settings page for SMS credentials
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### Design Features
+- **Dark Mode:** Full dark mode support with toggle
+- **RTL Support:** Arabic language with proper RTL layout
+- **Responsive:** Mobile-first design
+- **PWA Ready:** Service worker and manifest for offline support
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Installation
 
-## Laravel Sponsors
+### Prerequisites
+- PHP 8.3+
+- Composer
+- Node.js & NPM
+- MySQL 8.0+
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Setup
 
-### Premium Partners
+```bash
+# Clone the repository
+git clone <repository-url>
+cd bookify
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+# Install PHP dependencies
+composer install
 
-## Contributing
+# Install Node dependencies
+npm install
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+# Copy environment file
+cp .env.example .env
 
-## Code of Conduct
+# Generate application key
+php artisan key:generate
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+# Configure database in .env
+# DB_DATABASE=bookify
+# DB_USERNAME=your_username
+# DB_PASSWORD=your_password
 
-## Security Vulnerabilities
+# Run migrations
+php artisan migrate
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+# Seed database (optional)
+php artisan db:seed
+
+# Build assets
+npm run build
+
+# Start development server
+php artisan serve
+```
+
+### SMS Configuration (Msegat)
+
+Add to your `.env` file:
+```env
+MSEGAT_USERNAME=your_username
+MSEGAT_API_KEY=your_api_key
+MSEGAT_SENDER=SkyBridge
+MSEGAT_BASE_URL=https://www.msegat.com/gw
+```
+
+Then configure via Admin Panel → Settings → SMS Settings (Msegat)
+
+## Development
+
+```bash
+# Development with hot reload
+npm run dev
+
+# Build for production
+npm run build
+
+# Clear caches
+php artisan cache:clear
+php artisan config:clear
+php artisan view:clear
+```
+
+## Project Structure
+
+```
+app/
+├── Filament/           # Admin panel resources
+├── Http/Controllers/   # Web controllers
+├── Livewire/          # Livewire components
+├── Models/            # Eloquent models
+├── Notifications/     # Email & SMS notifications
+└── Services/          # Business logic services
+
+resources/
+├── css/app.css        # Tailwind styles & dark mode
+├── js/app.js          # Alpine.js & JavaScript
+├── views/
+│   ├── layouts/       # Main layout templates
+│   ├── components/    # Blade components
+│   ├── livewire/      # Livewire views
+│   └── pages/         # Static pages
+```
+
+## Key Files
+
+| File | Purpose |
+|------|---------|
+| `app/Services/MsegatService.php` | SMS API integration |
+| `app/Livewire/CreateBooking.php` | Booking wizard component |
+| `resources/css/app.css` | Tailwind config & dark mode |
+| `resources/views/layouts/main.blade.php` | Main website layout |
+
+## Configuration
+
+### Timezone
+Set in `config/app.php`: `'timezone' => 'Asia/Riyadh'`
+
+### Localization
+Default language: Arabic (`ar`) with English (`en`) support
+
+### Dark Mode
+Toggle via button in navigation. Preference saved in localStorage.
+
+## Page Types
+
+The system supports different page types:
+- **About Us:** Company information, history, mission
+- **Contact Us:** Contact details with Google Maps
+- **General Pages:** Privacy Policy, Terms, FAQ
+
+## Troubleshooting
+
+### Clear All Caches
+```bash
+php artisan cache:clear
+php artisan config:clear
+php artisan view:clear
+php artisan route:clear
+```
+
+### Rebuild Assets
+```bash
+npm run build
+```
+
+### SMS Not Working
+1. Check Msegat credentials in admin panel
+2. Verify phone number format (966xxxxxxxxx)
+3. Check Laravel logs: `storage/logs/laravel.log`
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is proprietary software for SkyBridge.
+
+---
+
+Built with Laravel, FilamentPHP, and Tailwind CSS.

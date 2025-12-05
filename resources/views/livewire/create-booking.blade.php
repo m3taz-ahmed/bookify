@@ -1,5 +1,5 @@
 <div class="max-w-4xl mx-auto p-4 sm:p-6">
-    <div class="bg-white rounded-2xl shadow-xl p-6 sm:p-8 transition-all duration-300 overflow-hidden relative">
+    <div class="bg-white dark:bg-dark-800 rounded-2xl shadow-xl p-6 sm:p-8 transition-all duration-300 overflow-hidden relative">
         <!-- Decorative Elements -->
         <div class="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-primary-100 to-secondary-100 rounded-full opacity-20 -mt-32 -mr-32"></div>
         <div class="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-accent-100 to-primary-100 rounded-full opacity-20 -mb-24 -ml-24"></div>
@@ -7,8 +7,8 @@
             <div class="absolute -top-10 -left-10 w-40 h-40 bg-gradient-to-br from-primary-50 to-secondary-50 rounded-full opacity-20"></div>
             <div class="absolute -bottom-10 -right-10 w-32 h-32 bg-gradient-to-br from-accent-50 to-primary-50 rounded-full opacity-20"></div>
             <div class="relative z-10">
-                <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">{{ __('website.book_a_service') }}</h1>
-                <p class="text-gray-600 max-w-md mx-auto">{{ __('website.follow_simple_steps') }}</p>
+                <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">{{ __('website.book_a_service') }}</h1>
+                <p class="text-gray-600 dark:text-gray-400 max-w-md mx-auto">{{ __('website.follow_simple_steps') }}</p>
             </div>
         </div>
         
@@ -144,13 +144,13 @@
                 <!-- Selected Date Summary -->
                 @if($selectedDate)
                 <div class="max-w-md mx-auto mb-6">
-                    <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 flex items-center">
-                        <svg class="h-5 w-5 text-blue-500 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <div class="bg-blue-50 border border-blue-200 dark:bg-blue-900/20 dark:border-blue-800 rounded-xl p-4 flex items-center">
+                        <svg class="h-5 w-5 text-blue-500 dark:text-blue-400 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
                         </svg>
                         <div>
-                            <span class="text-sm font-medium text-blue-800">{{ __('website.selected_date') }}:</span>
-                            <span class="font-semibold text-blue-900 ml-1">{{ \Carbon\Carbon::parse($selectedDate)->timezone('Asia/Riyadh')->format('l, F j, Y') }}</span>
+                            <span class="text-sm font-medium text-blue-800 dark:text-blue-300">{{ __('website.selected_date') }}:</span>
+                            <span class="font-semibold text-blue-900 dark:text-blue-100 ml-1">{{ \Carbon\Carbon::parse($selectedDate)->timezone('Asia/Riyadh')->format('l, F j, Y') }}</span>
                         </div>
                     </div>
                 </div>
@@ -159,16 +159,16 @@
                 <!-- Working Hours Display -->
                 @if(count($selectedDateWorkingHours) > 0)
                 <div class="max-w-md mx-auto mb-6">
-                    <div class="bg-indigo-50 border border-indigo-200 rounded-xl p-4">
+                    <div class="bg-indigo-50 border border-indigo-200 dark:bg-indigo-900/20 dark:border-indigo-800 rounded-xl p-4">
                         <div class="flex items-center mb-2">
-                            <svg class="h-5 w-5 text-indigo-500 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <svg class="h-5 w-5 text-indigo-500 dark:text-indigo-400 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
                             </svg>
-                            <span class="text-sm font-medium text-indigo-800">{{ __('website.working_hours') }}:</span>
+                            <span class="text-sm font-medium text-indigo-800 dark:text-indigo-300">{{ __('website.working_hours') }}:</span>
                         </div>
                         <div class="flex flex-wrap gap-2">
                             @foreach($selectedDateWorkingHours as $slot)
-                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900/40 dark:text-indigo-200">
                                     {{ $slot['start'] }} - {{ $slot['end'] }}
                                 </span>
                             @endforeach
@@ -212,13 +212,13 @@
                         <!-- Selected Time Summary -->
                         @if($selectedTime)
                         <div class="max-w-md mx-auto mb-6">
-                            <div class="bg-green-50 border border-green-200 rounded-xl p-4 flex items-center">
-                                <svg class="h-5 w-5 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <div class="bg-green-50 border border-green-200 dark:bg-green-900/20 dark:border-green-800 rounded-xl p-4 flex items-center">
+                                <svg class="h-5 w-5 text-green-500 dark:text-green-400 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
                                 </svg>
                                 <div>
-                                    <span class="text-sm font-medium text-green-800">{{ __('website.selected_time') }}:</span>
-                                    <span class="font-semibold text-green-900 ml-1">{{ \Carbon\Carbon::createFromFormat('H:i', $selectedTime, 'Asia/Riyadh')->format('g:i A') }}</span>
+                                    <span class="text-sm font-medium text-green-800 dark:text-green-300">{{ __('website.selected_time') }}:</span>
+                                    <span class="font-semibold text-green-900 dark:text-green-100 ml-1">{{ \Carbon\Carbon::createFromFormat('H:i', $selectedTime, 'Asia/Riyadh')->format('g:i A') }}</span>
                                 </div>
                             </div>
                         </div>
@@ -318,12 +318,12 @@
                 <!-- Check if both payment methods are disabled -->
                 @if(!$isCashPaymentEnabled && !$isOnlinePaymentEnabled)
                 <div class="max-w-md mx-auto mb-8">
-                    <div class="bg-red-50 border border-red-200 rounded-xl p-6 text-center">
-                        <svg class="h-12 w-12 text-red-500 mx-auto mb-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <div class="bg-red-50 border border-red-200 dark:bg-red-900/20 dark:border-red-800 rounded-xl p-6 text-center">
+                        <svg class="h-12 w-12 text-red-500 dark:text-red-400 mx-auto mb-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                         </svg>
-                        <h3 class="text-lg font-medium text-red-800 mb-2">{{ __('website.payment_methods_unavailable') }}</h3>
-                        <p class="text-red-700">{{ __('website.payment_methods_unavailable_message') }}</p>
+                        <h3 class="text-lg font-medium text-red-800 dark:text-red-300 mb-2">{{ __('website.payment_methods_unavailable') }}</h3>
+                        <p class="text-red-700 dark:text-red-400">{{ __('website.payment_methods_unavailable_message') }}</p>
                     </div>
                 </div>
                 @else
@@ -332,44 +332,44 @@
                 @endphp
                 <div class="grid grid-cols-1 {{ $enabledPaymentCount === 2 ? 'md:grid-cols-2' : '' }} gap-6 mb-8 {{ $enabledPaymentCount === 1 ? 'max-w-md mx-auto' : '' }}">
                     @if($isCashPaymentEnabled)
-                    <div class="border border-gray-200 rounded-2xl p-6 hover:border-primary-300 cursor-pointer transition-all duration-300 bg-white hover:bg-gradient-to-br from-white to-primary-50 transform hover:-translate-y-2 shadow-sm hover:shadow-lg" 
+                    <div class="border border-gray-200 dark:border-dark-700 rounded-2xl p-6 hover:border-primary-300 dark:hover:border-primary-500 cursor-pointer transition-all duration-300 bg-white dark:bg-dark-800 hover:bg-gradient-to-br from-white to-primary-50 dark:from-dark-800 dark:to-primary-900/20 transform hover:-translate-y-2 shadow-sm hover:shadow-lg" 
                          wire:click="selectPaymentMethod('cash')" wire:loading.class="opacity-50 pointer-events-none" wire:loading.attr="disabled" wire:target="selectPaymentMethod">
                         <div class="flex items-center mb-4">
                         <div class="flex-shrink-0 mr-4">
-                            <div class="w-16 h-16 rounded-full bg-gradient-to-br from-yellow-100 to-amber-100 flex items-center justify-center shadow-md">
-                                <svg class="w-8 h-8 text-yellow-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <div class="w-16 h-16 rounded-full bg-gradient-to-br from-yellow-100 to-amber-100 dark:from-yellow-900/30 dark:to-amber-900/30 flex items-center justify-center shadow-md">
+                                <svg class="w-8 h-8 text-yellow-600 dark:text-yellow-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
                             </div>
                         </div>
                         <div>
-                            <h3 class="font-bold text-xl text-gray-900">{{ __('website.cash_payment') }}</h3>
-                            <p class="text-sm text-gray-600">{{ __('website.pay_upon_arrival') }}</p>
+                            <h3 class="font-bold text-xl text-gray-900 dark:text-white">{{ __('website.cash_payment') }}</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">{{ __('website.pay_upon_arrival') }}</p>
                         </div>
                         </div>
-                        <div class="text-sm text-gray-600 bg-yellow-50 p-4 rounded-lg border border-yellow-100">
+                        <div class="text-sm text-gray-600 dark:text-gray-400 bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-lg border border-yellow-100 dark:border-yellow-900/30">
                             <p>{{ __('website.cash_payment_description') }}</p>
                         </div>
                     </div>
                     @endif
                     
                     @if($isOnlinePaymentEnabled)
-                    <div class="border border-gray-200 rounded-2xl p-6 hover:border-primary-300 cursor-pointer transition-all duration-300 bg-white hover:bg-gradient-to-br from-white to-primary-50 transform hover:-translate-y-2 shadow-sm hover:shadow-lg" 
+                    <div class="border border-gray-200 dark:border-dark-700 rounded-2xl p-6 hover:border-primary-300 dark:hover:border-primary-500 cursor-pointer transition-all duration-300 bg-white dark:bg-dark-800 hover:bg-gradient-to-br from-white to-primary-50 dark:from-dark-800 dark:to-primary-900/20 transform hover:-translate-y-2 shadow-sm hover:shadow-lg" 
                          wire:click="selectPaymentMethod('online')" wire:loading.class="opacity-50 pointer-events-none" wire:loading.attr="disabled" wire:target="selectPaymentMethod">
                         <div class="flex items-center mb-4">
                         <div class="flex-shrink-0 mr-4">
-                            <div class="w-16 h-16 rounded-full bg-gradient-to-br from-blue-100 to-indigo-100 flex items-center justify-center shadow-md">
-                                <svg class="w-8 h-8 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <div class="w-16 h-16 rounded-full bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 flex items-center justify-center shadow-md">
+                                <svg class="w-8 h-8 text-blue-600 dark:text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
                                 </svg>
                             </div>
                         </div>
                         <div>
-                            <h3 class="font-bold text-xl text-gray-900">{{ __('website.online_payment') }}</h3>
-                            <p class="text-sm text-gray-600">{{ __('website.secure_online_payment') }}</p>
+                            <h3 class="font-bold text-xl text-gray-900 dark:text-white">{{ __('website.online_payment') }}</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">{{ __('website.secure_online_payment') }}</p>
                         </div>
                         </div>
-                        <div class="text-sm text-gray-600 bg-blue-50 p-4 rounded-lg border border-blue-100">
+                        <div class="text-sm text-gray-600 dark:text-gray-400 bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-blue-100 dark:border-blue-900/30">
                             <p>{{ __('website.online_payment_description') }}</p>
                         </div>
                     </div>
@@ -413,11 +413,11 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                         </svg>
                     </div>
-                    <h2 class="text-4xl font-bold text-gray-900 mb-4">{{ __('website.booking_confirmed') }}</h2>
-                    <p class="text-gray-600 max-w-lg mx-auto text-xl">{{ __('website.appointment_successfully_booked') }}</p>
+                    <h2 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">{{ __('website.booking_confirmed') }}</h2>
+                    <p class="text-gray-600 dark:text-gray-300 max-w-lg mx-auto text-xl">{{ __('website.appointment_successfully_booked') }}</p>
                 </div>
                 
-                <div class="bg-gradient-to-r from-primary-50 to-secondary-50 rounded-2xl p-8 max-w-md mx-auto mb-8 border border-primary-100 shadow-lg hover:shadow-xl transition-all duration-300 relative overflow-hidden">
+                <div class="bg-gradient-to-r from-primary-50 to-secondary-50 dark:from-primary-900/30 dark:to-secondary-900/30 rounded-2xl p-8 max-w-md mx-auto mb-8 border border-primary-100 dark:border-primary-900/50 shadow-lg hover:shadow-xl transition-all duration-300 relative overflow-hidden">
                     <div class="absolute top-0 right-0 w-24 h-24 bg-primary-500 rounded-full -mt-12 -mr-12 opacity-10"></div>
                     <div class="absolute bottom-0 left-0 w-32 h-32 bg-secondary-500 rounded-full -mb-16 -ml-16 opacity-10"></div>
                     <div class="relative z-10">
@@ -425,17 +425,17 @@
                             <img src="{{ $qrCode }}" alt="Booking QR Code" class="mx-auto w-48 h-48">
                         </div>
                         <div class="text-center">
-                            <h3 class="text-lg font-bold text-gray-900 mb-2">{{ __('website.booking_reference') }}</h3>
-                            <p class="text-2xl font-mono font-bold text-primary-600">{{ $referenceCode }}</p>
-                            <p class="mt-2 text-gray-600">{{ __('website.save_reference_number') }}</p>
+                            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">{{ __('website.booking_reference') }}</h3>
+                            <p class="text-2xl font-mono font-bold text-primary-600 dark:text-primary-400">{{ $referenceCode }}</p>
+                            <p class="mt-2 text-gray-600 dark:text-gray-300">{{ __('website.save_reference_number') }}</p>
                         </div>
                     </div>
                 </div>
                 @if($bookingLink)
                 <div class="max-w-md mx-auto mb-8">
-                    <div class="bg-white border border-gray-200 rounded-xl p-4 text-center">
-                        <p class="text-sm text-gray-700 mb-2">{{ app()->getLocale() === 'ar' ? 'رابط تفاصيل الحجز (للمشاركة على الجوال)' : 'Booking details link (for SMS)' }}</p>
-                        <a href="{{ $bookingLink }}" class="break-all text-primary-700 hover:text-primary-900">{{ $bookingLink }}</a>
+                    <div class="bg-white dark:bg-dark-800 border border-gray-200 dark:border-dark-700 rounded-xl p-4 text-center">
+                        <p class="text-sm text-gray-700 dark:text-gray-300 mb-2">{{ app()->getLocale() === 'ar' ? 'رابط تفاصيل الحجز (للمشاركة على الجوال)' : 'Booking details link (for SMS)' }}</p>
+                        <a href="{{ $bookingLink }}" class="break-all text-primary-700 dark:text-primary-400 hover:text-primary-900 dark:hover:text-primary-300">{{ $bookingLink }}</a>
                     </div>
                 </div>
                 @endif

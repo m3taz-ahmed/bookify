@@ -282,4 +282,5 @@ return [
     'activity_family_desc' => 'Safe and enjoyable for all ages with easy access.',
     'activity_landmarks_title' => 'Landmark Spotting',
     'activity_landmarks_desc' => 'Identify iconic places across the city with clear visibility.',
+    'toggle_theme' => 'Toggle Theme',
 ];

@@ -21,12 +21,12 @@
 
 @section('content')
 <div class="container mx-auto px-4 py-8">
-    <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden transition-all duration-300 hover:shadow-2xl border-t-4 border-primary">
-        <div class="px-8 py-6 border-b border-gray-200 bg-gradient-to-r from-background-50 to-accent-50">
+    <div class="max-w-4xl mx-auto bg-white dark:bg-dark-800 rounded-2xl shadow-xl overflow-hidden transition-all duration-300 hover:shadow-2xl border-t-4 border-primary">
+        <div class="px-8 py-6 border-b border-gray-200 dark:border-dark-700 bg-gradient-to-r from-background-50 to-accent-50 dark:from-dark-700 dark:to-dark-600">
             <div class="flex items-center justify-between">
                 <div>
-                    <h1 class="text-3xl font-bold text-gray-900">{{ __('website.book_new_appointment') }}</h1>
-                    <p class="text-gray-600 mt-2">{{ __('website.follow_steps_below') }}</p>
+                    <h1 class="text-3xl font-bold text-gray-900 dark:text-white">{{ __('website.book_new_appointment') }}</h1>
+                    <p class="text-gray-600 dark:text-gray-400 mt-2">{{ __('website.follow_steps_below') }}</p>
                 </div>
                 <!-- <div class="hidden md:block">
                     <div class="flex items-center space-x-2">
@@ -44,7 +44,7 @@
         </div>
     </div>
     
-    <div class="mt-8 text-center text-sm text-gray-500">
+    <div class="mt-8 text-center text-sm text-gray-500 dark:text-gray-400">
         <p>{{ __('website.need_help_contact_support', ['email' => 'support@skybridge.com']) }}</p>
     </div>
 </div>

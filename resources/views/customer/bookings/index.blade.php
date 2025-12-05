@@ -14,14 +14,14 @@
 @section('content')
 <div class="container mx-auto px-4 py-8">
     <div class="max-w-6xl mx-auto" style="overflow: visible;">
-        <div class="bg-white rounded-2xl shadow-xl" style="overflow: visible;">
-            <div class="px-6 py-6 border-b border-gray-200 bg-gradient-to-br from-background-50 to-accent-50 relative" style="overflow: visible;">
+        <div class="bg-white dark:bg-dark-800 rounded-2xl shadow-xl" style="overflow: visible;">
+            <div class="px-6 py-6 border-b border-gray-200 dark:border-dark-700 bg-gradient-to-br from-background-50 to-accent-50 dark:from-dark-800 dark:to-dark-700 relative" style="overflow: visible;">
                 <div class="absolute top-0 right-0 w-32 h-32 bg-primary-500 rounded-full -mt-16 -mr-16 opacity-10"></div>
                 <div class="absolute bottom-0 left-0 w-24 h-24 bg-secondary-500 rounded-full -mb-12 -ml-12 opacity-10"></div>
                 <div class="flex flex-col md:flex-row md:items-center md:justify-between relative z-10">
                     <div>
-                        <h1 class="text-2xl font-bold text-gray-900">{{ __('website.my_bookings') }}</h1>
-                        <p class="mt-1 text-sm text-gray-600">{{ __('website.manage_appointments') }}</p>
+                        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ __('website.my_bookings') }}</h1>
+                        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">{{ __('website.manage_appointments') }}</p>
                     </div>
                     <div class="mt-4 md:mt-0">
                         <a href="{{ route('customer.bookings.create') }}" class="inline-flex items-center px-5 py-2.5 border border-transparent rounded-xl shadow-md text-base font-medium text-white bg-gradient-to-r from-primary-600 to-secondary-700 hover:from-primary-700 hover:to-secondary-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-lg">
@@ -36,21 +36,21 @@
             
             <div class="px-6 py-6" style="overflow: visible;">
                 <!-- Filter Tabs -->
-                <div class="border-b border-gray-200 mb-6">
+                <div class="border-b border-gray-200 dark:border-dark-700 mb-6">
                     <nav class="flex space-x-8">
-                        <button class="tab-button border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm" data-tab="all">
+                        <button class="tab-button border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:border-gray-300 dark:hover:border-gray-600 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm" data-tab="all">
                             {{ __('website.all_bookings') }}
                         </button>
-                        <button class="tab-button border-primary-500 text-primary-600 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm" data-tab="upcoming">
+                        <button class="tab-button border-primary-500 text-primary-600 dark:text-primary-400 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm" data-tab="upcoming">
                             {{ __('website.upcoming') }}
                         </button>
-                        <button class="tab-button border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm" data-tab="pending">
+                        <button class="tab-button border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:border-gray-300 dark:hover:border-gray-600 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm" data-tab="pending">
                             {{ __('website.pending') }}
                         </button>
-                        <button class="tab-button border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm" data-tab="past">
+                        <button class="tab-button border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:border-gray-300 dark:hover:border-gray-600 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm" data-tab="past">
                             {{ __('website.past') }}
                         </button>
-                        <button class="tab-button border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm" data-tab="cancelled">
+                        <button class="tab-button border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:border-gray-300 dark:hover:border-gray-600 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm" data-tab="cancelled">
                             {{ __('website.cancelled') }}
                         </button>
                     </nav>
@@ -59,8 +59,8 @@
                 <!-- Items per page selector -->
                 <div class="flex justify-end mb-4">
                     <div class="flex items-center">
-                        <label for="per_page" class="mr-2 text-sm text-gray-700">{{ __('website.showing') }}</label>
-                        <select id="per_page" class="rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 text-sm">
+                        <label for="per_page" class="mr-2 text-sm text-gray-700 dark:text-gray-300">{{ __('website.showing') }}</label>
+                        <select id="per_page" class="rounded-md border-gray-300 dark:border-dark-600 dark:bg-dark-700 dark:text-white shadow-sm focus:border-primary-500 focus:ring-primary-500 text-sm">
                             <option value="5" {{ request('per_page') == 5 ? 'selected' : '' }}>5 {{ __('website.results') }}</option>
                             <option value="10" {{ !request('per_page') || request('per_page') == 10 ? 'selected' : '' }}>10 {{ __('website.results') }}</option>
                             <option value="20" {{ request('per_page') == 20 ? 'selected' : '' }}>20 {{ __('website.results') }}</option>
@@ -72,8 +72,8 @@
                 <!-- Bookings List -->
                 <div class="space-y-4" id="bookings-container" style="overflow: visible;">
                     @forelse($bookings as $booking)
-                        <div class="border border-gray-200 rounded-xl hover:shadow-md transition-all duration-200 overflow-hidden">
-                            <div class="p-5 bg-gradient-to-r from-primary-50 to-secondary-50">
+                        <div class="border border-gray-200 dark:border-dark-700 rounded-xl hover:shadow-md transition-all duration-200 overflow-hidden">
+                            <div class="p-5 bg-gradient-to-r from-primary-50 to-secondary-50 dark:from-dark-700 dark:to-dark-800">
                                 <div class="flex items-start justify-between">
                                     <div class="flex items-start space-x-4">
                                         @if($booking->service->images->isNotEmpty())
@@ -81,7 +81,7 @@
                                                 <img src="{{ Storage::url($booking->service->images->first()->image) }}" alt="{{ $booking->service->name }}" class="w-full h-full object-cover transition-transform duration-300 hover:scale-110">
                                             </div>
                                         @else
-                                            <div class="h-14 w-14 rounded-xl bg-white shadow-sm flex items-center justify-center flex-shrink-0">
+                                            <div class="h-14 w-14 rounded-xl bg-white dark:bg-dark-600 shadow-sm flex items-center justify-center flex-shrink-0">
                                                 <svg class="h-7 w-7 text-primary-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                                 </svg>
@@ -89,7 +89,7 @@
                                         @endif
                                         <div class="flex-1">
                                             @if($booking->items && $booking->items->count() > 0)
-                                                <h3 class="font-bold text-lg text-gray-900 mb-1">
+                                                <h3 class="font-bold text-lg text-gray-900 dark:text-white mb-1">
                                                     @foreach($booking->items as $item)
                                                         <span class="inline-flex items-center mr-2">
                                                             <span class="font-semibold">{{ $item->service->name }}</span>
@@ -98,16 +98,16 @@
                                                     @endforeach
                                                 </h3>
                                             @else
-                                                <h3 class="font-bold text-lg text-gray-900 mb-1">{{ $booking->service->name }}</h3>
+                                                <h3 class="font-bold text-lg text-gray-900 dark:text-white mb-1">{{ $booking->service->name }}</h3>
                                             @endif
                                             <div class="flex flex-wrap gap-3 text-sm">
-                                                <div class="flex items-center text-gray-700">
+                                                <div class="flex items-center text-gray-700 dark:text-gray-300">
                                                     <svg class="h-4 w-4 mr-1.5 text-primary-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                                     </svg>
                                                     <span class="font-semibold">{{ \Carbon\Carbon::parse($booking->booking_date)->timezone('Asia/Riyadh')->translatedFormat('l, F j, Y') }}</span>
                                                 </div>
-                                                <div class="flex items-center text-gray-700">
+                                                <div class="flex items-center text-gray-700 dark:text-gray-300">
                                                     <svg class="h-4 w-4 mr-1.5 text-primary-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                                     </svg>
@@ -120,7 +120,7 @@
                                         <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold {{ $booking->status_badge_class }}">
                                             {{ ucfirst($booking->status) }}
                                         </span>
-                                        <div class="relative">
+                                        <!-- <div class="relative">
                                             <button class="text-gray-400 hover:text-primary-600 three-dots-button" data-booking-id="{{ $booking->id }}" data-reference-code="{{ $booking->reference_code }}">
                                                 <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
@@ -138,63 +138,63 @@
                                                     </button>
                                                 @endif
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
                             </div>
                             
-                            <div class="p-5 bg-white">
+                            <div class="p-5 bg-white dark:bg-dark-800">
                                 <div class="flex items-center justify-between gap-4 mb-4 flex-wrap">
                                     <div class="flex items-center gap-1.5">
-                                        <div class="h-8 w-8 rounded-lg bg-blue-50 flex items-center justify-center flex-shrink-0">
-                                            <svg class="h-4 w-4 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <div class="h-8 w-8 rounded-lg bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center flex-shrink-0">
+                                            <svg class="h-4 w-4 text-blue-600 dark:text-blue-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
                                             </svg>
                                         </div>
-                                        <span class="text-xs text-gray-500">{{ __('website.reference') }}:</span>
-                                        <span class="text-sm font-bold text-gray-900">{{ $booking->reference_code }}</span>
+                                        <span class="text-xs text-gray-500 dark:text-gray-400">{{ __('website.reference') }}:</span>
+                                        <span class="text-sm font-bold text-gray-900 dark:text-white">{{ $booking->reference_code }}</span>
                                     </div>
                                     
                                     <div class="flex items-center gap-1.5">
-                                        <div class="h-8 w-8 rounded-lg bg-purple-50 flex items-center justify-center flex-shrink-0">
-                                            <svg class="h-4 w-4 text-purple-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <div class="h-8 w-8 rounded-lg bg-purple-50 dark:bg-purple-900/30 flex items-center justify-center flex-shrink-0">
+                                            <svg class="h-4 w-4 text-purple-600 dark:text-purple-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 115.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                                             </svg>
                                         </div>
-                                        <span class="text-xs text-gray-500">{{ __('website.people') }}:</span>
-                                        <span class="text-sm font-bold text-gray-900">{{ $booking->number_of_people }}</span>
+                                        <span class="text-xs text-gray-500 dark:text-gray-400">{{ __('website.people') }}:</span>
+                                        <span class="text-sm font-bold text-gray-900 dark:text-white">{{ $booking->number_of_people }}</span>
                                     </div>
                                     
                                     <div class="flex items-center gap-1.5">
-                                        <div class="h-8 w-8 rounded-lg bg-green-50 flex items-center justify-center flex-shrink-0">
-                                            <svg class="h-4 w-4 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <div class="h-8 w-8 rounded-lg bg-green-50 dark:bg-green-900/30 flex items-center justify-center flex-shrink-0">
+                                            <svg class="h-4 w-4 text-green-600 dark:text-green-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
                                             </svg>
                                         </div>
-                                        <span class="text-xs text-gray-500">{{ __('website.payment') }}:</span>
-                                        <span class="text-sm font-bold text-gray-900">{{ ucfirst($booking->payment_method) }}</span>
+                                        <span class="text-xs text-gray-500 dark:text-gray-400">{{ __('website.payment') }}:</span>
+                                        <span class="text-sm font-bold text-gray-900 dark:text-white">{{ ucfirst($booking->payment_method) }}</span>
                                     </div>
                                     
                                     @php
                                         $totalPrice = $booking->items->sum('total_price');
                                     @endphp
                                     <div class="flex items-center gap-1.5">
-                                        <div class="h-8 w-8 rounded-lg bg-amber-50 flex items-center justify-center flex-shrink-0">
-                                            <x-sar-icon class="h-4 w-4 text-amber-600" />
+                                        <div class="h-8 w-8 rounded-lg bg-amber-50 dark:bg-amber-900/30 flex items-center justify-center flex-shrink-0">
+                                            <x-sar-icon class="h-4 w-4 text-amber-600 dark:text-amber-400" />
                                         </div>
-                                        <span class="text-xs text-gray-500">{{ __('website.total_price') }}:</span>
-                                        <span class="text-sm font-bold text-gray-900">{{ number_format($totalPrice, 2) }}</span>
+                                        <span class="text-xs text-gray-500 dark:text-gray-400">{{ __('website.total_price') }}:</span>
+                                        <span class="text-sm font-bold text-gray-900 dark:text-white">{{ number_format($totalPrice, 2) }}</span>
                                     </div>
                                 </div>
                                 
                                 @if($booking->items->count() > 0)
-                                    <div class="border-t border-gray-100 pt-4 mb-4">
-                                        <p class="text-xs font-semibold text-gray-700 mb-2">{{ __('website.booking_items') }}:</p>
+                                    <div class="border-t border-gray-100 dark:border-dark-700 pt-4 mb-4">
+                                        <p class="text-xs font-semibold text-gray-700 dark:text-gray-300 mb-2">{{ __('website.booking_items') }}:</p>
                                         <div class="space-y-1">
                                             @foreach($booking->items as $item)
                                                 <div class="flex justify-between text-sm">
-                                                    <span class="text-gray-600">{{ $item->service->name }} × {{ $item->quantity }}</span>
-                                                    <span class="font-semibold text-gray-900">{{ number_format($item->total_price, 2) }}</span>
+                                                    <span class="text-gray-600 dark:text-gray-400">{{ $item->service->name }} × {{ $item->quantity }}</span>
+                                                    <span class="font-semibold text-gray-900 dark:text-white">{{ number_format($item->total_price, 2) }}</span>
                                                 </div>
                                             @endforeach
                                         </div>
@@ -209,8 +209,8 @@
                                             </svg>
                                             {{ __('website.view_qr_code') }}
                                         </button>
-                                    @endif
-                                    <a href="{{ route('booking.link', ['customer' => $booking->customer_id, 'reference' => $booking->reference_code]) }}" class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 text-sm font-medium rounded-lg transition-colors">
+                                     @endif
+                                    <a href="{{ route('booking.link', ['customer' => $booking->customer_id, 'reference' => $booking->reference_code]) }}" class="inline-flex items-center px-4 py-2 bg-white dark:bg-dark-700 border border-gray-300 dark:border-dark-600 hover:bg-gray-50 dark:hover:bg-dark-600 text-gray-700 dark:text-gray-200 text-sm font-medium rounded-lg transition-colors">
                                         <svg class="h-4 w-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
@@ -218,7 +218,7 @@
                                         {{ __('website.view_details') }}
                                     </a>
                                     @if($booking->status === 'confirmed' || $booking->status === 'pending')
-                                        <button class="cancel-booking-btn inline-flex items-center px-4 py-2 bg-red-50 border border-red-200 hover:bg-red-100 text-red-600 text-sm font-medium rounded-lg transition-colors" data-booking-id="{{ $booking->id }}" data-reference-code="{{ $booking->reference_code }}">
+                                        <button class="cancel-booking-btn inline-flex items-center px-4 py-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900/50 hover:bg-red-100 dark:hover:bg-red-900/40 text-red-600 dark:text-red-400 text-sm font-medium rounded-lg transition-colors" data-booking-id="{{ $booking->id }}" data-reference-code="{{ $booking->reference_code }}">
                                             <svg class="h-4 w-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                                             </svg>
@@ -250,14 +250,14 @@
                 <!-- Pagination -->
                 @if($bookings->hasPages())
                     <div class="mt-6">
-                        <div class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
+                        <div class="flex items-center justify-between border-t border-gray-200 dark:border-dark-700 bg-white dark:bg-dark-800 px-4 py-3 sm:px-6">
                             <div class="flex flex-1 justify-between sm:hidden">
-                                <a href="{{ $bookings->previousPageUrl() }}" class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">{{ __('website.previous') }}</a>
-                                <a href="{{ $bookings->nextPageUrl() }}" class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">{{ __('website.next') }}</a>
+                                <a href="{{ $bookings->previousPageUrl() }}" class="relative inline-flex items-center rounded-md border border-gray-300 dark:border-dark-600 bg-white dark:bg-dark-700 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-dark-600">{{ __('website.previous') }}</a>
+                                <a href="{{ $bookings->nextPageUrl() }}" class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 dark:border-dark-600 bg-white dark:bg-dark-700 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-dark-600">{{ __('website.next') }}</a>
                             </div>
                             <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
                                 <div>
-                                    <p class="text-sm text-gray-700">
+                                    <p class="text-sm text-gray-700 dark:text-gray-300">
                                         {{ __('website.showing') }}
                                         <span class="font-medium">{{ $bookings->firstItem() }}</span>
                                         {{ __('website.to') }}
@@ -277,7 +277,7 @@
                                                 </svg>
                                             </span>
                                         @else
-                                            <a href="{{ $bookings->previousPageUrl() }}" class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
+                                            <a href="{{ $bookings->previousPageUrl() }}" class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 dark:ring-dark-600 hover:bg-gray-50 dark:hover:bg-dark-700 focus:z-20 focus:outline-offset-0">
                                                 <span class="sr-only">{{ __('website.previous') }}</span>
                                                 <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                                     <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" />
@@ -287,14 +287,14 @@
 
                                         @for ($i = 1; $i <= $bookings->lastPage(); $i++)
                                             @if ($i == $bookings->currentPage())
-                                                <span class="relative z-10 inline-flex items-center px-4 py-2 text-sm font-semibold text-primary-600 bg-primary-100 ring-1 ring-inset ring-primary-600">{{ $i }}</span>
+                                                <span class="relative z-10 inline-flex items-center px-4 py-2 text-sm font-semibold text-primary-600 dark:text-primary-400 bg-primary-100 dark:bg-primary-900/40 ring-1 ring-inset ring-primary-600 dark:ring-primary-500">{{ $i }}</span>
                                             @else
-                                                <a href="{{ $bookings->url($i) }}" class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">{{ $i }}</a>
+                                                <a href="{{ $bookings->url($i) }}" class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 dark:text-gray-200 ring-1 ring-inset ring-gray-300 dark:ring-dark-600 hover:bg-gray-50 dark:hover:bg-dark-700 focus:z-20 focus:outline-offset-0">{{ $i }}</a>
                                             @endif
                                         @endfor
 
                                         @if ($bookings->hasMorePages())
-                                            <a href="{{ $bookings->nextPageUrl() }}" class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
+                                            <a href="{{ $bookings->nextPageUrl() }}" class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 dark:ring-dark-600 hover:bg-gray-50 dark:hover:bg-dark-700 focus:z-20 focus:outline-offset-0">
                                                 <span class="sr-only">{{ __('website.next') }}</span>
                                                 <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                                     <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
@@ -333,20 +333,20 @@
 
 <!-- Confirmation Modal -->
 <div id="confirmationModal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-md w-full p-6">
-        <div class="flex items-center justify-between mb-4">
-            <h3 class="text-lg font-bold text-gray-900">{{ __('website.confirm_action') }}</h3>
-            <button class="close-confirmation-modal text-gray-400 hover:text-gray-500">
-                <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
-        </div>
-        <p class="text-gray-600 mb-6" id="confirmationMessage"></p>
-        <div class="flex justify-end space-x-3">
-            <button class="close-confirmation-modal px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300">
-                {{ __('website.keep_it') }}
-            </button>
+        <div class="bg-white dark:bg-dark-800 rounded-2xl max-w-md w-full p-6">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-bold text-gray-900 dark:text-white">{{ __('website.confirm_action') }}</h3>
+                <button class="close-confirmation-modal text-gray-400 hover:text-gray-500">
+                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <p class="text-gray-600 dark:text-gray-400 mb-6" id="confirmationMessage"></p>
+            <div class="flex justify-end space-x-3">
+                <button class="close-confirmation-modal px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-gray-200 dark:bg-dark-600 rounded-lg hover:bg-gray-300 dark:hover:bg-dark-500">
+                    {{ __('website.keep_it') }}
+                </button>
 
             <button class="text-red-600 hover:text-red-900 bg-red-50 hover:bg-red-100 !px-4 !py-2 !text-sm !font-medium !bg-red-600 !text-white !important !rounded-lg !hover:bg-red-700 !focus:outline-none !focus:ring-2 !focus:ring-red-500 !focus:ring-offset-2 !transition-colors !duration-200" id="confirmActionBtn" >
                 {{ __('website.cancel_the_booking') }}
@@ -410,12 +410,12 @@ function showQRCode(reference, qrCodeUrl) {
                 <div class="absolute inset-0 bg-gradient-to-br from-gray-800 to-gray-900 opacity-80"></div>
             </div>
             <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-            <div class="inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full relative">
+            <div class="inline-block align-bottom bg-white dark:bg-dark-800 rounded-2xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full relative">
                 <!-- Decorative elements -->
-                <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-primary-100 to-secondary-100 rounded-full opacity-20 -mt-16 -mr-16"></div>
-                <div class="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-accent-100 to-primary-100 rounded-full opacity-20 -mb-12 -ml-12"></div>
+                <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-primary-100 to-secondary-100 dark:from-primary-900/20 dark:to-secondary-900/20 rounded-full opacity-20 -mt-16 -mr-16"></div>
+                <div class="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-accent-100 to-primary-100 dark:from-accent-900/20 dark:to-primary-900/20 rounded-full opacity-20 -mb-12 -ml-12"></div>
                 
-                <div class="bg-white px-6 pt-6 pb-6 sm:p-8 sm:pb-6 relative z-10">
+                <div class="bg-white dark:bg-dark-800 px-6 pt-6 pb-6 sm:p-8 sm:pb-6 relative z-10">
                     <div class="sm:flex sm:items-start">
                         <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
                             <div class="flex items-center justify-center mb-6">
@@ -424,13 +424,13 @@ function showQRCode(reference, qrCodeUrl) {
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H9a1 1 0 00-1 1v2a1 1 0 001 1h2a1 1 0 011 1v2a1 1 0 01-1 1H9a1 1 0 01-1-1V8a1 1 0 011-1h2a1 1 0 001-1V5a1 1 0 00-1-1H7a2 2 0 00-2 2v2a2 2 0 002 2h2zm0 0v4m0 0h.01M12 16h.01" />
                                     </svg>
                                 </div>
-                                <h3 class="text-2xl font-bold text-gray-900">{{ __('website.booking_qr_code') }}</h3>
+                                <h3 class="text-2xl font-bold text-gray-900 dark:text-white">{{ __('website.booking_qr_code') }}</h3>
                             </div>
                             
                             <div class="mt-2 flex flex-col items-center">
-                                <div class="bg-gradient-to-br from-gray-50 to-accent-50 rounded-2xl p-6 mb-6 w-full border border-gray-100 shadow-sm">
-                                    <p class="text-sm text-gray-600 mb-2">{{ __('website.booking_reference') }}</p>
-                                    <p class="text-lg font-bold text-gray-900 mb-4 font-mono">${reference}</p>
+                                <div class="bg-gradient-to-br from-gray-50 to-accent-50 dark:from-dark-700 dark:to-dark-600 rounded-2xl p-6 mb-6 w-full border border-gray-100 dark:border-dark-600 shadow-sm">
+                                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">{{ __('website.booking_reference') }}</p>
+                                    <p class="text-lg font-bold text-gray-900 dark:text-white mb-4 font-mono">${reference}</p>
                                     <div class="flex justify-center">
                                         <div class="p-3 bg-white rounded-xl shadow-lg border-4 border-white inline-block transform hover:scale-105 transition-all duration-300">
                                             <img src="${qrCodeUrl}" alt="QR Code" class="w-48 h-48 mx-auto">
@@ -438,16 +438,16 @@ function showQRCode(reference, qrCodeUrl) {
                                     </div>
                                 </div>
                                 
-                                <div class="bg-gradient-to-r from-primary-50 to-secondary-50 rounded-xl p-4 w-full border border-primary-100 mb-6">
+                                <div class="bg-gradient-to-r from-primary-50 to-secondary-50 dark:from-primary-900/30 dark:to-secondary-900/30 rounded-xl p-4 w-full border border-primary-100 dark:border-primary-900/50 mb-6">
                                     <div class="flex">
                                         <div class="flex-shrink-0 mr-3">
-                                            <svg class="h-5 w-5 text-primary-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                            <svg class="h-5 w-5 text-primary-500 dark:text-primary-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                                 <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
                                             </svg>
                                         </div>
                                         <div>
-                                            <h4 class="text-sm font-semibold text-primary-800 mb-1">{{ __('website.helpful_tip') }}</h4>
-                                            <p class="text-sm text-primary-700">{{ __('website.scan_qr_code_for_check_in') }}</p>
+                                            <h4 class="text-sm font-semibold text-primary-800 dark:text-primary-300 mb-1">{{ __('website.helpful_tip') }}</h4>
+                                            <p class="text-sm text-primary-700 dark:text-primary-400">{{ __('website.scan_qr_code_for_check_in') }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -455,8 +455,8 @@ function showQRCode(reference, qrCodeUrl) {
                         </div>
                     </div>
                 </div>
-                <div class="bg-gray-50 px-6 py-4 sm:px-8 sm:flex sm:flex-row-reverse relative z-10">
-                    <button type="button" class="mt-3 w-full inline-flex justify-center rounded-xl border border-gray-300 shadow-sm px-6 py-3 bg-white text-base font-medium text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm transition-all duration-200 transform hover:-translate-y-0.5">
+                <div class="bg-gray-50 dark:bg-dark-700 px-6 py-4 sm:px-8 sm:flex sm:flex-row-reverse relative z-10">
+                    <button type="button" class="mt-3 w-full inline-flex justify-center rounded-xl border border-gray-300 dark:border-dark-600 shadow-sm px-6 py-3 bg-white dark:bg-dark-600 text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-dark-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm transition-all duration-200 transform hover:-translate-y-0.5">
                         {{ __('website.close') }}
                     </button>
                 </div>
