@@ -72,127 +72,160 @@
                 <!-- Bookings List -->
                 <div class="space-y-4" id="bookings-container" style="overflow: visible;">
                     @forelse($bookings as $booking)
-                        <div class="border border-gray-200 rounded-2xl p-6 hover:border-primary-300 transition-all duration-300 bg-white hover:bg-gradient-to-br from-white to-primary-50 shadow-sm hover:shadow-lg transform hover:-translate-y-1 relative overflow-visible group">
-                            <div class="absolute top-0 right-0 w-24 h-24 bg-primary-500 rounded-full -mt-12 -mr-12 transition-all duration-500 group-hover:scale-150 opacity-5"></div>
-                            <div class="absolute bottom-0 left-0 w-16 h-16 bg-secondary-500 rounded-full -mb-8 -ml-8 transition-all duration-500 group-hover:scale-150 opacity-5"></div>
-                            <div class="flex flex-col md:flex-row md:items-center md:justify-between">
-                                <div class="flex items-start">
-                                    @if($booking->service->images->isNotEmpty())
-                                        <!-- Service Image Slider -->
-                                        <div class="relative w-16 h-16 rounded-xl overflow-hidden mr-4 flex-shrink-0 cursor-pointer" data-image-path="{{ Storage::url($booking->service->images->first()->image) }}">
-                                            <img src="{{ Storage::url($booking->service->images->first()->image) }}" alt="{{ $booking->service->name }}" class="w-full h-full object-cover transition-transform duration-300 hover:scale-110">
-                                            @if($booking->service->images->count() > 1)
-                                                <div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
-                                                    <span class="text-white text-xs font-bold">+{{ $booking->service->images->count() - 1 }}</span>
-                                                </div>
-                                            @endif
-                                        </div>
-                                    @else
-                                        <div class="h-16 w-16 rounded-xl bg-gradient-to-br from-primary-100 to-secondary-100 flex items-center justify-center mr-4 flex-shrink-0">
-                                            <svg class="h-8 w-8 text-primary-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                            </svg>
-                                        </div>
-                                    @endif
-                                    <div>
-                                        @if($booking->items && $booking->items->count() > 0)
-                                            <h3 class="font-bold text-lg text-gray-900">
-                                                @foreach($booking->items as $item)
-                                                    <span class="inline-flex items-center mr-2">
-                                                        <span class="font-semibold">{{ $item->service->name }}</span>
-                                                        <span class="ml-1">×{{ $item->quantity }}</span>
-                                                    </span>
-                                                @endforeach
-                                            </h3>
+                        <div class="border border-gray-200 rounded-xl hover:shadow-md transition-all duration-200 overflow-hidden">
+                            <div class="p-5 bg-gradient-to-r from-primary-50 to-secondary-50">
+                                <div class="flex items-start justify-between">
+                                    <div class="flex items-start space-x-4">
+                                        @if($booking->service->images->isNotEmpty())
+                                            <div class="h-14 w-14 rounded-xl overflow-hidden shadow-sm flex-shrink-0 cursor-pointer" data-image-path="{{ Storage::url($booking->service->images->first()->image) }}">
+                                                <img src="{{ Storage::url($booking->service->images->first()->image) }}" alt="{{ $booking->service->name }}" class="w-full h-full object-cover transition-transform duration-300 hover:scale-110">
+                                            </div>
                                         @else
-                                            <h3 class="font-bold text-lg text-gray-900">{{ $booking->service->name }}</h3>
-                                        @endif
-                                        <p class="text-gray-600 mt-1">
-                                            <span class="inline-flex items-center">
-                                                <svg class="h-4 w-4 mr-1 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <div class="h-14 w-14 rounded-xl bg-white shadow-sm flex items-center justify-center flex-shrink-0">
+                                                <svg class="h-7 w-7 text-primary-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                                 </svg>
-                                                {{ \Carbon\Carbon::parse($booking->booking_date)->timezone('Asia/Riyadh')->format('M j, Y') }}
-                                            </span>
-                                            <span class="mx-2">•</span>
-                                            <span class="inline-flex items-center">
-                                                <svg class="h-4 w-4 mr-1 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                </svg>
-                                                {{ \Carbon\Carbon::parse($booking->start_time)->timezone('Asia/Riyadh')->format('g:i A') }}
-                                            </span>
-                                        </p>
-                                        {{-- Employee information removed as per requirement --}}
-                                        <p class="text-sm text-gray-500 mt-1">
-                                            <span class="inline-flex items-center">
-                                                <svg class="h-4 w-4 mr-1 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 115.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                                                </svg>
-                                                {{ $booking->number_of_people }} {{ __('website.people') }}
-                                            </span>
-                                            <span class="mx-2">•</span>
-                                            <span class="inline-flex items-center">
-                                                @if($booking->payment_method === 'cash')
-                                                    <svg class="h-4 w-4 mr-1 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </div>
+                                        @endif
+                                        <div class="flex-1">
+                                            @if($booking->items && $booking->items->count() > 0)
+                                                <h3 class="font-bold text-lg text-gray-900 mb-1">
+                                                    @foreach($booking->items as $item)
+                                                        <span class="inline-flex items-center mr-2">
+                                                            <span class="font-semibold">{{ $item->service->name }}</span>
+                                                            <span class="ml-1">×{{ $item->quantity }}</span>
+                                                        </span>
+                                                    @endforeach
+                                                </h3>
+                                            @else
+                                                <h3 class="font-bold text-lg text-gray-900 mb-1">{{ $booking->service->name }}</h3>
+                                            @endif
+                                            <div class="flex flex-wrap gap-3 text-sm">
+                                                <div class="flex items-center text-gray-700">
+                                                    <svg class="h-4 w-4 mr-1.5 text-primary-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                                     </svg>
-                                                    {{ __('website.cash_payment') }}
-                                                @else
-                                                    <svg class="h-4 w-4 mr-1 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                                                    <span class="font-semibold">{{ \Carbon\Carbon::parse($booking->booking_date)->timezone('Asia/Riyadh')->translatedFormat('l, F j, Y') }}</span>
+                                                </div>
+                                                <div class="flex items-center text-gray-700">
+                                                    <svg class="h-4 w-4 mr-1.5 text-primary-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                                     </svg>
-                                                    {{ __('website.online_payment') }}
-                                                @endif
-                                            </span>
-                                        </p>
+                                                    <span class="font-semibold">{{ \Carbon\Carbon::parse($booking->start_time)->timezone('Asia/Riyadh')->format('g:i A') }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                
-                                <div class="mt-4 md:mt-0 flex items-center">
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
-                                        @if($booking->status === 'confirmed') bg-accent-100 text-accent-800
-                                        @elseif($booking->status === 'pending') bg-light-100 text-light-800
-                                        @elseif($booking->status === 'cancelled') bg-background-100 text-background-800
-                                        @else bg-gray-100 text-gray-800 @endif">
-                                        {{ ucfirst($booking->status) }}
-                                    </span>
-                                    <div class="relative ml-3">
-                                        <button class="text-gray-400 hover:text-primary-600 three-dots-button" data-booking-id="{{ $booking->id }}" data-reference-code="{{ $booking->reference_code }}">
-                                            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
-                                            </svg>
-                                        </button>
-                                        <!-- Dropdown menu -->
-                                        <div class="dropdown-menu absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden z-[9999] border border-gray-200" style="position: absolute; top: 100%; right: 0; margin-top: 0.5rem;">
-                                            @if($booking->qr_code)
-                                                <button class="view-qr-btn block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-reference-code="{{ $booking->reference_code }}" data-qr-code="{{ $booking->qr_code }}">
-                                                    {{ __('website.view_qr_code') }}
-                                                </button>
-                                            @endif
-                                            @if($booking->status === 'confirmed' || $booking->status === 'pending')
-                                                <button class="cancel-booking-btn block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100" data-booking-id="{{ $booking->id }}" data-reference-code="{{ $booking->reference_code }}">
-                                                    {{ __('website.cancel_booking') }}
-                                                </button>
-                                            @endif
+                                    <div class="flex items-center space-x-2">
+                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold {{ $booking->status_badge_class }}">
+                                            {{ ucfirst($booking->status) }}
+                                        </span>
+                                        <div class="relative">
+                                            <button class="text-gray-400 hover:text-primary-600 three-dots-button" data-booking-id="{{ $booking->id }}" data-reference-code="{{ $booking->reference_code }}">
+                                                <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+                                                </svg>
+                                            </button>
+                                            <div class="dropdown-menu absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden z-[9999] border border-gray-200" style="position: absolute; top: 100%; right: 0; margin-top: 0.5rem;">
+                                                @if($booking->qr_code)
+                                                    <button class="view-qr-btn block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-reference-code="{{ $booking->reference_code }}" data-qr-code="{{ $booking->qr_code }}">
+                                                        {{ __('website.view_qr_code') }}
+                                                    </button>
+                                                @endif
+                                                @if($booking->status === 'confirmed' || $booking->status === 'pending')
+                                                    <button class="cancel-booking-btn block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100" data-booking-id="{{ $booking->id }}" data-reference-code="{{ $booking->reference_code }}">
+                                                        {{ __('website.cancel_booking') }}
+                                                    </button>
+                                                @endif
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             
-                            <div class="mt-4 pt-4 border-t border-gray-100">
-                                <div class="text-sm text-gray-700 mb-2">
-                                    {{ __('website.reference') }}: <span class="font-mono">{{ $booking->reference_code }}</span>
+                            <div class="p-5 bg-white">
+                                <div class="flex items-center justify-between gap-4 mb-4 flex-wrap">
+                                    <div class="flex items-center gap-1.5">
+                                        <div class="h-8 w-8 rounded-lg bg-blue-50 flex items-center justify-center flex-shrink-0">
+                                            <svg class="h-4 w-4 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
+                                            </svg>
+                                        </div>
+                                        <span class="text-xs text-gray-500">{{ __('website.reference') }}:</span>
+                                        <span class="text-sm font-bold text-gray-900">{{ $booking->reference_code }}</span>
+                                    </div>
+                                    
+                                    <div class="flex items-center gap-1.5">
+                                        <div class="h-8 w-8 rounded-lg bg-purple-50 flex items-center justify-center flex-shrink-0">
+                                            <svg class="h-4 w-4 text-purple-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 115.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                                            </svg>
+                                        </div>
+                                        <span class="text-xs text-gray-500">{{ __('website.people') }}:</span>
+                                        <span class="text-sm font-bold text-gray-900">{{ $booking->number_of_people }}</span>
+                                    </div>
+                                    
+                                    <div class="flex items-center gap-1.5">
+                                        <div class="h-8 w-8 rounded-lg bg-green-50 flex items-center justify-center flex-shrink-0">
+                                            <svg class="h-4 w-4 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+                                            </svg>
+                                        </div>
+                                        <span class="text-xs text-gray-500">{{ __('website.payment') }}:</span>
+                                        <span class="text-sm font-bold text-gray-900">{{ ucfirst($booking->payment_method) }}</span>
+                                    </div>
+                                    
+                                    @php
+                                        $totalPrice = $booking->items->sum('total_price');
+                                    @endphp
+                                    <div class="flex items-center gap-1.5">
+                                        <div class="h-8 w-8 rounded-lg bg-amber-50 flex items-center justify-center flex-shrink-0">
+                                            <x-sar-icon class="h-4 w-4 text-amber-600" />
+                                        </div>
+                                        <span class="text-xs text-gray-500">{{ __('website.total_price') }}:</span>
+                                        <span class="text-sm font-bold text-gray-900">{{ number_format($totalPrice, 2) }}</span>
+                                    </div>
                                 </div>
-                                @if($booking->items && $booking->items->count() > 0)
-                                    <div class="text-sm text-gray-700">
-                                        @foreach($booking->items as $item)
-                                            <span class="inline-flex items-center mr-3">
-                                                <span class="font-semibold">{{ $item->service->name }}</span>
-                                                <span class="ml-1">×{{ $item->quantity }}</span>
-                                            </span>
-                                        @endforeach
+                                
+                                @if($booking->items->count() > 0)
+                                    <div class="border-t border-gray-100 pt-4 mb-4">
+                                        <p class="text-xs font-semibold text-gray-700 mb-2">{{ __('website.booking_items') }}:</p>
+                                        <div class="space-y-1">
+                                            @foreach($booking->items as $item)
+                                                <div class="flex justify-between text-sm">
+                                                    <span class="text-gray-600">{{ $item->service->name }} × {{ $item->quantity }}</span>
+                                                    <span class="font-semibold text-gray-900">{{ number_format($item->total_price, 2) }}</span>
+                                                </div>
+                                            @endforeach
+                                        </div>
                                     </div>
                                 @endif
+                                
+                                <div class="flex flex-wrap gap-3">
+                                    @if($booking->qr_code)
+                                        <button class="view-qr-btn inline-flex items-center px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white text-sm font-medium rounded-lg transition-colors" data-reference-code="{{ $booking->reference_code }}" data-qr-code="{{ $booking->qr_code }}">
+                                            <svg class="h-4 w-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1v-2a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
+                                            </svg>
+                                            {{ __('website.view_qr_code') }}
+                                        </button>
+                                    @endif
+                                    <a href="{{ route('booking.link', ['customer' => $booking->customer_id, 'reference' => $booking->reference_code]) }}" class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 text-sm font-medium rounded-lg transition-colors">
+                                        <svg class="h-4 w-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                        </svg>
+                                        {{ __('website.view_details') }}
+                                    </a>
+                                    @if($booking->status === 'confirmed' || $booking->status === 'pending')
+                                        <button class="cancel-booking-btn inline-flex items-center px-4 py-2 bg-red-50 border border-red-200 hover:bg-red-100 text-red-600 text-sm font-medium rounded-lg transition-colors" data-booking-id="{{ $booking->id }}" data-reference-code="{{ $booking->reference_code }}">
+                                            <svg class="h-4 w-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                            </svg>
+                                            {{ __('website.cancel_booking') }}
+                                        </button>
+                                    @endif
+                                </div>
                             </div>
                         </div>
                     @empty
