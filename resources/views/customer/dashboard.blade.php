@@ -68,23 +68,22 @@
                 </span>
             </a>
 
-            <div class="bg-white rounded-2xl shadow-md p-6 border border-accent-200">
+            <a href="{{ route('customer.profile.edit') }}" class="bg-white rounded-2xl shadow-md p-6 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border border-accent-200">
                 <div class="flex items-center mb-4">
-                    <div class="h-12 w-12 rounded-full bg-secondary-100 flex items-center justify-center mr-4">
+                    <div class="h-12 w-12 rounded-full bg-accent-100 flex items-center justify-center mr-4">
                         <svg class="h-6 w-6 text-secondary-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                         </svg>
                     </div>
                     <h3 class="text-xl font-bold text-gray-900">{{ __('website.profile') }}</h3>
                 </div>
-                <p class="text-gray-600 mb-4">{{ __('website.update_personal_info') }}</p>
-                <a href="{{ route('customer.profile.edit') }}" class="inline-flex items-center text-secondary-600 font-medium">
-                    {{ __('website.edit_profile') }}
+                <span class="inline-flex items-center text-accent-600 font-medium">
+                    {{ __('website.update_personal_info') }}
                     <svg class="ml-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                     </svg>
-                </a>
-            </div>
+                </span>
+            </a>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -118,19 +117,18 @@
                                     <div>
                                         <h3 class="font-semibold text-gray-900">{{ $booking->service->name }}</h3>
                                         <p class="text-sm text-gray-600">
-                                            {{ \Carbon\Carbon::parse($booking->booking_date)->timezone('Asia/Riyadh')->format('M j, Y') }} {{ __('website.at') }} {{ $booking->start_time }}
+                                            {{ \Carbon\Carbon::parse($booking->booking_date)->timezone('Asia/Riyadh')->format('M j, Y') }} {{ __('website.at') }} {{ \Carbon\Carbon::parse($booking->start_time)->timezone('Asia/Riyadh')->format('h:i A') }}
                                         </p>
                                     </div>
                                 </div>
                                 <div class="flex items-center">
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800 mr-3">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $booking->status_badge_class }} mr-3">
                                         {{ $booking->status }}
                                     </span>
-                                    <!-- <button class="text-gray-400 hover:text-primary-600">
-                                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
-                                        </svg>
-                                    </button> -->
+                                    
+                                    <a href="#" data-qr="{{ $booking->qr_code }}" class="text-sm text-primary-600 hover:text-primary-800 font-medium js-open-qr">
+                                        {{ __('website.view_qr_code') }}
+                                    </a>
                                 </div>
                             </div>
                         @endforeach
@@ -152,17 +150,53 @@
                         </div>
                     </div>
                 @endif
+
+                <!-- QR Modal -->
+                <div id="qrModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
+                    <div class="bg-white rounded-2xl p-6 max-w-sm w-full relative">
+                        <button type="button" class="absolute top-3 right-3 text-gray-500 hover:text-gray-700 js-close-qr">&times;</button>
+                        <img id="qrImage" src="" alt="Booking QR" class="w-full h-auto">
+                    </div>
+                </div>
+
+                <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                  const modal = document.getElementById('qrModal');
+                  const img = document.getElementById('qrImage');
+                  document.querySelectorAll('.js-open-qr').forEach(function(link) {
+                    link.addEventListener('click', function(e) {
+                      e.preventDefault();
+                      const url = this.getAttribute('data-qr');
+                      if (url) {
+                        img.src = url;
+                        modal.classList.remove('hidden');
+                        modal.classList.add('flex');
+                      }
+                    });
+                  });
+                  document.querySelectorAll('.js-close-qr, #qrModal').forEach(function(el) {
+                    el.addEventListener('click', function(e) {
+                      if (e.target === this || this.classList.contains('js-close-qr')) {
+                        modal.classList.add('hidden');
+                        modal.classList.remove('flex');
+                        img.src = '';
+                      }
+                    });
+                  });
+                });
+                </script>
+
             </div>
 
-            <!-- Services Overview -->
+            <!-- Tickets Overview -->
             <div class="bg-white rounded-2xl shadow-md p-6 border border-accent-200">
                 <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-2xl font-bold text-gray-900">{{ __('website.popular_services') }}</h2>
+                    <h2 class="text-2xl font-bold text-gray-900">{{ __('website.popular_tickets') }}</h2>
                     <a href="{{ route('customer.bookings.create') }}" class="text-primary-600 hover:text-primary-800 font-medium text-sm">{{ __('website.view_all') }}</a>
                 </div>
                 <div class="grid grid-cols-1 gap-6">
                     @foreach(\App\Models\Service::where('is_active', true)->with('images')->limit(3)->get() as $service)
-                        <div class="border rounded-xl overflow-hidden bg-white shadow-sm flex items-center p-3 gap-4" data-service-id="{{ $service->id }}">
+                        <div class="border rounded-xl overflow-hidden bg-white shadow-sm flex items-center p-4 gap-4" data-service-id="{{ $service->id }}">
                             <div class="relative w-28 h-28 flex-shrink-0 image-slider">
                                 @foreach($service->images as $index => $image)
                                     <img src="{{ Storage::url($image->image) }}" class="image-slide absolute inset-0 w-full h-full object-cover rounded-xl {{ $index === 0 ? '' : 'hidden' }}">
@@ -177,11 +211,21 @@
                             </div>
                             <div class="flex-1">
                                 <h3 class="font-bold text-lg text-gray-900">{{ $service->name }}</h3>
-                                <p class="text-sm text-gray-600 line-clamp-1">{{ $service->description }}</p>
-                                <span class="text-lg font-bold text-primary-600 flex items-center gap-1">
-                                    <x-sar-icon class="w-5 h-5" />
-                                    {{ $service->price }}
-                                </span>
+                                <p class="text-sm text-gray-600 line-clamp-2">{{ $service->description }}</p>
+                                <div class="mt-2 flex items-center justify-between">
+                                    <span class="text-lg font-bold text-primary-600 flex items-center gap-1">
+                                        <x-sar-icon class="w-5 h-5" />
+                                        {{ $service->price }}
+                                    </span>
+                                    <a href="{{ route('customer.bookings.create') }}" class="inline-flex items-center px-3 py-1.5 text-sm rounded-md bg-primary-600 text-white hover:bg-primary-700">
+                                        {{ __('website.book_now') }}
+                                    </a>
+                                </div>
+                                <div class="mt-3 flex flex-wrap gap-2">
+                                    <span class="px-2 py-0.5 text-xs bg-primary-100 text-primary-700 rounded-full">{{ __('website.activity_panorama_title') }}</span>
+                                    <span class="px-2 py-0.5 text-xs bg-secondary-100 text-secondary-700 rounded-full">{{ __('website.activity_sunset_title') }}</span>
+                                    <span class="px-2 py-0.5 text-xs bg-accent-100 text-accent-700 rounded-full">{{ __('website.activity_photography_title') }}</span>
+                                </div>
                             </div>
                         </div>
                     @endforeach

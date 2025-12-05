@@ -306,6 +306,14 @@
                 </div>
                 @endif
                 
+                <!-- Processing bar -->
+                <div wire:loading wire:target="selectPaymentMethod" class="mb-6">
+                  <div class="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                    <div class="h-full w-1/3 bg-gradient-to-r from-primary-500 to-secondary-500 animate-pulse"></div>
+                  </div>
+                  <p class="mt-2 text-sm text-gray-600 text-center">{{ app()->getLocale() === 'ar' ? 'جاري معالجة اختيارك...' : 'Processing your selection...' }}</p>
+                </div>
+                
                 <!-- Check if both payment methods are disabled -->
                 @if(!$isCashPaymentEnabled && !$isOnlinePaymentEnabled)
                 <div class="max-w-md mx-auto mb-8">
@@ -324,7 +332,7 @@
                 <div class="grid grid-cols-1 {{ $enabledPaymentCount === 2 ? 'md:grid-cols-2' : '' }} gap-6 mb-8 {{ $enabledPaymentCount === 1 ? 'max-w-md mx-auto' : '' }}">
                     @if($isCashPaymentEnabled)
                     <div class="border border-gray-200 rounded-2xl p-6 hover:border-primary-300 cursor-pointer transition-all duration-300 bg-white hover:bg-gradient-to-br from-white to-primary-50 transform hover:-translate-y-2 shadow-sm hover:shadow-lg" 
-                         wire:click="selectPaymentMethod('cash')">
+                         wire:click="selectPaymentMethod('cash')" wire:loading.class="opacity-50 pointer-events-none" wire:target="selectPaymentMethod">
                         <div class="flex items-center mb-4">
                         <div class="flex-shrink-0 mr-4">
                             <div class="w-16 h-16 rounded-full bg-gradient-to-br from-yellow-100 to-amber-100 flex items-center justify-center shadow-md">
@@ -346,7 +354,7 @@
                     
                     @if($isOnlinePaymentEnabled)
                     <div class="border border-gray-200 rounded-2xl p-6 hover:border-primary-300 cursor-pointer transition-all duration-300 bg-white hover:bg-gradient-to-br from-white to-primary-50 transform hover:-translate-y-2 shadow-sm hover:shadow-lg" 
-                         wire:click="selectPaymentMethod('online')">
+                         wire:click="selectPaymentMethod('online')" wire:loading.class="opacity-50 pointer-events-none" wire:target="selectPaymentMethod">
                         <div class="flex items-center mb-4">
                         <div class="flex-shrink-0 mr-4">
                             <div class="w-16 h-16 rounded-full bg-gradient-to-br from-blue-100 to-indigo-100 flex items-center justify-center shadow-md">

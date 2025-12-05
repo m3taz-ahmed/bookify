@@ -8,7 +8,7 @@
                 <div class="flex justify-between items-center h-20">
                     <!-- Logo -->
                     <div class="flex items-center">
-                        <a href="{{ route('customer.dashboard') }}" class="flex items-center group transition-all duration-300 hover:scale-105">
+                        <a href="{{ route('customer.dashboard') }}" class="flex items-center">
                             <div class="relative">
                                 <img src="{{ asset('images/logo.svg') }}" alt="SkyBridge Logo" class="h-14 w-12 invert transition-transform duration-300 group-hover:rotate-6 drop-shadow-sm">
                                 <div class="absolute inset-0 bg-primary-500 rounded-full opacity-0 group-hover:opacity-10 blur-xl transition-opacity duration-300"></div>

@@ -31,12 +31,12 @@
       </div>
       
       <!-- Navigation Arrows -->
-      <button class="hero-slider-prev absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-black/30 hover:bg-black/50 text-white p-4 rounded-full transition-all duration-300 backdrop-blur-sm">
+      <button aria-label="Previous slide" class="hero-slider-prev absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-black/30 hover:bg-black/50 text-white p-4 rounded-full transition-all duration-300 backdrop-blur-sm">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
         </svg>
       </button>
-      <button class="hero-slider-next absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-black/30 hover:bg-black/50 text-white p-4 rounded-full transition-all duration-300 backdrop-blur-sm">
+      <button aria-label="Next slide" class="hero-slider-next absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-black/30 hover:bg-black/50 text-white p-4 rounded-full transition-all duration-300 backdrop-blur-sm">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
         </svg>
@@ -58,7 +58,7 @@
             {{ __('website.welcome') }}
           </div>
 
-          <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-dark-900 mb-6">
+          <h1 class="text-4xl font-extrabold text-dark-900 mb-6">
             {{ __('website.tagline') }}
           </h1>
 
@@ -226,6 +226,104 @@
     </div>
   </div>
 </div>
+
+<!-- SkyBridge Riyadh Intro Section -->
+<section class="pt-24 pb-2 bg-white">
+  <div class="max-w-7xl mx-auto px-4 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <div>
+        <div class="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800 mb-4">
+          <span class="h-2 w-2 rounded-full bg-primary-600 mr-2"></span>
+          {{ __('website.skybridge_section_subtitle') }}
+        </div>
+        <h2 class="text-3xl md:text-4xl font-extrabold text-dark-900 mb-6">
+          {{ __('website.skybridge_section_title') }}
+        </h2>
+        <p class="text-lg text-dark-700 mb-8">
+          {{ __('website.skybridge_section_desc') }}
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="{{ route('customer.bookings.create') }}" class="px-6 py-3 bg-primary-600 text-white font-bold rounded-xl shadow hover:bg-primary-700 transition-all duration-300 text-center">
+            {{ __('website.book_now') }}
+          </a>
+          <a href="{{ route('customer.register') }}" class="px-6 py-3 bg-white text-primary-600 font-bold rounded-xl border-2 border-primary-600 shadow hover:shadow-md transition-all duration-300 text-center">
+            {{ __('website.create_account') }}
+          </a>
+        </div>
+      </div>
+      <div>
+        <div class="grid grid-cols-2 gap-4">
+          <img src="{{ asset('images/hero-slider/slide-1.png') }}" alt="SkyBridge Riyadh view 1" class="w-full h-40 md:h-56 object-cover rounded-xl shadow"/>
+          <img src="{{ asset('images/hero-slider/slide-2.png') }}" alt="SkyBridge Riyadh view 2" class="w-full h-40 md:h-56 object-cover rounded-xl shadow"/>
+          <img src="{{ asset('images/hero-slider/slide-3.png') }}" alt="SkyBridge Riyadh view 3" class="w-full h-40 md:h-56 object-cover rounded-xl shadow"/>
+          <img src="{{ asset('images/hero-slider/slide-3.png') }}" alt="SkyBridge Riyadh view 3" class="w-full h-40 md:h-56 object-cover rounded-xl shadow"/>
+        </div>
+      </div>
+    </div>
+
+    <!-- Activities -->
+    <div class="mt-24">
+      <h3 class="text-2xl font-bold text-dark-900 mb-8 text-center">{{ __('website.skybridge_activities_title') }}</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="bg-background-50 rounded-xl p-6 border border-background-200">
+          <div class="flex items-start gap-3">
+            <div class="h-10 w-10 rounded-full bg-primary-100 text-primary-600 flex items-center justify-center">
+              <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7l9-4 9 4-9 4-9-4v10l9 4 9-4V7"/></svg>
+            </div>
+            <div>
+              <p class="font-semibold text-dark-900">{{ __('website.activity_panorama_title') }}</p>
+              <p class="text-dark-600">{{ __('website.activity_panorama_desc') }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="bg-background-50 rounded-xl p-6 border border-background-200">
+          <div class="flex items-start gap-3">
+            <div class="h-10 w-10 rounded-full bg-primary-100 text-primary-600 flex items-center justify-center">
+              <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v10m0 0l3-3m-3 3l-3-3M5 21h14"/></svg>
+            </div>
+            <div>
+              <p class="font-semibold text-dark-900">{{ __('website.activity_sunset_title') }}</p>
+              <p class="text-dark-600">{{ __('website.activity_sunset_desc') }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="bg-background-50 rounded-xl p-6 border border-background-200">
+          <div class="flex items-start gap-3">
+            <div class="h-10 w-10 rounded-full bg-primary-100 text-primary-600 flex items-center justify-center">
+              <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h18M3 12h18M3 19h18"/></svg>
+            </div>
+            <div>
+              <p class="font-semibold text-dark-900">{{ __('website.activity_photography_title') }}</p>
+              <p class="text-dark-600">{{ __('website.activity_photography_desc') }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="bg-background-50 rounded-xl p-6 border border-background-200">
+          <div class="flex items-start gap-3">
+            <div class="h-10 w-10 rounded-full bg-primary-100 text-primary-600 flex items-center justify-center">
+              <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+            </div>
+            <div>
+              <p class="font-semibold text-dark-900">{{ __('website.activity_family_title') }}</p>
+              <p class="text-dark-600">{{ __('website.activity_family_desc') }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="bg-background-50 rounded-xl p-6 border border-background-200">
+          <div class="flex items-start gap-3">
+            <div class="h-10 w-10 rounded-full bg-primary-100 text-primary-600 flex items-center justify-center">
+              <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-3.314 0-6 2.239-6 5v5h12v-5c0-2.761-2.686-5-6-5z"/></svg>
+            </div>
+            <div>
+              <p class="font-semibold text-dark-900">{{ __('website.activity_landmarks_title') }}</p>
+              <p class="text-dark-600">{{ __('website.activity_landmarks_desc') }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 @push('scripts')
 <script>
