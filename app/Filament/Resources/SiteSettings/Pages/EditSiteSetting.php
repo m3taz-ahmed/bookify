@@ -13,6 +13,23 @@ class EditSiteSetting extends EditRecord
 {
     protected static string $resource = SiteSettingResource::class;
 
+    public function getTitle(): string
+    {
+        $settingKey = $this->record->setting_key ?? '';
+        
+        // Try to translate the setting key from filament translation file
+        $translationKey = "filament.{$settingKey}";
+        $translated = __($translationKey);
+        
+        // If translation exists and is different from the key, use it
+        if ($translated !== $translationKey) {
+            return __('filament.Edit') . ' ' . $translated;
+        }
+        
+        // Otherwise use the raw key
+        return __('filament.Edit') . ' ' . $settingKey;
+    }
+
     protected function getHeaderActions(): array
     {
         return [
