@@ -8,6 +8,7 @@ use App\Models\Customer;
 use App\Models\Service;
 use App\Models\User;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -101,22 +102,23 @@ class BookingForm
                         // Reset time field when date changes
                         $set('start_time', null);
                     }),
-                TextInput::make('payment_status')
-                    ->label(__('filament.Payment Status')),
+                // TextInput::make('payment_status')
+                //     ->label(__('filament.Payment Status')),
                 WorkingHoursTimePicker::make('start_time')
                     // ->required()
                     ->label(__('filament.Start Time'))
                     ->dateField('booking_date')
                     ->disabled(fn (callable $get) => !$get('booking_date')),
                     
-                TextInput::make('number_of_people')
-                    ->numeric()
-                    ->minValue(1)
-                    ->maxValue(100)
+                Hidden::make('number_of_people')
                     ->default(1)
                     ->required()
-                    ->label(__('filament.Number of People'))
-                    ->helperText(__('filament.Auto-calculated from tickets, but can be adjusted manually')),
+                    ->rules([
+                        'required',
+                        'integer',
+                        'min:1',
+                        'max:100',
+                    ]),
                 Select::make('payment_method')
                     ->options([
                         'cash' => 'Cash',
