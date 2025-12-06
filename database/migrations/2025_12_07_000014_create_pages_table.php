@@ -11,7 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('pages', function (Blueprint $table) {
+        Schema::create('pages', function (Blueprint $table) {
+            $table->id();
+            $table->string('type')->nullable();
+            $table->string('slug')->unique();
+            $table->string('title_en');
+            $table->string('title_ar');
+            $table->longText('content_en');
+            $table->longText('content_ar');
+            
             // About Us fields
             $table->string('company_name_en')->nullable();
             $table->string('company_name_ar')->nullable();
@@ -34,6 +42,11 @@ return new class extends Migration
             $table->integer('map_zoom')->default(15);
             $table->longText('contact_description_en')->nullable();
             $table->longText('contact_description_ar')->nullable();
+            
+            $table->boolean('is_active')->default(true);
+            $table->timestamps();
+            
+            $table->index('type');
         });
     }
 
@@ -42,28 +55,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('pages', function (Blueprint $table) {
-            $table->dropColumn([
-                'company_name_en',
-                'company_name_ar',
-                'founded_year',
-                'location_en',
-                'location_ar',
-                'company_description_en',
-                'company_description_ar',
-                'history_en',
-                'history_ar',
-                'email',
-                'phone',
-                'whatsapp',
-                'address_en',
-                'address_ar',
-                'latitude',
-                'longitude',
-                'map_zoom',
-                'contact_description_en',
-                'contact_description_ar',
-            ]);
-        });
+        Schema::dropIfExists('pages');
     }
 };

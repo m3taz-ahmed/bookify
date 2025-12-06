@@ -14,15 +14,20 @@ return new class extends Migration
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
             $table->string('reference_code')->unique();
-            $table->string('customer_name');
-            $table->string('customer_phone');
-            $table->foreignId('service_id')->constrained()->onDelete('cascade');
-            $table->foreignId('employee_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('customer_id')->nullable()->constrained('customers')->onDelete('set null');
+            $table->foreignId('service_id')->nullable()->constrained('services')->onDelete('cascade');
             $table->date('booking_date');
-            $table->time('start_time');
-            $table->time('end_time');
+            $table->time('start_time')->nullable();
+            $table->integer('number_of_people')->default(1);
+            $table->text('qr_code')->nullable();
+            $table->string('payment_method')->nullable();
+            $table->string('order_ref')->nullable();
+            $table->boolean('is_paid')->default(false);
             $table->enum('status', ['pending', 'confirmed', 'completed', 'cancelled'])->default('pending');
             $table->string('payment_status')->nullable();
+            $table->tinyInteger('rating')->nullable();
+            $table->text('review')->nullable();
+            $table->text('notes')->nullable();
             $table->timestamps();
             
             $table->index(['booking_date', 'start_time']);
