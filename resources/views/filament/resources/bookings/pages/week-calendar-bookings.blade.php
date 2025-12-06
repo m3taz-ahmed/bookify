@@ -45,19 +45,18 @@
 
         <div class="bg-white rounded-lg shadow p-6 dark:bg-gray-800">
             <style>
-                .ts-header { display: flex; align-items: center; gap: .5rem; justify-content: space-between; }
+                .ts-header { display: flex; align-items: center; gap: .5rem; justify-content: space-between; width: 100%; }
+                .ts-header span { width: 25%; text-align: center;}
                 .ts-time { font-size: 12px; font-weight: 700; color: #684221; }
                 .dark .ts-time { color: #c99b72; }
-                .ts-cap { width: 30px; height: 30px; border-radius: 50%; background: conic-gradient(var(--c) var(--p), #e5e7eb 0); display: inline-flex; align-items: center; justify-content: center; }
+                .ts-cap { width: 30px; height: 30px; border-radius: 50%; background: conic-gradient(var(--c) var(--p), #e5e7eb 0); display: inline-flex; align-items: center; justify-content: center;font-size: 10px; font-weight: 700; color: #e5e7eb; }
                 .dark .ts-cap { background: conic-gradient(var(--c) var(--p), #374151 0); }
-                .ts-cap-text { font-size: 10px; font-weight: 700; color: #374151; }
-                .dark .ts-cap-text { color: #e5e7eb; }
                 .ts-people { display: inline-flex; align-items: center; gap: 4px; font-size: 14px; color: #6b7280; }
                 .dark .ts-people { color: #9ca3af; }
-                .ts-people-icon { width: 20px; height: 20; flex-shrink: 0; }
-                .ts-people-count { white-space: nowrap; }
+                .ts-people-icon { display: inline-flex; align-items: center; gap: 4px; font-size: 14px; color: #9ca3af; width: 20px; height: 20; flex-shrink: 0; }
+                .ts-people-count { align-items: center; gap: 4px; font-size: 14px; color: #9ca3af; white-space: nowrap; }
                 .ts-expand { width: 16px; height: 16px; border-radius: 9999px; display: inline-flex; align-items: center; justify-content: center; background: rgba(139,90,43,.1); border: 2px solid rgba(139,90,43,.2); transition: transform .2s ease; }
-                .dark .ts-expand { background: rgba(139,90,43,.2); border-color: rgba(139,90,43,.35); }
+                .dark .ts-expand { background: rgba(139,90,43,.2); border-color: rgba(139,90,43,.35);}
                 .ts-expand-icon { width: 12px; height: 12px; color: #8B5A2B; }
             </style>
             <!-- Calendar Grid -->
@@ -95,9 +94,9 @@
 
                 <!-- Calendar Days -->
                 @foreach($days as $day)
-                    <div class="calendar-day-cell min-h-40 border-r border-b border-gray-200 dark:border-gray-700 p-1 relative flex flex-col
+                    <div class="calendar-day-cell border-r border-b border-gray-200 dark:border-gray-700 p-1 relative flex flex-col
                         {{ $day['date']->isToday() ? 'calendar-day-today ring-1 ring-inset ring-[#8B5A2B]' : 'bg-white dark:bg-gray-800' }}
-                        {{ !$day['isWorkingDay'] ? 'closed-day' : '' }}
+                        {{ !$day['isWorkingDay'] ? 'closed-day min-h-40' : '' }}
                         {{ $day['isWorkingDay'] && $day['capacityColor'] == 'red' ? 'bg-red-50 dark:bg-red-900/10' : '' }}
                         {{ $day['isWorkingDay'] && $day['capacityColor'] == 'yellow' ? 'bg-yellow-50 dark:bg-yellow-900/10' : '' }}
                         {{ $day['isWorkingDay'] && $day['capacityColor'] == 'green' ? 'bg-green-50 dark:bg-green-900/10' : '' }}">
@@ -139,12 +138,13 @@
                                 
                                 <!-- Bookings list -->
                                 <!-- Grouped Bookings by Time -->
-                                <div class="booking-list mt-2 overflow-y-auto w-full custom-scrollbar" style="max-height: 200px;">
+                                <div class="booking-list mt-2 w-full">
                                     @foreach($day['groupedBookings'] as $time => $slot)
                                         <div x-data="{ expanded: false }" class="mb-1">
                                             <!-- Time Slot Header -->
                                             <div @click="expanded = !expanded" 
-                                                 class="relative bg-white dark:bg-gray-800 rounded-md border border-gray-200 dark:border-gray-600 shadow-sm cursor-pointer overflow-hidden transition-all duration-200 hover:shadow-lg hover:border-primary-300 dark:hover:border-primary-600 hover:bg-gray-50 dark:hover:bg-gray-750 group active:scale-[0.99]">
+                                                 class="relative bg-white dark:bg-gray-800 rounded-md border border-gray-200 dark:border-gray-600 shadow-sm cursor-pointer overflow-hidden transition-all duration-200 hover:shadow-lg hover:border-primary-300 dark:hover:border-primary-600 hover:bg-gray-50 dark:hover:bg-gray-750 group active:scale-[0.99]"
+                                                 style="background: #0a0f1f; border-radius: 10px 10px 0px 0px; padding: 3px; color: white; border: 1px solid transparent; transition: 0.2s; cursor: pointer; margin-top: 5px;">
                                                 <div class="absolute left-0 top-0 bottom-0 w-1 {{ $slot['capacityPercentage'] >= 100 ? 'bg-red-500' : ($slot['capacityPercentage'] >= 50 ? 'bg-yellow-500' : 'bg-green-500') }}"></div>
                                                 <div class="px-3 py-2">
                                                     <div class="ts-header">
@@ -154,25 +154,21 @@
                                                             $capColor = $pct >= 100 ? '#ef4444' : ($pct >= 50 ? '#f59e0b' : '#22c55e');
                                                         @endphp
                                                         <span class="ts-cap" style="--p: {{ $pct }}%; --c: {{ $capColor }}">
-                                                            <span class="ts-cap-text">{{ $pct }}%</span>
+                                                            {{ $pct }}%
                                                         </span>
-                                                        <span class="ts-people">
+                                                        <span>
                                                             <svg class="ts-people-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 115.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                                                             </svg>
-                                                            <span class="ts-people-count">{{ $slot['totalPeople'] }}</span>
                                                         </span>
-                                                        <span class="ts-expand" :class="{'rotate-180': expanded}">
-                                                            <svg class="ts-expand-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7" />
-                                                            </svg>
-                                                        </span>
+                                                        <span class="ts-people-count">{{ $slot['totalPeople'] }}</span>
                                                     </div>
                                                 </div>
                                             </div>
 
                                             <!-- Expanded Customer List -->
-                                            <div x-show="expanded" x-collapse class="pl-2 mt-1 space-y-1 border-l-2 border-gray-100 dark:border-gray-700">
+                                            <div x-show="expanded" x-collapse class="pl-2 mt-1 space-y-1 border-l-2 border-gray-100 dark:border-gray-700"
+                                                style="height: 0px; background: rgb(55, 65, 81); border-radius: 0px 0px 10px 10px; padding: 3px; color: white; border: 1px solid transparent; transition: 0.2s; overflow: hidden; text-align: center;">
                                                 @foreach($slot['bookings'] as $booking)
                                                     <button 
                                                         type="button" 
@@ -192,7 +188,7 @@
                                                             ]; })->toArray())
                                                         )"
                                                     >
-                                                        - {{ $booking->customer->name }} ({{ $booking->number_of_people }})
+                                                        {{ $booking->customer->name }} ({{ $booking->number_of_people }})
                                                     </button>
                                                 @endforeach
                                             </div>

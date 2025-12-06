@@ -6,7 +6,7 @@ A comprehensive booking and appointment management system built with Laravel, Fi
 
 - **Backend:** Laravel 12, PHP 8.3+
 - **Database:** MySQL 8.0+
-- **Admin Panel:** FilamentPHP v3
+- **Admin Panel:** FilamentPHP v4
 - **Frontend:** Blade + Livewire 3 + Tailwind CSS 4
 - **JavaScript:** Alpine.js
 - **Icons:** Heroicons
