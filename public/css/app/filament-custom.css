@@ -616,6 +616,11 @@
   margin: 0 10px;
 }
 
+.custom-icon-circle svg {
+  display: block;
+  flex-shrink: 0;
+}
+
 .custom-footer {
   background-color: #f9fafb;
   padding: 0.75rem 1.5rem;

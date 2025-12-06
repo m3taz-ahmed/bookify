@@ -26,8 +26,15 @@ class BookingsTable
                 TextColumn::make('customer.phone')
                     ->searchable()
                     ->label(__('filament.Customer')),
-                TextColumn::make('service.name')
-                    ->label(__('filament.Service')),
+                TextColumn::make('tickets_summary')
+                    ->label(__('filament.Tickets'))
+                    ->state(function (Booking $record) {
+                        return $record->items->map(function ($item) {
+                            $serviceName = app()->getLocale() === 'ar' ? $item->service->name_ar : $item->service->name_en;
+                            return "{$serviceName} (x{$item->quantity})";
+                        })->join(', ');
+                    })
+                    ->wrap(),
                 TextColumn::make('booking_date')
                     ->date()
                     ->sortable()

@@ -49,10 +49,50 @@ class BookingForm
                     })
                     ->getOptionLabelFromRecordUsing(fn (\App\Models\Customer $record) => "{$record->name} ({$record->phone})"),
 
-                Select::make('service_id')
-                    ->relationship('service', 'name_en')
-                    ->required()
-                    ->label(__('filament.Service')),
+                \Filament\Forms\Components\Repeater::make('items')
+                    ->relationship()
+                    ->schema([
+                        Select::make('service_id')
+                            ->relationship('service', 'name_en')
+                            ->getOptionLabelFromRecordUsing(fn (Service $record) => app()->getLocale() === 'ar' ? $record->name_ar : $record->name_en)
+                            ->required()
+                            ->label(__('filament.Service'))
+                            ->disableOptionsWhenSelectedInSiblingRepeaterItems()
+                            ->reactive()
+                            ->afterStateUpdated(function ($state, callable $set, callable $get) {
+                                $service = Service::find($state);
+                                $price = $service?->price ?? 0;
+                                $set('unit_price', $price);
+                                $set('total_price', $price * intval($get('quantity') ?? 1));
+                            }),
+                        TextInput::make('quantity')
+                            ->numeric()
+                            ->default(1)
+                            ->minValue(1)
+                            ->required()
+                            ->label(__('filament.Quantity'))
+                            ->live()
+                            ->afterStateUpdated(function ($state, callable $set, callable $get) {
+                                $unitPrice = $get('unit_price') ?? 0;
+                                $set('total_price', $unitPrice * intval($state));
+                            }),
+                        \Filament\Forms\Components\Hidden::make('unit_price')
+                            ->default(0),
+                        \Filament\Forms\Components\Hidden::make('total_price')
+                            ->default(0),
+                    ])
+                    ->columns(2)
+                    ->label(__('filament.Tickets'))
+                    ->live()
+                    ->afterStateUpdated(function (callable $get, callable $set) {
+                        $items = $get('items') ?? [];
+                        $totalPeople = 0;
+                        foreach ($items as $item) {
+                            $totalPeople += intval($item['quantity'] ?? 0);
+                        }
+                        $set('number_of_people', $totalPeople > 0 ? $totalPeople : 1);
+                    }),
+                    
                 WorkingDaysDatePicker::make('booking_date')
                     ->required()
                     ->label(__('filament.Booking Date'))
@@ -68,13 +108,15 @@ class BookingForm
                     ->label(__('filament.Start Time'))
                     ->dateField('booking_date')
                     ->disabled(fn (callable $get) => !$get('booking_date')),
+                    
                 TextInput::make('number_of_people')
                     ->numeric()
                     ->minValue(1)
-                    ->maxValue(20)
+                    ->maxValue(100)
                     ->default(1)
                     ->required()
-                    ->label(__('filament.Number of People')),
+                    ->label(__('filament.Number of People'))
+                    ->helperText(__('filament.Auto-calculated from tickets, but can be adjusted manually')),
                 Select::make('payment_method')
                     ->options([
                         'cash' => 'Cash',

@@ -616,6 +616,11 @@
   margin: 0 10px;
 }
 
+.custom-icon-circle svg {
+  display: block;
+  flex-shrink: 0;
+}
+
 .custom-footer {
   background-color: #f9fafb;
   padding: 0.75rem 1.5rem;
@@ -761,6 +766,25 @@
 .calendar-day-cell .people-count {
   font-size: 10px !important;
   color: #6b7280 !important;
+}
+
+/* Force inline horizontal layout for time slot headers */
+.booking-list .time-slot-header-content {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 0.5rem !important;
+}
+
+.booking-list .time-slot-header-content > * {
+  flex-shrink: 0 !important;
+}
+
+.booking-list .time-slot-header-content .flex-1 {
+  flex: 1 1 0% !important;
+  min-width: 0 !important;
 }
 
 .calendar-day-cell .booking-list-item {
