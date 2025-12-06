@@ -15,10 +15,10 @@ class ListBookings extends ListRecords
     {
         return [
             CreateAction::make(),
-            Action::make('calendar')
-                ->label(__('filament.Calendar'))
-                ->url(BookingResource::getUrl('calendar'))
-                ->icon('heroicon-o-calendar'),
+            // Action::make('calendar')
+            //     ->label(__('filament.Calendar'))
+            //     ->url(BookingResource::getUrl('calendar'))
+            //     ->icon('heroicon-o-calendar'),
         ];
     }
 

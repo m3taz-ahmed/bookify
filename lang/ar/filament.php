@@ -105,7 +105,7 @@ return [
     'Upcoming' => 'القادمة',
     'Email Verified At' => 'تاريخ تحقق البريد الإلكتروني',
     'Role ID' => 'معرف الدور',
-    'Number of People' => 'عدد الأشخاص',
+    'Number of People' => 'الأشخاص',
     'Payment Method' => 'طريقة الدفع',
     'Rating' => 'التقييم',
     'booking_list' => ' قائمة الحجوزات',
@@ -187,4 +187,5 @@ return [
     'Booking Cancellation Message (English)' => 'رسالة إلغاء الحجز (بالإنجليزية)',
     'Booking Cancellation Message (Arabic)' => 'رسالة إلغاء الحجز (بالعربية)',
     'Tickets' => 'التذاكر',
+    'Quantity' => 'عدد',
 ];

@@ -105,7 +105,7 @@ return [
     'Upcoming' => 'Upcoming',
     'Email Verified At' => 'Email Verified At',
     'Role ID' => 'Role ID',
-    'Number of People' => 'Number of People',
+    'Number of People' => 'People',
     'Payment Method' => 'Payment Method',
     'Rating' => 'Rating',
     'Calendar' => 'Calendar',
@@ -187,4 +187,5 @@ return [
     'Booking Cancellation Message (English)' => 'Booking Cancellation Message (English)',
     'Booking Cancellation Message (Arabic)' => 'Booking Cancellation Message (Arabic)',
     'Tickets' => 'Tickets',
+    'Quantity' => 'Quantity',
 ];

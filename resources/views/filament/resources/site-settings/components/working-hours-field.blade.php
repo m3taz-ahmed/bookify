@@ -220,6 +220,9 @@ style="margin-bottom: 1rem;">
             padding: 1rem;
             background-color: #161617;
         }
+        .dark .whf-day-card {
+            border-color: rgba(255, 255, 255, 0.1);
+        }
         .whf-header {
             display: flex;
             justify-content: space-between;
@@ -236,18 +239,29 @@ style="margin-bottom: 1rem;">
             border-radius: 0.25rem;
             border: none;
             cursor: pointer;
+            transition: all 0.2s ease;
         }
         .whf-toggle-btn.open {
-            background-color: #C36100;
+            background-color: #8B5A2B;
             color: #ffffff;
         }
+        .whf-toggle-btn.open:hover {
+            background-color: #A67C52;
+        }
         .whf-toggle-btn.closed {
-            background-color: #C36100;
-            color: #1f2937;
+            background-color: #6b7280;
+            color: #ffffff;
+        }
+        .whf-toggle-btn.closed:hover {
+            background-color: #9ca3af;
         }
         .whf-toggle-btn.not-configured {
             background-color: #fee2e2;
             color: #991b1b;
+        }
+        .dark .whf-toggle-btn.not-configured {
+            background-color: rgba(254, 226, 226, 0.1);
+            color: #fca5a5;
         }
         .whf-time-slot {
             display: flex;
@@ -261,15 +275,28 @@ style="margin-bottom: 1rem;">
             border: 1px solid #ddd;
             border-radius: 0.25rem;
             font-size: 0.875rem;
+            background-color: #ffffff;
+            color: #1f2937;
+        }
+        .dark .whf-time-input {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.2);
+            color: #e5e7eb;
         }
         .whf-time-input optgroup {
             font-weight: bold;
             background-color: #f5f5f5;
         }
+        .dark .whf-time-input optgroup {
+            background-color: #374151;
+        }
         .whf-time-input option {
             font-weight: normal;
             padding: 0.1rem 0.25rem;
-            background-color:rgb(41, 41, 41);
+            background-color: #ffffff;
+        }
+        .dark .whf-time-input option {
+            background-color: rgba(255, 255, 255, 0.05);
         }
         .whf-remove-btn {
             background: none;
@@ -283,19 +310,56 @@ style="margin-bottom: 1rem;">
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: color 0.2s ease;
+        }
+        .whf-remove-btn:hover {
+            color: #dc2626;
+        }
+        .dark .whf-remove-btn {
+            color: #f87171;
+        }
+        .dark .whf-remove-btn:hover {
+            color: #ef4444;
         }
         .whf-add-btn {
             background: none;
             border: none;
-            color: #3b82f6;
+            color: #8B5A2B;
             font-size: 0.875rem;
             cursor: pointer;
             padding: 0.25rem;
             text-align: left;
+            transition: color 0.2s ease;
+        }
+        .whf-add-btn:hover {
+            color: #A67C52;
+        }
+        .dark .whf-add-btn {
+            color: #c99b72;
+        }
+        .dark .whf-add-btn:hover {
+            color: #d4ad85;
         }
         .whf-closed-text, .whf-not-configured-text {
             font-size: 0.875rem;
             color: #6b7280;
+        }
+        .dark .whf-closed-text, .dark .whf-not-configured-text {
+            color: #9ca3af;
+        }
+        .whf-time-label {
+            font-size: 0.75rem;
+            color: #6b7280;
+            font-weight: 500;
+        }
+        .dark .whf-time-label {
+            color: #9ca3af;
+        }
+        .text-gray-500 {
+            color: #6b7280;
+        }
+        .dark .text-gray-500 {
+            color: #9ca3af;
         }
     </style>
     
