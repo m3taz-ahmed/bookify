@@ -176,7 +176,7 @@
                                                 @foreach($slot['bookings'] as $booking)
                                                     <button 
                                                         type="button" 
-                                                        class="block w-full text-left text-[10px] text-primary-600 dark:text-primary-400 hover:underline truncate py-0.5"
+                                                        class="block w-full text-left ts-time truncate py-0.5"
                                                         @click="openModal(
                                                             @js($booking->customer->name), 
                                                             @js($booking->customer->phone), 
