@@ -50,7 +50,7 @@
                 .dark .ts-time { color: #c99b72; }
                 .ts-cap { width: 30px; height: 30px; border-radius: 50%; background: conic-gradient(var(--c) var(--p), #e5e7eb 0); display: inline-flex; align-items: center; justify-content: center; }
                 .dark .ts-cap { background: conic-gradient(var(--c) var(--p), #374151 0); }
-                .ts-cap-text { font-size: 12px; font-weight: 700; color: #374151; }
+                .ts-cap-text { font-size: 10px; font-weight: 700; color: #374151; }
                 .dark .ts-cap-text { color: #e5e7eb; }
                 .ts-people { display: inline-flex; align-items: center; gap: 4px; font-size: 14px; color: #6b7280; }
                 .dark .ts-people { color: #9ca3af; }
