@@ -44,6 +44,22 @@
         </div>
 
         <div class="bg-white rounded-lg shadow p-6 dark:bg-gray-800">
+            <style>
+                .ts-header { display: flex; align-items: center; gap: .5rem; justify-content: space-between; }
+                .ts-time { font-size: 12px; font-weight: 700; color: #684221; }
+                .dark .ts-time { color: #c99b72; }
+                .ts-cap { width: 30px; height: 30px; border-radius: 50%; background: conic-gradient(var(--c) var(--p), #e5e7eb 0); display: inline-flex; align-items: center; justify-content: center; }
+                .dark .ts-cap { background: conic-gradient(var(--c) var(--p), #374151 0); }
+                .ts-cap-text { font-size: 12px; font-weight: 700; color: #374151; }
+                .dark .ts-cap-text { color: #e5e7eb; }
+                .ts-people { display: inline-flex; align-items: center; gap: 4px; font-size: 14px; color: #6b7280; }
+                .dark .ts-people { color: #9ca3af; }
+                .ts-people-icon { width: 20px; height: 20; flex-shrink: 0; }
+                .ts-people-count { white-space: nowrap; }
+                .ts-expand { width: 16px; height: 16px; border-radius: 9999px; display: inline-flex; align-items: center; justify-content: center; background: rgba(139,90,43,.1); border: 2px solid rgba(139,90,43,.2); transition: transform .2s ease; }
+                .dark .ts-expand { background: rgba(139,90,43,.2); border-color: rgba(139,90,43,.35); }
+                .ts-expand-icon { width: 12px; height: 12px; color: #8B5A2B; }
+            </style>
             <!-- Calendar Grid -->
             <div class="calendar-grid grid grid-cols-7 gap-0 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden shadow-sm">
                 <!-- Day Headers -->
@@ -129,53 +145,29 @@
                                             <!-- Time Slot Header -->
                                             <div @click="expanded = !expanded" 
                                                  class="relative bg-white dark:bg-gray-800 rounded-md border border-gray-200 dark:border-gray-600 shadow-sm cursor-pointer overflow-hidden transition-all duration-200 hover:shadow-lg hover:border-primary-300 dark:hover:border-primary-600 hover:bg-gray-50 dark:hover:bg-gray-750 group active:scale-[0.99]">
-                                                
-                                                <!-- Status Stripe -->
-                                                <div class="absolute left-0 top-0 bottom-0 w-1 
-                                                     {{ $slot['capacityPercentage'] >= 100 ? 'bg-red-500' : ($slot['capacityPercentage'] >= 50 ? 'bg-yellow-500' : 'bg-green-500') }}">
-                                                </div>
-
-                                                <div class="px-3 py-1 time-slot-header-content">
-                                                        <!-- Time & Percentage Bar -->
-                                                        <div class="flex items-center gap-2 flex-nowrap flex-1">
-                                                            <!-- Time with Click Hint-->
-                                                            <span class="text-xs font-bold text-primary-700 dark:text-primary-400 whitespace-nowrap flex-shrink-0 group-hover:text-primary-600 dark:group-hover:text-primary-300 transition-colors">
-                                                                {{ $time }}
-                                                            </span>
-                                                            
-                                                            <!-- Horizontal Progress Bar with Percentage -->
-                                                            <span class="flex items-center gap-2 flex-1 min-w-0">
-                                                                <span class="flex-1 h-2.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden min-w-[60px] group-hover:h-3 transition-all">
-                                                                    <span class="h-full transition-all duration-500 ease-out rounded-full
-                                                                        {{ $slot['capacityPercentage'] >= 100 ? 'bg-red-500' : ($slot['capacityPercentage'] >= 50 ? 'bg-yellow-500' : 'bg-green-500') }}"
-                                                                        data-capacity="{{ min($slot['capacityPercentage'], 100) }}">
-                                                                    </span>
-                                                                </span>
-                                                                <span class="text-[10px] font-bold whitespace-nowrap flex-shrink-0
-                                                                    {{ $slot['capacityPercentage'] >= 100 ? 'text-red-600 dark:text-red-400' : ($slot['capacityPercentage'] >= 50 ? 'text-yellow-600 dark:text-yellow-400' : 'text-green-600 dark:text-green-400') }}">
-                                                                    {{ round($slot['capacityPercentage']) }}%
-                                                                </span>
-                                                            </span>
-                                                            
-                                                            <!-- People Count -->
-                                                            <span class="flex items-center gap-1 text-[10px] text-gray-600 dark:text-gray-400 flex-shrink-0 font-medium">
-                                                                <svg class="w-3 h-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="12" height="12" style="width: 12px; height: 12px; max-width: 12px; max-height: 12px; display: inline-block;">
-                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 115.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                                                                </svg>
-                                                                <span class="whitespace-nowrap">{{ $slot['totalPeople'] }}</span>
-                                                            </span>
-
-                                                            <!-- Animated Expand Icon with Badge -->
-                                                            <span class="relative w-8 h-8 rounded-full bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center border-2 border-primary-200 dark:border-primary-800 group-hover:bg-primary-200 dark:group-hover:bg-primary-900/50 group-hover:border-primary-400 dark:group-hover:border-primary-600 transition-all duration-200 group-hover:scale-110">
-                                                                <!-- Booking count badge -->
-                                                                <svg class="w-4 h-4 flex-shrink-0 text-primary-600 dark:text-primary-400 group-hover:text-primary-700 dark:group-hover:text-primary-300 transform transition-transform duration-300" 
-                                                                    :class="{'rotate-180': expanded}" 
-                                                                    fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="width: 16px; height: 16px; max-width: 16px; max-height: 16px; display: inline-block;">
-                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path>
-                                                                </svg>
-                                                            </span>
-                                                        </div>
-
+                                                <div class="absolute left-0 top-0 bottom-0 w-1 {{ $slot['capacityPercentage'] >= 100 ? 'bg-red-500' : ($slot['capacityPercentage'] >= 50 ? 'bg-yellow-500' : 'bg-green-500') }}"></div>
+                                                <div class="px-3 py-2">
+                                                    <div class="ts-header">
+                                                        <span class="ts-time">{{ $time }}</span>
+                                                        @php
+                                                            $pct = (int) round(min($slot['capacityPercentage'], 100));
+                                                            $capColor = $pct >= 100 ? '#ef4444' : ($pct >= 50 ? '#f59e0b' : '#22c55e');
+                                                        @endphp
+                                                        <span class="ts-cap" style="--p: {{ $pct }}%; --c: {{ $capColor }}">
+                                                            <span class="ts-cap-text">{{ $pct }}%</span>
+                                                        </span>
+                                                        <span class="ts-people">
+                                                            <svg class="ts-people-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 115.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                                                            </svg>
+                                                            <span class="ts-people-count">{{ $slot['totalPeople'] }}</span>
+                                                        </span>
+                                                        <span class="ts-expand" :class="{'rotate-180': expanded}">
+                                                            <svg class="ts-expand-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7" />
+                                                            </svg>
+                                                        </span>
+                                                    </div>
                                                 </div>
                                             </div>
 
@@ -316,17 +308,6 @@
                                 </div>
                             </div>
 
-                            
-
-                            <!-- <div class="custom-info-row" x-show="bookingTime">
-                                <div class="custom-icon-circle bg-amber-100 dark:bg-amber-900/50 text-amber-600 dark:text-amber-400">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                </div>
-                                <div class="ml-4">
-                                    <p class="text-base font-semibold text-gray-900 dark:text-white" x-text="bookingTime"></p>
-                                </div>
-                            </div> -->
-
                             <div class="custom-info-row" x-show="numberOfPeople">
                                 <div class="custom-icon-circle bg-pink-100 dark:bg-pink-900/50 text-pink-600 dark:text-pink-400">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
@@ -345,16 +326,6 @@
                                 </div>
                             </div>
 
-                            <!-- Tickets Section -->
-                            <!-- <div class="border-t border-gray-200 dark:border-gray-700 pt-4" x-show="bookingItems.length > 0">
-                                <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">{{ __('filament.Tickets') }}</h4>
-                                <template x-for="item in bookingItems" :key="item.id">
-                                    <div class="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-700">
-                                        <span class="text-sm text-gray-600 dark:text-gray-400" x-text="item.service_name"></span>
-                                        <span class="text-sm font-medium text-gray-900 dark:text-white">x<span x-text="item.quantity"></span></span>
-                                    </div>
-                                </template>
-                            </div> -->
                         </div>
                     </div>
 
