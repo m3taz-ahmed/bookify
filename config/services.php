@@ -46,4 +46,14 @@ return [
         'key' => env('GOOGLE_MAPS_API_KEY'),
     ],
 
+    'paymob' => [
+        'base_url' => env('PAYMOB_BASE_URL', 'https://ksa.paymob.com'),
+        'api_key' => env('PAYMOB_API_KEY'),
+        'secret_key' => env('PAYMOB_SECRET_KEY'),
+        'public_key' => env('PAYMOB_PUBLIC_KEY'),
+        'integration_id' => env('PAYMOB_INTEGRATION_ID'),
+        'moto_integration_id' => env('PAYMOB_MOTO_INTEGRATION_ID'),
+        'hmac_secret' => env('PAYMOB_HMAC_SECRET'),
+    ],
+
 ];

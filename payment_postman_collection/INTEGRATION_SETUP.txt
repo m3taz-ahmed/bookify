@@ -1,0 +1,174 @@
+PAYMOB PAYMENT INTEGRATION SETUP GUIDE
+=====================================
+
+✅ COMPLETED INSTALLATION STEPS:
+================================
+
+1. ✅ Migration Created: database/migrations/2025_12_07_020000_create_payments_table.php
+   - Separate payments table with booking_id relationship
+   - Tracks PayMob transaction details
+   - Supports refunds, voids, and status tracking
+
+2. ✅ Payment Model Created: app/Models/Payment.php
+   - Full relationship with Booking model
+   - Helper methods: isSuccess(), isPending(), isFailed(), isRefunded()
+   - Auto-generates unique merchant_order_id
+   - Activity logging enabled
+
+3. ✅ Booking Model Updated: app/Models/Booking.php
+   - Added payments() relationship (hasMany)
+   - Added latestPayment() helper
+   - Added successfulPayment() helper
+
+4. ✅ PayMob Service Created: app/Services/PayMobService.php
+   - createIntention() - Create payment with V2 API
+   - authenticate() - Get auth token
+   - queryByMerchantOrderId() - Query transactions
+   - queryByOrderId() - Query by PayMob order ID
+   - queryByTransactionId() - Query by transaction ID
+   - refund() - Process refunds
+   - void() - Void transactions
+   - verifyWebhookSignature() - HMAC verification
+   - processCallback() - Handle webhooks
+
+5. ✅ Payment Controller Created: app/Http/Controllers/PaymentController.php
+   - initiatePayment() - Start payment flow
+   - handleCallback() - Process user redirects
+   - handleWebhook() - Process PayMob webhooks
+   - queryPayment() - Check payment status
+   - refund() - Process refunds
+
+6. ✅ Configuration Updated: config/services.php
+   - Added paymob configuration section
+
+7. ✅ Environment Variables: .env.example
+   - PAYMOB_BASE_URL=https://ksa.paymob.com
+   - PAYMOB_API_KEY
+   - PAYMOB_SECRET_KEY
+   - PAYMOB_PUBLIC_KEY
+   - PAYMOB_INTEGRATION_ID
+   - PAYMOB_MOTO_INTEGRATION_ID
+   - PAYMOB_HMAC_SECRET
+
+8. ✅ Routes Added: routes/web.php
+   - POST /payment/initiate/{booking} - Start payment
+   - GET /payment/callback/{booking} - Handle redirect
+   - POST /payment/webhook - PayMob webhook
+   - GET /payment/query/{payment} - Query status
+   - POST /payment/refund/{payment} - Process refund
+
+
+NEXT STEPS (TO BE DONE MANUALLY):
+=================================
+
+1. RUN MIGRATION:
+   Execute in terminal: php artisan migrate
+
+2. ADD TO YOUR .env FILE:
+   Copy from .env.example and add your PayMob credentials:
+   
+   PAYMOB_BASE_URL=https://ksa.paymob.com
+   PAYMOB_API_KEY=your_api_key_here
+   PAYMOB_SECRET_KEY=your_secret_key_here
+   PAYMOB_PUBLIC_KEY=your_public_key_here
+   PAYMOB_INTEGRATION_ID=your_integration_id_here
+   PAYMOB_MOTO_INTEGRATION_ID=your_moto_integration_id
+   PAYMOB_HMAC_SECRET=your_hmac_secret_here
+
+3. GET PAYMOB CREDENTIALS:
+   - Login to: https://ksa.paymob.com/portal2/en/login
+   - Go to Settings tab
+   - Copy API Key, Secret Key, Public Key
+   - Copy Integration IDs from payment methods section
+
+4. CONFIGURE WEBHOOK IN PAYMOB DASHBOARD:
+   Set your webhook URL to: https://yourdomain.com/payment/webhook
+
+5. TEST PAYMENT FLOW:
+   a) Customer creates a booking
+   b) Redirect to payment: POST /payment/initiate/{booking_id}
+   c) User completes payment on PayMob
+   d) PayMob redirects to: /payment/callback/{booking_id}
+   e) Webhook processes in background: /payment/webhook
+
+
+USAGE EXAMPLE:
+=============
+
+// In your booking creation controller:
+public function createBooking(Request $request)
+{
+    $booking = Booking::create([...]);
+    
+    // Redirect to payment
+    return redirect()->route('payment.initiate', $booking);
+}
+
+// Check if booking is paid:
+if ($booking->successfulPayment) {
+    // Booking is paid
+}
+
+// Get payment history:
+$payments = $booking->payments;
+
+// Refund a payment:
+$payment = Payment::find($id);
+$payment->markAsRefunded($amountCents, $partial = false);
+
+
+DATABASE SCHEMA:
+===============
+
+payments table:
+- id
+- booking_id (foreign key)
+- paymob_order_id
+- paymob_transaction_id
+- merchant_order_id (unique)
+- paymob_integration_id
+- amount_cents
+- currency (SAR)
+- payment_method
+- payment_gateway (paymob)
+- payment_status (pending, processing, success, failed, refunded, etc)
+- payment_data (JSON)
+- callback_data (JSON)
+- failed_reason
+- refund_amount_cents
+- refunded_at
+- paid_at
+- failed_at
+- created_at
+- updated_at
+
+
+IMPORTANT NOTES:
+===============
+
+1. All amounts are in CENTS (multiply SAR by 100)
+   Example: 100 SAR = 10000 cents
+
+2. Webhook endpoint must be publicly accessible
+   Use ngrok for local testing
+
+3. HMAC signature verification is implemented for security
+
+4. Payment status flow:
+   pending → processing → success/failed
+   success → refunded/partially_refunded
+
+5. Supports multiple payment attempts per booking
+
+6. Activity log tracks all payment changes
+
+
+SECURITY CONSIDERATIONS:
+========================
+
+1. Never expose secret keys in frontend code
+2. Always verify webhook signatures
+3. Use HTTPS in production
+4. Validate all amounts server-side
+5. Log all payment transactions
+6. Implement rate limiting on payment endpoints

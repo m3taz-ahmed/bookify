@@ -126,6 +126,21 @@ class Booking extends Model
         return $this->hasMany(BookingItem::class);
     }
 
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
+
+    public function latestPayment()
+    {
+        return $this->hasOne(Payment::class)->latestOfMany();
+    }
+
+    public function successfulPayment()
+    {
+        return $this->hasOne(Payment::class)->where('payment_status', 'success');
+    }
+
     public static function createWithLock(array $data)
     {
         // Remove employee_id from lock key since we're removing it
