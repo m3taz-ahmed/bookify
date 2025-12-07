@@ -30,8 +30,11 @@ class AuthServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // Filament Shield: Super Admin Gate - bypass all permission checks
-        Gate::before(function (User $user) {
-            return $user->hasRole('super_admin') ? true : null;
+        Gate::before(function ($user, $ability) {
+            if ($user instanceof User) {
+                return $user->hasRole('super_admin') ? true : null;
+            }
+            return null;
         });
     }
 }
