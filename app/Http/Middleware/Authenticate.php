@@ -16,7 +16,7 @@ class Authenticate extends Middleware
             return null;
         }
 
-        if ($request->is('admin/*')) {
+        if ($request->is('admin') || $request->is('admin/*')) {
             // Filament admin login route
             return route('filament.admin.auth.login');
         }
