@@ -106,14 +106,7 @@ Route::get('/test-translations', function () {
 //     return view('pages.show', compact('page'));
 // })->where('slug', '^(?!admin|customer|api|filament|lang|check-in|book|welcome|test).*')->name('pages.show')->middleware(['web','throttle:120,1']);
 
-Route::get('/{slug?}', function (?string $slug = null) {
-    if ($slug === null || $slug === '') {
-        // If you have a named home route, use it:
-        return redirect()->abort(404);
-        // If you don't have a home route, you can instead:
-        // abort(404);
-    }
-
+Route::get('/{slug}', function (string $slug) {
     $page = \App\Models\Page::where('slug', $slug)->active()->first();
 
     if (! $page) {
@@ -121,6 +114,6 @@ Route::get('/{slug?}', function (?string $slug = null) {
     }
 
     return view('pages.show', compact('page'));
-})->where('slug', '^(?!admin|customer|api|filament|lang|check-in|book|welcome|test).*')
+})->where('slug', '^(?!admin|customer|api|filament|lang|check-in|book|welcome|test|payment).*')
   ->name('pages.show')
   ->middleware(['web', 'throttle:120,1']);
