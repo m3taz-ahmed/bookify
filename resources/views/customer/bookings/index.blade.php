@@ -76,9 +76,13 @@
                             <div class="p-5 bg-gradient-to-r from-primary-50 to-secondary-50 dark:from-dark-700 dark:to-dark-800">
                                 <div class="flex items-start justify-between">
                                     <div class="flex items-start space-x-4">
-                                        @if($booking->service->images->isNotEmpty())
-                                            <div class="h-14 w-14 rounded-xl overflow-hidden shadow-sm flex-shrink-0 cursor-pointer" data-image-path="{{ Storage::url($booking->service->images->first()->image) }}">
-                                                <img src="{{ Storage::url($booking->service->images->first()->image) }}" alt="{{ $booking->service->name }}" class="w-full h-full object-cover transition-transform duration-300 hover:scale-110">
+                                        @php
+                                            $firstItem = $booking->items->first();
+                                            $firstService = $firstItem?->service;
+                                        @endphp
+                                        @if($firstService && $firstService->images->isNotEmpty())
+                                            <div class="h-14 w-14 rounded-xl overflow-hidden shadow-sm flex-shrink-0 cursor-pointer" data-image-path="{{ Storage::url($firstService->images->first()->image) }}">
+                                                <img src="{{ Storage::url($firstService->images->first()->image) }}" alt="{{ $firstService->name }}" class="w-full h-full object-cover transition-transform duration-300 hover:scale-110">
                                             </div>
                                         @else
                                             <div class="h-14 w-14 rounded-xl bg-white dark:bg-dark-600 shadow-sm flex items-center justify-center flex-shrink-0">
@@ -98,7 +102,7 @@
                                                     @endforeach
                                                 </h3>
                                             @else
-                                                <h3 class="font-bold text-lg text-gray-900 dark:text-white mb-1">{{ $booking->service->name }}</h3>
+                                                <h3 class="font-bold text-lg text-gray-900 dark:text-white mb-1">{{ __('website.booking') }}</h3>
                                             @endif
                                             <div class="flex flex-wrap gap-3 text-sm">
                                                 <div class="flex items-center text-gray-700 dark:text-gray-300">
