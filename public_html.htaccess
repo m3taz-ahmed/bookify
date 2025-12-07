@@ -1,0 +1,11 @@
+# ROOT .htaccess FILE
+# Place this file at: public_html/.htaccess
+# This redirects all requests to the Laravel public folder
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # Redirect all requests to bookify/public folder
+    RewriteCond %{REQUEST_URI} !^/bookify/public/
+    RewriteRule ^(.*)$ /bookify/public/$1 [L,QSA]
+</IfModule>
