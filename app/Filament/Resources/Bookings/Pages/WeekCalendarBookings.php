@@ -93,6 +93,7 @@ class WeekCalendarBookings extends Page
         $bookings = Booking::with(['customer', 'service', 'items.service'])
             ->whereBetween('booking_date', [$startDate, $endDate])
             ->where('status', '!=', 'cancelled')
+            ->whereHas('customer')
             ->orderBy('booking_date')
             ->orderBy('start_time')
             ->get();
