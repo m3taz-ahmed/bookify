@@ -7,6 +7,10 @@ Options -MultiViews -Indexes
     # Don't redirect if already accessing public folder
     RewriteCond %{REQUEST_URI} !^/public/
     
+    # Don't redirect if file/directory exists
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    
     # Redirect everything to public folder
     RewriteRule ^(.*)$ public/$1 [L,QSA]
 </IfModule>
