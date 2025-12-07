@@ -359,7 +359,6 @@ class CreateBooking extends Component
             // Create the booking
             $this->booking = Booking::create([
                 'customer_id' => $customer->id,
-                'service_id' => $primaryServiceId,
                 'booking_date' => $bookingDate->format('Y-m-d'),
                 'start_time' => $startTime->format('H:i:s'),
                 'number_of_people' => $this->numberOfPeople,

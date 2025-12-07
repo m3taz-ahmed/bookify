@@ -111,11 +111,6 @@ class Booking extends Model
             ->setDescriptionForEvent(fn(string $eventName) => "Booking {$eventName}");
     }
 
-    public function service()
-    {
-        return $this->belongsTo(Service::class);
-    }
-
     public function customer()
     {
         return $this->belongsTo(Customer::class, 'customer_id');

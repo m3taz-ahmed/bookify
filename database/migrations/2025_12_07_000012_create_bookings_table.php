@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('reference_code')->unique();
             $table->foreignId('customer_id')->nullable()->constrained('customers')->onDelete('set null');
-            // $table->foreignId('service_id')->nullable()->constrained('services')->onDelete('cascade');
             $table->date('booking_date');
             $table->time('start_time')->nullable();
             $table->integer('number_of_people')->default(1);
