@@ -70,6 +70,7 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
+            ->authGuard('web')
             ->defaultThemeMode(\Filament\Enums\ThemeMode::Dark);
     }
     

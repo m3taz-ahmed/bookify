@@ -1,16 +1,16 @@
-# Redirect all requests to public folder
-Options -MultiViews -Indexes
-
 <IfModule mod_rewrite.c>
     RewriteEngine On
     
-    # Don't redirect if already accessing public folder
+    # Handle Authorization Header
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+    
+    # Don't rewrite if already in public folder
     RewriteCond %{REQUEST_URI} !^/public/
     
-    # Don't redirect if file/directory exists
+    # Don't rewrite if file exists in root
     RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
     
-    # Redirect everything to public folder
-    RewriteRule ^(.*)$ public/$1 [L,QSA]
+    # Internally rewrite to public folder (NO REDIRECT)
+    RewriteRule ^(.*)$ public/$1 [L]
 </IfModule>
