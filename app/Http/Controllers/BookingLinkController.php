@@ -11,7 +11,7 @@ class BookingLinkController extends Controller
 {
     public function show(Request $request, int $customer, string $reference)
     {
-        $booking = Booking::with(['customer', 'items.service', 'service.images'])
+        $booking = Booking::with(['customer', 'items.service.images'])
             ->where('customer_id', $customer)
             ->where('reference_code', $reference)
             ->first();
