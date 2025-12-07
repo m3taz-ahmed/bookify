@@ -29,6 +29,6 @@ class Authenticate extends Middleware
         }
 
         // Fallback: customer login for other areas
-        return route('customer.login');
+        return $request->expectsJson() ? null : route('customer.login');
     }
 }

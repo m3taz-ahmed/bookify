@@ -11,12 +11,17 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // Either comment out the redirect completely for now:
+        // $middleware->redirectGuestsTo(function () {
+        //     return route('customer.login');
+        // });
+
+        // Or keep the admin exception version if you prefer:
         $middleware->redirectGuestsTo(function () {
-            // Don't redirect admin panel - Filament handles its own authentication
             if (request()->is('admin*')) {
-                return null;
+                return null; // let Filament handle it
             }
-            // Redirect to customer login for other areas
+
             return route('customer.login');
         });
     })
