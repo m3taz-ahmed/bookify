@@ -12,6 +12,23 @@ class Authenticate extends Middleware
      */
     protected function redirectTo(Request $request): ?string
     {
-        return $request->expectsJson() ? null : route('customer.login');
+        // return $request->expectsJson() ? null : route('customer.login');
+
+        if ($request->expectsJson()) {
+            return null;
+        }
+
+        if ($request->is('admin/*')) {
+            // Filament admin login route
+            return route('filament.admin.auth.login');
+        }
+
+        if ($request->is('customer/*')) {
+            // Customer area login
+            return route('customer.login');
+        }
+
+        // Fallback: customer login for other areas
+        return route('customer.login');
     }
 }
