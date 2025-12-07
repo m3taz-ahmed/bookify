@@ -10,7 +10,6 @@ use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
-
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 
@@ -81,7 +80,7 @@ class User extends Authenticatable implements FilamentUser
     public function getRoleNameAttribute()
     {
         return $this->roles->first()->name ?? 'N/A';
-    } 
+    }
 
     public function canAccessPanel(Panel $panel): bool
     {
