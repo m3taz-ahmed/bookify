@@ -96,12 +96,30 @@ Route::get('/test-translations', function () {
 })->name('test.translations')->middleware('web');
 
 // Static pages routes
-Route::get('/{slug}', function ($slug) {
-    $page = \App\Models\Page::where('slug', $slug)->active()->first();
+// Route::get('/{slug}', function ($slug) {
+//     $page = \App\Models\Page::where('slug', $slug)->active()->first();
     
+//     if (!$page) {
+//         abort(404);
+//     }
+    
+//     return view('pages.show', compact('page'));
+// })->where('slug', '^(?!admin|customer|api|filament|lang|check-in|book|welcome|test).*')->name('pages.show')->middleware(['web','throttle:120,1']);
+
+Route::get('/{slug?}', function (string $slug = null) {
+    if ($slug === null || $slug === '') {
+        // Handle home or invalid slug – you can redirect to home or show 404
+        return redirect()->route('home'); // if you have 'home' route
+        // or: abort(404);
+    }
+
+    $page = \App\Models\Page::where('slug', $slug)->active()->first();
+
     if (!$page) {
         abort(404);
     }
-    
+
     return view('pages.show', compact('page'));
-})->where('slug', '^(?!admin|customer|api|filament|lang|check-in|book|welcome|test).*')->name('pages.show')->middleware(['web','throttle:120,1']);
+})->where('slug', '^(?!admin|customer|api|filament|lang|check-in|book|welcome|test).*')
+  ->name('pages.show')
+  ->middleware(['web', 'throttle:120,1']);
