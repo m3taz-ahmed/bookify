@@ -183,7 +183,7 @@
                                                             @js($booking->reference_code),
                                                             @js($booking->items->map(function($item) { return [
                                                                 'id' => $item->id,
-                                                                'service_name' => app()->getLocale() === 'ar' ? $item->service->name_ar : $item->service->name_en,
+                                                                'service_name' => $item->service ? (app()->getLocale() === 'ar' ? $item->service->name_ar : $item->service->name_en) : 'N/A',
                                                                 'quantity' => $item->quantity
                                                             ]; })->toArray())
                                                         )"
