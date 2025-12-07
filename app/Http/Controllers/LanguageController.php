@@ -35,7 +35,7 @@ class LanguageController extends Controller
         $referrer = $request->headers->get('referer');
         
         if ($referrer && strpos($referrer, '/admin') !== false) {
-            // For Filament requests, redirect back to the admin panel
+            // For Filament requests, redirect back to the admin panel 
             $adminBaseUrl = rtrim(config('app.url'), '/') . '/admin';
             
             // Get the current admin path (if any)
