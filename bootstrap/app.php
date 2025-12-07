@@ -11,19 +11,13 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        // Either comment out the redirect completely for now:
-        // $middleware->redirectGuestsTo(function () {
-        //     return route('customer.login');
-        // });
+        $middleware->redirectGuestsTo(function () {
+            if (request()->is('admin') || request()->is('admin/*')) {
+                return null; // let Filament handle it
+            }
 
-        // Or keep the admin exception version if you prefer:
-        // $middleware->redirectGuestsTo(function () {
-        //     if (request()->is('admin*')) {
-        //         return null; // let Filament handle it
-        //     }
-
-        //     return route('customer.login');
-        // });
+            return route('customer.login');
+        });
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
