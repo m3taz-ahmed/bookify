@@ -106,16 +106,17 @@ Route::get('/test-translations', function () {
 //     return view('pages.show', compact('page'));
 // })->where('slug', '^(?!admin|customer|api|filament|lang|check-in|book|welcome|test).*')->name('pages.show')->middleware(['web','throttle:120,1']);
 
-Route::get('/{slug?}', function (string $slug = null) {
+Route::get('/{slug?}', function (?string $slug = null) {
     if ($slug === null || $slug === '') {
-        // Handle home or invalid slug – you can redirect to home or show 404
-        return redirect()->route('home'); // if you have 'home' route
-        // or: abort(404);
+        // If you have a named home route, use it:
+        return redirect()->abort(404);
+        // If you don't have a home route, you can instead:
+        // abort(404);
     }
 
     $page = \App\Models\Page::where('slug', $slug)->active()->first();
 
-    if (!$page) {
+    if (! $page) {
         abort(404);
     }
 
