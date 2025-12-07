@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Bookings\Pages;
 
+
 use App\Filament\Resources\Bookings\BookingResource;
 use App\Models\SiteSetting;
 use App\Services\CapacityService;
