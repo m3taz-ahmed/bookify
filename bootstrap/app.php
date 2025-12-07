@@ -14,7 +14,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->redirectGuestsTo(function () {
             // Don't redirect admin routes - let Filament handle it
             if (request()->is('admin') || request()->is('admin/*')) {
-                return null;
+                return null; 
             }
             
             return route('customer.login');

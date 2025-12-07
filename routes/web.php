@@ -114,6 +114,6 @@ Route::get('/{slug}', function (string $slug) {
     }
 
     return view('pages.show', compact('page'));
-})->where('slug', '^(?!admin|customer|api|filament|lang|check-in|book|welcome|test|payment).*')
+})->where('slug', '.+')  // Match one or more characters (not empty)
   ->name('pages.show')
   ->middleware(['web', 'throttle:120,1']);
