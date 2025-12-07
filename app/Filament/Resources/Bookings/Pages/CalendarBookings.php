@@ -87,9 +87,10 @@ class CalendarBookings extends Page
         $endDate = $startDate->copy()->endOfMonth();
         
         // Get all bookings for the current month with related data, excluding cancelled bookings
-        $bookings = Booking::with(['customer', 'service'])
+        $bookings = Booking::with(['customer', 'items.service'])
             ->whereBetween('booking_date', [$startDate, $endDate])
             ->where('status', '!=', 'cancelled')
+            ->whereHas('customer')
             ->orderBy('booking_date')
             ->orderBy('start_time')
             ->get();
