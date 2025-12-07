@@ -48,7 +48,7 @@ class CustomerController extends Controller
         /** @var \App\Models\Customer $customer */
         $customer = auth('customer')->user();
         
-        $query = $customer->bookings()->with(['service.images', 'items.service']);
+        $query = $customer->bookings()->with(['items.service.images']);
         
         // Filter by status if provided
         $status = $request->get('status', 'upcoming'); // Default to upcoming
@@ -126,7 +126,6 @@ class CustomerController extends Controller
         // Create the booking
         $booking = Booking::create([
             'customer_id' => $customer->id,
-            'service_id' => $request->service_id,
             'booking_date' => $request->booking_date,
             'start_time' => $request->start_time,
             'reference_code' => $referenceCode,
@@ -209,7 +208,6 @@ class CustomerController extends Controller
         
         // Update the booking
         $booking->update([
-            'service_id' => $request->service_id,
             'booking_date' => $request->booking_date,
             'start_time' => $request->start_time,
             'status' => $status,
