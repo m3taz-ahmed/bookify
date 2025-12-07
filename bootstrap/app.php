@@ -11,7 +11,14 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->redirectGuestsTo(fn () => route('customer.login'));
+        $middleware->redirectGuestsTo(function () {
+            // Don't redirect admin panel - Filament handles its own authentication
+            if (request()->is('admin*')) {
+                return null;
+            }
+            // Redirect to customer login for other areas
+            return route('customer.login');
+        });
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
