@@ -17,13 +17,13 @@ return Application::configure(basePath: dirname(__DIR__))
         // });
 
         // Or keep the admin exception version if you prefer:
-        $middleware->redirectGuestsTo(function () {
-            if (request()->is('admin*')) {
-                return null; // let Filament handle it
-            }
+        // $middleware->redirectGuestsTo(function () {
+        //     if (request()->is('admin*')) {
+        //         return null; // let Filament handle it
+        //     }
 
-            return route('customer.login');
-        });
+        //     return route('customer.login');
+        // });
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
