@@ -11,7 +11,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        // Don't set global redirectGuestsTo - let each guard handle its own
+        $middleware->redirectGuestsTo(fn () => route('customer.login'));
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
