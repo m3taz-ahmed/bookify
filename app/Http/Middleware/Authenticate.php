@@ -16,17 +16,12 @@ class Authenticate extends Middleware
             return null;
         }
 
+        // Don't handle admin routes - Filament has its own auth middleware
         if ($request->is('admin') || $request->is('admin/*')) {
-            // Filament admin login route
-            return route('filament.admin.auth.login');
+            return null;
         }
 
-        if ($request->is('customer/*')) {
-            // Customer area login
-            return route('customer.login');
-        }
-
-        // Fallback: customer login for other areas
+        // Customer area routes
         return route('customer.login');
     }
 }

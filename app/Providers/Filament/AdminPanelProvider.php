@@ -68,7 +68,7 @@ class AdminPanelProvider extends PanelProvider
                 FilamentShieldPlugin::make(),
             ])
             ->authMiddleware([
-                \App\Http\Middleware\Authenticate::class,
+                Authenticate::class,
             ])
             ->defaultThemeMode(\Filament\Enums\ThemeMode::Dark);
     }
