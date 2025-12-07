@@ -176,7 +176,7 @@
                                                         @click="openModal(
                                                             @js($booking->customer->name), 
                                                             @js($booking->customer->phone), 
-                                                            @js($booking->service ? (app()->getLocale() === 'ar' ? $booking->service->name_ar : $booking->service->name_en) : __('filament.Multiple Tickets')),
+                                                            @js([$booking->items->count() > 0 ? (app()->getLocale() === 'ar' ? $booking->items->first()->service->name_ar : $booking->items->first()->service->name_en) : 'N/A']),
                                                             @js($booking->booking_date->format('Y-m-d')),
                                                             @js($booking->start_time ? $booking->start_time->format('H:i') : ''),
                                                             @js($booking->number_of_people . ' ' . __('filament.People')),
