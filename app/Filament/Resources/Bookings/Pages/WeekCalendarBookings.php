@@ -81,7 +81,11 @@ class WeekCalendarBookings extends Page
         $currentDate = Carbon::parse($currentDate)->timezone('Asia/Riyadh');
         
         // Always start the week on Saturday, regardless of locale
-        $startDate = $currentDate->copy()->startOfWeek(6); // 6 = Saturday in Carbon
+        // We manually calculate the start date to avoid locale-specific behavior of startOfWeek()
+        // 0=Sun, 1=Mon, ..., 6=Sat
+        // If Sat(6), subtract 0. If Sun(0), subtract 1. ... If Fri(5), subtract 6.
+        $daysToSubtract = ($currentDate->dayOfWeek + 1) % 7;
+        $startDate = $currentDate->copy()->subDays($daysToSubtract);
         $endDate = $startDate->copy()->addDays(6);
         
         // Get all bookings for the current week with related data, excluding cancelled bookings

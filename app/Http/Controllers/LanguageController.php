@@ -36,7 +36,7 @@ class LanguageController extends Controller
         
         if ($referrer && strpos($referrer, '/admin') !== false) {
             // For Filament requests, redirect back to the admin panel
-            $adminBaseUrl = config('app.url') . '/admin';
+            $adminBaseUrl = rtrim(config('app.url'), '/') . '/admin';
             
             // Get the current admin path (if any)
             $adminPath = '';

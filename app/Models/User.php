@@ -11,7 +11,10 @@ use Spatie\Permission\Traits\HasRoles;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
 
-class User extends Authenticatable
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
+
+class User extends Authenticatable implements FilamentUser
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, HasRoles, LogsActivity, HasApiTokens;
@@ -78,5 +81,14 @@ class User extends Authenticatable
     public function getRoleNameAttribute()
     {
         return $this->roles->first()->name ?? 'N/A';
+    }
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        if ($panel->getId() === 'admin') {
+            return $this->hasRole(['admin', 'employee', 'super_admin']);
+        }
+
+        return true;
     }
 }
