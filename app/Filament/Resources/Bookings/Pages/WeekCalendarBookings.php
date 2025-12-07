@@ -118,7 +118,18 @@ class WeekCalendarBookings extends Page
             // Group bookings by time
             $groupedBookings = [];
             foreach ($dayBookings as $booking) {
-                $timeKey = $booking->start_time ? $booking->start_time->format('H:i') : '00:00';
+                // Safely handle start_time
+                $rawStartTime = $booking->getRawOriginal('start_time');
+                $timeKey = '00:00';
+                
+                if ($rawStartTime) {
+                    try {
+                        // Extract just H:i from "2024-01-01 10:30:00" or "10:30:00"
+                        $timeKey = \Carbon\Carbon::parse($rawStartTime)->format('H:i');
+                    } catch (\Exception $e) {
+                         // Fallback already set
+                    }
+                }
                 if (!isset($groupedBookings[$timeKey])) {
                     $groupedBookings[$timeKey] = [
                         'time' => $timeKey,
