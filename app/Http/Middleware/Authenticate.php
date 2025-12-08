@@ -19,6 +19,17 @@ class Authenticate extends Middleware
      */
     protected function unauthenticated($request, array $guards)
     {
+        // CRITICAL: Check if admin route override is set (from index.php)
+        if (defined('ADMIN_ROUTE_OVERRIDE') && ADMIN_ROUTE_OVERRIDE === true) {
+            $logFile = public_path('admin-middleware-override.log');
+            @file_put_contents($logFile, date('Y-m-d H:i:s') . " | ADMIN_ROUTE_OVERRIDE detected in middleware\n", FILE_APPEND);
+            
+            // For admin routes, throw exception with null redirect (let Filament handle it)
+            throw new AuthenticationException(
+                'Unauthenticated.', $guards, null
+            );
+        }
+        
         // Log for debugging
         $logFile = public_path('auth-debug.log');
         $logData = date('Y-m-d H:i:s') . " | Path: " . $request->path() . " | Guards: " . implode(',', $guards) . "\n";
