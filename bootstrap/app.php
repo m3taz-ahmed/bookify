@@ -14,40 +14,43 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->redirectGuestsTo(function () {
             $request = request();
             
-            // CRITICAL: Check if this is an admin route (flag set in index.php)
+            // COMPREHENSIVE DEBUG LOGGING
+            $debugFile = __DIR__ . '/../public/bootstrap-redirect-debug.log';
+            $debug = "\n=== BOOTSTRAP REDIRECT DEBUG ===\n";
+            $debug .= date('Y-m-d H:i:s') . "\n";
+            $debug .= "Request path: " . $request->path() . "\n";
+            $debug .= "ADMIN_ROUTE_OVERRIDE constant: " . (defined('ADMIN_ROUTE_OVERRIDE') ? 'YES' : 'NO') . "\n";
+            $debug .= "getenv('IS_ADMIN_ROUTE'): " . (getenv('IS_ADMIN_ROUTE') ?: 'NULL') . "\n";
+            $debug .= "\$_ENV['IS_ADMIN_ROUTE']: " . ($_ENV['IS_ADMIN_ROUTE'] ?? 'NULL') . "\n";
+            $debug .= "getenv('ADMIN_ROUTE_OVERRIDE'): " . (getenv('ADMIN_ROUTE_OVERRIDE') ?: 'NULL') . "\n";
+            @file_put_contents($debugFile, $debug, FILE_APPEND);
+            
+            // CRITICAL: Check if this is an admin route using CONSTANT (most reliable)
+            if (defined('ADMIN_ROUTE_OVERRIDE') && ADMIN_ROUTE_OVERRIDE === true) {
+                $debug .= "DECISION: Returning NULL (ADMIN_ROUTE_OVERRIDE constant detected)\n";
+                @file_put_contents($debugFile, $debug, FILE_APPEND);
+                return null;
+            }
+            
+            // Fallback: Check environment variables
             if (getenv('IS_ADMIN_ROUTE') === 'true' || ($_ENV['IS_ADMIN_ROUTE'] ?? '') === 'true') {
-                $logFile = __DIR__ . '/../public/admin-flag-detected.log';
-                @file_put_contents($logFile, date('Y-m-d H:i:s') . " | Admin flag detected, returning null\n", FILE_APPEND);
+                $debug .= "DECISION: Returning NULL (IS_ADMIN_ROUTE env detected)\n";
+                @file_put_contents($debugFile, $debug, FILE_APPEND);
                 return null;
             }
             
-            // DEBUG LOGGING using file_put_contents (more reliable than Log)
-            $logFile = __DIR__ . '/../public/redirect-debug.log';
-            $logData = "\n=== REDIRECT GUESTS DEBUG ===\n";
-            $logData .= date('Y-m-d H:i:s') . "\n";
-            $logData .= 'Full URL: ' . $request->url() . "\n";
-            $logData .= 'Path: ' . $request->path() . "\n";
-            $logData .= 'Request URI: ' . $request->getRequestUri() . "\n";
-            $logData .= 'is(admin): ' . ($request->is('admin') ? 'YES' : 'NO') . "\n";
-            $logData .= 'is(admin/*): ' . ($request->is('admin/*') ? 'YES' : 'NO') . "\n";
-            $logData .= 'path contains admin: ' . (str_contains($request->path(), 'admin') ? 'YES' : 'NO') . "\n";
-            
-            // Check if this is an admin/filament route
-            $isAdminRoute = $request->is('admin') || 
-                           $request->is('admin/*') || 
-                           str_contains($request->path(), 'admin') ||
-                           str_contains($request->path(), 'filament');
-            
-            if ($isAdminRoute) {
-                $logData .= 'DECISION: Returning NULL - Let Filament handle it' . "\n";
-                $logData .= '=== END DEBUG ===' . "\n";
-                @file_put_contents($logFile, $logData, FILE_APPEND);
+            // Fallback: Check request path directly
+            if ($request->is('admin') || 
+                $request->is('admin/*') || 
+                str_contains($request->path(), 'admin') ||
+                str_contains($request->path(), 'filament')) {
+                $debug .= "DECISION: Returning NULL (admin path detected directly)\n";
+                @file_put_contents($debugFile, $debug, FILE_APPEND);
                 return null;
             }
             
-            $logData .= 'DECISION: Redirecting to customer.login' . "\n";
-            $logData .= '=== END DEBUG ===' . "\n";
-            @file_put_contents($logFile, $logData, FILE_APPEND);
+            $debug .= "DECISION: Redirecting to customer.login\n";
+            @file_put_contents($debugFile, $debug, FILE_APPEND);
             return route('customer.login');
         });
     })
