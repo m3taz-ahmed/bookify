@@ -24,22 +24,23 @@ class Authenticate extends Middleware
             return null; 
         }
 
-        // Don't handle admin routes - Filament has its own auth middleware
-        // Using str_contains to handle various URL structures (e.g. /public/admin, /bookify/admin)
+        // Check if this is an admin/filament route
+        // Admin routes should NOT redirect to customer login
         \Log::info('Checking admin routes...');
         \Log::info('is(admin): ' . ($request->is('admin') ? 'YES' : 'NO'));
         \Log::info('is(admin/*): ' . ($request->is('admin/*') ? 'YES' : 'NO'));
         \Log::info('is(*admin*): ' . ($request->is('*admin*') ? 'YES' : 'NO'));
         \Log::info('url contains /admin: ' . (str_contains($request->url(), '/admin') ? 'YES' : 'NO'));
+        \Log::info('path contains admin: ' . (str_contains($request->path(), 'admin') ? 'YES' : 'NO'));
         
         if ($request->is('admin') || 
             $request->is('admin/*') || 
-            $request->is('*admin*') || 
-            $request->is('filament*') ||
-            str_contains($request->url(), '/admin') ||
-            str_contains($request->url(), '/filament')) {
-            \Log::info('DECISION: Returning NULL (Admin route detected)');
+            str_contains($request->path(), 'admin') ||
+            str_contains($request->path(), 'filament')) {
+            \Log::info('DECISION: Returning NULL (Admin route detected - let Filament handle it)');
             \Log::info('=== END AUTHENTICATE DEBUG ===');
+            // Return null to let Filament's own auth handle it
+            // Filament will show its own login page
             return null;
         }
 
