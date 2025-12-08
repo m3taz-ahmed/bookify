@@ -64,7 +64,13 @@ Route::get('/booking/view/{customer}/{reference}', [BookingLinkController::class
     ->middleware(['web','throttle:60,1']);
 
 // Language switcher route
-Route::get('/lang/{locale}', [LanguageController::class, 'switch'])->name('lang.switch')->middleware(['web','throttle:60,1']);
+Route::get('/lang/{locale}', function ($locale) {
+    // DEBUG LOGGING
+    $logFile = public_path('lang-route-debug.log');
+    @file_put_contents($logFile, date('Y-m-d H:i:s') . " | Language route executed with locale: " . $locale . "\n", FILE_APPEND);
+    
+    return app(\App\Http\Controllers\LanguageController::class)->switch(request(), $locale);
+})->name('lang.switch')->middleware(['web','throttle:60,1']);
 
 // Payment routes
 Route::middleware(['auth:customer', 'web'])->group(function () {
