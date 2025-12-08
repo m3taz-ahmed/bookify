@@ -41,12 +41,12 @@ class AdminPanelProvider extends PanelProvider
                 'warning' => Color::hex('#f5d349'),
                 'danger' => Color::hex('#ee5548'),
             ])
-            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
-            ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
+            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
+            ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
                 Dashboard::class,
             ])
-            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
+            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 AccountWidget::class,
                 FilamentInfoWidget::class,
@@ -62,7 +62,7 @@ class AdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
-                SetFilamentLocale::class, // Add our custom locale middleware
+                SetFilamentLocale::class,
             ])
             ->plugins([
                 FilamentShieldPlugin::make(),
@@ -76,8 +76,6 @@ class AdminPanelProvider extends PanelProvider
     
     public function boot()
     {
-        // Remove the locale setting from boot since we're using middleware
-        
         // Register custom CSS for calendar
         FilamentAsset::register([
             Css::make('filament-custom', resource_path('css/filament-custom.css')),
