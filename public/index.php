@@ -10,8 +10,31 @@ $logFile = __DIR__ . '/request-debug.log';
 $logData = date('Y-m-d H:i:s') . " | " . ($_SERVER['REQUEST_METHOD'] ?? 'N/A') . " | " . ($_SERVER['REQUEST_URI'] ?? 'N/A') . "\n";
 @file_put_contents($logFile, $logData, FILE_APPEND);
 
-// CRITICAL FIX: Intercept admin routes and handle them specially
 $requestUri = $_SERVER['REQUEST_URI'] ?? '';
+
+// LANGUAGE ROUTE FIX: Handle /lang/{locale} directly
+if (preg_match('#^/lang/(ar|en)/?(\?.*)?$#', $requestUri, $matches)) {
+    $locale = $matches[1];
+    $debugLog = __DIR__ . '/lang-direct-debug.log';
+    @file_put_contents($debugLog, date('Y-m-d H:i:s') . " | Language route intercepted: " . $locale . "\n", FILE_APPEND);
+    
+    // Load Laravel
+    if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php')) {
+        require $maintenance;
+    }
+    require __DIR__.'/../vendor/autoload.php';
+    $app = require_once __DIR__.'/../bootstrap/app.php';
+    
+    // Handle the request through Laravel
+    $kernel = $app->make(\Illuminate\Contracts\Http\Kernel::class);
+    $request = \Illuminate\Http\Request::capture();
+    $response = $kernel->handle($request);
+    $kernel->terminate($request, $response);
+    $response->send();
+    exit;
+}
+
+// ADMIN ROUTE FIX: Intercept admin routes
 $isAdminRoute = (
     $requestUri === '/admin' ||
     str_starts_with($requestUri, '/admin/') ||
@@ -66,7 +89,6 @@ if ($isAdminRoute) {
             
         } catch (\Exception $e) {
             @file_put_contents($debugLog, "  -> Exception: " . $e->getMessage() . "\n", FILE_APPEND);
-            // Continue to normal bootstrap below
         }
     } else {
         // This IS the login page, proceed normally
@@ -76,7 +98,7 @@ if ($isAdminRoute) {
     }
 }
 
-// Normal Laravel bootstrap for non-admin routes
+// Normal Laravel bootstrap for all other routes
 if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php')) {
     require $maintenance;
 }
