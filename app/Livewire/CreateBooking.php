@@ -373,11 +373,26 @@ class CreateBooking extends Component
     
     public function selectPaymentType($type)
     {
+        // Clear any previous booking errors
+        $this->resetValidation('booking');
+        
         if (!in_array($type, ['card', 'apple_pay'])) {
             return;
         }
         
+        // Check if online payment is enabled
+        if (!SiteSetting::isOnlinePaymentEnabled()) {
+            $this->addError('paymentMethod', 'Online payment method is currently disabled.');
+            return;
+        }
+        
+        // Set payment method to online
+        $this->paymentMethod = 'online';
+        
+        // Set payment type (card or apple_pay)
         $this->paymentType = $type;
+        
+        // Create the booking
         $this->createBooking();
     }
 

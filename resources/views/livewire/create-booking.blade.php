@@ -378,15 +378,26 @@
                                  wire:target="selectPaymentType">
                                 <div class="flex items-center">
                                     <div class="flex-shrink-0 mr-3">
-                                        <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 flex items-center justify-center">
-                                            <svg class="w-6 h-6 text-blue-600 dark:text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 flex items-center justify-center relative">
+                                            <!-- Loading spinner -->
+                                            <div wire:loading wire:target="selectPaymentType" class="absolute inset-0 flex items-center justify-center">
+                                                <svg class="animate-spin h-6 w-6 text-blue-600 dark:text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                </svg>
+                                            </div>
+                                            <!-- Card icon -->
+                                            <svg wire:loading.remove wire:target="selectPaymentType" class="w-6 h-6 text-blue-600 dark:text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
                                             </svg>
                                         </div>
                                     </div>
                                     <div class="flex-1">
                                         <h4 class="font-semibold text-gray-900 dark:text-white">{{ app()->getLocale() === 'ar' ? 'بطاقة ائتمان/خصم' : 'Credit/Debit Card' }}</h4>
-                                        <p class="text-xs text-gray-600 dark:text-gray-400">{{ app()->getLocale() === 'ar' ? 'فيزا، ماستركارد، مدى' : 'Visa, Mastercard, Mada' }}</p>
+                                        <p class="text-xs text-gray-600 dark:text-gray-400">
+                                            <span wire:loading.remove wire:target="selectPaymentType">{{ app()->getLocale() === 'ar' ? 'فيزا، ماستركارد، مدى' : 'Visa, Mastercard, Mada' }}</span>
+                                            <span wire:loading wire:target="selectPaymentType" class="text-blue-600 dark:text-blue-500">{{ app()->getLocale() === 'ar' ? 'جاري المعالجة...' : 'Processing...' }}</span>
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -399,15 +410,26 @@
                                  wire:target="selectPaymentType">
                                 <div class="flex items-center">
                                     <div class="flex-shrink-0 mr-3">
-                                        <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-gray-800 to-black dark:from-gray-700 dark:to-gray-900 flex items-center justify-center">
-                                            <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                        <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-gray-800 to-black dark:from-gray-700 dark:to-gray-900 flex items-center justify-center relative">
+                                            <!-- Loading spinner -->
+                                            <div wire:loading wire:target="selectPaymentType" class="absolute inset-0 flex items-center justify-center">
+                                                <svg class="animate-spin h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                </svg>
+                                            </div>
+                                            <!-- Apple Pay icon -->
+                                            <svg wire:loading.remove wire:target="selectPaymentType" class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                                                 <path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/>
                                             </svg>
                                         </div>
                                     </div>
                                     <div class="flex-1">
                                         <h4 class="font-semibold text-gray-900 dark:text-white">Apple Pay</h4>
-                                        <p class="text-xs text-gray-600 dark:text-gray-400">{{ app()->getLocale() === 'ar' ? 'ادفع بأمان بواسطة Apple Pay' : 'Pay securely with Apple Pay' }}</p>
+                                        <p class="text-xs text-gray-600 dark:text-gray-400">
+                                            <span wire:loading.remove wire:target="selectPaymentType">{{ app()->getLocale() === 'ar' ? 'ادفع بأمان بواسطة Apple Pay' : 'Pay securely with Apple Pay' }}</span>
+                                            <span wire:loading wire:target="selectPaymentType" class="text-gray-800 dark:text-gray-300">{{ app()->getLocale() === 'ar' ? 'جاري المعالجة...' : 'Processing...' }}</span>
+                                        </p>
                                     </div>
                                 </div>
                             </div>
