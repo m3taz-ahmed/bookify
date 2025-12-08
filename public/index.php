@@ -34,22 +34,14 @@ if ($isAdminRoute) {
         require $maintenance;
     }
     require __DIR__.'/../vendor/autoload.php';
-    
-    // Start session to check authentication
-    if (!isset($_SESSION)) {
-        session_start();
-    }
-    
-    // Check if user is authenticated as admin
-    // If not, redirect to admin login page directly
     $app = require_once __DIR__.'/../bootstrap/app.php';
     $request = Request::capture();
     
-    // Check if this is already the login page
+    // Check if this is NOT the login page
     if (!str_contains($requestUri, '/admin/login')) {
-        @file_put_contents($debugLog, "  -> Not login page, checking auth...\n", FILE_APPEND);
+        @file_put_contents($debugLog, "  -> Not login page, checking for redirect...\n", FILE_APPEND);
         
-        // Try to get auth status
+        // Handle the request
         try {
             $kernel = $app->make(\Illuminate\Contracts\Http\Kernel::class);
             $response = $kernel->handle($request);
@@ -61,21 +53,27 @@ if ($isAdminRoute) {
                 
                 if (str_contains($redirectUrl, '/customer/login')) {
                     @file_put_contents($debugLog, "  -> BLOCKING customer/login redirect, sending to admin/login instead\n", FILE_APPEND);
+                    $kernel->terminate($request, $response);
                     header('Location: /admin/login');
                     exit;
                 }
             }
             
+            // Send the response and exit
             $kernel->terminate($request, $response);
             $response->send();
             exit;
             
         } catch (\Exception $e) {
             @file_put_contents($debugLog, "  -> Exception: " . $e->getMessage() . "\n", FILE_APPEND);
+            // Continue to normal bootstrap below
         }
+    } else {
+        // This IS the login page, proceed normally
+        @file_put_contents($debugLog, "  -> Login page, proceeding normally\n", FILE_APPEND);
+        $app->handleRequest($request);
+        exit;
     }
-    
-    @file_put_contents($debugLog, "  -> Proceeding normally\n", FILE_APPEND);
 }
 
 // Normal Laravel bootstrap for non-admin routes
