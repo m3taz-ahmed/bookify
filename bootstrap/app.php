@@ -12,8 +12,18 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->redirectGuestsTo(function () {
+            $request = request();
+            
             // Don't redirect admin routes - let Filament handle it
-            if (request()->is('admin') || request()->is('admin/*')) {
+            // Check multiple patterns to handle various URL structures (e.g. /public/admin, /bookify/admin)
+            if ($request->is('admin') || 
+                $request->is('admin/*') || 
+                $request->is('*admin*') ||
+                $request->is('filament*') ||
+                str_contains($request->url(), '/admin') ||
+                str_contains($request->url(), '/filament') ||
+                str_contains($request->path(), 'admin') ||
+                str_contains($request->path(), 'filament')) {
                 return null;
             }
             
