@@ -14,6 +14,13 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->redirectGuestsTo(function () {
             $request = request();
             
+            // CRITICAL: Check if this is an admin route (flag set in index.php)
+            if (getenv('IS_ADMIN_ROUTE') === 'true' || ($_ENV['IS_ADMIN_ROUTE'] ?? '') === 'true') {
+                $logFile = __DIR__ . '/../public/admin-flag-detected.log';
+                @file_put_contents($logFile, date('Y-m-d H:i:s') . " | Admin flag detected, returning null\n", FILE_APPEND);
+                return null;
+            }
+            
             // DEBUG LOGGING using file_put_contents (more reliable than Log)
             $logFile = __DIR__ . '/../public/redirect-debug.log';
             $logData = "\n=== REDIRECT GUESTS DEBUG ===\n";

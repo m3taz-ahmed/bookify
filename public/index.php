@@ -10,6 +10,26 @@ $logFile = __DIR__ . '/request-debug.log';
 $logData = date('Y-m-d H:i:s') . " | " . ($_SERVER['REQUEST_METHOD'] ?? 'N/A') . " | " . ($_SERVER['REQUEST_URI'] ?? 'N/A') . "\n";
 @file_put_contents($logFile, $logData, FILE_APPEND);
 
+// CRITICAL FIX: Handle admin routes BEFORE Laravel boots
+// This prevents any middleware from redirecting admin to customer login
+$requestUri = $_SERVER['REQUEST_URI'] ?? '';
+$isAdminRoute = (
+    $requestUri === '/admin' ||
+    str_starts_with($requestUri, '/admin/') ||
+    str_contains($requestUri, '/admin') ||
+    str_contains($requestUri, 'admin')
+);
+
+if ($isAdminRoute) {
+    $debugLog = __DIR__ . '/admin-route-debug.log';
+    $debugData = date('Y-m-d H:i:s') . " | Admin route detected: " . $requestUri . "\n";
+    @file_put_contents($debugLog, $debugData, FILE_APPEND);
+    
+    // Set a flag that middleware can check
+    $_ENV['IS_ADMIN_ROUTE'] = 'true';
+    putenv('IS_ADMIN_ROUTE=true');
+}
+
 // Determine if the application is in maintenance mode...
 if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php')) {
     require $maintenance;
