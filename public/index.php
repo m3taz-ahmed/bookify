@@ -25,14 +25,13 @@ if ($isAdminRoute) {
     $debugData = date('Y-m-d H:i:s') . " | Admin route detected: " . $requestUri . "\n";
     @file_put_contents($debugLog, $debugData, FILE_APPEND);
     
-    // Set a flag that middleware can check
-    $_ENV['IS_ADMIN_ROUTE'] = 'true';
-    putenv('IS_ADMIN_ROUTE=true');
-    
-    // CRITICAL: Override the guest redirect configuration
-    // This is a hack to prevent redirect even if bootstrap/app.php is not updated
-    $_ENV['ADMIN_ROUTE_OVERRIDE'] = 'true';
+    // CRITICAL: Define constant BEFORE loading bootstrap/app.php
+    // This way middleware can check it
     define('ADMIN_ROUTE_OVERRIDE', true);
+    $_ENV['IS_ADMIN_ROUTE'] = 'true';
+    $_ENV['ADMIN_ROUTE_OVERRIDE'] = 'true';
+    putenv('IS_ADMIN_ROUTE=true');
+    putenv('ADMIN_ROUTE_OVERRIDE=true');
 }
 
 // Determine if the application is in maintenance mode...
@@ -47,16 +46,12 @@ require __DIR__.'/../vendor/autoload.php';
 /** @var Application $app */
 $app = require_once __DIR__.'/../bootstrap/app.php';
 
-// CRITICAL FIX: If this is an admin route, override the redirect configuration
+// Additional logging after app is loaded
 if (defined('ADMIN_ROUTE_OVERRIDE') && ADMIN_ROUTE_OVERRIDE === true) {
     $overrideLog = __DIR__ . '/admin-override.log';
-    @file_put_contents($overrideLog, date('Y-m-d H:i:s') . " | Overriding guest redirect for admin route\n", FILE_APPEND);
+    @file_put_contents($overrideLog, date('Y-m-d H:i:s') . " | ADMIN_ROUTE_OVERRIDE constant is defined\n", FILE_APPEND);
     
-    // Capture the request before Laravel processes it
     $request = Request::capture();
-    
-    // Check if user is not authenticated and this is admin route
-    // If so, we need to let Filament handle it, not redirect to customer login
     if ($request->is('admin') || $request->is('admin/*') || str_contains($request->path(), 'admin')) {
         @file_put_contents($overrideLog, "  -> Admin path confirmed: " . $request->path() . "\n", FILE_APPEND);
     }
