@@ -14,37 +14,33 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->redirectGuestsTo(function () {
             $request = request();
             
-            // DEBUG LOGGING - Remove after fixing
-            \Log::info('=== REDIRECT GUESTS DEBUG ===');
-            \Log::info('Full URL: ' . $request->url());
-            \Log::info('Path: ' . $request->path());
-            \Log::info('Request URI: ' . $request->getRequestUri());
-            \Log::info('is(admin): ' . ($request->is('admin') ? 'YES' : 'NO'));
-            \Log::info('is(admin/*): ' . ($request->is('admin/*') ? 'YES' : 'NO'));
-            \Log::info('is(*admin*): ' . ($request->is('*admin*') ? 'YES' : 'NO'));
-            \Log::info('is(filament*): ' . ($request->is('filament*') ? 'YES' : 'NO'));
-            \Log::info('url contains /admin: ' . (str_contains($request->url(), '/admin') ? 'YES' : 'NO'));
-            \Log::info('url contains /filament: ' . (str_contains($request->url(), '/filament') ? 'YES' : 'NO'));
-            \Log::info('path contains admin: ' . (str_contains($request->path(), 'admin') ? 'YES' : 'NO'));
-            \Log::info('path contains filament: ' . (str_contains($request->path(), 'filament') ? 'YES' : 'NO'));
+            // DEBUG LOGGING using file_put_contents (more reliable than Log)
+            $logFile = __DIR__ . '/../public/redirect-debug.log';
+            $logData = "\n=== REDIRECT GUESTS DEBUG ===\n";
+            $logData .= date('Y-m-d H:i:s') . "\n";
+            $logData .= 'Full URL: ' . $request->url() . "\n";
+            $logData .= 'Path: ' . $request->path() . "\n";
+            $logData .= 'Request URI: ' . $request->getRequestUri() . "\n";
+            $logData .= 'is(admin): ' . ($request->is('admin') ? 'YES' : 'NO') . "\n";
+            $logData .= 'is(admin/*): ' . ($request->is('admin/*') ? 'YES' : 'NO') . "\n";
+            $logData .= 'path contains admin: ' . (str_contains($request->path(), 'admin') ? 'YES' : 'NO') . "\n";
             
-            // Don't redirect admin routes - let Filament handle it
-            // Check multiple patterns to handle various URL structures (e.g. /public/admin, /bookify/admin)
-            if ($request->is('admin') || 
-                $request->is('admin/*') || 
-                $request->is('*admin*') ||
-                $request->is('filament*') ||
-                str_contains($request->url(), '/admin') ||
-                str_contains($request->url(), '/filament') ||
-                str_contains($request->path(), 'admin') ||
-                str_contains($request->path(), 'filament')) {
-                \Log::info('DECISION: Returning NULL - Let Filament handle it');
-                \Log::info('=== END DEBUG ===');
+            // Check if this is an admin/filament route
+            $isAdminRoute = $request->is('admin') || 
+                           $request->is('admin/*') || 
+                           str_contains($request->path(), 'admin') ||
+                           str_contains($request->path(), 'filament');
+            
+            if ($isAdminRoute) {
+                $logData .= 'DECISION: Returning NULL - Let Filament handle it' . "\n";
+                $logData .= '=== END DEBUG ===' . "\n";
+                @file_put_contents($logFile, $logData, FILE_APPEND);
                 return null;
             }
             
-            \Log::info('DECISION: Redirecting to customer.login');
-            \Log::info('=== END DEBUG ===');
+            $logData .= 'DECISION: Redirecting to customer.login' . "\n";
+            $logData .= '=== END DEBUG ===' . "\n";
+            @file_put_contents($logFile, $logData, FILE_APPEND);
             return route('customer.login');
         });
     })
