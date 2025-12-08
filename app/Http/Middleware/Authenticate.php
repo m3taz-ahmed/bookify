@@ -17,7 +17,7 @@ class Authenticate extends Middleware
         }
 
         // Don't handle admin routes - Filament has its own auth middleware
-        if ($request->is('admin') || $request->is('admin/*')) {
+        if ($request->is('admin*') || $request->is('*admin*') || $request->is('filament*')) {
             return null;
         }
 
