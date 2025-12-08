@@ -105,6 +105,29 @@ class PaymobController extends Controller
                     ->with('error', __('website.booking_not_found'));
             }
 
+            // If success=true in URL and payment is still pending, update it
+            // This handles cases where webhook hasn't arrived yet
+            if ($success === 'true' && $payment->payment_status === 'pending') {
+                Log::info('Paymob Return: Updating payment status from URL params', [
+                    'merchant_order_id' => $merchantOrderId,
+                    'success' => $success,
+                ]);
+
+                // Update payment to success
+                $payment->update([
+                    'payment_status' => 'success',
+                    'paymob_transaction_id' => $transactionId,
+                    'paid_at' => now(),
+                ]);
+
+                // Update booking
+                $booking->update([
+                    'is_paid' => true,
+                    'payment_status' => 'paid',
+                    'status' => 'confirmed',
+                ]);
+            }
+
             // Redirect to step 5 (payment result) with booking data
             return redirect()->route('customer.bookings.create', [
                 'step' => 5,
