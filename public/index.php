@@ -11,7 +11,6 @@ $logData = date('Y-m-d H:i:s') . " | " . ($_SERVER['REQUEST_METHOD'] ?? 'N/A') .
 @file_put_contents($logFile, $logData, FILE_APPEND);
 
 // CRITICAL FIX: Handle admin routes BEFORE Laravel boots
-// This prevents any middleware from redirecting admin to customer login
 $requestUri = $_SERVER['REQUEST_URI'] ?? '';
 $isAdminRoute = (
     $requestUri === '/admin' ||
@@ -25,8 +24,7 @@ if ($isAdminRoute) {
     $debugData = date('Y-m-d H:i:s') . " | Admin route detected: " . $requestUri . "\n";
     @file_put_contents($debugLog, $debugData, FILE_APPEND);
     
-    // CRITICAL: Define constant BEFORE loading bootstrap/app.php
-    // This way middleware can check it
+    // Define constant BEFORE loading bootstrap/app.php
     define('ADMIN_ROUTE_OVERRIDE', true);
     $_ENV['IS_ADMIN_ROUTE'] = 'true';
     $_ENV['ADMIN_ROUTE_OVERRIDE'] = 'true';
@@ -46,15 +44,32 @@ require __DIR__.'/../vendor/autoload.php';
 /** @var Application $app */
 $app = require_once __DIR__.'/../bootstrap/app.php';
 
-// Additional logging after app is loaded
+// CRITICAL FIX: Override authentication redirect for admin routes
 if (defined('ADMIN_ROUTE_OVERRIDE') && ADMIN_ROUTE_OVERRIDE === true) {
     $overrideLog = __DIR__ . '/admin-override.log';
-    @file_put_contents($overrideLog, date('Y-m-d H:i:s') . " | ADMIN_ROUTE_OVERRIDE constant is defined\n", FILE_APPEND);
+    @file_put_contents($overrideLog, date('Y-m-d H:i:s') . " | Applying admin route override\n", FILE_APPEND);
     
-    $request = Request::capture();
-    if ($request->is('admin') || $request->is('admin/*') || str_contains($request->path(), 'admin')) {
-        @file_put_contents($overrideLog, "  -> Admin path confirmed: " . $request->path() . "\n", FILE_APPEND);
-    }
+    // Override the Authenticate middleware's redirectTo method at runtime
+    $app->singleton(\App\Http\Middleware\Authenticate::class, function ($app) use ($overrideLog) {
+        @file_put_contents($overrideLog, "  -> Creating custom Authenticate middleware\n", FILE_APPEND);
+        
+        return new class extends \App\Http\Middleware\Authenticate {
+            protected function redirectTo(\Illuminate\Http\Request $request): ?string
+            {
+                $log = public_path('custom-auth-override.log');
+                @file_put_contents($log, date('Y-m-d H:i:s') . " | Custom redirectTo called for: " . $request->path() . "\n", FILE_APPEND);
+                
+                // For admin routes, return null (let Filament handle it)
+                if ($request->is('admin') || $request->is('admin/*') || str_contains($request->path(), 'admin')) {
+                    @file_put_contents($log, "  -> Returning NULL for admin route\n", FILE_APPEND);
+                    return null;
+                }
+                
+                // For other routes, redirect to customer login
+                return route('customer.login');
+            }
+        };
+    });
 }
 
 $app->handleRequest(Request::capture());
