@@ -20,6 +20,16 @@ class LanguageController extends Controller
      */
     public function switch(Request $request, $locale)
     {
+        // DEBUG LOGGING
+        $logFile = public_path('lang-switch-debug.log');
+        $debug = "\n=== LANGUAGE SWITCH DEBUG ===\n";
+        $debug .= date('Y-m-d H:i:s') . "\n";
+        $debug .= "Locale: " . $locale . "\n";
+        $debug .= "Referrer: " . ($request->headers->get('referer') ?? 'NULL') . "\n";
+        $debug .= "Previous URL: " . url()->previous() . "\n";
+        $debug .= "APP_URL: " . config('app.url') . "\n";
+        @file_put_contents($logFile, $debug, FILE_APPEND);
+        
         // Validate the locale
         if (!in_array($locale, ['ar', 'en'])) {
             $locale = config('app.locale', 'ar');
@@ -36,7 +46,6 @@ class LanguageController extends Controller
         
         if ($referrer && strpos($referrer, '/admin') !== false) {
             // For Filament requests, redirect back to the admin panel
-            // $adminBaseUrl = config('app.url') . '/admin';
             $adminBaseUrl = rtrim(config('app.url'), '/') . '/admin';
             
             // Get the current admin path (if any)
@@ -46,6 +55,9 @@ class LanguageController extends Controller
             }
             
             $redirectUrl = $adminBaseUrl . $adminPath;
+            $debug .= "DECISION: Redirecting to admin: " . $redirectUrl . "\n";
+            @file_put_contents($logFile, $debug, FILE_APPEND);
+            
             return redirect($redirectUrl);
         } else {
             // For regular site requests, redirect back to the same page
@@ -53,6 +65,8 @@ class LanguageController extends Controller
             
             // If previous URL is null or empty, redirect to home
             if (empty($previousUrl)) {
+                $debug .= "DECISION: Redirecting to home (no previous URL)\n";
+                @file_put_contents($logFile, $debug, FILE_APPEND);
                 return redirect()->route('home');
             }
             
@@ -60,14 +74,20 @@ class LanguageController extends Controller
             if ($referrer && (strpos($referrer, '/customer/') !== false)) {
                 // If the user is authenticated as a customer, allow the redirect
                 if (Auth::guard('customer')->check()) {
+                    $debug .= "DECISION: Redirecting to previous (customer authenticated): " . $previousUrl . "\n";
+                    @file_put_contents($logFile, $debug, FILE_APPEND);
                     return redirect($previousUrl);
                 } else {
                     // If not authenticated, redirect to the login page
+                    $debug .= "DECISION: Redirecting to customer login (not authenticated)\n";
+                    @file_put_contents($logFile, $debug, FILE_APPEND);
                     return redirect()->route('customer.login');
                 }
             }
             
             // For all other cases, redirect back to the previous page
+            $debug .= "DECISION: Redirecting to previous: " . $previousUrl . "\n";
+            @file_put_contents($logFile, $debug, FILE_APPEND);
             return redirect($previousUrl);
         }
     }
