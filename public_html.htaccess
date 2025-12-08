@@ -1,3 +1,6 @@
+# IMPORTANT: This file should be placed in public_html (NOT in public_html/public)
+# This is for servers where you cannot change the document root
+
 <IfModule mod_rewrite.c>
     RewriteEngine On
     
@@ -5,12 +8,13 @@
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
     
-    # Don't rewrite if already in public folder
+    # Redirect to public folder if not already there
     RewriteCond %{REQUEST_URI} !^/public/
-    
-    # Don't rewrite if file exists in root
     RewriteCond %{REQUEST_FILENAME} !-f
-    
-    # Internally rewrite to public folder (NO REDIRECT)
+    RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^(.*)$ public/$1 [L]
+    
+    # Handle requests to public folder
+    RewriteCond %{REQUEST_URI} ^/public/
+    RewriteRule ^public/(.*)$ public/$1 [L]
 </IfModule>
