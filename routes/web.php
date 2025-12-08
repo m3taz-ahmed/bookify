@@ -114,6 +114,6 @@ Route::get('/{slug}', function (string $slug) {
     }
 
     return view('pages.show', compact('page'));
-})->where('slug', '^(?!admin|customer|api|filament|lang|check-in|book|welcome|test|payment|login|register).*')
+})->where('slug', '^(?!admin|customer|api|filament|lang|check-in|book|welcome|test|payment|login|register|bookify|public).*')
   ->name('pages.show')
   ->middleware(['web', 'throttle:120,1']);

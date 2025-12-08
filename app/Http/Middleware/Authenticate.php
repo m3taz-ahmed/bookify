@@ -17,7 +17,13 @@ class Authenticate extends Middleware
         }
 
         // Don't handle admin routes - Filament has its own auth middleware
-        if ($request->is('admin*') || $request->is('*admin*') || $request->is('filament*')) {
+        // Using str_contains to handle various URL structures (e.g. /public/admin, /bookify/admin)
+        if ($request->is('admin') || 
+            $request->is('admin/*') || 
+            $request->is('*admin*') || 
+            $request->is('filament*') ||
+            str_contains($request->url(), '/admin') ||
+            str_contains($request->url(), '/filament')) {
             return null;
         }
 
