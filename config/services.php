@@ -52,6 +52,7 @@ return [
         'secret_key' => env('PAYMOB_SECRET_KEY'),
         'public_key' => env('PAYMOB_PUBLIC_KEY'),
         'integration_id' => env('PAYMOB_INTEGRATION_ID'),
+        'apple_pay_integration_id' => env('PAYMOB_APPLE_PAY_INTEGRATION_ID'),
         'moto_integration_id' => env('PAYMOB_MOTO_INTEGRATION_ID'),
         'hmac_secret' => env('PAYMOB_HMAC_SECRET'),
         'paymob_currency' => env('PAYMOB_CURRENCY'),

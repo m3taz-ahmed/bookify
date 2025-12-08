@@ -362,23 +362,55 @@
                     @endif
                     
                     @if($isOnlinePaymentEnabled)
-                    <div class="border border-gray-200 dark:border-dark-700 rounded-2xl p-6 hover:border-primary-300 dark:hover:border-primary-500 cursor-pointer transition-all duration-300 bg-white dark:bg-dark-800 hover:bg-gradient-to-br from-white to-primary-50 dark:from-dark-800 dark:to-primary-900/20 transform hover:-translate-y-2 shadow-sm hover:shadow-lg" 
-                         wire:click="selectPaymentMethod('online')" wire:loading.class="opacity-50 pointer-events-none" wire:loading.attr="disabled" wire:target="selectPaymentMethod">
-                        <div class="flex items-center mb-4">
-                        <div class="flex-shrink-0 mr-4">
-                            <div class="w-16 h-16 rounded-full bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 flex items-center justify-center shadow-md">
-                                <svg class="w-8 h-8 text-blue-600 dark:text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
-                                </svg>
-                            </div>
-                        </div>
-                        <div>
-                            <h3 class="font-bold text-xl text-gray-900 dark:text-white">{{ __('website.online_payment') }}</h3>
+                    <div class="border border-gray-200 dark:border-dark-700 rounded-2xl p-6 bg-white dark:bg-dark-800 shadow-sm">
+                        <div class="mb-4">
+                            <h3 class="font-bold text-xl text-gray-900 dark:text-white mb-2">{{ __('website.online_payment') }}</h3>
                             <p class="text-sm text-gray-600 dark:text-gray-400">{{ __('website.secure_online_payment') }}</p>
                         </div>
-                        </div>
-                        <div class="text-sm text-gray-600 dark:text-gray-400 bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-blue-100 dark:border-blue-900/30">
-                            <p>{{ __('website.online_payment_description') }}</p>
+                        
+                        <!-- Payment Type Selection: Card or Apple Pay -->
+                        <div class="space-y-3">
+                            <!-- Card Payment -->
+                            <div class="border border-gray-200 dark:border-dark-700 rounded-xl p-4 hover:border-primary-300 dark:hover:border-primary-500 cursor-pointer transition-all duration-300 hover:bg-gradient-to-br from-white to-primary-50 dark:from-dark-800 dark:to-primary-900/20 transform hover:-translate-y-1 shadow-sm hover:shadow-md"
+                                 wire:click="selectPaymentType('card')" 
+                                 wire:loading.class="opacity-50 pointer-events-none" 
+                                 wire:loading.attr="disabled" 
+                                 wire:target="selectPaymentType">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 mr-3">
+                                        <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 flex items-center justify-center">
+                                            <svg class="w-6 h-6 text-blue-600 dark:text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="font-semibold text-gray-900 dark:text-white">{{ app()->getLocale() === 'ar' ? 'بطاقة ائتمان/خصم' : 'Credit/Debit Card' }}</h4>
+                                        <p class="text-xs text-gray-600 dark:text-gray-400">{{ app()->getLocale() === 'ar' ? 'فيزا، ماستركارد، مدى' : 'Visa, Mastercard, Mada' }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Apple Pay -->
+                            <div class="border border-gray-200 dark:border-dark-700 rounded-xl p-4 hover:border-primary-300 dark:hover:border-primary-500 cursor-pointer transition-all duration-300 hover:bg-gradient-to-br from-white to-primary-50 dark:from-dark-800 dark:to-primary-900/20 transform hover:-translate-y-1 shadow-sm hover:shadow-md"
+                                 wire:click="selectPaymentType('apple_pay')" 
+                                 wire:loading.class="opacity-50 pointer-events-none" 
+                                 wire:loading.attr="disabled" 
+                                 wire:target="selectPaymentType">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 mr-3">
+                                        <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-gray-800 to-black dark:from-gray-700 dark:to-gray-900 flex items-center justify-center">
+                                            <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="font-semibold text-gray-900 dark:text-white">Apple Pay</h4>
+                                        <p class="text-xs text-gray-600 dark:text-gray-400">{{ app()->getLocale() === 'ar' ? 'ادفع بأمان بواسطة Apple Pay' : 'Pay securely with Apple Pay' }}</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     @endif

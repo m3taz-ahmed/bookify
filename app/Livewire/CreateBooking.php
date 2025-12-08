@@ -27,6 +27,7 @@ class CreateBooking extends Component
     public $phoneNumber;
     public $numberOfPeople = 1;
     public $paymentMethod;
+    public $paymentType; // 'card' or 'apple_pay'
     public $orderRef;
     public $booking;
     public $qrCode;
@@ -41,6 +42,7 @@ class CreateBooking extends Component
         'selectedTime' => 'required',
         'numberOfPeople' => 'required|integer|min:1',
         'paymentMethod' => 'required|in:cash,online',
+        'paymentType' => 'nullable|in:card,apple_pay',
     ];
 
     public function mount()
@@ -360,7 +362,22 @@ class CreateBooking extends Component
         
         $this->paymentMethod = $method;
         
+        // If online payment, default to card unless Apple Pay is selected
+        if ($method === 'online' && !$this->paymentType) {
+            $this->paymentType = 'card';
+        }
+        
         // Create the booking
+        $this->createBooking();
+    }
+    
+    public function selectPaymentType($type)
+    {
+        if (!in_array($type, ['card', 'apple_pay'])) {
+            return;
+        }
+        
+        $this->paymentType = $type;
         $this->createBooking();
     }
 
@@ -504,6 +521,7 @@ class CreateBooking extends Component
                 'currency' => 'SAR',
                 'notification_url' => $siteUrl . '/paymob/webhook',
                 'redirection_url' => $siteUrl . '/paymob/return',
+                'payment_method' => $this->paymentType ?? 'card', // 'card' or 'apple_pay'
             ];
             
             // Create Paymob intention

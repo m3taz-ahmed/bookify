@@ -14,6 +14,7 @@ class PayMobService
     protected string $secretKey;
     protected string $publicKey;
     protected string $integrationId;
+    protected ?string $applePayIntegrationId;
     protected ?string $motoIntegrationId;
     protected ?string $paymobCurrency;
     protected ?string $paymobMode;
@@ -25,6 +26,7 @@ class PayMobService
         $this->secretKey = config('services.paymob.secret_key');
         $this->publicKey = config('services.paymob.public_key');
         $this->integrationId = config('services.paymob.integration_id');
+        $this->applePayIntegrationId = config('services.paymob.apple_pay_integration_id');
         $this->motoIntegrationId = config('services.paymob.moto_integration_id');
         $this->paymobCurrency = config('services.paymob.paymob_currency');
         $this->paymobMode = config('services.paymob.paymob_mode');
@@ -66,6 +68,12 @@ class PayMobService
         try {
             // Calculate total amount in cents
             $totalAmountCents = collect($items)->sum('amount');
+            
+            // Determine which integration ID to use based on payment method
+            $paymentMethod = $options['payment_method'] ?? 'card';
+            $integrationId = $paymentMethod === 'apple_pay' && $this->applePayIntegrationId 
+                ? $this->applePayIntegrationId 
+                : $this->integrationId;
 
             // Create payment record
             $payment = Payment::create([
@@ -75,14 +83,14 @@ class PayMobService
                 'currency' => $options['currency'] ?? 'SAR',
                 'payment_status' => 'pending',
                 'payment_gateway' => 'paymob',
-                'paymob_integration_id' => $this->integrationId,
+                'paymob_integration_id' => $integrationId,
             ]);
 
             // Prepare intention payload
             $payload = [
                 'amount' => $totalAmountCents,
                 'currency' => $options['currency'] ?? 'SAR',
-                'payment_methods' => [(int)$this->integrationId],
+                'payment_methods' => [(int)$integrationId],
                 'items' => $items,
                 'billing_data' => $billingData,
                 'special_reference' => $payment->merchant_order_id,
