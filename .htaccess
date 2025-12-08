@@ -1,9 +1,24 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
+    
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
-    # Redirect to public folder
+    
+    # Remove trailing slash before redirecting to public
+    RewriteCond %{REQUEST_URI} (.+)/$
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^ %1 [L,R=301]
+    
+    # If already in public folder, skip
+    RewriteCond %{REQUEST_URI} ^/public/
+    RewriteRule ^ - [L]
+    
+    # Redirect to public folder (internal rewrite, not redirect)
     RewriteCond %{REQUEST_URI} !^/public/
+    RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^(.*)$ public/$1 [L]
 </IfModule>
+
+# Prevent directory listing
+Options -Indexes

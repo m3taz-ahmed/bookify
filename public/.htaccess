@@ -2,16 +2,35 @@
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes
     </IfModule>
+    
     RewriteEngine On
+    
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
-    # Redirect Trailing Slashes If Not A Folder...
+    
+    # Remove Trailing Slashes (except for directories)
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_URI} (.+)/$
     RewriteRule ^ %1 [L,R=301]
+    
+    # Handle lang routes specifically (before the front controller)
+    RewriteCond %{REQUEST_URI} ^/lang/(ar|en)/?$
+    RewriteRule ^ index.php [L]
+    
     # Send Requests To Front Controller...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
+</IfModule>
+
+# Prevent directory listing
+<IfModule mod_autoindex.c>
+    Options -Indexes
+</IfModule>
+
+# Handle LiteSpeed cache
+<IfModule LiteSpeed>
+    RewriteEngine On
+    RewriteRule .* - [E=Cache-Control:no-cache]
 </IfModule>
