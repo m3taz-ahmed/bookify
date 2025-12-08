@@ -54,6 +54,8 @@ return [
         'integration_id' => env('PAYMOB_INTEGRATION_ID'),
         'moto_integration_id' => env('PAYMOB_MOTO_INTEGRATION_ID'),
         'hmac_secret' => env('PAYMOB_HMAC_SECRET'),
+        'paymob_currency' => env('PAYMOB_CURRENCY'),
+        'paymob_mode' => env('PAYMOB_MODE'),
     ],
 
 ];

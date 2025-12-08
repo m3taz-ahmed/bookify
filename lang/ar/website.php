@@ -285,6 +285,15 @@ return [
     'working_hours' => 'ساعات العمل',
     'payment_methods_unavailable' => 'طرق الدفع غير متوفرة',
     'payment_methods_unavailable_message' => 'نعتذر، لكن جميع طرق الدفع غير متوفرة حالياً. يرجى الاتصال بنا للمساعدة.',
+    
+    // Payment related
+    'payment_verification_failed' => 'فشل التحقق من الدفع',
+    'payment_not_found' => 'لم يتم العثور على الدفع',
+    'booking_not_found' => 'لم يتم العثور على الحجز',
+    'payment_processing_error' => 'خطأ في معالجة الدفع',
+    'continue_to_payment' => 'المتابعة إلى الدفع',
+    'online_payment_description' => 'ادفع بأمان ببطاقة الائتمان أو الخصم',
+    
     'invalid_phone_number' => 'يرجى إدخال رقم هاتف صحيح',
     'not_configured_will_be_closed' => 'غير مكون (سيكون مغلقًا)',
     'add_time_slot' => 'إضافة فترة زمنية',

@@ -8,6 +8,7 @@ use App\Models\Service;
 use App\Models\SiteSetting;
 use App\Notifications\BookingConfirmed;
 use App\Services\CapacityService;
+use App\Services\PayMobService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
@@ -31,6 +32,9 @@ class CreateBooking extends Component
     public $qrCode;
     public $referenceCode;
     public $bookingLink;
+    public $payment;
+    public $paymentStatus;
+    public $paymentError;
 
     protected $rules = [
         'selectedDate' => 'required|date',
@@ -41,7 +45,45 @@ class CreateBooking extends Component
 
     public function mount()
     {
-        // Don't set default date - let customer choose
+        // Check if we're coming back from payment
+        $bookingId = request()->query('booking_id');
+        $paymentId = request()->query('payment_id');
+        $stepParam = request()->query('step');
+        
+        if ($stepParam == 5 && $bookingId && $paymentId) {
+            $this->loadPaymentResult($bookingId, $paymentId);
+        }
+    }
+    
+    /**
+     * Load payment result for step 5
+     */
+    private function loadPaymentResult($bookingId, $paymentId)
+    {
+        try {
+            $this->booking = Booking::findOrFail($bookingId);
+            $this->payment = \App\Models\Payment::findOrFail($paymentId);
+            
+            // Check if customer owns this booking
+            if ($this->booking->customer_id !== auth('customer')->id()) {
+                $this->addError('payment', 'Unauthorized access');
+                return;
+            }
+            
+            $this->paymentStatus = $this->payment->payment_status;
+            $this->referenceCode = $this->booking->reference_code;
+            $this->qrCode = $this->booking->qr_code;
+            $this->bookingLink = $this->booking->publicLink();
+            
+            $this->step = 5;
+        } catch (\Exception $e) {
+            Log::error('Failed to load payment result', [
+                'booking_id' => $bookingId,
+                'payment_id' => $paymentId,
+                'error' => $e->getMessage(),
+            ]);
+            $this->addError('payment', 'Failed to load payment result');
+        }
     }
     
     public function incrementItem($serviceId)
@@ -356,15 +398,19 @@ class CreateBooking extends Component
             // Generate reference code
             $referenceCode = Booking::generateReferenceCode();
             
+            // For online payment: status is 'pending', for cash: 'confirmed'
+            $bookingStatus = $this->paymentMethod === 'online' ? 'pending' : 'confirmed';
+            
             // Create the booking
             $this->booking = Booking::create([
                 'customer_id' => $customer->id,
                 'booking_date' => $bookingDate->format('Y-m-d'),
                 'start_time' => $startTime->format('H:i:s'),
                 'number_of_people' => $this->numberOfPeople,
-                'status' => 'confirmed',
+                'status' => $bookingStatus,
                 'payment_method' => $this->paymentMethod,
                 'reference_code' => $referenceCode,
+                'is_paid' => false,
             ]);
 
             foreach ($this->ticketItems as $serviceId => $qty) {
@@ -392,17 +438,16 @@ class CreateBooking extends Component
             // Public booking link for SMS
             $this->bookingLink = $this->booking->publicLink();
             
-            // Send confirmation notification
-            \Illuminate\Support\Facades\Notification::send($customer, new BookingConfirmed($this->booking));
-
-            
+            // Handle payment method
             if ($this->paymentMethod === 'online') {
-                // For online payment, generate order reference
-                $this->orderRef = 'ORD-' . strtoupper(uniqid());
-                $this->booking->update(['order_ref' => $this->orderRef]);
+                // Initialize Paymob payment
+                $this->initiatePaymobPayment($customer);
+            } else {
+                // For cash payment, send confirmation immediately
+                \Illuminate\Support\Facades\Notification::send($customer, new BookingConfirmed($this->booking));
+                $this->step = 4; // Show success and QR code
             }
             
-            $this->step = 4; // Show success and QR code
         } catch (\Exception $e) {
             \Illuminate\Support\Facades\Log::error('Booking creation failed', [
                 'customer_id' => auth('customer')->id() ?? null,
@@ -414,6 +459,80 @@ class CreateBooking extends Component
                 'error' => $e->getMessage(),
             ]);
             $this->addError('booking', 'Failed to create booking. Please try again. Error: ' . $e->getMessage());
+        }
+    }
+    
+    /**
+     * Initiate Paymob payment
+     */
+    private function initiatePaymobPayment($customer)
+    {
+        try {
+            // Calculate total amount in cents (SAR * 100)
+            $totalAmountCents = (int) ($this->booking->items->sum('total_price') * 100);
+            
+            // Prepare items array for Paymob
+            $items = $this->booking->items->map(function ($item) {
+                return [
+                    'name' => $item->service->name ?? 'Service',
+                    'amount' => (int) ($item->total_price * 100),
+                    'quantity' => $item->quantity,
+                ];
+            })->toArray();
+            
+            // Prepare billing data
+            $billingData = [
+                'first_name' => $customer->name ?? 'Customer',
+                'last_name' => 'N/A',
+                'phone_number' => $customer->phone ?? '+966500000000',
+                'email' => $customer->email ?? 'customer@facilitiesservices.sa',
+                'apartment' => 'NA',
+                'floor' => 'NA',
+                'street' => 'NA',
+                'building' => 'NA',
+                'shipping_method' => 'NA',
+                'postal_code' => '11564',
+                'city' => 'Riyadh',
+                'country' => 'SA',
+                'state' => 'Riyadh',
+            ];
+            
+            $siteUrl = config('app.url');
+            
+            // Prepare options with callback URLs
+            $options = [
+                'currency' => 'SAR',
+                'notification_url' => $siteUrl . '/paymob/webhook',
+                'redirection_url' => $siteUrl . '/paymob/return',
+            ];
+            
+            // Create Paymob intention
+            $paymobService = app(PayMobService::class);
+            $result = $paymobService->createIntention($this->booking, $items, $billingData, $options);
+            
+            if (!($result['success'] ?? false)) {
+                throw new \Exception('Failed to initialize online payment. Please try again.');
+            }
+            
+            // Save order reference
+            $this->orderRef = $result['payment']->merchant_order_id;
+            $this->booking->update([
+                'order_ref' => $this->orderRef,
+            ]);
+            
+            // Redirect to Paymob checkout
+            return redirect($result['checkout_url']);
+            
+        } catch (\Exception $e) {
+            Log::error('Paymob payment initiation failed', [
+                'booking_id' => $this->booking->id,
+                'error' => $e->getMessage(),
+            ]);
+            
+            // Mark booking as failed
+            $this->booking->update(['status' => 'cancelled']);
+            
+            throw new \Exception('Failed to start online payment: ' . $e->getMessage());
         }
     }
 

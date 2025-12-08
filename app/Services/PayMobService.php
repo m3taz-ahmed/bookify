@@ -15,6 +15,8 @@ class PayMobService
     protected string $publicKey;
     protected string $integrationId;
     protected ?string $motoIntegrationId;
+    protected ?string $paymobCurrency;
+    protected ?string $paymobMode;
 
     public function __construct()
     {
@@ -24,6 +26,8 @@ class PayMobService
         $this->publicKey = config('services.paymob.public_key');
         $this->integrationId = config('services.paymob.integration_id');
         $this->motoIntegrationId = config('services.paymob.moto_integration_id');
+        $this->paymobCurrency = config('services.paymob.paymob_currency');
+        $this->paymobMode = config('services.paymob.paymob_mode');
     }
 
     /**

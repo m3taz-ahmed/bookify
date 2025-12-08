@@ -173,6 +173,17 @@ return [
     'cash_payment_description' => 'Pay in cash when you arrive',
     'no_available_slots' => 'No Available Time Slots',
     'please_select_another_date' => 'Please select another date or contact us for more options.',
+    
+    // Payment related
+    'payment_verification_failed' => 'Payment verification failed',
+    'payment_not_found' => 'Payment not found',
+    'booking_not_found' => 'Booking not found',
+    'payment_processing_error' => 'Payment processing error',
+    'continue_to_payment' => 'Continue to payment',
+    'online_payment_description' => 'Pay securely with credit/debit card',
+    'payment_methods_unavailable' => 'Payment Methods Unavailable',
+    'payment_methods_unavailable_message' => 'All payment methods are currently disabled. Please contact support.',
+    
     // New keys for the redesigned landing page
     'why_choose_us' => 'Why Choose Us',
     'discover_our_benefits' => 'Discover the benefits of using our platform',

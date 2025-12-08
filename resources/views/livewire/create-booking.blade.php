@@ -18,7 +18,7 @@
                 <!-- Progress line -->
                 <div class="absolute top-4 left-0 right-0 h-1.5 bg-gray-200 -z-10 rounded-full overflow-hidden" style="position: absolute !important;">
                     <div class="h-full bg-gradient-to-r from-primary-500 to-secondary-500 transition-all duration-700 ease-in-out rounded-full" 
-                         style="width: <?php echo (($step - 1) / 3) * 100; ?>%"></div>
+                         style="width: <?php echo (($step - 1) / 4) * 100; ?>%"></div>
                 </div>
                 
                 <!-- Steps -->
@@ -52,6 +52,14 @@
                         <span class="font-bold">4</span>
                     </div>
                     <span class="text-xs text-center hidden sm:block {{ $step >= 4 ? 'font-semibold text-primary-700' : 'text-gray-500' }}">{{ __('website.confirmation') }}</span>
+                </div>
+                
+                <div class="flex flex-col items-center relative z-10 group">
+                    <div class="w-10 h-10 rounded-full flex items-center justify-center mb-2 transition-all duration-300 
+                                {{ $step >= 5 ? 'bg-primary-500 text-white shadow-lg scale-110' : 'bg-white text-gray-500 border-2 border-gray-300 shadow-sm' }}">
+                        <span class="font-bold">5</span>
+                    </div>
+                    <span class="text-xs text-center hidden sm:block {{ $step >= 5 ? 'font-semibold text-primary-700' : 'text-gray-500' }}">{{ app()->getLocale() === 'ar' ? 'النتيجة' : 'Result' }}</span>
                 </div>
                 
                 
@@ -438,6 +446,106 @@
                         <a href="{{ $bookingLink }}" class="break-all text-primary-700 dark:text-primary-400 hover:text-primary-900 dark:hover:text-primary-300">{{ $bookingLink }}</a>
                     </div>
                 </div>
+                @endif
+                
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="{{ route('customer.bookings') }}" 
+                       class="inline-flex items-center justify-center px-6 py-3 border border-gray-300 text-base font-medium rounded-xl text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                        <svg class="mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                        </svg>
+                        {{ __('website.view_my_bookings') }}
+                    </a>
+                    <a href="{{ route('customer.bookings.create') }}" 
+                       class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-gradient-to-r from-primary-600 to-secondary-700 hover:from-primary-700 hover:to-secondary-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-300 transform hover:-translate-y-0.5 shadow-lg hover:shadow-xl">
+                        <svg class="mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                        </svg>
+                        {{ __('website.book_another_service') }}
+                    </a>
+                </div>
+            </div>
+        @endif
+        
+        <!-- Step 5: Payment Result -->
+        @if ($step === 5)
+            <div class="text-center py-8 relative">
+                @if($paymentStatus === 'success')
+                    <!-- Payment Success -->
+                    <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-gradient-to-br from-green-100 to-emerald-100 rounded-full opacity-30 blur-2xl"></div>
+                    <div class="mb-8 relative z-10">
+                        <div class="w-24 h-24 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl">
+                            <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                        </div>
+                        <h2 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">{{ app()->getLocale() === 'ar' ? 'تم الدفع بنجاح!' : 'Payment Successful!' }}</h2>
+                        <p class="text-gray-600 dark:text-gray-300 max-w-lg mx-auto text-xl">{{ __('website.booking_confirmed') }}</p>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-primary-50 to-secondary-50 dark:from-primary-900/30 dark:to-secondary-900/30 rounded-2xl p-8 max-w-md mx-auto mb-8 border border-primary-100 dark:border-primary-900/50 shadow-lg hover:shadow-xl transition-all duration-300 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-24 h-24 bg-primary-500 rounded-full -mt-12 -mr-12 opacity-10"></div>
+                        <div class="absolute bottom-0 left-0 w-32 h-32 bg-secondary-500 rounded-full -mb-16 -ml-16 opacity-10"></div>
+                        <div class="relative z-10">
+                            <div class="mb-4">
+                                <img src="{{ $qrCode }}" alt="Booking QR Code" class="mx-auto w-48 h-48">
+                            </div>
+                            <div class="text-center">
+                                <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">{{ __('website.booking_reference') }}</h3>
+                                <p class="text-2xl font-mono font-bold text-primary-600 dark:text-primary-400">{{ $referenceCode }}</p>
+                                <p class="mt-2 text-gray-600 dark:text-gray-300">{{ __('website.save_reference_number') }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    @if($bookingLink)
+                    <div class="max-w-md mx-auto mb-8">
+                        <div class="bg-white dark:bg-dark-800 border border-gray-200 dark:border-dark-700 rounded-xl p-4 text-center">
+                            <p class="text-sm text-gray-700 dark:text-gray-300 mb-2">{{ app()->getLocale() === 'ar' ? 'رابط تفاصيل الحجز' : 'Booking details link' }}</p>
+                            <a href="{{ $bookingLink }}" class="break-all text-primary-700 dark:text-primary-400 hover:text-primary-900 dark:hover:text-primary-300">{{ $bookingLink }}</a>
+                        </div>
+                    </div>
+                    @endif
+                @elseif($paymentStatus === 'pending')
+                    <!-- Payment Pending -->
+                    <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-gradient-to-br from-yellow-100 to-amber-100 rounded-full opacity-30 blur-2xl"></div>
+                    <div class="mb-8 relative z-10">
+                        <div class="w-24 h-24 bg-gradient-to-r from-yellow-400 to-amber-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl">
+                            <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <h2 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">{{ app()->getLocale() === 'ar' ? 'الدفع قيد المعالجة' : 'Payment Pending' }}</h2>
+                        <p class="text-gray-600 dark:text-gray-300 max-w-lg mx-auto text-xl">{{ app()->getLocale() === 'ar' ? 'يتم التحقق من الدفع. سنرسل لك التأكيد قريباً.' : 'Your payment is being verified. We will send you confirmation shortly.' }}</p>
+                    </div>
+                    
+                    <div class="max-w-md mx-auto mb-8">
+                        <div class="bg-yellow-50 border border-yellow-200 dark:bg-yellow-900/20 dark:border-yellow-800 rounded-xl p-6 text-center">
+                            <p class="text-gray-700 dark:text-gray-300 mb-4">{{ app()->getLocale() === 'ar' ? 'رقم مرجع الحجز' : 'Booking Reference' }}:</p>
+                            <p class="text-2xl font-mono font-bold text-yellow-700 dark:text-yellow-400">{{ $referenceCode }}</p>
+                        </div>
+                    </div>
+                @else
+                    <!-- Payment Failed -->
+                    <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-gradient-to-br from-red-100 to-pink-100 rounded-full opacity-30 blur-2xl"></div>
+                    <div class="mb-8 relative z-10">
+                        <div class="w-24 h-24 bg-gradient-to-r from-red-400 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl">
+                            <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </div>
+                        <h2 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">{{ app()->getLocale() === 'ar' ? 'فشل الدفع' : 'Payment Failed' }}</h2>
+                        <p class="text-gray-600 dark:text-gray-300 max-w-lg mx-auto text-xl">{{ app()->getLocale() === 'ar' ? 'لم نتمكن من معالجة دفعتك. يرجى المحاولة مرة أخرى.' : 'We could not process your payment. Please try again.' }}</p>
+                    </div>
+                    
+                    <div class="max-w-md mx-auto mb-8">
+                        <div class="bg-red-50 border border-red-200 dark:bg-red-900/20 dark:border-red-800 rounded-xl p-6 text-center">
+                            @if($payment && $payment->failed_reason)
+                                <p class="text-red-700 dark:text-red-400 mb-4">{{ $payment->failed_reason }}</p>
+                            @endif
+                            <p class="text-gray-700 dark:text-gray-300">{{ app()->getLocale() === 'ar' ? 'تم إلغاء الحجز. يمكنك المحاولة مرة أخرى.' : 'Your booking has been cancelled. You can try again.' }}</p>
+                        </div>
+                    </div>
                 @endif
                 
                 <div class="flex flex-col sm:flex-row justify-center gap-4">

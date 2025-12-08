@@ -8,6 +8,7 @@ use App\Http\Controllers\Customer\DashboardController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\BookingLinkController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\PaymobController;
 
 // Root redirect to booking welcome page
 Route::get('/', function () {
@@ -74,7 +75,11 @@ Route::middleware(['auth:customer', 'web'])->group(function () {
     Route::post('/payment/refund/{payment}', [PaymentController::class, 'refund'])->name('payment.refund');
 });
 
-// PayMob webhook (no auth required)
+// PayMob routes
+Route::post('/paymob/webhook', [PaymobController::class, 'webhook'])->name('paymob.webhook');
+Route::get('/paymob/return', [PaymobController::class, 'return'])->middleware(['auth:customer', 'web'])->name('paymob.return');
+
+// Legacy PayMob webhook (no auth required)
 Route::post('/payment/webhook', [PaymentController::class, 'handleWebhook'])->name('payment.webhook');
 
 // Language test route
