@@ -341,7 +341,11 @@
                 <div class="grid grid-cols-1 {{ $enabledPaymentCount === 2 ? 'md:grid-cols-2' : '' }} gap-6 mb-8 {{ $enabledPaymentCount === 1 ? 'max-w-md mx-auto' : '' }}">
                     @if($isCashPaymentEnabled)
                     <div class="border border-gray-200 dark:border-dark-700 rounded-2xl p-6 hover:border-primary-300 dark:hover:border-primary-500 cursor-pointer transition-all duration-300 bg-white dark:bg-dark-800 hover:bg-gradient-to-br from-white to-primary-50 dark:from-dark-800 dark:to-primary-900/20 transform hover:-translate-y-2 shadow-sm hover:shadow-lg" 
-                         wire:click="selectPaymentMethod('cash')" wire:loading.class="opacity-50 pointer-events-none" wire:loading.attr="disabled" wire:target="selectPaymentMethod">
+                         wire:click="selectPaymentMethod('cash')" 
+                         wire:loading.class="opacity-50 pointer-events-none" 
+                         wire:loading.attr="disabled" 
+                         wire:target="selectPaymentMethod"
+                         onclick="console.log('Cash payment clicked');">
                         <div class="flex items-center mb-4">
                         <div class="flex-shrink-0 mr-4">
                             <div class="w-16 h-16 rounded-full bg-gradient-to-br from-yellow-100 to-amber-100 dark:from-yellow-900/30 dark:to-amber-900/30 flex items-center justify-center shadow-md">
@@ -375,7 +379,8 @@
                                  wire:click="selectPaymentType('card')" 
                                  wire:loading.class="opacity-50 pointer-events-none" 
                                  wire:loading.attr="disabled" 
-                                 wire:target="selectPaymentType">
+                                 wire:target="selectPaymentType"
+                                 onclick="console.log('Card payment clicked');">
                                 <div class="flex items-center">
                                     <div class="flex-shrink-0 mr-3">
                                         <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 flex items-center justify-center relative">
@@ -407,7 +412,8 @@
                                  wire:click="selectPaymentType('apple_pay')" 
                                  wire:loading.class="opacity-50 pointer-events-none" 
                                  wire:loading.attr="disabled" 
-                                 wire:target="selectPaymentType">
+                                 wire:target="selectPaymentType"
+                                 onclick="console.log('Apple Pay clicked');">
                                 <div class="flex items-center">
                                     <div class="flex-shrink-0 mr-3">
                                         <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-gray-800 to-black dark:from-gray-700 dark:to-gray-900 flex items-center justify-center relative">
@@ -493,14 +499,14 @@
                         </div>
                         
                         <div class="flex justify-between pt-4">
-                            <button type="button" 
+                            {{-- <button type="button" 
                                     wire:click="collectBillingInfo = false"
                                     class="inline-flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-xl text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
                                 <svg class="mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                                 </svg>
                                 {{ app()->getLocale() === 'ar' ? 'رجوع' : 'Back' }}
-                            </button>
+                            </button> --}}
                             
                             <button type="submit" 
                                     class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-gradient-to-r from-primary-600 to-secondary-700 hover:from-primary-700 hover:to-secondary-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-300 transform hover:-translate-y-0.5 shadow-lg hover:shadow-xl">

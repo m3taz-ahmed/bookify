@@ -21,13 +21,13 @@ Route::get('/welcome', function () {
 })->name('booking-welcome')->middleware('web');
 
 // Customer Phone Authentication Routes (ONLY method now)
-Route::get('/customer/login', [CustomerPhoneAuthController::class, 'showPhoneForm'])->name('customer.login')->middleware(['web','throttle:30,1']);
+Route::get('/customer/login', [CustomerPhoneAuthController::class, 'showPhoneForm'])->name('customer.login')->middleware(['web', 'guest:customer', 'throttle:30,1']);
 Route::post('/customer/login', [CustomerPhoneAuthController::class, 'sendOtp'])->name('customer.login.attempt')->middleware(['web','throttle:5,1']);
 Route::post('/customer/verify-otp', [CustomerPhoneAuthController::class, 'verifyOtp'])->name('customer.verify-otp')->middleware(['web','throttle:10,1']);
 Route::post('/customer/logout', [CustomerPhoneAuthController::class, 'logout'])->name('customer.logout')->middleware('web');
 
 // Customer Registration
-Route::get('/customer/register', [CustomerPhoneAuthController::class, 'showRegistrationForm'])->name('customer.register')->middleware(['web','throttle:30,1']);
+Route::get('/customer/register', [CustomerPhoneAuthController::class, 'showRegistrationForm'])->name('customer.register')->middleware(['web', 'guest:customer', 'throttle:30,1']);
 Route::post('/customer/register', [CustomerPhoneAuthController::class, 'register'])->name('customer.register.attempt')->middleware(['web','throttle:10,1']);
 
 // Customer Dashboard and Bookings (protected by customer auth)

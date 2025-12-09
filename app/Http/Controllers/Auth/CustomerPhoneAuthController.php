@@ -15,12 +15,32 @@ class CustomerPhoneAuthController extends Controller
 {
     public function showPhoneForm()
     {
-        return view('auth.customer.phone-login');
+        // If customer is already authenticated, redirect to welcome page
+        if (Auth::guard('customer')->check()) {
+            return redirect()->route('booking-welcome');
+        }
+        
+        // Return view with no-cache headers to prevent back button issues
+        return response()
+            ->view('auth.customer.phone-login')
+            ->header('Cache-Control', 'no-cache, no-store, must-revalidate')
+            ->header('Pragma', 'no-cache')
+            ->header('Expires', '0');
     }
 
     public function showRegistrationForm()
     {
-        return view('auth.customer.register');
+        // If customer is already authenticated, redirect to welcome page
+        if (Auth::guard('customer')->check()) {
+            return redirect()->route('booking-welcome');
+        }
+        
+        // Return view with no-cache headers to prevent back button issues
+        return response()
+            ->view('auth.customer.register')
+            ->header('Cache-Control', 'no-cache, no-store, must-revalidate')
+            ->header('Pragma', 'no-cache')
+            ->header('Expires', '0');
     }
 
     public function register(Request $request)

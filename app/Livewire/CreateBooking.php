@@ -48,10 +48,6 @@ class CreateBooking extends Component
         'numberOfPeople' => 'required|integer|min:1',
         'paymentMethod' => 'required|in:cash,online',
         'paymentType' => 'nullable|in:card,apple_pay',
-        'billingFirstName' => 'required_with:collectBillingInfo|string|max:50',
-        'billingLastName' => 'required_with:collectBillingInfo|string|max:50',
-        'billingEmail' => 'required_with:collectBillingInfo|email|max:100',
-        'billingPhone' => 'required_with:collectBillingInfo|string|max:20',
     ];
 
     public function mount()
@@ -399,6 +395,24 @@ class CreateBooking extends Component
         // Clear any previous booking errors
         $this->resetValidation('booking');
         
+        // Add debugging
+        Log::info('selectPaymentMethod called', [
+            'method' => $method,
+            'step' => $this->step,
+            'isCashPaymentEnabled' => SiteSetting::isCashPaymentEnabled(),
+            'isOnlinePaymentEnabled' => SiteSetting::isOnlinePaymentEnabled(),
+            'selectedDate' => $this->selectedDate,
+            'selectedTime' => $this->selectedTime,
+            'numberOfPeople' => $this->numberOfPeople,
+            'ticketItems' => $this->ticketItems,
+        ]);
+        
+        // Make sure user is on the correct step (step 3 is for payment selection)
+        if ($this->step !== 3) {
+            $this->addError('booking', 'Please complete all previous steps before selecting a payment method.');
+            return;
+        }
+        
         // Validate that the payment method is either 'cash' or 'online'
         if (!in_array($method, ['cash', 'online'])) {
             $this->addError('paymentMethod', 'Invalid payment method selected.');
@@ -416,6 +430,28 @@ class CreateBooking extends Component
             return;
         }
         
+        // Validate required fields before proceeding
+        if (empty($this->selectedDate)) {
+            $this->addError('booking', 'Please go back and select a date for your booking first.');
+            return;
+        }
+        
+        if (empty($this->selectedTime)) {
+            $this->addError('booking', 'Please go back and select a time for your booking first.');
+            return;
+        }
+        
+        if (empty($this->numberOfPeople) || $this->numberOfPeople < 1) {
+            $this->addError('booking', 'Please go back and select the number of people for your booking first.');
+            return;
+        }
+        
+        // Check if ticket items are selected
+        if (empty($this->ticketItems) || !is_array($this->ticketItems) || count($this->ticketItems) === 0) {
+            $this->addError('booking', 'Please go back and select at least one ticket first.');
+            return;
+        }
+        
         $this->paymentMethod = $method;
         
         // If online payment, default to card unless Apple Pay is selected
@@ -428,7 +464,19 @@ class CreateBooking extends Component
             $this->checkBillingInfo();
         } else {
             // For cash payments, create booking directly
+            Log::info('Creating booking for cash payment');
             $this->createBooking();
+            
+            // Check if there were any validation errors or exceptions
+            if ($this->getErrorBag()->count() > 0) {
+                Log::info('Validation errors or exceptions occurred for cash payment');
+                return;
+            }
+            
+            // If we reached step 4, it means the booking was created successfully
+            if ($this->step === 4) {
+                Log::info('Cash payment booking created successfully');
+            }
         }
     }
     
@@ -459,8 +507,56 @@ class CreateBooking extends Component
 
     private function createBooking()
     {
+        Log::info('createBooking called', [
+            'paymentMethod' => $this->paymentMethod,
+            'step' => $this->step,
+            'selectedDate' => $this->selectedDate,
+            'selectedTime' => $this->selectedTime,
+            'numberOfPeople' => $this->numberOfPeople,
+            'ticketItems' => $this->ticketItems,
+        ]);
+        
         $this->recalculatePeople();
-        $this->validate();
+        
+        try {
+            // Use different validation rules based on payment method
+            if ($this->paymentMethod === 'cash') {
+                // For cash payments, we don't need billing information
+                $this->validate([
+                    'selectedDate' => 'required|date',
+                    'selectedTime' => 'required',
+                    'numberOfPeople' => 'required|integer|min:1',
+                    'paymentMethod' => 'required|in:cash,online',
+                ]);
+            } else {
+                // For online payments, validate billing information if needed
+                $rules = [
+                    'selectedDate' => 'required|date',
+                    'selectedTime' => 'required',
+                    'numberOfPeople' => 'required|integer|min:1',
+                    'paymentMethod' => 'required|in:cash,online',
+                    'paymentType' => 'nullable|in:card,apple_pay',
+                ];
+                
+                // Only validate billing fields if we're collecting billing info
+                if ($this->collectBillingInfo) {
+                    $rules['billingFirstName'] = 'required|string|max:50';
+                    $rules['billingLastName'] = 'required|string|max:50';
+                    $rules['billingEmail'] = 'required|email|max:100';
+                    $rules['billingPhone'] = 'required|string|max:20';
+                }
+                
+                $this->validate($rules);
+            }
+            Log::info('Validation passed');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            Log::error('Validation failed in createBooking', [
+                'errors' => $e->errors(),
+                'data' => $this->all(),
+            ]);
+            $this->addError('booking', 'Please check all required fields and try again.');
+            return;
+        }
         
         try {
             // Get the authenticated customer
@@ -503,7 +599,7 @@ class CreateBooking extends Component
                 'status' => $bookingStatus,
                 'payment_method' => $this->paymentMethod,
                 'reference_code' => $referenceCode,
-                'is_paid' => false,
+                'is_paid' => $this->paymentMethod === 'cash', // Cash payments are immediately paid
             ]);
 
             foreach ($this->ticketItems as $serviceId => $qty) {
@@ -537,12 +633,18 @@ class CreateBooking extends Component
                 $this->initiatePaymobPayment($customer);
             } else {
                 // For cash payment, send confirmation immediately
+                Log::info('Sending booking confirmation for cash payment', [
+                    'booking_id' => $this->booking->id,
+                    'customer_id' => $customer->id,
+                ]);
+                
                 \Illuminate\Support\Facades\Notification::send($customer, new BookingConfirmed($this->booking));
                 $this->step = 4; // Show success and QR code
+                Log::info('Cash payment booking created successfully, step set to 4');
             }
             
         } catch (\Exception $e) {
-            \Illuminate\Support\Facades\Log::error('Booking creation failed', [
+            Log::error('Booking creation failed', [
                 'customer_id' => auth('customer')->id() ?? null,
                 'selected_date' => $this->selectedDate,
                 'selected_time' => $this->selectedTime,
@@ -550,8 +652,10 @@ class CreateBooking extends Component
                 'number_of_people' => $this->numberOfPeople,
                 'payment_method' => $this->paymentMethod,
                 'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
             ]);
             $this->addError('booking', 'Failed to create booking. Please try again. Error: ' . $e->getMessage());
+            return;
         }
     }
     
