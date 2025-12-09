@@ -36,6 +36,11 @@ class CreateBooking extends Component
     public $payment;
     public $paymentStatus;
     public $paymentError;
+    public $collectBillingInfo = false; // New property
+    public $billingFirstName;
+    public $billingLastName;
+    public $billingEmail;
+    public $billingPhone;
 
     protected $rules = [
         'selectedDate' => 'required|date',
@@ -43,6 +48,10 @@ class CreateBooking extends Component
         'numberOfPeople' => 'required|integer|min:1',
         'paymentMethod' => 'required|in:cash,online',
         'paymentType' => 'nullable|in:card,apple_pay',
+        'billingFirstName' => 'required_with:collectBillingInfo|string|max:50',
+        'billingLastName' => 'required_with:collectBillingInfo|string|max:50',
+        'billingEmail' => 'required_with:collectBillingInfo|email|max:100',
+        'billingPhone' => 'required_with:collectBillingInfo|string|max:20',
     ];
 
     public function mount()
@@ -331,11 +340,51 @@ class CreateBooking extends Component
         }
     }
     
-    public function goToPreviousStep()
+    public function checkBillingInfo()
     {
-        if ($this->step > 1) {
-            $this->step--;
+        $customer = auth('customer')->user();
+        
+        // Check if we have all required billing information
+        $missingInfo = [];
+        
+        if (empty($customer->name)) {
+            $missingInfo[] = 'name';
         }
+        
+        if (empty($customer->phone)) {
+            $missingInfo[] = 'phone';
+        }
+        
+        if (empty($customer->email)) {
+            $missingInfo[] = 'email';
+        }
+        
+        // If we're missing critical info, show the billing form
+        if (!empty($missingInfo)) {
+            $this->collectBillingInfo = true;
+            $this->billingFirstName = $customer->name ?? '';
+            $this->billingLastName = '';
+            $this->billingPhone = $customer->phone ?? '';
+            $this->billingEmail = $customer->email ?? '';
+            return;
+        }
+        
+        // Otherwise proceed with payment
+        $this->createBooking();
+    }
+    
+    public function submitBillingInfo()
+    {
+        $this->validate([
+            'billingFirstName' => 'required|string|max:50',
+            'billingLastName' => 'required|string|max:50',
+            'billingEmail' => 'required|email|max:100',
+            'billingPhone' => 'required|string|max:20',
+        ]);
+        
+        // Temporarily store in session or proceed directly to payment
+        $this->collectBillingInfo = false;
+        $this->createBooking();
     }
 
     public function selectPaymentMethod($method)
@@ -367,8 +416,13 @@ class CreateBooking extends Component
             $this->paymentType = 'card';
         }
         
-        // Create the booking
-        $this->createBooking();
+        // For online payments, check if we need additional billing info
+        if ($method === 'online') {
+            $this->checkBillingInfo();
+        } else {
+            // For cash payments, create booking directly
+            $this->createBooking();
+        }
     }
     
     public function selectPaymentType($type)
@@ -392,8 +446,8 @@ class CreateBooking extends Component
         // Set payment type (card or apple_pay)
         $this->paymentType = $type;
         
-        // Create the booking
-        $this->createBooking();
+        // Check if we need to collect additional billing information
+        $this->checkBillingInfo();
     }
 
     private function createBooking()
@@ -512,12 +566,12 @@ class CreateBooking extends Component
                 ];
             })->toArray();
             
-            // Prepare billing data
+            // Prepare billing data - enhanced version
             $billingData = [
-                'first_name' => $customer->name ?? 'Customer',
-                'last_name' => 'N/A',
-                'phone_number' => $customer->phone ?? '+966500000000',
-                'email' => $customer->email ?? 'customer@facilitiesservices.sa',
+                'first_name' => $this->billingFirstName ?? $customer->name ?? 'Customer',
+                'last_name' => $this->billingLastName ?? 'N/A',
+                'phone_number' => $this->billingPhone ?? $customer->phone ?? '+966500000000',
+                'email' => $this->billingEmail ?? $customer->email ?? 'customer@facilitiesservices.sa',
                 'apartment' => 'NA',
                 'floor' => 'NA',
                 'street' => 'NA',

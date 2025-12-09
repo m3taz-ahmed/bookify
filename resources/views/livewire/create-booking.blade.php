@@ -439,6 +439,81 @@
                 </div>
                 @endif
                 
+                <!-- Billing Information Collection Form -->
+                @if($collectBillingInfo)
+                <div class="max-w-md mx-auto mt-8 mb-8 p-6 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-2xl border border-blue-200 dark:border-blue-800 shadow-lg">
+                    <div class="mb-6">
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">{{ app()->getLocale() === 'ar' ? 'معلومات الدفع المطلوبة' : 'Required Payment Information' }}</h3>
+                        <p class="text-gray-600 dark:text-gray-400">{{ app()->getLocale() === 'ar' ? 'يرجى تقديم المعلومات التالية لإكمال عملية الدفع' : 'Please provide the following information to complete your payment' }}</p>
+                    </div>
+                    
+                    <form wire:submit.prevent="submitBillingInfo" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ app()->getLocale() === 'ar' ? 'الاسم الأول' : 'First Name' }} *</label>
+                            <input type="text" 
+                                   wire:model="billingFirstName" 
+                                   class="w-full px-4 py-3 border border-gray-300 dark:border-dark-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-300 bg-white dark:bg-dark-700 dark:text-white shadow-sm hover:shadow-md"
+                                   placeholder="{{ app()->getLocale() === 'ar' ? 'أدخل اسمك الأول' : 'Enter your first name' }}">
+                            @error('billingFirstName')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ app()->getLocale() === 'ar' ? 'اسم العائلة' : 'Last Name' }} *</label>
+                            <input type="text" 
+                                   wire:model="billingLastName" 
+                                   class="w-full px-4 py-3 border border-gray-300 dark:border-dark-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-300 bg-white dark:bg-dark-700 dark:text-white shadow-sm hover:shadow-md"
+                                   placeholder="{{ app()->getLocale() === 'ar' ? 'أدخل اسم عائلتك' : 'Enter your last name' }}">
+                            @error('billingLastName')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ app()->getLocale() === 'ar' ? 'البريد الإلكتروني' : 'Email Address' }} *</label>
+                            <input type="email" 
+                                   wire:model="billingEmail" 
+                                   class="w-full px-4 py-3 border border-gray-300 dark:border-dark-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-300 bg-white dark:bg-dark-700 dark:text-white shadow-sm hover:shadow-md"
+                                   placeholder="{{ app()->getLocale() === 'ar' ? 'أدخل بريدك الإلكتروني' : 'Enter your email address' }}">
+                            @error('billingEmail')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ app()->getLocale() === 'ar' ? 'رقم الهاتف' : 'Phone Number' }} *</label>
+                            <input type="tel" 
+                                   wire:model="billingPhone" 
+                                   class="w-full px-4 py-3 border border-gray-300 dark:border-dark-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-300 bg-white dark:bg-dark-700 dark:text-white shadow-sm hover:shadow-md"
+                                   placeholder="{{ app()->getLocale() === 'ar' ? 'أدخل رقم هاتفك' : 'Enter your phone number' }}">
+                            @error('billingPhone')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        
+                        <div class="flex justify-between pt-4">
+                            <button type="button" 
+                                    wire:click="collectBillingInfo = false"
+                                    class="inline-flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-xl text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                                <svg class="mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                                </svg>
+                                {{ app()->getLocale() === 'ar' ? 'رجوع' : 'Back' }}
+                            </button>
+                            
+                            <button type="submit" 
+                                    class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-gradient-to-r from-primary-600 to-secondary-700 hover:from-primary-700 hover:to-secondary-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-300 transform hover:-translate-y-0.5 shadow-lg hover:shadow-xl">
+                                <svg class="mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                </svg>
+                                {{ app()->getLocale() === 'ar' ? 'متابعة الدفع' : 'Continue to Payment' }}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                @endif
+                
                 <!-- Display booking errors -->
                 @error('booking')
                     <div class="max-w-md mx-auto mb-6">
