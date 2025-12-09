@@ -501,8 +501,14 @@ class CreateBooking extends Component
         // Set payment type (card or apple_pay)
         $this->paymentType = $type;
         
-        // Check if we need to collect additional billing information
-        $this->checkBillingInfo();
+        // For Apple Pay, skip billing information collection and go directly to payment
+        if ($type === 'apple_pay') {
+            $this->collectBillingInfo = false;
+            $this->createBooking();
+        } else {
+            // For card payments, check if we need to collect additional billing information
+            $this->checkBillingInfo();
+        }
     }
 
     private function createBooking()

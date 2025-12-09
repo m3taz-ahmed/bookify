@@ -20,11 +20,13 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                // Add cache prevention headers to prevent back button issues
-                return redirect()->route('booking-welcome')
-                    ->header('Cache-Control', 'no-cache, no-store, must-revalidate')
-                    ->header('Pragma', 'no-cache')
-                    ->header('Expires', '0');
+                // Redirect authenticated customers to their dashboard
+                if ($guard === 'customer') {
+                    return redirect()->route('customer.dashboard');
+                }
+                
+                // For other guards or default guard, redirect to home
+                return redirect('/');
             }
         }
 
