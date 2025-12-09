@@ -340,6 +340,13 @@ class CreateBooking extends Component
         }
     }
     
+    public function goToPreviousStep()
+    {
+        if ($this->step > 1) {
+            $this->step--;
+        }
+    }
+    
     public function checkBillingInfo()
     {
         $customer = auth('customer')->user();
