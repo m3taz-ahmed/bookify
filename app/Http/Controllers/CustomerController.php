@@ -227,8 +227,41 @@ class CustomerController extends Controller
             abort(403);
         }
         
-        $booking->update(['status' => 'cancelled']);
-        
-        return redirect()->route('customer.bookings')->with('success', 'Booking cancelled successfully!');
+        // Handle refund for online payments
+        if ($booking->payment_method === 'online' && $booking->successfulPayment) {
+            // Process refund through PayMob
+            $payment = $booking->successfulPayment;
+            $paymobService = app(\App\Services\PayMobService::class);
+            
+            // Refund the full amount
+            $result = $paymobService->refund($payment->paymob_transaction_id, $payment->amount_cents);
+            
+            if ($result) {
+                // Mark payment as refunded
+                $payment->markAsRefunded();
+                
+                // Update booking status
+                $booking->update([
+                    'status' => 'cancelled',
+                    'is_paid' => false,
+                    'payment_status' => 'refunded'
+                ]);
+                
+                return redirect()->route('customer.bookings')
+                    ->with('success', __('website.booking_cancelled_refund_processed'));
+            } else {
+                // If refund fails, still cancel the booking but notify user
+                $booking->update(['status' => 'cancelled']);
+                
+                return redirect()->route('customer.bookings')
+                    ->with('warning', __('website.booking_cancelled_refund_failed'));
+            }
+        } else {
+            // For cash payments or bookings without successful online payment, simply cancel
+            $booking->update(['status' => 'cancelled']);
+            
+            return redirect()->route('customer.bookings')
+                ->with('success', __('website.booking_cancelled_successfully'));
+        }
     }
 }
