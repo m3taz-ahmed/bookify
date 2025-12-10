@@ -54,7 +54,18 @@
                 <div class="flex items-center">
                     <a href="{{ route('booking-welcome') }}" class="flex items-center">
                         <div class="relative">
-                            <img src="{{ asset('images/logo.svg') }}" alt="SkyBridge Logo" class="h-14 w-12 invert transition-transform duration-300 group-hover:rotate-6 drop-shadow-sm dark:filter-none">
+                            {{-- Conditional logo based on language and theme --}}
+                            @php
+                                $currentLocale = app()->getLocale();
+                                $isDarkMode = isset($_COOKIE['darkMode']) && $_COOKIE['darkMode'] === 'true';
+                                
+                                if ($currentLocale === 'ar') {
+                                    $logoPath = $isDarkMode ? 'images/logo/logo04.png' : 'images/logo/logo03.png';
+                                } else {
+                                    $logoPath = $isDarkMode ? 'images/logo/logo02.png' : 'images/logo/logo01.png';
+                                }
+                            @endphp
+                            <img src="{{ asset($logoPath) }}" alt="SkyBridge Logo" class="h-16 w-auto transition-transform duration-300 group-hover:rotate-6 drop-shadow-sm">
                             <div class="absolute inset-0 bg-primary-500 rounded-full opacity-0 group-hover:opacity-10 blur-xl transition-opacity duration-300"></div>
                         </div>
                         <span class="ml-3 text-2xl font-bold">
@@ -94,7 +105,7 @@
                         </a>
                         <a href="{{ route('customer.bookings') }}" class="inline-flex items-center px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-primary-50 dark:hover:bg-dark-700 hover:text-primary-700 dark:hover:text-primary-400 text-dark-600 dark:text-gray-300">
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002-2h2a2 2 0 002 2"/>
                             </svg>
                             {{ __('website.my_bookings') }}
                         </a>
@@ -422,6 +433,30 @@
         function toggleDarkMode() {
             const isDark = document.documentElement.classList.toggle('dark');
             localStorage.setItem('darkMode', isDark);
+            
+            // Update logos based on new theme
+            updateLogos(isDark);
+        }
+        
+        function updateLogos(isDark) {
+            const currentLocale = document.documentElement.lang;
+            let logoPath;
+            
+            // Determine which logo to use based on language and theme
+            if (currentLocale === 'ar') {
+                logoPath = isDark ? '/images/logo/logo04.png' : '/images/logo/logo03.png';
+            } else {
+                logoPath = isDark ? '/images/logo/logo02.png' : '/images/logo/logo01.png';
+            }
+            
+            // Update all logo images on the page that have the specific class
+            const logoImages = document.querySelectorAll('img.h-14.w-auto, img.h-12.w-auto');
+            logoImages.forEach(img => {
+                // Check if this is a SkyBridge logo by checking the alt attribute or parent structure
+                if (img.alt && img.alt.includes('SkyBridge')) {
+                    img.src = logoPath;
+                }
+            });
         }
 
         // Function to dismiss flash messages
@@ -444,6 +479,20 @@
                     dismissFlashMessage(this);
                 });
             });
+            
+            // Initialize dark mode based on localStorage or system preference
+            const savedDarkMode = localStorage.getItem('darkMode');
+            if (savedDarkMode !== null) {
+                if (savedDarkMode === 'true') {
+                    document.documentElement.classList.add('dark');
+                }
+            } else {
+                // Use system preference if no saved preference
+                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('darkMode', 'true');
+                }
+            }
 
             // const mobileMenuButton = document.querySelector('[aria-controls="mobile-menu"]');
             // const mobileMenu = document.getElementById('mobile-menu');

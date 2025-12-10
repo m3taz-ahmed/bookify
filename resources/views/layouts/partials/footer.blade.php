@@ -12,7 +12,18 @@
             <div class="lg:col-span-1">
                 <div class="flex items-center mb-6">
                     <a href="{{ route('booking-welcome') }}" class="flex items-center group">
-                        <img src="{{ asset('images/logo.svg') }}" alt="SkyBridge Logo" class="h-12 w-10 filter brightness-0 invert transition-transform duration-300 group-hover:scale-110" style="filter: drop-shadow(0 0 2px rgba(0,0,0,0.5));" loading="lazy">
+                        {{-- Conditional logo based on language and theme --}}
+                        @php
+                            $currentLocale = app()->getLocale();
+                            $isDarkMode = isset($_COOKIE['darkMode']) && $_COOKIE['darkMode'] === 'true';
+                            
+                            if ($currentLocale === 'ar') {
+                                $logoPath = $isDarkMode ? 'images/logo/logo04.png' : 'images/logo/logo03.png';
+                            } else {
+                                $logoPath = $isDarkMode ? 'images/logo/logo02.png' : 'images/logo/logo01.png';
+                            }
+                        @endphp
+                        <img src="{{ asset($logoPath) }}" alt="SkyBridge Logo" class="h-16 w-auto transition-transform duration-300 group-hover:scale-110" style="filter: drop-shadow(0 0 2px rgba(0,0,0,0.5));" loading="lazy">
                         <span class="ml-2 text-2xl font-bold">
                             <span style="color: #536B7C" class="transition-colors duration-300 group-hover:text-primary-400">Sky</span>
                             <span style="color: #ffffff" class="transition-colors duration-300 group-hover:text-primary-300">Bridge</span>

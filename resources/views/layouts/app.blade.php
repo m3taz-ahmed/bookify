@@ -10,7 +10,18 @@
                     <div class="flex items-center">
                         <a href="{{ route('customer.dashboard') }}" class="flex items-center">
                             <div class="relative">
-                                <img src="{{ asset('images/logo.svg') }}" alt="SkyBridge Logo" class="h-14 w-12 invert transition-transform duration-300 group-hover:rotate-6 drop-shadow-sm dark:filter-none">
+                                {{-- Conditional logo based on language and theme --}}
+                                @php
+                                    $currentLocale = app()->getLocale();
+                                    $isDarkMode = isset($_COOKIE['darkMode']) && $_COOKIE['darkMode'] === 'true';
+                                    
+                                    if ($currentLocale === 'ar') {
+                                        $logoPath = $isDarkMode ? 'images/logo/logo04.png' : 'images/logo/logo03.png';
+                                    } else {
+                                        $logoPath = $isDarkMode ? 'images/logo/logo02.png' : 'images/logo/logo01.png';
+                                    }
+                                @endphp
+                                <img src="{{ asset($logoPath) }}" alt="SkyBridge Logo" class="h-16 w-auto transition-transform duration-300 group-hover:rotate-6 drop-shadow-sm">
                                 <div class="absolute inset-0 bg-primary-500 rounded-full opacity-0 group-hover:opacity-10 blur-xl transition-opacity duration-300"></div>
                             </div>
                             <span class="ml-3 text-2xl font-bold">

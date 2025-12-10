@@ -280,7 +280,7 @@ return [
     'selected_service' => 'الخدمة المحددة',
     'confirm_cancel_booking' => 'هل أنت متأكد من أنك تريد إلغاء هذا الحجز؟ هذه الخطوة لا يمكن التراجع عنها.',
     'booking_cancelled_successfully' => 'تم إلغاء الحجز بنجاح!',
-    'booking_cancelled_refund_processed' => 'تم إلغاء الحجز ومعالجة استرداد الأموال بنجاح!',
+    'booking_cancelled_refund_processed' => 'تم إلغاء الحجز ومعالجة استرداد الأموال بنجاح،، يبتم استرداد الأموال في خلال 14 يوم عمل!',
     'booking_cancelled_refund_failed' => 'تم إلغاء الحجز ولكن فشلت معالجة استرداد الأموال. يرجى الاتصال بالدعم للحصول على المساعدة.',
     'time' => 'الوقت',
     'non_working_day' => 'يوم غير عمل',
