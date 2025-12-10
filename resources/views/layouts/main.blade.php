@@ -69,7 +69,7 @@
                             <div class="absolute inset-0 bg-primary-500 rounded-full opacity-0 group-hover:opacity-10 blur-xl transition-opacity duration-300"></div>
                         </div>
                         <span class="ml-3 text-2xl font-bold">
-                            <span style="color: #536B7C" class="transition-colors duration-200 group-hover:text-primary-600 dark:text-primary-400">Sky</span>
+                            <span style="color: #79878C" class="transition-colors duration-200 group-hover:text-primary-600 dark:text-primary-400">Sky</span>
                             <span style="color: #000000" class="transition-colors duration-200 group-hover:text-primary-700 dark:text-white">Bridge</span>
                         </span>
                     </a>

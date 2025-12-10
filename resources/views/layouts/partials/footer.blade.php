@@ -25,7 +25,7 @@
                         @endphp
                         <img src="{{ asset($logoPath) }}" alt="SkyBridge Logo" class="h-16 w-auto transition-transform duration-300 group-hover:scale-110" style="filter: drop-shadow(0 0 2px rgba(0,0,0,0.5));" loading="lazy">
                         <span class="ml-2 text-2xl font-bold">
-                            <span style="color: #536B7C" class="transition-colors duration-300 group-hover:text-primary-400">Sky</span>
+                            <span style="color: #79878C" class="transition-colors duration-300 group-hover:text-primary-400">Sky</span>
                             <span style="color: #ffffff" class="transition-colors duration-300 group-hover:text-primary-300">Bridge</span>
                         </span>
                     </a>
