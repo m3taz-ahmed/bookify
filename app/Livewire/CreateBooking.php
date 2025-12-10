@@ -218,7 +218,35 @@ class CreateBooking extends Component
             // Sort the time slots to ensure they're in chronological order
             sort($filteredSlots);
             
-            $this->availableTimeSlots = $filteredSlots;
+            // If today's date is selected, filter out past time slots based on current KSA time
+            $today = Carbon::today()->timezone('Asia/Riyadh');
+            $selectedDate = $date->timezone('Asia/Riyadh');
+            
+            if ($selectedDate->isSameDay($today)) {
+                // Get current time in KSA
+                $currentTime = Carbon::now('Asia/Riyadh');
+                // Round up to the next 30-minute slot
+                $currentHour = $currentTime->hour;
+                $currentMinute = $currentTime->minute;
+                
+                // Round up to next 30-minute interval
+                if ($currentMinute > 0 && $currentMinute <= 30) {
+                    $currentMinute = 30;
+                } elseif ($currentMinute > 30) {
+                    $currentHour += 1;
+                    $currentMinute = 0;
+                }
+                
+                // Format as H:i
+                $currentSlot = sprintf('%02d:%02d', $currentHour, $currentMinute);
+                
+                // Filter out past time slots
+                $filteredSlots = array_filter($filteredSlots, function($slot) use ($currentSlot) {
+                    return $slot >= $currentSlot;
+                });
+            }
+            
+            $this->availableTimeSlots = array_values($filteredSlots);
         } catch (\Exception $e) {
             // Handle any errors gracefully
             $this->availableTimeSlots = [];
@@ -366,9 +394,9 @@ class CreateBooking extends Component
         if (!empty($missingInfo)) {
             $this->collectBillingInfo = true;
             $this->billingFirstName = $customer->name ?? '';
-            $this->billingLastName = '';
+            // $this->billingLastName = '';
             $this->billingPhone = $customer->phone ?? '';
-            $this->billingEmail = $customer->email ?? '';
+            // $this->billingEmail = $customer->email ?? '';
             return;
         }
         
@@ -380,8 +408,8 @@ class CreateBooking extends Component
     {
         $this->validate([
             'billingFirstName' => 'required|string|max:50',
-            'billingLastName' => 'required|string|max:50',
-            'billingEmail' => 'required|email|max:100',
+            // 'billingLastName' => 'required|string|max:50',
+            // 'billingEmail' => 'required|email|max:100',
             'billingPhone' => 'required|string|max:20',
         ]);
         
@@ -547,8 +575,8 @@ class CreateBooking extends Component
                 // Only validate billing fields if we're collecting billing info
                 if ($this->collectBillingInfo) {
                     $rules['billingFirstName'] = 'required|string|max:50';
-                    $rules['billingLastName'] = 'required|string|max:50';
-                    $rules['billingEmail'] = 'required|email|max:100';
+                    // $rules['billingLastName'] = 'required|string|max:50';
+                    // $rules['billingEmail'] = 'required|email|max:100';
                     $rules['billingPhone'] = 'required|string|max:20';
                 }
                 
@@ -686,9 +714,9 @@ class CreateBooking extends Component
             // Prepare billing data - enhanced version
             $billingData = [
                 'first_name' => $this->billingFirstName ?? $customer->name ?? 'Customer',
-                'last_name' => $this->billingLastName ?? 'N/A',
+                // 'last_name' => $this->billingLastName ?? 'N/A',
                 'phone_number' => $this->billingPhone ?? $customer->phone ?? '+966500000000',
-                'email' => $this->billingEmail ?? $customer->email ?? 'customer@facilitiesservices.sa',
+                // 'email' => $this->billingEmail ?? $customer->email ?? 'customer@facilitiesservices.sa',
                 'apartment' => 'NA',
                 'floor' => 'NA',
                 'street' => 'NA',

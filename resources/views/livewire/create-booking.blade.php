@@ -136,7 +136,7 @@
                             <input type="date" 
                                    wire:model.live="selectedDate" 
                                    min="{{ date('Y-m-d') }}"
-                                   class="w-full pl-4 pr-10 py-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-300 bg-white shadow-sm hover:shadow-md">
+                                   class="w-full pl-4 pr-10 py-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition duration-300 bg-white shadow-sm hover:shadow-md"
                             @error('selectedDate')
                                 <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                             @enderror
@@ -203,11 +203,40 @@
                             <div class="bg-gradient-to-br from-white to-primary-50 rounded-2xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
                                 <label class="block text-gray-700 text-sm font-medium mb-3">{{ __('website.Time') }} (الوقت)</label>
                                 <div class="grid grid-cols-3 sm:grid-cols-4 gap-3">
+                                    @php
+                                        $today = \Carbon\Carbon::today()->timezone('Asia/Riyadh');
+                                        $selectedDateObj = $selectedDate ? \Carbon\Carbon::parse($selectedDate)->timezone('Asia/Riyadh') : null;
+                                        $isToday = $selectedDateObj && $selectedDateObj->isSameDay($today);
+                                        $currentTime = \Carbon\Carbon::now('Asia/Riyadh');
+                                        
+                                        // Round up to the next 30-minute slot
+                                        $currentHour = $currentTime->hour;
+                                        $currentMinute = $currentTime->minute;
+                                        
+                                        // Round up to next 30-minute interval
+                                        if ($currentMinute > 0 && $currentMinute <= 30) {
+                                            $currentMinute = 30;
+                                        } elseif ($currentMinute > 30) {
+                                            $currentHour += 1;
+                                            $currentMinute = 0;
+                                        }
+                                        
+                                        // Format as H:i
+                                        $currentSlot = sprintf('%02d:%02d', $currentHour, $currentMinute);
+                                    @endphp
+                                    
                                     @foreach($availableTimeSlots as $time)
+                                        @php
+                                            $isPastTime = $isToday && $time < $currentSlot;
+                                        @endphp
                                         <button type="button"
-                                                wire:click="selectTime('{{ $time }}')"
-                                                class="py-3 px-4 text-center rounded-xl border transition-all duration-300 {{ $selectedTime === $time ? 'bg-primary-500 text-white border-primary-500 shadow-md transform scale-105' : 'bg-white border-gray-300 text-gray-700 hover:bg-primary-50 hover:border-primary-300' }}">
+                                                @if(!$isPastTime) wire:click="selectTime('{{ $time }}')" @endif
+                                                @if($isPastTime) disabled @endif
+                                                class="py-3 px-4 text-center rounded-xl border transition-all duration-300 {{ $isPastTime ? 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed' : ($selectedTime === $time ? 'bg-primary-500 text-white border-primary-500 shadow-md transform scale-105' : 'bg-white border-gray-300 text-gray-700 hover:bg-primary-50 hover:border-primary-300') }}">
                                             {{ $time }}
+                                            @if($isPastTime)
+                                                <span class="block text-xs mt-1">{{ app()->getLocale() === 'ar' ? '(غير متاح)' : '(Unavailable)' }}</span>
+                                            @endif
                                         </button>
                                     @endforeach
                                 </div>
