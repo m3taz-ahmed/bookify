@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book a Service - SkyBridge</title>
-    <!-- Assets with Versioning -->
-    <link rel="stylesheet" href="@assetVersion('css/app.css')">
-    <script src="@assetVersion('js/app.js')" defer></script>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>
 

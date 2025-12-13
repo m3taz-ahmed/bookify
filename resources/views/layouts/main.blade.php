@@ -38,9 +38,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Assets with Versioning -->
-    <link rel="stylesheet" href="@assetVersion('css/app.css')">
-    <script src="@assetVersion('js/app.js')" defer></script>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     
     @stack('schema')
 </head>
