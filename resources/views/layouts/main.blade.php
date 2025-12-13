@@ -38,8 +38,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-
+    <!-- Assets with Versioning -->
+    <link rel="stylesheet" href="@assetVersion('css/app.css')">
+    <script src="@assetVersion('js/app.js')" defer></script>
+    
     @stack('schema')
 </head>
 <body class="font-sans antialiased bg-gradient-to-br from-background-50 to-background-100 dark:from-dark-900 dark:to-dark-800 min-h-screen text-dark-500 dark:text-light-100 transition-colors duration-300" style="font-family: 'Tajawal', sans-serif;">
@@ -65,7 +67,7 @@
                                     $logoPath = $isDarkMode ? 'images/logo/logo02.png' : 'images/logo/logo01.png';
                                 }
                             @endphp
-                            <img src="{{ asset($logoPath) }}" alt="SkyBridge Logo" class="h-16 w-auto transition-transform duration-300 group-hover:rotate-6 drop-shadow-sm">
+                            <img src="@assetVersion($logoPath)" alt="SkyBridge Logo" class="h-16 w-auto transition-transform duration-300 group-hover:rotate-6 drop-shadow-sm">
                             <div class="absolute inset-0 bg-primary-500 rounded-full opacity-0 group-hover:opacity-10 blur-xl transition-opacity duration-300"></div>
                         </div>
                         <span class="ml-3 text-2xl font-bold">
@@ -226,7 +228,7 @@
                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                        class="flex items-center px-4 py-3 rounded-lg text-base font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all duration-200">
                         <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
                         </svg>
                         {{ __('website.logout') }}
                     </a>
@@ -286,7 +288,7 @@
                         <li class="inline-flex items-center">
                             <a href="{{ route('booking-welcome') }}" class="inline-flex items-center text-sm font-medium text-primary-700 hover:text-primary-900 dark:text-primary-400 dark:hover:text-white">
                                 <svg class="w-4 h-4 ltr:mr-2 rtl:ml-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+                                    <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
                                 </svg>
                                 {{ __('website.app_name') }}
                             </a>

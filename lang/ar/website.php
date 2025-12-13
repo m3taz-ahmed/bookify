@@ -337,4 +337,5 @@ return [
     'activity_landmarks_title' => 'استكشاف المعالم',
     'activity_landmarks_desc' => 'تعرّف على أبرز معالم المدينة مع رؤية واضحة من الأعلى.',
     'toggle_theme' => 'تبديل المظهر',
+    'booking_details' => 'تفاصيل الحجز',
 ];

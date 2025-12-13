@@ -298,4 +298,5 @@ return [
     'activity_landmarks_title' => 'Landmark Spotting',
     'activity_landmarks_desc' => 'Identify iconic places across the city with clear visibility.',
     'toggle_theme' => 'Toggle Theme',
+    'booking_details' => 'Booking Details',
 ];

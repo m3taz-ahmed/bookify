@@ -10,6 +10,7 @@ use App\Observers\BookingObserver;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Blade;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -33,5 +34,13 @@ class AppServiceProvider extends ServiceProvider
         
         // Register the language composer for all views
         View::composer('*', LanguageComposer::class);
+        
+        // Register asset versioning directive for cache busting
+        Blade::directive('assetVersion', function ($expression) {
+            // Get version from file or use timestamp as fallback
+            $versionFile = storage_path('app/version.txt');
+            $version = file_exists($versionFile) ? trim(file_get_contents($versionFile)) : time();
+            return "<?php echo asset($expression) . '?v=' . '$version'; ?>";
+        });
     }
 }

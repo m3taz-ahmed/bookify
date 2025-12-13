@@ -34,3 +34,47 @@
     RewriteEngine On
     RewriteRule .* - [E=Cache-Control:no-cache]
 </IfModule>
+
+# Cache Control Headers for Assets
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresDefault "access plus 1 hour"
+    
+    # CSS and JavaScript files - 1 hour cache
+    <FilesMatch "\.(css|js)$">
+        ExpiresDefault "access plus 1 hour"
+        Header append Cache-Control "public, must-revalidate"
+    </FilesMatch>
+    
+    # Image files - 1 week cache
+    <FilesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|webp|mp4|avi|mov|wmv|mp3|wav|ogg|webm)$">
+        ExpiresDefault "access plus 1 week"
+        Header append Cache-Control "public"
+    </FilesMatch>
+    
+    # Font files - 1 month cache
+    <FilesMatch "\.(woff|woff2|ttf|eot|svg)$">
+        ExpiresDefault "access plus 1 month"
+        Header append Cache-Control "public"
+    </FilesMatch>
+</IfModule>
+
+# Fallback cache headers if mod_expires is not available
+<IfModule !mod_expires.c>
+    <IfModule mod_headers.c>
+        # CSS and JavaScript files - 1 hour cache
+        <FilesMatch "\.(css|js)$">
+            Header set Cache-Control "public, max-age=3600, must-revalidate"
+        </FilesMatch>
+        
+        # Image files - 1 week cache
+        <FilesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|webp|mp4|avi|mov|wmv|mp3|wav|ogg|webm)$">
+            Header set Cache-Control "public, max-age=604800"
+        </FilesMatch>
+        
+        # Font files - 1 month cache
+        <FilesMatch "\.(woff|woff2|ttf|eot|svg)$">
+            Header set Cache-Control "public, max-age=2592000"
+        </FilesMatch>
+    </IfModule>
+</IfModule>

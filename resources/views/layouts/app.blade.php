@@ -21,7 +21,7 @@
                                         $logoPath = $isDarkMode ? 'images/logo/logo02.png' : 'images/logo/logo01.png';
                                     }
                                 @endphp
-                                <img src="{{ asset($logoPath) }}" alt="SkyBridge Logo" class="h-16 w-auto transition-transform duration-300 group-hover:rotate-6 drop-shadow-sm">
+                                <img src="@assetVersion($logoPath)" alt="SkyBridge Logo" class="h-16 w-auto transition-transform duration-300 group-hover:rotate-6 drop-shadow-sm">
                                 <div class="absolute inset-0 bg-primary-500 rounded-full opacity-0 group-hover:opacity-10 blur-xl transition-opacity duration-300"></div>
                             </div>
                             <span class="ml-3 text-2xl font-bold">
