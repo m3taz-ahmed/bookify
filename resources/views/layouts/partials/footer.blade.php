@@ -126,7 +126,7 @@
             </div>
 
             <!-- Contact Info Column -->
-            <div>
+            <div dir="ltr">
                 <h3 class="text-base font-bold text-white mb-6 uppercase tracking-wider">
                     {{ __('website.contact_us') }}
                 </h3>
