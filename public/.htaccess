@@ -2,31 +2,90 @@
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes
     </IfModule>
-    
+
     RewriteEngine On
-    
+
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
-    
-    # Remove Trailing Slashes (except for directories)
+
+    # Redirect Trailing Slashes If Not A Folder...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_URI} (.+)/$
     RewriteRule ^ %1 [L,R=301]
-    
-    # Handle lang routes specifically (before the front controller)
-    RewriteCond %{REQUEST_URI} ^/lang/(ar|en)/?$
-    RewriteRule ^ index.php [L]
-    
+
     # Send Requests To Front Controller...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
 
-# Prevent directory listing
-<IfModule mod_autoindex.c>
-    Options -Indexes
+# Cache Control Headers for Assets
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresDefault "access plus 1 hour"
+    
+    # CSS and JavaScript files - 1 week cache
+    <FilesMatch "\.(css|js)$">
+        ExpiresDefault "access plus 1 week"
+        Header append Cache-Control "public, must-revalidate"
+    </FilesMatch>
+    
+    # Image files - 1 month cache
+    <FilesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|webp|mp4|avi|mov|wmv|mp3|wav|ogg|webm)$">
+        ExpiresDefault "access plus 1 month"
+        Header append Cache-Control "public"
+    </FilesMatch>
+    
+    # Font files - 1 month cache
+    <FilesMatch "\.(woff|woff2|ttf|eot|svg)$">
+        ExpiresDefault "access plus 1 month"
+        Header append Cache-Control "public"
+    </FilesMatch>
+    
+    # HTML files - no cache
+    <FilesMatch "\.(html|htm)$">
+        ExpiresDefault "access plus 0 seconds"
+        Header set Cache-Control "no-cache, no-store, must-revalidate"
+        Header set Pragma "no-cache"
+        Header set Expires "0"
+    </FilesMatch>
+</IfModule>
+
+# Fallback cache headers if mod_expires is not available
+<IfModule !mod_expires.c>
+    <IfModule mod_headers.c>
+        # CSS and JavaScript files - 1 week cache
+        <FilesMatch "\.(css|js)$">
+            Header set Cache-Control "public, max-age=604800, must-revalidate"
+        </FilesMatch>
+        
+        # Image files - 1 month cache
+        <FilesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|webp|mp4|avi|mov|wmv|mp3|wav|ogg|webm)$">
+            Header set Cache-Control "public, max-age=2592000"
+        </FilesMatch>
+        
+        # Font files - 1 month cache
+        <FilesMatch "\.(woff|woff2|ttf|eot|svg)$">
+            Header set Cache-Control "public, max-age=2592000"
+        </FilesMatch>
+        
+        # HTML files - no cache
+        <FilesMatch "\.(html|htm)$">
+            Header set Cache-Control "no-cache, no-store, must-revalidate"
+            Header set Pragma "no-cache"
+            Header set Expires "0"
+        </FilesMatch>
+    </IfModule>
+</IfModule>
+
+# Prevent caching of PHP files (dynamic content)
+<IfModule mod_headers.c>
+    <FilesMatch "\.php$">
+        Header set Cache-Control "no-cache, no-store, must-revalidate"
+        Header set Pragma "no-cache"
+        Header set Expires "0"
+    </FilesMatch>
 </IfModule>
 
 # Handle LiteSpeed cache
@@ -34,47 +93,3 @@
     RewriteEngine On
     RewriteRule .* - [E=Cache-Control:no-cache]
 </IfModule>
-
-# # Cache Control Headers for Assets
-# <IfModule mod_expires.c>
-#     ExpiresActive On
-#     ExpiresDefault "access plus 1 hour"
-    
-#     # CSS and JavaScript files - 1 hour cache
-#     <FilesMatch "\.(css|js)$">
-#         ExpiresDefault "access plus 1 hour"
-#         Header append Cache-Control "public, must-revalidate"
-#     </FilesMatch>
-    
-#     # Image files - 1 week cache
-#     <FilesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|webp|mp4|avi|mov|wmv|mp3|wav|ogg|webm)$">
-#         ExpiresDefault "access plus 1 week"
-#         Header append Cache-Control "public"
-#     </FilesMatch>
-    
-#     # Font files - 1 month cache
-#     <FilesMatch "\.(woff|woff2|ttf|eot|svg)$">
-#         ExpiresDefault "access plus 1 month"
-#         Header append Cache-Control "public"
-#     </FilesMatch>
-# </IfModule>
-
-# # Fallback cache headers if mod_expires is not available
-# <IfModule !mod_expires.c>
-#     <IfModule mod_headers.c>
-#         # CSS and JavaScript files - 1 hour cache
-#         <FilesMatch "\.(css|js)$">
-#             Header set Cache-Control "public, max-age=3600, must-revalidate"
-#         </FilesMatch>
-        
-#         # Image files - 1 week cache
-#         <FilesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|webp|mp4|avi|mov|wmv|mp3|wav|ogg|webm)$">
-#             Header set Cache-Control "public, max-age=604800"
-#         </FilesMatch>
-        
-#         # Font files - 1 month cache
-#         <FilesMatch "\.(woff|woff2|ttf|eot|svg)$">
-#             Header set Cache-Control "public, max-age=2592000"
-#         </FilesMatch>
-#     </IfModule>
-# </IfModule>
