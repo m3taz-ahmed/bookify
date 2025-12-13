@@ -81,8 +81,8 @@
                                             $firstService = $firstItem?->service;
                                         @endphp
                                         @if($firstService && $firstService->images->isNotEmpty())
-                                            <div class="h-14 w-14 rounded-xl overflow-hidden shadow-sm flex-shrink-0 cursor-pointer" data-image-path="{{ Storage::url($firstService->images->first()->image) }}">
-                                                <img src="{{ Storage::url($firstService->images->first()->image) }}" alt="{{ $firstService->name }}" class="w-full h-full object-cover transition-transform duration-300 hover:scale-110">
+                                            <div class="h-14 w-14 rounded-xl overflow-hidden shadow-sm flex-shrink-0 cursor-pointer" data-image-path="{{ asset('storage/' . $firstService->images->first()->image) }}">
+                                                <img src="{{ asset('storage/' . $firstService->images->first()->image) }}" alt="{{ $firstService->name }}" class="w-full h-full object-cover transition-transform duration-300 hover:scale-110">
                                             </div>
                                         @else
                                             <div class="h-14 w-14 rounded-xl bg-white dark:bg-dark-600 shadow-sm flex items-center justify-center flex-shrink-0">

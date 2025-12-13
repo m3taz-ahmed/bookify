@@ -181,7 +181,7 @@
             @if($service->images->isNotEmpty())
               @foreach($service->images as $index => $image)
                 <div class="image-slide absolute inset-0 transition-opacity duration-500 {{ $index === 0 ? 'opacity-100' : 'opacity-0' }}">
-                  <img src="{{ Storage::url($image->image) }}" class="w-full h-full object-cover" loading="lazy">
+                  <img src="{{ asset('storage/' . $image->image) }}" class="w-full h-full object-cover" loading="lazy">
                 </div>
               @endforeach
 

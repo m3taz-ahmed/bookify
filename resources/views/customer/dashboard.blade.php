@@ -248,14 +248,14 @@
             <div class="bg-white rounded-2xl shadow-md p-6 border border-accent-200">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-2xl font-bold text-gray-900 dark:text-white">{{ __('website.popular_tickets') }}</h2>
-                    <a href="{{ route('customer.bookings.create') }}" class="text-primary-600 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 font-medium text-sm">{{ __('website.view_all') }}</a>
+                    {{-- <a href="{{ route('customer.bookings.create') }}" class="text-primary-600 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 font-medium text-sm">{{ __('website.view_all') }}</a> --}}
                 </div>
                 <div class="grid grid-cols-1 gap-6">
                     @foreach(\App\Models\Service::where('is_active', true)->with('images')->limit(3)->get() as $service)
                         <div class="border rounded-xl overflow-hidden bg-white dark:bg-dark-700 dark:border-dark-600 shadow-sm flex items-center p-4 gap-4" data-service-id="{{ $service->id }}">
                             <div class="relative w-28 h-28 flex-shrink-0 image-slider">
                                 @foreach($service->images as $index => $image)
-                                    <img src="{{ Storage::url($image->image) }}" class="image-slide absolute inset-0 w-full h-full object-cover rounded-xl {{ $index === 0 ? '' : 'hidden' }}">
+                                    <img src="{{ asset('storage/' . $image->image) }}" class="image-slide absolute inset-0 w-full h-full object-cover rounded-xl {{ $index === 0 ? '' : 'hidden' }}">
                                 @endforeach
                                 <div class="slider-dots absolute bottom-1 left-1/2 -translate-x-1/2 flex gap-1">
                                     @foreach($service->images as $index => $image)
@@ -284,14 +284,14 @@
                         </div>
                     @endforeach
                 </div>
-                <div class="mt-6 text-center">
+                {{-- <div class="mt-6 text-center">
                     <a href="{{ route('customer.bookings.create') }}" class="inline-flex items-center text-primary-600 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 font-medium">
                         {{ __('website.view_all_services') }}
                         <svg class="ml-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                         </svg>
                     </a>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>
