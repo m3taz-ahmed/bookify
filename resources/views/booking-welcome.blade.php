@@ -245,7 +245,7 @@
           <img src="{{ asset('images/hero-slider/slide-1.png') }}" alt="SkyBridge Riyadh view 1" class="w-full h-40 md:h-56 object-cover rounded-xl shadow" loading="lazy"/>
           <img src="{{ asset('images/hero-slider/slide-2.png') }}" alt="SkyBridge Riyadh view 2" class="w-full h-40 md:h-56 object-cover rounded-xl shadow" loading="lazy"/>
           <img src="{{ asset('images/hero-slider/slide-3.png') }}" alt="SkyBridge Riyadh view 3" class="w-full h-40 md:h-56 object-cover rounded-xl shadow" loading="lazy"/>
-          <img src="{{ asset('images/hero-slider/slide-3.png') }}" alt="SkyBridge Riyadh view 4" class="w-full h-40 md:h-56 object-cover rounded-xl shadow" loading="lazy"/>
+          <img src="{{ asset('images/hero-slider/slide-4.png') }}" alt="SkyBridge Riyadh view 4" class="w-full h-40 md:h-56 object-cover rounded-xl shadow" loading="lazy"/>
         </div>
       </div>
     </div>
