@@ -126,7 +126,7 @@
             </div>
 
             <!-- Contact Info Column -->
-            <div dir="ltr">
+            <div>
                 <h3 class="text-base font-bold text-white mb-6 uppercase tracking-wider">
                     {{ __('website.contact_us') }}
                 </h3>
@@ -150,7 +150,7 @@
                                 <svg class="w-5 h-5 text-primary-400 mt-0.5 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
                                 </svg>
-                                <a href="tel:{{ $contactPage->phone }}" class="text-dark-300 hover:text-primary-300 text-sm transition-colors duration-200">
+                                <a dir="ltr" href="tel:{{ $contactPage->phone }}" class="text-dark-300 hover:text-primary-300 text-sm transition-colors duration-200">
                                     {{ $contactPage->phone }}
                                 </a>
                             </li>
@@ -160,7 +160,7 @@
                                 <svg class="w-5 h-5 text-primary-400 mt-0.5 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
                                 </svg>
-                                <a href="https://wa.me/{{ $contactPage->whatsapp }}" target="_blank" class="text-dark-300 hover:text-primary-300 text-sm transition-colors duration-200">
+                                <a dir="ltr" href="https://wa.me/{{ $contactPage->whatsapp }}" target="_blank" class="text-dark-300 hover:text-primary-300 text-sm transition-colors duration-200">
                                     {{ $contactPage->whatsapp }}
                                 </a>
                             </li>

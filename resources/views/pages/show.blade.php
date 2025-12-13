@@ -133,7 +133,7 @@ $schemaData = [
                                             </div>
                                             <div class="ml-4 flex-1">
                                                 <p class="text-sm font-semibold text-gray-900 dark:text-light-100 mb-1">{{ __('website.phone') }}</p>
-                                                <a href="tel:{{ $page->phone }}" class="text-primary-600 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 font-medium transition-colors">{{ $page->phone }}</a>
+                                                <a dir="ltr" href="tel:{{ $page->phone }}" class="text-primary-600 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 font-medium transition-colors">{{ $page->phone }}</a>
                                             </div>
                                         </div>
                                     @endif
@@ -149,7 +149,7 @@ $schemaData = [
                                             </div>
                                             <div class="ml-4 flex-1">
                                                 <p class="text-sm font-semibold text-gray-900 dark:text-light-100 mb-1">{{ __('website.whatsapp') }}</p>
-                                                <a href="https://wa.me/{{ $page->whatsapp }}" target="_blank" rel="noopener noreferrer" class="text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300 font-medium transition-colors">{{ $page->whatsapp }}</a>
+                                                <a dir="ltr" href="https://wa.me/{{ $page->whatsapp }}" target="_blank" rel="noopener noreferrer" class="text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300 font-medium transition-colors">{{ $page->whatsapp }}</a>
                                             </div>
                                         </div>
                                     @endif
