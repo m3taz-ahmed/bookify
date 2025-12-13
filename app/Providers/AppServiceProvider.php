@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Exceptions\Handler as ExceptionHandlerImplementation;
+use App\Helpers\ActivityLogHelper;
 use App\Http\ViewComposers\LanguageComposer;
 use App\Models\Booking;
 use App\Observers\BookingObserver;
@@ -18,6 +19,9 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(ExceptionHandler::class, ExceptionHandlerImplementation::class);
+        
+        // Register activity log helper
+        require_once app_path('Helpers/ActivityLogHelper.php');
     }
 
     /**
